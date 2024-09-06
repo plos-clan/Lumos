@@ -18,3 +18,4 @@
 #include "lumos/lumos.hpp"
 #include "lumos/mangling.hpp"
 #include "lumos/obj.hpp"
+#include "lumos/parser/parser.hpp"

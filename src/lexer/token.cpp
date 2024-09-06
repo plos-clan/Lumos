@@ -1,6 +1,6 @@
 #include <lumos/lexer.hpp>
 
-namespace lumos::lexer {
+namespace lumos::token {
 
 auto operator<<(ostream &os, Token::EToken t) -> ostream & {
   static str lut[] = {
@@ -30,4 +30,4 @@ auto operator<<(ostream &os, const Token &tok) -> ostream & {
   return os;
 }
 
-} // namespace lumos::lexer
+} // namespace lumos::token

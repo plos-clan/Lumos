@@ -2,6 +2,11 @@
 
 namespace lumos::lexer {
 
+auto is_space(char32_t c) -> bool {
+  return c == ' ' || c == '\t' || c == '\v' || c == '\f';
+  return false;
+}
+
 // 尝试解析连续的空格
 auto Lexer::try_space() -> Token * {
   if (rem == 0) return null;
@@ -69,7 +74,7 @@ static auto _str(cstr code, char c) -> size_t {
 // 尝试解析字符串
 auto Lexer::try_str() -> Token * {
   if (rem == 0) return null;
-  size_t n = _str(code + n, '"');
+  size_t n = _str(code, '"');
   if (n == 0) return null;
   return token(Token::Str, n);
 }
@@ -77,7 +82,7 @@ auto Lexer::try_str() -> Token * {
 // 尝试解析字符
 auto Lexer::try_chr() -> Token * {
   if (rem == 0) return null;
-  size_t n = _str(code + n, '\'');
+  size_t n = _str(code, '\'');
   if (n == 0) return null;
   return token(Token::Chr, n);
 }

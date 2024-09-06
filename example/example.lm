@@ -1,0 +1,46 @@
+
+// 直接将文件插入
+#include <xxxx.lh>
+#include "xxxx.lh"
+
+// 定义关键字
+#keyword bool value.bool.true
+#keyword bool type.bool
+#keyword u32 type.intsize
+#keyword u32 type.int32
+#keyword u32 type.uint32
+
+using "路径"; // 导入到根空间
+using "路径" as ::; // 导入到根空间
+using "路径" as 命名空间; // 导入到指定命名空间
+
+using my_type = int;
+using my_func_type = fn (int) -> int;
+
+using std.io.println; // 导入某个函数
+
+// 可选参数语法
+// 这样的写法调用时参数必须给全
+// 但定义时参数可以不给全
+fn main([int argc, char** argv, [char** envp]]) -> int;
+// 也就是说下面这三种定义都是合法的
+// fn main(int argc, char** argv, char** envp) -> int {
+//   return 0;
+// }
+// fn main(int argc, char** argv) -> int {
+//   return 0;
+// }
+// fn main() -> int {
+//   return 0;
+// }
+
+// 多返回类型的函数
+fn my_func(int) -> int | long;
+// 使用时必须用 var 或 val 自动推断来获取返回值
+var my_var = my_func();
+if (typeof(my_var) == int) {
+  //
+} else {
+  //
+}
+

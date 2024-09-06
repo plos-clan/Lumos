@@ -2,14 +2,31 @@
 
 #include <type.hpp>
 
-namespace lumos::lexer {
+namespace lumos::token {
 
-__Pclass__(Token);
+struct TokenPos {
+  cstr   file = null; // 文件名
+  size_t pos  = 0;    // 储存当前 code 指向的是第几个字符
+  size_t line = 1;    // 当前行数
+  size_t col  = 1;    // 当前列数
 
-class Token : RefCount {
+  auto update(str s, size_t n) -> TokenPos {
+    TokenPos _pos  = *this;
+    pos           += n;
+    col           += n;
+    for (size_t i = 0; i < n; i++) {
+      if (s[i] == '\n') {
+        line++;
+        col = n - i;
+      }
+    }
+    return _pos;
+  }
+};
+
+class Token : public TokenPos {
 public:
-  // 词元的类型
-  enum EToken {
+  enum EToken { // 词元的类型
     Inv,
 
     Space,
@@ -33,17 +50,15 @@ public:
     EToken_cnt,
   };
 
-  EToken type    = Inv;
-  EToken subtyoe = Inv;
-  size_t pos     = 0;
-  u32    line    = 0;
-  u32    col     = 0;
-  str    s; // token 对应的字符串
+  EToken type; // 类型
+  str    s;    // token 对应的字符串
   str    v;
 
-  Token(EToken type, str val) : type(type), subtyoe(type), s(std::move(val)) {}
-  Token(EToken type, str val, size_t pos, u32 line, u32 col)
-      : type(type), subtyoe(type), s(std::move(val)), pos(pos), line(line), col(col) {}
+  Token(EToken type, str val, TokenPos pos) : type(type), s(std::move(val)), TokenPos(pos) {}
+
+  auto copy() const -> Token * {
+    return new Token(type, s, *this);
+  }
 
   auto operator==(const str &s) -> bool {
     return this->s == s;
@@ -54,4 +69,15 @@ public:
   friend auto operator<<(ostream &os, const Token &tok) -> ostream &;
 };
 
-} // namespace lumos::lexer
+class Num {};
+
+class Error : public ::Error {
+public:
+  explicit Error(const str &msg) : std::runtime_error(msg) {}
+};
+
+} // namespace lumos::token
+
+namespace lumos {
+using token::Token;
+}

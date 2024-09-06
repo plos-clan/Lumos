@@ -2,15 +2,17 @@
 
 using namespace lumos::lexer;
 
-auto main() -> int {
-  PLexer lexer = new Lexer(R"(
+constexpr auto example = R"(
 fn main {
   println("Hello, world!");
   return 0;
 }
-)");
+)";
 
-  while (lexer->peek().ptr != null) {
+auto main() -> int {
+  PLexer lexer = new Lexer("<stdin>", example, strlen(example));
+
+  while (lexer->peek() != null) {
     cout << *lexer->get() << endl;
   }
 
