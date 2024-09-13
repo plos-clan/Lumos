@@ -20,11 +20,7 @@ public:
 
 // --------------------------------------------------
 
-class Parser {
-  void try_func_impl();
-};
-
-extern Map<str, AST *> modules_map;
+void try_func_impl();
 
 auto parse_using() -> AST *;
 

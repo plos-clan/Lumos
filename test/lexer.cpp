@@ -21,6 +21,7 @@ fn main(int argc, char* argv[argc]) -> int {
 auto main() -> int {
   Ctx   ctx("<stdin>");
   Lexer lexer(ctx, example, strlen(example));
+  parser::parse(lexer);
 
   while (lexer.peek() != null) {
     cout << lexer.get() << endl;

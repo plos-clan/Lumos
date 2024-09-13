@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../ctx.hpp"
 #include "token.hpp"
 #include <lumos/base.hpp>
 
@@ -57,10 +56,11 @@ class Lexer : private LexerState {
   auto _get() -> Token *; // 获取一个token
 
 public:
-  Ctx &ctx;                    // 全局上下文
-  bool return_space   = false; // 是否输出空格和注释
-  bool return_invalid = false; // 是否输出非法字符
-  bool log_tokens     = false; // 是否将 token 输出到日志
+  Ctx                  &ctx;                    // 全局上下文
+  bool                  return_space   = false; // 是否输出空格和注释
+  bool                  return_invalid = false; // 是否输出非法字符
+  bool                  log_tokens     = false; // 是否将 token 输出到日志
+  Vector<Token::EToken> tryed;                  // 储存所有 token
 
   Lexer(Ctx &ctx, cstr code, size_t len);
   Lexer(Ctx &ctx, cstr file, cstr code, size_t len);
@@ -69,12 +69,16 @@ public:
   using LexerState::load;
   using LexerState::save;
 
-  auto eof() const -> bool;       // 是否已解析完毕
-  auto peek_char() const -> byte; // 读取一个字符 (不移动指针)
-  auto get_char() -> byte;        // 读取一个字符 (移动指针)
-  auto peek() -> Token *;         // 读取一个 token (不移动指针)
-  auto get() -> Token *;          // 读取一个 token (移动指针)
-  auto get_block() -> cstr;       // 读取一个块
+  auto eof() const -> bool;                 // 是否已解析完毕
+  auto peek_char() const -> byte;           // 读取一个字符 (不移动指针)
+  auto get_char() -> byte;                  // 读取一个字符 (移动指针)
+  auto peek() -> Token *;                   // 读取一个 token (不移动指针)
+  auto peek(Token::EToken type) -> Token *; // 读取一个 token (不移动指针)
+  auto get() -> Token *;                    // 读取一个 token (移动指针)
+  auto get(Token::EToken type) -> Token *;  // 读取一个 token (移动指针)
+  auto get_block() -> cstr;                 // 读取一个块
+  auto getall() -> Vector<Token>;           //
+  void error(str msg = "");                 // 抛出错误
 };
 
 } // namespace lumos::lexer

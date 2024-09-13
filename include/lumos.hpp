@@ -13,7 +13,6 @@
 #include "lumos/ctx.hpp"
 #include "lumos/file.hpp"
 #include "lumos/lexer/lexer.hpp"
-#include "lumos/lexer/lut.hpp"
 #include "lumos/lexer/op.hpp"
 #include "lumos/lexer/token.hpp"
 #include "lumos/lumos.hpp"

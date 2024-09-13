@@ -1,4 +1,4 @@
-#include <lumos/lexer.hpp>
+#include <lumos.hpp>
 
 namespace lumos::lexer {
 
@@ -90,13 +90,27 @@ auto Lexer::peek() -> Token * {
   return _tok ?: (_tok = _get());
 }
 
+auto Lexer::peek(Token::EToken type) -> Token * {
+  tryed.push_back(type);
+  Token *tok = peek();
+  return tok != null && tok->type == type ? tok : null;
+}
+
 auto Lexer::get() -> Token * {
+  tryed.clear();
   if (_tok != null) {
     Token *temp = _tok;
     _tok        = null;
     return temp;
   }
   return _get();
+}
+
+auto Lexer::get(Token::EToken type) -> Token * {
+  Token *tok = peek(type);
+  if (tok == null) return null;
+  _tok = null;
+  return tok;
 }
 
 auto Lexer::get_block() -> cstr {
@@ -125,6 +139,29 @@ auto Lexer::get_block() -> cstr {
   cstr s  = strndup(code + 1, n - 1);
   code   += n + 1;
   return s;
+}
+
+auto Lexer::getall() -> Vector<Token> {
+  Vector<Token> tokens;
+  while (Token *tok = get()) {
+    tokens.push_back(*tok);
+    delete tok;
+  }
+  return tokens;
+}
+
+void Lexer::error(str msg) {
+  cout << "Lexer: 期望 ";
+  for (const auto type : tryed) {
+    cout << type << " ";
+  }
+  auto tok = peek();
+  if (tok) {
+    cout << "但是遇到了 " << tok->type << endl;
+  } else {
+    cout << "但文件已结束" << endl;
+  }
+  throw Error(msg);
 }
 
 } // namespace lumos::lexer
