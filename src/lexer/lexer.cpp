@@ -25,7 +25,8 @@ auto Lexer::token(Token::EToken type, size_t n) -> Token * {
 
   if (!return_space && (type == Token::Space || type == Token::Comment)) return skipped_token;
 
-  auto *tok = new Token(type, str(s, n), pos);
+  auto *tok = token::mktoken(type, str(s, n), pos);
+
   if (log_tokens) cout << *tok << endl;
   return tok;
 }

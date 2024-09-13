@@ -33,7 +33,7 @@ struct Token : TokenPos {
     Float,      // 浮点数
     Fixed,      // 定点数
     Integer,    // 高精度整数
-    RealNum,    // 高精度实数
+    Fraction,   // 高精度分数
     Str,        // 字符串
     Chr,        // 字符
     Op,         // 运算符
@@ -95,24 +95,67 @@ struct Comment : Token {
 
 // --------------------------------------------------
 
-struct Int : Token {
-  int  base;        // 字面量使用的进制
-  int  nbits;       // 位数
-  bool is_unsigned; // 是否是无符号数
-  int  is_imag;     // 是否是虚数 0不是, 1i, 2j, 3k
-  mpz  val;         // 值
+auto num_type_suffix(str raw, bool is_float) -> Tuple<Token::EToken, int, int>;
 
-  Int(str raw, const TokenPos &pos);
+struct num_data {
+  mpz  int_part;            // 整数部分
+  mpz  dec_part;            // 小数部分
+  mpz  dec_deno;            // 小数部分的分母
+  mpz  exp_part;            // 指数部分
+  int  is_imag     = 0;     // 是否是虚数 0不是, 1i, 2j, 3k
+  bool is_unsigned = false; // 是否是无符号数
+  int  nbits       = 0;     // 位数
+
+  num_data(str raw);
+
+  void println() const;
+};
+
+struct Num : Token, num_data {
+  Num(EToken type, const str &raw, const TokenPos &pos);
+  ~Num() override = default;
+};
+
+struct Int : Num {
+  mpz val; // 值
+  union {
+    i8  val8;
+    u8  valu8;
+    i16 val16;
+    u16 valu16;
+    i32 val32;
+    u32 valu32;
+    i64 val64;
+    u64 valu64;
+  };
+
+  Int(const str &raw, const TokenPos &pos);
   ~Int() override = default;
 };
 
-struct Float : Token {
-  int nbits; // 位数
-  mpf val;   // 值
+struct Float : Num {
+  mpf val; // 值
+  f64 val64;
 
-  Float(str raw, const TokenPos &pos);
+  Float(const str &raw, const TokenPos &pos);
   ~Float() override = default;
 };
+
+struct Integer : Num {
+  mpz val; // 值
+
+  Integer(const str &raw, const TokenPos &pos);
+  ~Integer() override = default;
+};
+
+struct Fraction : Num {
+  mpq val; // 值
+
+  Fraction(const str &raw, const TokenPos &pos);
+  ~Fraction() override = default;
+};
+
+// --------------------------------------------------
 
 struct Chr : Token {
   bytes val;
@@ -145,8 +188,6 @@ public:
 // --------------------------------------------------
 
 auto mktoken(Token::EToken type, str raw, TokenPos pos) -> Token *;
-
-auto num_type_suffix(str raw, bool is_float) -> Tuple<Token::EToken, int, int>;
 
 } // namespace lumos::token
 
