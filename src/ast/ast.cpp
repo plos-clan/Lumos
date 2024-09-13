@@ -25,6 +25,9 @@ auto Named::mangling(Mangling style) -> str {
   return os.str();
 }
 
+// 空的
+void Named::mangling(std::ostream &os, Mangling style) {}
+
 auto Named::print_to(ostream &os) const -> void {
   os << "<named " + name + "> If you see this node printed, please check the code.";
 }

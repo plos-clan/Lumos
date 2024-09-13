@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../ctx.hpp"
 #include "token.hpp"
 #include <type.hpp>
 
@@ -9,8 +10,6 @@ class Error : public ::Error {
 public:
   explicit Error(const str &msg) : std::runtime_error("Lexer: " + msg) {}
 };
-
-__Pclass__(Lexer);
 
 using token::TokenPos;
 
@@ -47,12 +46,14 @@ class Lexer : private LexerState {
   auto _get() -> Token *; // 获取一个token
 
 public:
+  Ctx &ctx;
   bool return_space   = false; // 是否输出空格和注释
   bool return_invalid = false; // 是否输出非法字符
   bool log_tokens     = false; // 是否将 token 输出到日志
 
-  Lexer(cstr file, cstr code, size_t len);
-  ~Lexer();
+  Lexer(Ctx &ctx, cstr code, size_t len);
+  Lexer(Ctx &ctx, cstr file, cstr code, size_t len);
+  ~Lexer() = default;
 
   using LexerState::load;
   using LexerState::save;

@@ -2,12 +2,37 @@
 
 #include <type.hpp>
 
-namespace lumos::error {
+namespace lumos {
 
-class AST : public Error {};
-class Lexer : public Error {};
-
-} // namespace lumos::error
+// 是否为数字
+static auto isdigit(char c) -> bool {
+  return '0' <= c && c <= '9';
+}
+static auto isdigit(char c, int base) -> bool {
+  if (base == 2) return c == '0' || c == '1';
+  if (base == 8) return '0' <= c && c <= '7';
+  if (base == 10) return '0' <= c && c <= '9';
+  if (base == 16) return ('0' <= c && c <= '9') || ('a' <= c && c <= 'f') || ('A' <= c && c <= 'F');
+  return false;
+}
+// 是否为标识符允许的字符
+static auto issymc(char c) -> bool {
+  if ('A' <= c && c <= 'Z') return true;
+  if ('a' <= c && c <= 'z') return true;
+  if ('0' <= c && c <= '9') return true;
+  if (c == '_' || c == '$') return true;
+  if ((byte)c >= 128) return true;
+  return false;
+}
+// 是否为字母
+static auto isalpha(char c) -> bool {
+  return 'A' <= c && c <= 'Z' || 'a' <= c && c <= 'z';
+}
+// 是否为字母或数字
+static auto isalnum(char c) -> bool {
+  return 'A' <= c && c <= 'Z' || 'a' <= c && c <= 'z' || '0' <= c && c <= '9';
+}
+} // namespace lumos
 
 namespace lumos::compiler {
 

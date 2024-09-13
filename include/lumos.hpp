@@ -10,6 +10,7 @@
 #include "lumos/ast/type/inner.hpp"
 #include "lumos/ast/type/other.hpp"
 #include "lumos/ast/type/type.hpp"
+#include "lumos/ctx.hpp"
 #include "lumos/io/file.hpp"
 #include "lumos/lexer/lexer.hpp"
 #include "lumos/lexer/lut.hpp"

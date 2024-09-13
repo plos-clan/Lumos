@@ -17,7 +17,7 @@ public:
 
   auto tostr() const -> str override;
 
-  auto check() const -> void override;
+  // void check() const override;
 };
 
 class ArrayType : public Type {
@@ -32,7 +32,7 @@ public:
 
   auto tostr() const -> str override;
 
-  auto check() const -> void override;
+  // void check() const override;
 };
 
 // 引用计数的类型
@@ -44,7 +44,7 @@ public:
 
   auto tostr() const -> str override;
 
-  auto check() const -> void override;
+  // void check() const override;
 };
 
 } // namespace lumos::ast

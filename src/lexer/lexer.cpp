@@ -5,7 +5,7 @@ namespace lumos::lexer {
 static Token *const skipped_token = ((Token *)-1); // 表示被跳过的 token
     // 用作中间值, lexer 的输出仍然是实际的 token 或 null
 
-Lexer::Lexer(cstr file, cstr code, size_t len) {
+Lexer::Lexer(Ctx &ctx, cstr file, cstr code, size_t len) : ctx(ctx) {
   if (file == null) throw Error("file 不能为 null");
   if (code == null) throw Error("code 不能为 null");
   if (len == 0) throw Error("len 不能为 0");
@@ -14,6 +14,8 @@ Lexer::Lexer(cstr file, cstr code, size_t len) {
   this->len  = len;
   this->rem  = len;
 }
+
+Lexer::Lexer(Ctx &ctx, cstr code, size_t len) : Lexer(ctx, ctx.file.c_str(), code, len) {}
 
 auto Lexer::token(Token::EToken type, size_t n) -> Token * {
   if (n == 0) throw Error("尝试输出空token");
@@ -35,7 +37,6 @@ auto Lexer::_get() -> Token * {
     if (tok != null && tok != skipped_token) return tok;                                           \
     tok;                                                                                           \
   })
-
   if (rem == 0) return null; // 保证 rem 不为 0
 
   // 先处理空格和注释

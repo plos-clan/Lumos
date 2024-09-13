@@ -15,7 +15,7 @@ public:
 
   virtual auto tostr() const -> str;
 
-  virtual auto check() -> void;
+  // void check() const override;
 };
 
 } // namespace lumos::ast

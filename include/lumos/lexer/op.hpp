@@ -7,11 +7,11 @@ namespace lumos::lexer {
 enum {
   op_perfix,
   op_infix,
-  op_postfix,
+  op_suffix,
 };
 
 extern HashSet<str> ops_list;
 
-extern HashSet<str> puncs_list;
+extern HashSet<str> puncs_set;
 
 } // namespace lumos::lexer

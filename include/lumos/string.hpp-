@@ -1,0 +1,47 @@
+
+#include <cstdint>
+
+namespace lumos {
+
+class __attribute__((packed)) string {
+private:
+  uint32_t size = 0;
+  union {
+    struct __attribute__((packed)) {
+      char data[12];
+    };
+    struct __attribute__((packed)) {
+      char  prefix[4];
+      char *ptr;
+    };
+  };
+
+public:
+  string() : data{} {}
+  string(const char *str) : data{} {
+    if (str == nullptr) return;
+    for (; size < 12 && str[size] == 0; size++) {}
+  }
+
+  auto empty() const -> bool {
+    return size == 0;
+  }
+
+  auto length() const -> uint32_t {
+    return size;
+  }
+
+  auto operator[](uint32_t i) const -> char {
+    return size < 12 ? data[i] : ptr[i];
+  }
+
+  auto operator==(const string &rhs) const -> bool {
+    if (size != rhs.size) return false;
+    for (uint32_t i = 0; i < size; i++) {
+      if (data[i] != rhs.data[i]) return false;
+    }
+    return true;
+  }
+};
+
+} // namespace lumos

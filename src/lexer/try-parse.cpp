@@ -1,4 +1,4 @@
-#include <lumos/lexer.hpp>
+#include <lumos.hpp>
 
 namespace lumos::lexer {
 
@@ -49,24 +49,40 @@ auto Lexer::try_macro() -> Token * {
 // 尝试解析数字
 auto Lexer::try_num() -> Token * {
   if (rem == 0) return null;
-  if (code[0] < '0' || '9' < code[0]) return null;
-  size_t n = 1;
-  while (lut[code[n]] == lut_sym)
-    n++;
-  return token(Token::Num, n);
+  if (!isdigit(code[0]) && (code[0] != '.' || !isdigit(code[1]))) return null;
+  size_t n       = 0;
+  auto   toktype = Token::Int;
+  for (; isdigit(code[n]); n++) {}
+  if (code[n] == 'e' || code[n] == 'E') goto exp;
+  if (code[n] == '.') {
+    toktype = Token::Float;
+    for (n++; isdigit(code[n]); n++) {}
+    if (code[n] == 'e' || code[n] == 'E') goto exp;
+  }
+  for (; issymc(code[n]); n++) {}
+  goto end;
+
+exp:
+  toktype = Token::Float, n++;
+  if (code[n] == '+' || code[n] == '-') n++;
+  for (; issymc(code[n]); n++) {}
+
+end:
+  toktype = std::get<0>(token::num_type_suffix(str(code, n), toktype == Token::Float));
+  return token(toktype, n);
 }
 
 // 解析个字符串
 // xxx"yyy"zzz 这样的形式
 static auto _str(cstr code, char c) -> size_t {
   size_t n = 0;
-  while (lut[code[n]] == lut_sym)
+  while (issymc(code[n]))
     n++;
   if (code[n++] != c) return 0;
   while (code[n] && (code[n] != c || code[n - 1] == '\\'))
     n++;
   if (code[n++] != c) return 0;
-  while (lut[code[n]] == lut_sym)
+  while (issymc(code[n]))
     n++;
   return n;
 }
@@ -107,7 +123,7 @@ auto Lexer::try_attr() -> Token * {
   if ((lut[code[1]] != lut_sym && lut[code[1]] != lut_op) || ('0' <= code[0] && code[0] <= '9'))
     return null;
   size_t n = 2;
-  while (lut[code[n]] == lut_sym || lut[code[n]] == lut_op)
+  while (issymc(code[n]) || lut[code[n]] == lut_op)
     n++;
   return token(Token::Attr, n);
 }
@@ -116,7 +132,7 @@ auto Lexer::try_attr() -> Token * {
 auto Lexer::try_punc() -> Token * {
   if (rem == 0) return null;
   size_t n = 1;
-  while (puncs_list.find(str(code, n)) != puncs_list.end())
+  while (puncs_set.find(str(code, n)) != puncs_set.end())
     n++;
   if (--n == 0) return null;
   return token(Token::Punc, n);
@@ -130,7 +146,7 @@ auto Lexer::try_sym() -> Token * {
   // 扩展的词法允许其它语言的字符
   if (lut[code[0]] != lut_sym || ('0' <= code[0] && code[0] <= '9')) return null;
   size_t n = 1;
-  while (lut[code[n]] == lut_sym)
+  while (issymc(code[n]))
     n++;
   return token(Token::Sym, n);
 }

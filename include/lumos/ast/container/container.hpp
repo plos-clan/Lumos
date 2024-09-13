@@ -54,7 +54,7 @@ public:
   Namespace(Container *parent, str name) : Container(parent, std::move(name)) {}
   ~Namespace() override = default;
 
-  auto mangling(ostream &os, Mangling style) -> void override;
+  // auto mangling(ostream &os, Mangling style) -> void override;
 };
 
 // --------------------------------------------------

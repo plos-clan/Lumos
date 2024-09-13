@@ -22,7 +22,7 @@ public:
   // debug 用
   // 检查对象是否有错误
   // 有错误直接抛出异常
-  virtual auto check() const -> void;
+  virtual void check() const;
 
 protected:
   virtual auto print_to(ostream &os) const -> void;

@@ -1,4 +1,8 @@
 
+# 宏
+
+<span style="color:green">能少用就少用宏</span>
+
 - `#include` 包含另一个文件的内容
 - `#import`
 - `#once`
@@ -33,10 +37,10 @@
 
 内置类型
 
-| 名称  | b |
-|-------|---|
-| int32  |   |
-| uint32 |   |
+| 名称    | b |
+|---------|---|
+| int32   |   |
+| uint32  |   |
 | float32 |   |
 | float32 |   |
 
@@ -126,5 +130,6 @@ code3
   `#warning "提示信息"`<br>
   `#warning W1145 "提示信息"` 定义警告编号，自定义的用 `WX` 开头
 
-- `#system curl -O http://example.com/xxx.lm`
-  > 不是哥们
+- `#system curl -O http://example.com/xxx.lm`<br>
+  `#import "xxx.lm"`<br>
+  > 不是哥们，这啥玩意啊？

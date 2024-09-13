@@ -11,7 +11,7 @@ public:
 
   auto tostr() const -> str override;
 
-  auto check() const -> void override;
+  // void check() const override;
 };
 
 class IntType : public InnerType {
@@ -23,7 +23,7 @@ public:
 
   auto tostr() const -> str override;
 
-  auto check() const -> void override;
+  // void check() const override;
 };
 
 } // namespace lumos::ast

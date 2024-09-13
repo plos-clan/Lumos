@@ -1,5 +1,5 @@
 
-# Lumos 属性
+# 属性
 
 编译时的警告与错误将会以以下方式在文档中说明
 
@@ -36,6 +36,11 @@ using @default = @属性1 @属性2 @属性3;
 // 这样来设置每种对象的属性
 using @default fn = @属性1 @属性2 @属性3;
 using @default var = @属性1 @属性2 @属性3;
+```
+
+```lm
+#set @default = @属性1 @属性2 @属性3;
+#clear @default;
 ```
 
 ## 通用属性

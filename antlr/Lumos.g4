@@ -72,7 +72,7 @@ literal: num | STRING | CHAR;
 
 op_prefix: OP_ADD | OP_SUB | OP_INC | OP_DEC;
 
-op_postfix: OP_INC | OP_DEC | '[' expr ']' | '(' expr ')';
+op_suffix: OP_INC | OP_DEC | '[' expr ']' | '(' expr ')';
 
 op_binary: OP_ADD | OP_SUB | OP_MUL | OP_DIV | OP_MOD | OP_XOR;
 
@@ -95,7 +95,7 @@ tuple: '(' val_list? ')';
 expr:
 	expr op_binary expr
 	| op_prefix expr
-	| expr op_postfix
+	| expr op_suffix
 	| list
 	| tuple
 	| literal;

@@ -141,6 +141,8 @@ template <typename T>
 using init_list = std::initializer_list<T>;
 template <typename T>
 using Stack = std::stack<T>;
+template <typename... Args>
+using Tuple = std::tuple<Args...>;
 
 using std::cerr;
 using std::cin;
@@ -272,3 +274,9 @@ static inline auto isinstance(const T2 *ptr) -> bool {
   static_assert(std::is_base_of_v<T2, T1>);
   return dynamic_cast<const T1 *>(ptr) != null;
 }
+
+#include <gmpxx.h>
+
+using mpz = mpz_class;
+using mpq = mpq_class;
+using mpf = mpf_class;

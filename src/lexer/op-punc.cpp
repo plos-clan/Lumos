@@ -15,7 +15,7 @@ HashSet<str> ops_list = {
     "sizeof", "lengthof", "typeof",                     //
 };
 
-HashSet<str> puncs_list = {
+HashSet<str> puncs_set = {
     ",", ";", "{", "}", "(", ")", "[", "]", "::", ".", "@",
 };
 

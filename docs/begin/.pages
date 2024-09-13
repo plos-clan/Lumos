@@ -1,0 +1,5 @@
+nav:
+  - 快速开始: index.md
+  - 编译与安装: compile-and-install
+  - 从头开始: start-from-scratch
+  - 从 C 语言迁移: migrate-from-C
