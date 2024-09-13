@@ -10,7 +10,7 @@ namespace lumos::ast {
 
 class Evaluable : public AST {
 public:
-  PType type; // 该节点求值的类型
+  Type *type; // 该节点求值的类型
 };
 
 } // namespace lumos::ast

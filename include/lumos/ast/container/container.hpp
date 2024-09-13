@@ -14,7 +14,7 @@ namespace lumos::ast {
 // 例如 lambda 表达式
 class Container : public Named {
 public:
-  ST<PNamed> children; // 子元素
+  ST<Named *> children; // 子元素
 
   // 用于无名节点的构造
   explicit Container(Container *parent);
@@ -37,7 +37,7 @@ public:
 // 用于代码块
 class Block : public Container, public BaseStat {
 public:
-  Vector<PBaseStat> code; // 语句列表
+  Vector<BaseStat *> code; // 语句列表
   ~Block() override = default;
 
   // 见 Container::append

@@ -56,11 +56,10 @@ struct Token : TokenPos {
     Sym,        // 标识符
     Kwd,        // 关键字
     Cnt,        // 最大值
-    Num,        // 数字通配
   };
 
-  EToken type;
-  str    raw; // token 对应的字符串
+  EToken type; // token 类型
+  str    raw;  // token 对应的字符串
 
   Token(EToken type, const str &raw, const TokenPos &pos);
   virtual ~Token() = default;
@@ -72,6 +71,8 @@ struct Token : TokenPos {
   auto operator==(const str &raw) const -> bool {
     return this->raw == raw;
   }
+
+  virtual void print_to(ostream &os) const;
 
   friend auto operator<<(ostream &os, Token::EToken t) -> ostream &;
   friend auto operator<<(ostream &os, const Token &tok) -> ostream &;

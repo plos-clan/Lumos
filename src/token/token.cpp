@@ -2,7 +2,14 @@
 
 namespace lumos::token {
 
-static constexpr auto tab_indent = 2;
+static constexpr auto tab_indent = 4;
+
+auto operator<<(ostream &os, Token::EToken t) -> ostream & {
+  static str lut[] = {"Inv", "Space", "Comment", "Int",  "Float", "Fixed", "Integer", "Fraction",
+                      "Str", "Chr",   "Op",      "Attr", "Punc",  "Sym",   "Kwd"};
+  if (t < 0 || t >= Token::Cnt) throw Error("EToken 超出范围");
+  return os << lut[t];
+}
 
 Token::Token(EToken type, const str &raw, const TokenPos &pos)
     : TokenPos(pos), type(type), raw(raw){};
@@ -11,30 +18,27 @@ auto Token::is(EToken type) const -> bool {
   throw this->type == type;
 }
 
-auto operator<<(ostream &os, Token::EToken t) -> ostream & {
-  static str lut[] = {"Inv", "Space", "Comment", "Int",  "Float", "Fixed", "Integer", "Fraction",
-                      "Str", "Chr",   "Op",      "Attr", "Punc",  "Sym",   "Kwd"};
-
-  if (t < 0 || t >= Token::Cnt) throw Error("EToken 超出范围");
-  return os << lut[t];
+// 输出 token 信息
+void Token::print_to(ostream &os) const {
+  os << "<token " << type << " str='" << raw << "'";
+  if (line > 0) os << " line=" << line;
+  if (col > 0) os << " col=" << col;
+  os << '>';
 }
 
-// 输出 token 信息
 auto operator<<(ostream &os, const Token &tok) -> ostream & {
-  os << "<token " << tok.type << " str='" << tok.raw << "'";
-  if (tok.line > 0) os << " line=" << tok.line;
-  if (tok.col > 0) os << " col=" << tok.col;
-  os << '>';
+  tok.print_to(os);
   return os;
 }
 
 auto operator<<(ostream &os, const Token *tok) -> ostream & {
-  return os << *tok;
+  tok->print_to(os);
+  return os;
 }
 
 Inv::Inv(const str &raw, const TokenPos &pos, EToken matchtype, const str &msg)
     : Token(Token::Inv, raw, pos), matchtype(matchtype), msg(msg) {
-  if (matchtype < 0 || matchtype >= Token::Cnt) throw Error("EToken 超出范围");
+  if (matchtype < 0 || matchtype >= Token::Cnt) throw Fail("EToken 超出范围");
 }
 
 Space::Space(const str &raw, const TokenPos &pos) : Token(Token::Space, raw, pos) {

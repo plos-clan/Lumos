@@ -36,6 +36,7 @@ static auto isalpha(char c) -> bool {
 static auto isalnum(char c) -> bool {
   return 'A' <= c && c <= 'Z' || 'a' <= c && c <= 'z' || '0' <= c && c <= '9';
 }
+
 } // namespace lumos
 
 namespace lumos::compiler {

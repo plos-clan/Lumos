@@ -1,6 +1,5 @@
-#include "lumos/ast/ast/decl.hpp"
-#include "type.hpp"
 #include <lumos/ast.hpp>
+#include <lumos/base.hpp>
 
 namespace lumos::ast {
 

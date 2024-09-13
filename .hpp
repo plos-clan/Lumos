@@ -103,3 +103,8 @@ public:
 
 #undef __rc__
 };
+
+#define __Pclass__(__name__)                                                                       \
+  class __name__;                                                                                  \
+  using P##__name__ = __P__<__name__>
+#define __P__(__name__) using P##__name__ = __P__<__name__>

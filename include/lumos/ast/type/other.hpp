@@ -22,7 +22,7 @@ public:
 
 class ArrayType : public Type {
 public:
-  PType  type;
+  Type  *type;
   size_t len = 0;
 
   explicit ArrayType(Type *type) : type(type) {}
@@ -38,7 +38,7 @@ public:
 // 引用计数的类型
 class RefCntType : public Type {
 public:
-  PType type;
+  Type *type;
 
   explicit RefCntType(Type *type);
 

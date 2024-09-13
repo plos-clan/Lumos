@@ -1,10 +1,7 @@
 #pragma once
 
 #include <lumos/base.hpp>
-
-#include "ctx.hpp"
-
-#include <filesystem>
+#include <lumos/ctx.hpp>
 
 namespace lumos {
 
@@ -18,4 +15,5 @@ struct File {
 };
 
 auto loadfile(Ctx &ctx, str path) -> File *;
+
 } // namespace lumos
