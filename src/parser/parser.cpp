@@ -3,7 +3,6 @@
 namespace lumos::parser {
 
 auto parse(Lexer &lex) -> AST * {
-  lex.get();
   return null;
 }
 

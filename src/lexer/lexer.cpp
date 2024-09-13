@@ -91,9 +91,21 @@ auto Lexer::peek() -> Token * {
 }
 
 auto Lexer::peek(Token::EToken type) -> Token * {
-  tryed.push_back(type);
+  tryed.emplace_back(type, "");
   Token *tok = peek();
   return tok != null && tok->type == type ? tok : null;
+}
+
+auto Lexer::peek(const str &val) -> Token * {
+  tryed.emplace_back(Token::Inv, val);
+  Token *tok = peek();
+  return tok != null && tok->raw == val ? tok : null;
+}
+
+auto Lexer::peek(Token::EToken type, const str &val) -> Token * {
+  tryed.emplace_back(type, val);
+  Token *tok = peek();
+  return tok != null && tok->type == type && tok->raw == val ? tok : null;
 }
 
 auto Lexer::get() -> Token * {
@@ -108,6 +120,20 @@ auto Lexer::get() -> Token * {
 
 auto Lexer::get(Token::EToken type) -> Token * {
   Token *tok = peek(type);
+  if (tok == null) return null;
+  _tok = null;
+  return tok;
+}
+
+auto Lexer::get(const str &val) -> Token * {
+  Token *tok = peek(val);
+  if (tok == null) return null;
+  _tok = null;
+  return tok;
+}
+
+auto Lexer::get(Token::EToken type, const str &val) -> Token * {
+  Token *tok = peek(type, val);
   if (tok == null) return null;
   _tok = null;
   return tok;
@@ -152,12 +178,15 @@ auto Lexer::getall() -> Vector<Token> {
 
 void Lexer::error(str msg) {
   cout << "Lexer: 期望 ";
-  for (const auto type : tryed) {
-    cout << type << " ";
+  for (const auto [type, val] : tryed) {
+    if (type != Token::Inv) cout << type;
+    if (type != Token::Inv && val.length() > 0) cout << ':';
+    if (val.length() > 0) cout << '`' << val << '`';
+    cout << ' ';
   }
   auto tok = peek();
   if (tok) {
-    cout << "但是遇到了 " << tok->type << endl;
+    cout << "但是遇到了 " << tok->type << ":`" << tok->raw << '`' << endl;
   } else {
     cout << "但文件已结束" << endl;
   }
