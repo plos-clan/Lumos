@@ -17,7 +17,7 @@ Lexer::Lexer(Ctx &ctx, cstr file, cstr code, size_t len) : ctx(ctx) {
 
 Lexer::Lexer(Ctx &ctx, cstr code, size_t len) : Lexer(ctx, ctx.file.c_str(), code, len) {}
 
-auto Lexer::token(Token::EToken type, size_t n) -> Token * {
+auto Lexer::token(Token::EToken type, size_t n, const str &raw) -> Token * {
   if (n == 0) throw Error("尝试输出空token");
   if (n > rem) throw Error("输出的token长度大于剩余的字符数");
 
@@ -25,10 +25,14 @@ auto Lexer::token(Token::EToken type, size_t n) -> Token * {
 
   if (!return_space && (type == Token::Space || type == Token::Comment)) return skipped_token;
 
-  auto *tok = token::mktoken(type, str(s, n), pos);
+  auto *tok = token::mktoken(type, raw, pos);
 
   if (log_tokens) cout << *tok << endl;
   return tok;
+}
+
+auto Lexer::token(Token::EToken type, size_t n) -> Token * {
+  return token(type, n, str(code, n));
 }
 
 auto Lexer::_get() -> Token * {
@@ -61,7 +65,7 @@ auto Lexer::_get() -> Token * {
   TRY(sym);
 
   if (return_invalid) return token(Token::Inv, 1);
-  throw Error("无法识别的字符");
+  throw Error("无法识别的字符 " + std::to_string(code[0]) + ": " + code[0]);
 
 #undef TRY
 }

@@ -1,2 +1,2 @@
 testexec(lexer lexer.cpp)
-testlib(lexer lumos)
+testlib(lexer lumos-s)

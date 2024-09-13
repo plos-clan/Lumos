@@ -1,6 +1,6 @@
 #pragma once
 
-#include <type.hpp>
+#include <lumos/base.hpp>
 
 enum class Attr : u32 {
   Static,

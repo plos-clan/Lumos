@@ -1,8 +1,22 @@
 #pragma once
 
-#include <type.hpp>
+#include <lumos/base.hpp>
 
 namespace lumos::token {
+
+// 用户输入错误
+class Error : public ::Error {
+public:
+  explicit Error(const str &msg) : ::Error("Token: " + msg) {}
+};
+
+// 程序内部错误
+class Fail : public ::Error {
+public:
+  explicit Fail(const str &msg) : ::Error("[fail] Token: " + msg) {}
+};
+
+// --------------------------------------------------
 
 struct TokenPos {
   cstr   file = null; // 文件名
@@ -169,20 +183,6 @@ struct Str : Token {
 
   Str(str s, const TokenPos &pos) : Token(Token::Str, s, pos) {}
   ~Str() override = default;
-};
-
-// --------------------------------------------------
-
-// 用户输入错误
-class Error : public ::Error {
-public:
-  explicit Error(const str &msg) : ::Error(msg) {}
-};
-
-// 程序内部错误
-class Fail : public ::Error {
-public:
-  explicit Fail(const str &msg) : ::Error(msg) {}
 };
 
 // --------------------------------------------------

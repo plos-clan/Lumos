@@ -10,7 +10,7 @@ macro(tgtlib arg1)
 endmacro(tgtlib)
 
 macro(testexec arg1)
-  add_executable(${arg1}-test ${ARGN})  
+  add_executable(${arg1}-test ${ARGN})
 endmacro(testexec)
 
 macro(testlib arg1)

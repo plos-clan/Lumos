@@ -1,8 +1,8 @@
-#include <lumos/lexer.hpp>
+#include <lumos.hpp>
 
-namespace lumos::lexer {
+namespace lumos {
 
-HashSet<str> ops_list = {
+static const str ops_list[] = {
     "++",     "--",       "->",                         //
     "!",      "&&",       "||",     "^^",               //
     "~",      "&",        "|",      "^",   "<<",  ">>", //
@@ -15,8 +15,10 @@ HashSet<str> ops_list = {
     "sizeof", "lengthof", "typeof",                     //
 };
 
-HashSet<str> puncs_set = {
-    ",", ";", "{", "}", "(", ")", "[", "]", "::", ".", "@",
-};
+Ctx::Ctx(const str &file) : file(file) {
+  for (const auto &op : ops_list) {
+    operators.append(op, null);
+  }
+}
 
-} // namespace lumos::lexer
+} // namespace lumos

@@ -1,19 +1,26 @@
 #pragma once
 
 #include <lumos/ast.hpp>
+#include <lumos/base.hpp>
 #include <lumos/lexer.hpp>
-#include <type.hpp>
-
-namespace lumos {
-using ast::AST;
-using lexer::Lexer;
-} // namespace lumos
 
 namespace lumos::parser {
 
-__Pclass__(Parser);
+// 用户输入错误
+class Error : public ::Error {
+public:
+  explicit Error(const str &msg) : ::Error("Parser: " + msg) {}
+};
 
-class Parser : RefCount {
+// 程序内部错误
+class Fail : public ::Error {
+public:
+  explicit Fail(const str &msg) : ::Error("[fail] Parser: " + msg) {}
+};
+
+// --------------------------------------------------
+
+class Parser {
   void try_func_impl();
 };
 

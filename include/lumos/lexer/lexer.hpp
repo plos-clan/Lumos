@@ -2,17 +2,27 @@
 
 #include "../ctx.hpp"
 #include "token.hpp"
-#include <type.hpp>
+#include <lumos/base.hpp>
 
 namespace lumos::lexer {
 
+// 用户输入错误
 class Error : public ::Error {
 public:
-  explicit Error(const str &msg) : std::runtime_error("Lexer: " + msg) {}
+  explicit Error(const str &msg) : ::Error("Lexer: " + msg) {}
 };
+
+// 程序内部错误
+class Fail : public ::Error {
+public:
+  explicit Fail(const str &msg) : ::Error("[fail] Lexer: " + msg) {}
+};
+
+// --------------------------------------------------
 
 using token::TokenPos;
 
+// 保存解析状态
 struct LexerState : TokenPos {
   cstr   code = null; // 指向输入，随着解析向后移动
   size_t len  = 0;    // 储存总字符数
@@ -24,13 +34,14 @@ struct LexerState : TokenPos {
   ~LexerState();
   auto operator=(const LexerState &stat) -> LexerState &;
 
-  auto save() -> LexerState;
-  void load(const LexerState &state);
+  auto save() -> LexerState;                     // 保存解析状态
+  void load(const LexerState &state);            // 加载解析状态
   auto update(size_t n) -> Pair<cstr, TokenPos>; // 更新指针位置 更新行数和列数
 };
 
 class Lexer : private LexerState {
   auto token(Token::EToken type, size_t n) -> Token *; // 输出一个 token
+  auto token(Token::EToken type, size_t n, const str &raw) -> Token *;
 
   auto try_space() -> Token *;   // 尝试解析连续的空字符
   auto try_comment() -> Token *; // 尝试解析注释
@@ -46,7 +57,7 @@ class Lexer : private LexerState {
   auto _get() -> Token *; // 获取一个token
 
 public:
-  Ctx &ctx;
+  Ctx &ctx;                    // 全局上下文
   bool return_space   = false; // 是否输出空格和注释
   bool return_invalid = false; // 是否输出非法字符
   bool log_tokens     = false; // 是否将 token 输出到日志
@@ -67,3 +78,7 @@ public:
 };
 
 } // namespace lumos::lexer
+
+namespace lumos {
+using lexer::Lexer;
+}

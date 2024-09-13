@@ -2,18 +2,12 @@
 
 namespace lumos::lexer {
 
-auto is_space(char32_t c) -> bool {
-  return c == ' ' || c == '\t' || c == '\v' || c == '\f';
-  return false;
-}
-
 // 尝试解析连续的空格
 auto Lexer::try_space() -> Token * {
   if (rem == 0) return null;
-  size_t n = 0;
-  while (lut[code[n]] == lut_space)
-    n++;
-  if (n == 0) return null;
+  if (!isspace(code[0])) return null;
+  size_t n = 1;
+  for (; isspace(code[n]); n++) {}
   return token(Token::Space, n);
 }
 
@@ -76,14 +70,16 @@ end:
 // xxx"yyy"zzz 这样的形式
 static auto _str(cstr code, char c) -> size_t {
   size_t n = 0;
-  while (issymc(code[n]))
-    n++;
+  for (; issymc(code[n]); n++) {}
   if (code[n++] != c) return 0;
-  while (code[n] && (code[n] != c || code[n - 1] == '\\'))
-    n++;
+  if (n == 2 && (code[0] == 'r' || code[0] == 'R')) {
+    // 未实现
+  }
+  for (; code[n] && (code[n] != c || code[n - 1] == '\\'); n++) {
+    if (code[n] == '\n' && code[n - 1] != '\\') throw Error("字符串不能跨行");
+  }
   if (code[n++] != c) return 0;
-  while (issymc(code[n]))
-    n++;
+  for (; issymc(code[n]); n++) {}
   return n;
 }
 
@@ -106,49 +102,53 @@ auto Lexer::try_chr() -> Token * {
 // 尝试解析运算符
 auto Lexer::try_op() -> Token * {
   if (rem == 0) return null;
-  size_t n = 1;
-  while (ops_list.find(str(code, n)) != ops_list.end())
-    n++;
-  if (--n == 0) return null;
-  return token(Token::Op, n);
+  const auto [sp, vp] = ctx.operators.match(code);
+  if (sp == null) return null;
+  return token(Token::Op, sp->length());
 }
 
 // 尝试解析属性
+// 包括运算符的标识符必须以非数字开头
+// 基本词法只允许 A-Z a-z _ $ 和运算符符号
+// 扩展的词法允许其它语言的字符
 auto Lexer::try_attr() -> Token * {
   if (rem == 0) return null;
   if (code[0] != '@') return null;
-  // 包括运算符的标识符必须以非数字开头
-  // 基本词法只允许 A-Z a-z _ $ 和运算符符号
-  // 扩展的词法允许其它语言的字符
-  if ((lut[code[1]] != lut_sym && lut[code[1]] != lut_op) || ('0' <= code[0] && code[0] <= '9'))
-    return null;
-  size_t n = 2;
-  while (issymc(code[n]) || lut[code[n]] == lut_op)
-    n++;
+  size_t n = 1;
+  for (; issymc(code[n]) || code[n] == '-'; n++) {}
+  if (n == 1) throw Error("属性名不能为空");
   return token(Token::Attr, n);
 }
 
 // 尝试解析
 auto Lexer::try_punc() -> Token * {
   if (rem == 0) return null;
-  size_t n = 1;
-  while (puncs_set.find(str(code, n)) != puncs_set.end())
-    n++;
-  if (--n == 0) return null;
-  return token(Token::Punc, n);
+  if (code[0] == ':' && code[1] == ':') return token(Token::Punc, 2);
+  if (code[0] == '.') return token(Token::Punc, 1);
+  if (code[0] == ',') return token(Token::Punc, 1);
+  if (code[0] == ';') return token(Token::Punc, 1);
+  if (code[0] == '{') return token(Token::Punc, 1);
+  if (code[0] == '}') return token(Token::Punc, 1);
+  if (code[0] == '[') return token(Token::Punc, 1);
+  if (code[0] == ']') return token(Token::Punc, 1);
+  if (code[0] == '(') return token(Token::Punc, 1);
+  if (code[0] == ')') return token(Token::Punc, 1);
+  return null;
 }
 
 // 尝试解析标识符
+// 标识符必须以非数字开头
+// 基本词法只允许 A-Z a-z _ $
+// 扩展的词法允许其它语言的字符
 auto Lexer::try_sym() -> Token * {
   if (rem == 0) return null;
-  // 标识符必须以非数字开头
-  // 基本词法只允许 A-Z a-z _ $
-  // 扩展的词法允许其它语言的字符
-  if (lut[code[0]] != lut_sym || ('0' <= code[0] && code[0] <= '9')) return null;
+  if (!issymc(code[0]) || isdigit(code[0])) return null;
   size_t n = 1;
-  while (issymc(code[n]))
-    n++;
-  return token(Token::Sym, n);
+  for (; issymc(code[n]); n++) {}
+  str raw = str(code, n);
+  if (auto it = ctx.keywords.find(raw); it != ctx.keywords.end())
+    return token(Token::Kwd, n, it->second);
+  return token(Token::Sym, n, raw);
 }
 
 } // namespace lumos::lexer

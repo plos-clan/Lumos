@@ -46,3 +46,7 @@ protected:
 };
 
 } // namespace lumos::ast
+
+namespace lumos {
+using ast::AST;
+}

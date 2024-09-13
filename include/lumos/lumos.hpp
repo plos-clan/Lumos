@@ -1,9 +1,13 @@
 #pragma once
 
-#include <type.hpp>
+#include <lumos/base.hpp>
 
 namespace lumos {
 
+// 是否为空格
+static auto isspace(char c) -> bool {
+  return c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r' || c == '\n';
+}
 // 是否为数字
 static auto isdigit(char c) -> bool {
   return '0' <= c && c <= '9';
