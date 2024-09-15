@@ -1,86 +1,79 @@
 #pragma once
-
 #include "../mangling.hpp"
 
 namespace lumos::ast {
 
-// 用户输入错误
-class Error : public ::Error {
-public:
-  explicit Error(const str &msg) : ::Error("AST: " + msg) {}
-};
-
-// 程序内部错误
-class Fail : public ::Error {
-public:
-  explicit Fail(const str &msg) : ::Error("[fail] AST: " + msg) {}
-};
+__ERRORIMPL__("AST");
 
 //* ----------------------------------------------------------------------------------------------------
 //; decl
 //* ----------------------------------------------------------------------------------------------------
 
-class AST;   //. 语法树节点基类
-class Named; //. 有名称的语法树节点基类
+Pclass(AST);   //. 语法树节点基类
+Pclass(Named); //. 有名称的语法树节点基类
 
 // --------------------------------------------------
 //; AST Named
 
-class Type;      //. AST   -> 数据类型
-class Evaluable; //. AST   -> 可求值对象
-class BaseStat;  //. AST   -> 语句
-class Container; //. Named -> 容器
+Pclass(Type);      //. AST   -> 数据类型
+Pclass(Evaluable); //. AST   -> 可求值对象
+Pclass(BaseStat);  //. AST   -> 语句
+Pclass(Container); //. Named -> 容器
 
 // --------------------------------------------------
 //; Evaluable
 
-class FunctionCall;   //. Evaluable -> 函数调用
-class Literal;        //. Evaluable -> 字面量 或 常量表达式
-class SymbolRef;      //. Evaluable -> 对某个名称的引用
-class Operation;      //. Evaluable -> 运算
-class EvaluableBlock; //. Evaluable -> 可求值代码块
-class Function;       //. Evaluable -> 函数
+Pclass(FunctionCall);   //. Evaluable -> 函数调用
+Pclass(Literal);        //. Evaluable -> 字面量 或 常量表达式
+Pclass(SymbolRef);      //. Evaluable -> 对某个名称的引用
+Pclass(Operation);      //. Evaluable -> 运算
+Pclass(EvaluableBlock); //. Evaluable -> 可求值代码块
+Pclass(Function);       //. Evaluable -> 函数
+Pclass(ArrayAccess);    //. Evaluable -> 函数
 
 // --------------------------------------------------
 //; Type
 
-class PtrType;    //. Type ->
-class ArrayType;  //. Type ->
-class RefCntType; //. Type ->
-class InnerType;  //. Type ->
+Pclass(PtrType);    //. Type ->
+Pclass(ArrayType);  //. Type ->
+Pclass(RefCntType); //. Type ->
+Pclass(InnerType);  //. Type ->
 
-class IntType; //. InnerType ->
-class PtrType; //. InnerType ->
-class PtrType; //. InnerType ->
-class PtrType; //. InnerType ->
+Pclass(IntType); //. InnerType ->
+Pclass(PtrType); //. InnerType ->
+Pclass(PtrType); //. InnerType ->
+Pclass(PtrType); //. InnerType ->
+
+Pclass(Struct); //. Type ->
+Pclass(Class);  //. Type ->
 
 // --------------------------------------------------
 
-class Variable; //. Named -> 变量
+Pclass(Variable); //. Named -> 变量
 
-class Root; //. Container -> 根节点
+Pclass(Root); //. Container -> 根节点
 
-class Exportable; //. Named -> 可导出的
+Pclass(Exportable); //. Named -> 可导出的
 
-class SymbolRef; // 对某个名称的引用
+Pclass(NamedType); // 数据类型
 
-class NamedType; // 数据类型
+Pclass(Block);     // 代码块
+Pclass(Namespace); // 命名空间
+Pclass(Struct);    // 结构体
+Pclass(Class);     // 类
 
-class Block;     // 代码块
-class Namespace; // 命名空间
-class Struct;    // 结构体
-class Class;     // 类
+Pclass(Statement); //. BaseStat -> 单值语句
+Pclass(IfStat);    //. BaseStat -> if 语句
+Pclass(WhileStat); //. BaseStat -> while 语句
+Pclass(ForStat);   //. BaseStat -> for 语句
 
-class Statement; //. BaseStat -> 单值语句
-class IfStat;    //. BaseStat -> if 语句
-class WhileStat; //. BaseStat -> while 语句
-class ForStat;   //. BaseStat -> for 语句
+Pclass(FunctionCall); // 函数调用
 
-class String; // 字符串字面量
-class Char;   // 字符字面量
-class Number; // 数字字面量
+Pclass(String); // 字符串字面量
+Pclass(Char);   // 字符字面量
+Pclass(Number); // 数字字面量
 
-class Operator; // 运算符
+Pclass(Operator); // 运算符
 
 //* ----------------------------------------------------------------------------------------------------
 //; AST Named
@@ -93,10 +86,7 @@ public:
   virtual ~AST() = default;
 
   // 输出 直接调用 print_to 不应该修改
-  friend auto operator<<(ostream &os, const AST &ast) -> ostream & {
-    ast.print_to(os, 0);
-    return os;
-  }
+  friend auto operator<<(ostream &os, const AST &ast) -> ostream &;
 
   // debug 用
   // 检查对象是否有错误
@@ -105,20 +95,30 @@ public:
     throw Fail("AST::check() 不应该被调用");
   }
 
+  virtual void gencode();      // 生成代码
+  virtual void eval(ENV &env); // 求值、运行
+
 protected:
   virtual auto print_to(ostream &os) const -> void;
   virtual auto print_children_to(ostream &os, i32 indent = 0) const -> void;
 
 private:
-  void print_to(ostream &os, i32 indent) const {
-    for (i32 i = 0; i < indent * 2; i++) {
-      os.put(' ');
-    }
-    print_to(os);
-    os << endl;
-    print_children_to(os);
-  }
+  void print_to(ostream &os, i32 indent) const;
 };
+
+auto operator<<(ostream &os, const AST &ast) -> ostream & {
+  ast.print_to(os, 0);
+  return os;
+}
+
+void AST::print_to(ostream &os, i32 indent) const {
+  for (i32 i = 0; i < indent * 2; i++) {
+    os.put(' ');
+  }
+  print_to(os);
+  os << endl;
+  print_children_to(os);
+}
 
 // --------------------------------------------------
 

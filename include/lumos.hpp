@@ -6,6 +6,7 @@
 #include "lumos/ast/evaluable/evaluable.hpp"
 #include "lumos/ast/evaluable/literal.hpp"
 #include "lumos/ast/statement/statement.hpp"
+#include "lumos/ast/type/class.hpp"
 #include "lumos/ast/type/inner.hpp"
 #include "lumos/ast/type/other.hpp"
 #include "lumos/ast/type/type.hpp"

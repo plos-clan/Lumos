@@ -14,6 +14,6 @@ struct File {
   }
 };
 
-auto loadfile(Ctx &ctx, str path) -> File *;
+auto loadfile(CTX &ctx, str path) -> File *;
 
 } // namespace lumos

@@ -4,3 +4,5 @@ nav:
   - 宏: macro.md
   - 词法: lexical
   - 语法: grammar
+  - 语法树: ast
+  - 中间表示: ir

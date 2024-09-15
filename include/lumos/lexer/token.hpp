@@ -4,17 +4,7 @@
 
 namespace lumos::token {
 
-// 用户输入错误
-class Error : public ::Error {
-public:
-  explicit Error(const str &msg) : ::Error("Token: " + msg) {}
-};
-
-// 程序内部错误
-class Fail : public ::Error {
-public:
-  explicit Fail(const str &msg) : ::Error("[fail] Token: " + msg) {}
-};
+__ERRORIMPL__("Token");
 
 // --------------------------------------------------
 
@@ -38,7 +28,7 @@ struct TokenPos {
   }
 };
 
-struct Token : TokenPos {
+pstruct(Token), TokenPos {
   enum EToken { // token 类型
     Inv,        // 非法 token
     Space,      // 空格
@@ -64,21 +54,21 @@ struct Token : TokenPos {
   Token(EToken type, const str &raw, const TokenPos &pos);
   virtual ~Token() = default;
 
-  auto copy() const -> Token * {
+  auto copy() const->Token * {
     return new Token(type, raw, *this);
   }
 
-  auto operator==(const str &raw) const -> bool {
+  auto operator==(const str &raw) const->bool {
     return this->raw == raw;
   }
 
-  virtual void print_to(ostream &os) const;
+  virtual void print_to(ostream & os) const;
 
-  friend auto operator<<(ostream &os, Token::EToken t) -> ostream &;
-  friend auto operator<<(ostream &os, const Token &tok) -> ostream &;
-  friend auto operator<<(ostream &os, const Token *tok) -> ostream &;
+  friend auto operator<<(ostream &os, Token::EToken t)->ostream &;
+  friend auto operator<<(ostream &os, const Token &tok)->ostream &;
+  friend auto operator<<(ostream &os, const Token *tok)->ostream &;
 
-  auto is(EToken type) const -> bool;
+  auto is(EToken type) const->bool;
 };
 
 // --------------------------------------------------
@@ -193,5 +183,5 @@ auto mktoken(Token::EToken type, str raw, TokenPos pos) -> Token *;
 } // namespace lumos::token
 
 namespace lumos {
-using token::Token;
+pusing(token, Token);
 }

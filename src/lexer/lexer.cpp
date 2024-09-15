@@ -5,17 +5,16 @@ namespace lumos::lexer {
 static Token *const skipped_token = ((Token *)-1); // 表示被跳过的 token
     // 用作中间值, lexer 的输出仍然是实际的 token 或 null
 
-Lexer::Lexer(Ctx &ctx, cstr file, cstr code, size_t len) : ctx(ctx) {
-  if (file == null) throw Error("file 不能为 null");
+Lexer::Lexer(CTX &ctx, cstr file, void *code, size_t len) : ctx(ctx) {
   if (code == null) throw Error("code 不能为 null");
   if (len == 0) throw Error("len 不能为 0");
   this->file = file;
-  this->code = code;
+  this->code = (char *)code;
   this->len  = len;
   this->rem  = len;
 }
 
-Lexer::Lexer(Ctx &ctx, cstr code, size_t len) : Lexer(ctx, ctx.file.c_str(), code, len) {}
+Lexer::Lexer(CTX &ctx, void *code, size_t len) : Lexer(ctx, "", code, len) {}
 
 auto Lexer::token(Token::EToken type, size_t n, const str &raw) -> Token * {
   if (n == 0) throw Error("尝试输出空token");
@@ -108,7 +107,7 @@ auto Lexer::peek(Token::EToken type, const str &val) -> Token * {
   return tok != null && tok->type == type && tok->raw == val ? tok : null;
 }
 
-auto Lexer::get() -> Token * {
+auto Lexer::get() -> PToken {
   tryed.clear();
   if (_tok != null) {
     Token *temp = _tok;
@@ -118,21 +117,21 @@ auto Lexer::get() -> Token * {
   return _get();
 }
 
-auto Lexer::get(Token::EToken type) -> Token * {
+auto Lexer::get(Token::EToken type) -> PToken {
   Token *tok = peek(type);
   if (tok == null) return null;
   _tok = null;
   return tok;
 }
 
-auto Lexer::get(const str &val) -> Token * {
+auto Lexer::get(const str &val) -> PToken {
   Token *tok = peek(val);
   if (tok == null) return null;
   _tok = null;
   return tok;
 }
 
-auto Lexer::get(Token::EToken type, const str &val) -> Token * {
+auto Lexer::get(Token::EToken type, const str &val) -> PToken {
   Token *tok = peek(type, val);
   if (tok == null) return null;
   _tok = null;

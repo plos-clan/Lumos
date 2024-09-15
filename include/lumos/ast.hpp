@@ -6,6 +6,7 @@
 #include "ast/evaluable/evaluable.hpp"
 #include "ast/evaluable/literal.hpp"
 #include "ast/statement/statement.hpp"
+#include "ast/type/class.hpp"
 #include "ast/type/inner.hpp"
 #include "ast/type/other.hpp"
 #include "ast/type/type.hpp"

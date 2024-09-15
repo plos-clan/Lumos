@@ -2,7 +2,7 @@
 
 namespace lumos {
 
-auto loadfile(Ctx &ctx, str path) -> File * {
+auto loadfile(CTX &ctx, str path) -> File * {
   path = std::filesystem::absolute(path);
   if (auto it = ctx.files.find(path); it != ctx.files.end()) return it->second;
   std::ifstream fs(path, std::ios::binary | std::ios::ate);

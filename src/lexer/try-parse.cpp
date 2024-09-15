@@ -17,16 +17,14 @@ auto Lexer::try_comment() -> Token * {
   size_t n = 2;
 
   if (code[0] == '/' && code[1] == '/') { // 单行注释，解析到行尾或结束
-    while (code[n] != '\0' && code[n] != '\n')
-      n++;
+    for (; code[n] != '\0' && code[n] != '\n'; n++) {}
     return token(Token::Comment, n);
   }
 
   if (code[0] == '/' && code[1] == '*') { // 多行注释，解析到 '*/' 或结束
-    while (code[n] != '\0' && (code[n] != '*' || code[n + 1] != '/'))
-      n++;
-    if (code[n] != '\0') n += 2;
-    return token(Token::Comment, n);
+    for (; code[n] != '\0' && (code[n] != '*' || code[n + 1] != '/'); n++) {}
+    if (code[n] == '\0') throw Error("多行注释未结束");
+    return token(Token::Comment, n + 2);
   }
 
   return null;
@@ -109,7 +107,7 @@ auto Lexer::try_op() -> Token * {
 
 // 尝试解析属性
 // 包括运算符的标识符必须以非数字开头
-// 基本词法只允许 A-Z a-z _ $ 和运算符符号
+// 基本词法只允许 A-Z a-z _ $ -
 // 扩展的词法允许其它语言的字符
 auto Lexer::try_attr() -> Token * {
   if (rem == 0) return null;
