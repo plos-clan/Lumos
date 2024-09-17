@@ -6,7 +6,30 @@ auto main() -> int {
   CTX   ctx;
   File *file = ctx.loadfile("../example/helloworld.lm");
   Lexer lexer(ctx, file->path.c_str(), file->data, file->size);
-  parser::parse(lexer);
+  // lexer::parse(file);
+  AST  *ast = parser::parse(lexer);
 
   return 0;
 }
+
+template <typename T>
+struct Tokens {
+  T     *arr; // 储存 token 的数组
+  size_t len; // 储存当前数组的长度
+  size_t cap; // 储存当前数组的容量
+  size_t pos; // 储存当前指向的位置
+
+  Tokens(size_t cap = 16);
+};
+
+namespace lumos::preprocesser {
+
+void process() {}
+
+} // namespace lumos::preprocesser
+
+namespace lumos::runner {
+
+void run() {}
+
+} // namespace lumos::runner

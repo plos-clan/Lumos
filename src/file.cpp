@@ -2,9 +2,9 @@
 
 namespace lumos {
 
-auto loadfile(CTX &ctx, str path) -> File * {
-  path = std::filesystem::absolute(path);
-  if (auto it = ctx.files.find(path); it != ctx.files.end()) return it->second;
+auto CTX::loadfile(str path) -> File * {
+  path = std::filesystem::absolute((std::string)path);
+  if (auto it = files.find(path); it != files.end()) return it->second;
   std::ifstream fs(path, std::ios::binary | std::ios::ate);
   if (!fs.is_open()) return null;
   size_t size = fs.tellg();
@@ -15,6 +15,14 @@ auto loadfile(CTX &ctx, str path) -> File * {
     return null;
   }
   fs.close();
+  auto file   = new File{path, data, size};
+  files[path] = file;
+  return file;
+}
+
+auto storefile(CTX &ctx, str path, void *data, size_t size) -> File * {
+  path = std::filesystem::absolute((std::string)path);
+  if (auto it = ctx.files.find(path); it != ctx.files.end()) return it->second;
   auto file       = new File{path, data, size};
   ctx.files[path] = file;
   return file;

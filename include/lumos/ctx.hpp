@@ -11,6 +11,7 @@ auto loadfile(CTX &ctx, str path) -> File *;
 class Preprocesser; // 目前不实现的预处理器
 
 struct CTX {
+  str                  workdir;   // 工作目录
   HashMap<str, str>    keywords;  // 关键字
   MatchList<void *>    operators; // 运算符
   HashMap<str, File *> files;     // 文件
@@ -19,9 +20,7 @@ struct CTX {
 
   explicit CTX();
 
-  auto loadfile(str path) -> File * {
-    return lumos::loadfile(*this, path);
-  }
+  auto loadfile(str path) -> File *;
 };
 
 struct ENV {

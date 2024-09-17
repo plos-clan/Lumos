@@ -47,9 +47,9 @@ auto RefCntType::tostr() const -> str {
 class Operator : public Named {};
 
 class Operation : public AST {
-  Operator  *op;    // 要进行的运算
-  Evaluable *left;  // 左侧的操作数
-  Evaluable *right; // 右侧的操作数
+  Operator  *op;  // 要进行的运算
+  Evaluable *lhs; // 左侧的操作数
+  Evaluable *rhs; // 右侧的操作数
 };
 
 } // namespace lumos::ast

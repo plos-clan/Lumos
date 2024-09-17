@@ -97,7 +97,6 @@ using cfloat32_t  = std::complex<float32_t>;
 using cfloat64_t  = std::complex<float64_t>;
 using cfloat128_t = std::complex<float128_t>;
 
-#if 0
 namespace lumos {
 
 // template <typename T>
@@ -176,14 +175,17 @@ namespace lumos {
 template <typename T>
 class BaseString {
   struct Data {
-    u32 rc;     // 引用计数
-    T   data[]; // 数据 (动态分配)
+    u32 _rc;     // 引用计数
+    u32 _len;    // 数据长度
+    T   _data[]; // 数据 (动态分配)
   };
 
 private:
   u32 len = 0;    // 子字符串长度
   u32 pos = 0;    // 子字符串起始位置
   T  *ptr = null; // 原始字符串数据
+
+  static constexpr T nullchar = 0;
 
 public:
   static auto strlen(const T *s) -> size_t {
@@ -193,38 +195,12 @@ public:
   }
 
   class Iterator {
-    T *ptr = null;
-
   public:
+    const T *ptr = null;
+
     Iterator() = default;
-    Iterator(T *p) : ptr(p) {}
+    Iterator(const T *p) : ptr(p) {}
     Iterator(const Iterator &it) : ptr(it.ptr) {}
-
-    auto operator++() -> Iterator & {
-      ptr++;
-      return *this;
-    }
-
-    auto operator++(int) -> Iterator & {
-      auto t = *this;
-      ptr++;
-      return t;
-    }
-
-    auto operator--() -> Iterator & {
-      ptr--;
-      return *this;
-    }
-
-    auto operator--(int) -> Iterator & {
-      auto t = *this;
-      ptr--;
-      return t;
-    }
-
-    auto operator*() -> T {
-      return *ptr;
-    }
 
     auto operator==(const Iterator &it) const -> bool {
       return ptr == it.ptr;
@@ -233,97 +209,194 @@ public:
     auto operator!=(const Iterator &it) const -> bool {
       return ptr != it.ptr;
     }
-  };
 
-  class ReverseIterator {
-    T *ptr = null;
-
-  public:
-    ReverseIterator() = default;
-    ReverseIterator(T *p) : ptr(p) {}
-    ReverseIterator(const ReverseIterator &it) : ptr(it.ptr) {}
-
-    auto operator++() -> ReverseIterator & {
-      ptr--;
-      return *this;
-    }
-
-    auto operator++(int) -> ReverseIterator & {
-      auto t = *this;
-      ptr--;
-      return t;
-    }
-
-    auto operator--() -> ReverseIterator & {
-      ptr++;
-      return *this;
-    }
-
-    auto operator--(int) -> ReverseIterator & {
-      auto t = *this;
-      ptr++;
-      return t;
-    }
-
-    auto operator*() -> T {
+    auto operator*() const -> T {
       return *ptr;
     }
+  };
 
-    auto operator==(const ReverseIterator &it) const -> bool {
-      return ptr == it.ptr;
+  class ForwardIterator : public Iterator {
+    using Iterator::ptr;
+
+  public:
+    auto base() const -> ForwardIterator {
+      return *this;
     }
 
-    auto operator!=(const ReverseIterator &it) const -> bool {
-      return ptr != it.ptr;
+    auto operator+(size_t i) const -> ForwardIterator {
+      return {ptr + i};
+    }
+
+    auto operator++() -> ForwardIterator & {
+      ptr++;
+      return *this;
+    }
+
+    auto operator++(int) -> ForwardIterator & {
+      auto t = *this;
+      ptr++;
+      return t;
+    }
+
+    auto operator-(size_t i) const -> ForwardIterator {
+      return {ptr - i};
+    }
+
+    auto operator--() -> ForwardIterator & {
+      ptr--;
+      return *this;
+    }
+
+    auto operator--(int) -> ForwardIterator & {
+      auto t = *this;
+      ptr--;
+      return t;
+    }
+
+    auto operator[](size_t i) const -> T {
+      return ptr[i];
     }
   };
 
-  auto begin() -> Iterator {
+  class BackwardIterator : public Iterator {
+    using Iterator::ptr;
+
+  public:
+    auto base() const -> BackwardIterator {
+      return *this;
+    }
+
+    auto operator+(size_t i) const -> BackwardIterator {
+      return {ptr - i};
+    }
+
+    auto operator++() -> BackwardIterator & {
+      ptr--;
+      return *this;
+    }
+
+    auto operator++(int) -> BackwardIterator & {
+      auto t = *this;
+      ptr--;
+      return t;
+    }
+
+    auto operator-(size_t i) const -> BackwardIterator {
+      return {ptr + i};
+    }
+
+    auto operator--() -> BackwardIterator & {
+      ptr++;
+      return *this;
+    }
+
+    auto operator--(int) -> BackwardIterator & {
+      auto t = *this;
+      ptr++;
+      return t;
+    }
+
+    auto operator[](size_t i) const -> T {
+      return ptr[-(ssize_t)i];
+    }
+  };
+
+  auto begin() const -> ForwardIterator {
     return {ptr};
   }
 
-  auto end() -> Iterator {
+  auto end() const -> ForwardIterator {
     return {ptr + len};
   }
 
-  auto rbegin() -> ReverseIterator {
+  auto rbegin() const -> BackwardIterator {
     return {ptr + len - 1};
   }
 
-  auto rend() -> ReverseIterator {
+  auto rend() const -> BackwardIterator {
     return {ptr - 1};
   }
 
-#  define rc   (((Data *)((size_t)this->ptr - this->pos - sizeof(Data)))->rc)
-#  define data (((Data *)((size_t)this->ptr - this->pos - sizeof(Data)))->data)
-#  define allocdata                                                                                \
-    (this->ptr = (T *)((size_t)malloc(sizeof(Data) + this->len * sizeof(T)) + sizeof(Data)), rc = 1)
-#  define freedata (free((void *)((size_t)this->ptr - this->pos - sizeof(Data))))
+#define dataptr ((Data *)((size_t)this->ptr - this->pos - sizeof(Data)))
+#define rc      (dataptr->_rc)
+#define rawlen  (dataptr->_len)
+#define data    (dataptr->_data)
 
-  BaseString() = default;
-  // 预分配一个长度为 len 的字符串 (不初始化)
-  BaseString(size_t n) : len(n) {
-    if (len != 0) allocdata;
+private:
+  void allocdata() {
+    void *addr = malloc(sizeof(Data) + (len + 1) * sizeof(T));
+    ptr        = (T *)((size_t)addr + sizeof(Data));
+    rc         = 1;
   }
-  BaseString(const T *s) {
+
+  void allocdata(size_t n) {
+    len = n, pos = 0, ptr = null;
+    if (len > 0) allocdata();
+  }
+
+  void freedata() {
+    if (ptr == null) return;
+    void *addr = (void *)((size_t)ptr - pos - sizeof(Data));
+    if (--rc == 0) free(addr);
+  }
+
+  void setdata(const T *s) {
+    len = 0, pos = 0, ptr = null;
     if (s == null) return;
     if (len = strlen(s); len == 0) return;
-    allocdata;
+    allocdata();
+    memcpy(data, s, (len + 1) * sizeof(T));
+  }
+
+  void setdata(const T *s, size_t n) {
+    len = n, pos = 0, ptr = null;
+    if (len == 0) return;
+    allocdata();
     memcpy(data, s, len * sizeof(T));
+    data[n] = 0;
+  }
+
+  void resetdata(const T *s) {
+    freedata();
+    setdata(s);
+  }
+
+  void resetdata(const T *s, size_t n) {
+    freedata();
+    setdata(s, n);
+  }
+
+public:
+  BaseString() = default;
+  // 预分配一个长度为 len 的字符串 (不初始化)
+  BaseString(size_t n) {
+    allocdata(n);
+  }
+  BaseString(const T *s) {
+    setdata(s);
   }
   BaseString(const T *s, size_t n) {
-    if (s == null) return;
-    if (len = n; len == 0) return;
-    allocdata;
-    memcpy(data, s, len * sizeof(T));
+    setdata(s, n);
   }
   BaseString(const std::string &s) {
-    if (len = s.length(); len == 0) return;
-    allocdata;
-    memcpy(data, s.c_str(), len * sizeof(T));
+    setdata(s.c_str(), s.length());
   }
   BaseString(u32 len, u32 pos, T *ptr) : len(len), pos(pos), ptr(ptr) {
     if (ptr != null) rc++;
+  }
+  BaseString(const T *begin, const T *end) : len(end - begin) {
+    if (len == 0) return;
+    allocdata(len);
+    for (size_t i = 0; i < len; i++) {
+      ptr[i] = begin[i];
+    }
+  }
+  BaseString(const Iterator &begin, const Iterator &end) : len(end.ptr - begin.ptr) {
+    if (len == 0) return;
+    allocdata(len);
+    for (size_t i = 0; i < len; i++) {
+      ptr[i] = begin.ptr[i];
+    }
   }
   BaseString(const BaseString &s) : len(s.len), pos(s.pos), ptr(s.ptr) {
     if (ptr != null) rc++;
@@ -332,12 +405,12 @@ public:
     s.len = 0, s.pos = 0, s.ptr = null;
   }
   ~BaseString() {
-    if (ptr != null && --rc == 0) freedata;
+    freedata();
   }
 
   auto operator=(const BaseString &s) -> BaseString & {
     if (this == &s || ptr == s.ptr) return *this;
-    if (ptr != null && --rc == 0) freedata;
+    freedata();
     len = s.len, pos = s.pos, ptr = s.ptr;
     if (ptr != null) rc++;
     return *this;
@@ -345,15 +418,43 @@ public:
 
   auto operator=(BaseString &&s) -> BaseString & {
     if (this == &s) return *this;
-    if (ptr != null && --rc == 0) freedata;
+    freedata();
     len = s.len, pos = s.pos, ptr = s.ptr;
     s.len = 0, s.pos = 0, s.ptr = null;
     return *this;
   }
 
+  auto operator=(const std::string &s) -> BaseString & {
+    resetdata(s.c_str(), s.length());
+    return *this;
+  }
+
+  auto operator=(const T *s) -> BaseString & {
+    resetdata(s);
+    return *this;
+  }
+
   auto substr(size_t p) const -> BaseString {
     if (pos >= len) return {};
-    return {len - p, pos + p, ptr + p};
+    return {(u32)(len - p), (u32)(pos + p), ptr + p};
+  }
+
+  auto substr(size_t p, size_t n) const -> BaseString {
+    if (p >= len) return {};
+    if (p + n > len) n = len - p;
+    return {(u32)n, (u32)(pos + p), ptr + p};
+  }
+
+  auto c_str() -> const T * {
+    if (len == 0) return &nullchar;
+    if (pos == 0 && len == rawlen) return ptr;
+    auto datap = dataptr;
+    auto _ptr  = ptr;
+    allocdata(len);
+    memcpy(data, _ptr, len * sizeof(T));
+    data[len] = 0;
+    if (--datap->_rc == 0) free(datap);
+    return ptr;
   }
 
   // 获取原始字符串数据，预分配后这样写入数据
@@ -365,17 +466,26 @@ public:
     return len == 0;
   }
 
+  operator bool() const {
+    return len != 0;
+  }
+
+  auto operator!() const -> bool {
+    return len == 0;
+  }
+
   auto length() const -> size_t {
     return len;
   }
 
   auto size() const -> size_t {
-    return len;
+    return len * sizeof(T);
   }
 
   auto operator[](size_t i) const -> T {
     return ptr[i];
   }
+
   auto equals(const BaseString &s) const -> bool {
     if (len != s.len) return false;
     if (ptr == s.ptr) return true;
@@ -465,6 +575,33 @@ public:
       if (ptr[i] != s[i]) return ptr[i] - s[i];
     }
     return len - n;
+  }
+
+  auto ncmp(const BaseString &s, size_t n) const -> int {
+    size_t m = len < s.len ? len : s.len;
+    size_t l = m < n ? m : n;
+    for (size_t i = 0; i < l; i++) {
+      if (ptr[i] != s.ptr[i]) return ptr[i] - s.ptr[i];
+    }
+    return m < n ? len - s.len : 0;
+  }
+
+  auto ncmp(const std::string &s, size_t n) const -> int {
+    size_t m = len < s.length() ? len : s.length();
+    size_t l = m < n ? m : n;
+    for (size_t i = 0; i < l; i++) {
+      if (ptr[i] != s[i]) return ptr[i] - s[i];
+    }
+    return m < n ? len - s.length() : 0;
+  }
+
+  auto ncmp(const T *s, size_t n) const -> int {
+    if (s == null) return 1;
+    size_t m = len < n ? len : n;
+    for (size_t i = 0; i < m; i++) {
+      if (ptr[i] != s[i]) return ptr[i] - s[i];
+    }
+    return len < n ? -1 : 0;
   }
 
   auto operator<(const BaseString &s) const -> bool {
@@ -670,6 +807,18 @@ public:
     t.prepend(c);
   }
 
+  auto remove(const T &c) const -> BaseString {
+    size_t n = 0;
+    for (size_t i = 0; i < len; i++) {
+      if (ptr[i] != c) n++;
+    }
+    BaseString t(n);
+    for (size_t i = 0, j = 0; i < len; i++) {
+      if (ptr[i] != c) t.ptr[j++] = ptr[i];
+    }
+    return t;
+  }
+
   auto operator*(size_t n) const -> BaseString {
     BaseString t(len * n);
     for (size_t i = 0; i < n; i++) {
@@ -682,10 +831,8 @@ public:
     return std::string(ptr, len);
   }
 
-#  undef rc
-#  undef data
-#  undef allocdata
-#  undef freedata
+#undef rc
+#undef data
 };
 
 } // namespace lumos
@@ -708,9 +855,7 @@ template struct hash<lumos::BaseString<char32_t>>;
 } // namespace std
 
 using str = lumos::BaseString<char>;
-#endif
 
-using str      = std::string;
 using sstream  = std::stringstream;
 using isstream = std::istringstream;
 using osstream = std::ostringstream;
@@ -934,9 +1079,23 @@ static inline auto isinstance(const T2 *ptr) -> bool {
 
 #include <gmpxx.h>
 
-using mpz = mpz_class;
-using mpq = mpq_class;
-using mpf = mpf_class;
+class mpz : public mpz_class {
+public:
+  using mpz_class::mpz_class;
+  mpz(str s, int base = 10) : mpz_class(s.c_str(), base) {}
+};
+
+class mpq : public mpq_class {
+public:
+  using mpq_class::mpq_class;
+  mpq(str s, int base = 10) : mpq_class(s.c_str(), base) {}
+};
+
+class mpf : public mpf_class {
+public:
+  using mpf_class::mpf_class;
+  mpf(str s, int base = 10) : mpf_class(s.c_str(), base) {}
+};
 
 namespace lumos {
 
@@ -963,7 +1122,7 @@ public:
     ssize_t     m = -1, n = 0;
     for (size_t i = 0; i < ss.size(); i++) {
       const auto &t = ss[i];
-      if (t.length() > n && strncmp(t.c_str(), s, t.length()) == 0) m = i, n = t.length();
+      if (t.length() > n && t.ncmp(s, t.length()) == 0) m = i, n = t.length();
     }
     if (m >= 0) return {&ss[m], (T *)&vs[m]};
     return {null, null};

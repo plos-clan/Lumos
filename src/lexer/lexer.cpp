@@ -16,7 +16,7 @@ Lexer::Lexer(CTX &ctx, cstr file, void *code, size_t len) : ctx(ctx) {
 
 Lexer::Lexer(CTX &ctx, void *code, size_t len) : Lexer(ctx, "", code, len) {}
 
-auto Lexer::token(Token::EToken type, size_t n, const str &raw) -> Token * {
+auto Lexer::token(EToken type, size_t n, const str &raw) -> Token * {
   if (n == 0) throw Error("尝试输出空token");
   if (n > rem) throw Error("输出的token长度大于剩余的字符数");
 
@@ -30,7 +30,7 @@ auto Lexer::token(Token::EToken type, size_t n, const str &raw) -> Token * {
   return tok;
 }
 
-auto Lexer::token(Token::EToken type, size_t n) -> Token * {
+auto Lexer::token(EToken type, size_t n) -> Token * {
   return token(type, n, str(code, n));
 }
 
@@ -89,7 +89,7 @@ auto Lexer::peek() -> Token * {
   return _tok ?: (_tok = _get());
 }
 
-auto Lexer::peek(Token::EToken type) -> Token * {
+auto Lexer::peek(EToken type) -> Token * {
   tryed.emplace_back(type, "");
   Token *tok = peek();
   return tok != null && tok->type == type ? tok : null;
@@ -101,7 +101,7 @@ auto Lexer::peek(const str &val) -> Token * {
   return tok != null && tok->raw == val ? tok : null;
 }
 
-auto Lexer::peek(Token::EToken type, const str &val) -> Token * {
+auto Lexer::peek(EToken type, const str &val) -> Token * {
   tryed.emplace_back(type, val);
   Token *tok = peek();
   return tok != null && tok->type == type && tok->raw == val ? tok : null;
@@ -117,7 +117,7 @@ auto Lexer::get() -> PToken {
   return _get();
 }
 
-auto Lexer::get(Token::EToken type) -> PToken {
+auto Lexer::get(EToken type) -> PToken {
   Token *tok = peek(type);
   if (tok == null) return null;
   _tok = null;
@@ -131,7 +131,7 @@ auto Lexer::get(const str &val) -> PToken {
   return tok;
 }
 
-auto Lexer::get(Token::EToken type, const str &val) -> PToken {
+auto Lexer::get(EToken type, const str &val) -> PToken {
   Token *tok = peek(type, val);
   if (tok == null) return null;
   _tok = null;

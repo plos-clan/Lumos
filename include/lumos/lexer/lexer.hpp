@@ -29,8 +29,10 @@ struct LexerState : TokenPos {
 };
 
 class Lexer : private LexerState {
-  auto token(Token::EToken type, size_t n) -> Token *; // 输出一个 token
-  auto token(Token::EToken type, size_t n, const str &raw) -> Token *;
+  using EToken = Token::EToken;
+
+  auto token(EToken type, size_t n) -> Token *; // 输出一个 token
+  auto token(EToken type, size_t n, const str &raw) -> Token *;
 
   auto try_space() -> Token *;   // 尝试解析连续的空字符
   auto try_comment() -> Token *; // 尝试解析注释
@@ -51,7 +53,7 @@ public:
   bool return_invalid = false; // 是否输出非法字符
   bool log_tokens     = false; // 是否将 token 输出到日志
 
-  Vector<Pair<Token::EToken, str>> tryed; // 储存所有 token
+  Vector<Pair<EToken, str>> tryed; // 储存所有 token
 
   Lexer(CTX &ctx, void *code, size_t len);
   Lexer(CTX &ctx, cstr file, void *code, size_t len);
@@ -60,20 +62,20 @@ public:
   using LexerState::load;
   using LexerState::save;
 
-  auto eof() const -> bool;                                 // 是否已解析完毕
-  auto peek_char() const -> byte;                           // 读取一个字符 (不移动指针)
-  auto get_char() -> byte;                                  // 读取一个字符 (移动指针)
-  auto peek() -> Token *;                                   // 读取一个 token (不移动指针)
-  auto peek(Token::EToken type) -> Token *;                 // 读取一个 token (不移动指针)
-  auto peek(const str &val) -> Token *;                     // 读取一个 token (不移动指针)
-  auto peek(Token::EToken type, const str &val) -> Token *; // 读取一个 token (不移动指针)
-  auto get() -> PToken;                                     // 读取一个 token (移动指针)
-  auto get(Token::EToken type) -> PToken;                   // 读取一个 token (移动指针)
-  auto get(const str &val) -> PToken;                       // 读取一个 token (移动指针)
-  auto get(Token::EToken type, const str &val) -> PToken;   // 读取一个 token (移动指针)
-  auto get_block() -> cstr;                                 // 读取一个块
-  auto getall() -> Vector<Token>;                           //
-  void error(str msg = "");                                 // 抛出错误
+  auto eof() const -> bool;                          // 是否已解析完毕
+  auto peek_char() const -> byte;                    // 读取一个字符 (不移动指针)
+  auto get_char() -> byte;                           // 读取一个字符 (移动指针)
+  auto peek() -> Token *;                            // 读取一个 token (不移动指针)
+  auto peek(EToken type) -> Token *;                 // 读取一个 token (不移动指针)
+  auto peek(const str &val) -> Token *;              // 读取一个 token (不移动指针)
+  auto peek(EToken type, const str &val) -> Token *; // 读取一个 token (不移动指针)
+  auto get() -> PToken;                              // 读取一个 token (移动指针)
+  auto get(EToken type) -> PToken;                   // 读取一个 token (移动指针)
+  auto get(const str &val) -> PToken;                // 读取一个 token (移动指针)
+  auto get(EToken type, const str &val) -> PToken;   // 读取一个 token (移动指针)
+  auto get_block() -> cstr;                          // 读取一个块
+  auto getall() -> Vector<Token>;                    //
+  void error(str msg = "");                          // 抛出错误
 };
 
 } // namespace lumos::lexer

@@ -37,7 +37,7 @@ pstruct(Token), TokenPos {
     Float,      // 浮点数
     Fixed,      // 定点数
     Integer,    // 高精度整数
-    Fraction,   // 高精度分数
+    Frac,       // 高精度分数
     Str,        // 字符串
     Chr,        // 字符
     Op,         // 运算符
@@ -153,11 +153,11 @@ struct Integer : Num {
   ~Integer() override = default;
 };
 
-struct Fraction : Num {
+struct Frac : Num {
   mpq val; // 值
 
-  Fraction(const str &raw, const TokenPos &pos);
-  ~Fraction() override = default;
+  Frac(const str &raw, const TokenPos &pos);
+  ~Frac() override = default;
 };
 
 // --------------------------------------------------

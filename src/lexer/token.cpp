@@ -5,7 +5,7 @@ namespace lumos::token {
 static constexpr auto tab_indent = 4;
 
 auto operator<<(ostream &os, Token::EToken t) -> ostream & {
-  static str lut[] = {"Inv", "Space", "Comment", "Int",  "Float", "Fixed", "Integer", "Fraction",
+  static str lut[] = {"Inv", "Space", "Comment", "Int",  "Float", "Fixed", "Integer", "Frac",
                       "Str", "Chr",   "Op",      "Attr", "Punc",  "Sym",   "Kwd"};
   if (t < 0 || t >= Token::Cnt) throw Error("EToken 超出范围");
   return os << lut[t];
@@ -62,7 +62,7 @@ Comment::Comment(const str &raw, const TokenPos &pos) : Token(Token::Comment, ra
 auto num_type_suffix(str raw, bool is_float) -> Tuple<Token::EToken, int, int> {
   auto it = raw.rbegin();
   if (*it == 'z' || *it == 'Z') return {Token::Integer, 0, 1};
-  if (*it == 'q' || *it == 'Q') return {Token::Fraction, 0, 1};
+  if (*it == 'q' || *it == 'Q') return {Token::Frac, 0, 1};
   if (!isdigit(*it)) goto no_suffix;
   for (; it != raw.rend() && isdigit(*it); it++) {}
   if (it != raw.rend()) {
@@ -81,7 +81,7 @@ num_data::num_data(str raw) {
   if (!isdigit(raw[0]) && (raw[0] != '.' || !isdigit(raw[1])))
     throw Fail("整数字面量应该以数字或小数点开头");
   if (*raw.rbegin() == '_') throw Fail("整数字面量不应该以下划线结尾");
-  raw.erase(std::remove(raw.begin(), raw.end(), '_'), raw.end()); // 先给下划线删掉
+  raw = raw.remove('_'); // 先给下划线删掉
 
   bool is_float = false;
 _start: {
@@ -248,7 +248,7 @@ Integer::Integer(const str &raw, const TokenPos &pos) : Num(Token::Integer, raw,
   }
 }
 
-Fraction::Fraction(const str &raw, const TokenPos &pos) : Num(Token::Fraction, raw, pos) {
+Frac::Frac(const str &raw, const TokenPos &pos) : Num(Token::Frac, raw, pos) {
   val = mpq(int_part);
   if (dec_part > 0) val += mpq(dec_part) / mpq(dec_deno);
   if (exp_part > 0) {
@@ -272,7 +272,7 @@ auto mktoken(Token::EToken type, str raw, TokenPos pos) -> Token * {
   case Token::Int: return new Int(raw, pos);
   case Token::Float: return new Float(raw, pos);
   case Token::Integer: return new Integer(raw, pos);
-  case Token::Fraction: return new Fraction(raw, pos);
+  case Token::Frac: return new Frac(raw, pos);
   case Token::Str: return new Str(raw, pos);
   case Token::Chr: return new Chr(raw, pos);
   case Token::Op: return new Token(type, raw, pos);
