@@ -14,7 +14,7 @@ struct TokenPos {
   size_t line = 1;    // 当前行数
   size_t col  = 1;    // 当前列数
 
-  auto update(str s, size_t n) -> TokenPos {
+  auto update(cstr s, size_t n) -> TokenPos {
     TokenPos _pos  = *this;
     pos           += n;
     col           += n;
@@ -42,10 +42,15 @@ pstruct(Token), TokenPos {
     Chr,        // 字符
     Op,         // 运算符
     Attr,       // 属性
-    Punc,       // 标点符号
-    Sym,        // 标识符
+    Punc,       // 标点符号 ',' ';' ':' '.' '...'
+    Sym,        // 标识符 (变量名)
     Kwd,        // 关键字
-    Cnt,        // 最大值
+    BB,         // 括号开始 '(' '[' '{'
+    BE,         // 括号结束 ')' ']' '}'
+    FSB,        // 格式化字符串开始
+    FSE,        // 格式化字符串结束
+    Eof,        // 文件结束
+    Cnt = Eof,  // 最大值
   };
 
   EToken type; // token 类型
@@ -62,7 +67,7 @@ pstruct(Token), TokenPos {
     return this->raw == raw;
   }
 
-  virtual void print_to(ostream & os) const;
+  void print_to(ostream & os) const;
 
   friend auto operator<<(ostream &os, Token::EToken t)->ostream &;
   friend auto operator<<(ostream &os, const Token &tok)->ostream &;
@@ -111,8 +116,15 @@ struct num_data {
   bool is_unsigned = false; // 是否是无符号数
   int  nbits       = 0;     // 位数
 
-  num_data(str raw);
+  num_data(const str &raw) {
+    TokenPos pos;
+    parse(pos, raw);
+  }
+  num_data(const TokenPos &pos, const str &raw) {
+    parse(pos, raw);
+  }
 
+  void parse(const TokenPos &pos, str raw);
   void println() const;
 };
 
@@ -178,7 +190,7 @@ struct Str : Token {
 
 // --------------------------------------------------
 
-auto mktoken(Token::EToken type, str raw, TokenPos pos) -> Token *;
+auto mktoken(Token::EToken type, const str &raw, TokenPos pos) -> Token *;
 
 } // namespace lumos::token
 

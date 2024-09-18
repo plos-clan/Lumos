@@ -13,10 +13,11 @@ using token::TokenPos;
 
 // 保存解析状态
 struct LexerState : TokenPos {
-  cstr   code = null; // 指向输入，随着解析向后移动
-  size_t len  = 0;    // 储存总字符数
-  size_t rem  = 0;    // 储存当前剩余字符数
-  Token *_tok = null;
+  cstr   code    = null; // 指向输入，随着解析向后移动
+  size_t len     = 0;    // 储存总字符数
+  size_t rem     = 0;    // 储存当前剩余字符数
+  size_t nfmtstr = 0;    // 在几层格式化字符串内
+  Token *_tok    = null; //
 
   LexerState() = default;
   LexerState(const LexerState &stat);

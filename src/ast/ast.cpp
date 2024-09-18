@@ -2,6 +2,20 @@
 
 namespace lumos::ast {
 
+auto operator<<(ostream &os, const AST &ast) -> ostream & {
+  ast.print_to(os, 0);
+  return os;
+}
+
+void AST::print_to(ostream &os, i32 indent) const {
+  for (i32 i = 0; i < indent * 2; i++) {
+    os.put(' ');
+  }
+  print_to(os);
+  os << endl;
+  print_children_to(os);
+}
+
 //* ----------------------------------------------------------------------------------------------------
 //; Named
 //* ----------------------------------------------------------------------------------------------------

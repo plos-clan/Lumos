@@ -97,80 +97,7 @@ using cfloat32_t  = std::complex<float32_t>;
 using cfloat64_t  = std::complex<float64_t>;
 using cfloat128_t = std::complex<float128_t>;
 
-namespace lumos {
-
-// template <typename T>
-// class BaseStringBuilder {
-//   u32 len = 0;
-//   u32 cap = 0;
-//   T  *ptr = null;
-
-// public:
-//   BaseStringBuilder() = default;
-//   BaseStringBuilder(size_t cap) : cap(cap) {
-//     if (cap == 0) return;
-//     ptr = malloc(cap * sizeof(T));
-//   }
-//   ~BaseStringBuilder() {
-//     if (ptr == null) return;
-//     free(ptr);
-//   }
-
-//   auto empty() const -> bool {
-//     return len == 0;
-//   }
-
-//   auto length() const -> size_t {
-//     return len;
-//   }
-
-//   auto size() const -> size_t {
-//     return len;
-//   }
-
-//   auto substr(size_t p) const -> BaseStringBuilder {
-//     if (p >= len) return {};
-//     return {ptr + p, len - p};
-//   }
-
-//   auto operator[](uint32_t i) const -> const T & {
-//     return ptr[i];
-//   }
-
-//   auto operator+=(const T *s) -> BaseStringBuilder & {
-//     if (s == null) return *this;
-//     size_t n = strlen(s);
-//     if (n == 0) return *this;
-//     if (len + n + 1 > cap) {
-//       cap = len + n + 1;
-//       ptr = realloc(ptr, cap * sizeof(T));
-//     }
-//     memcpy(ptr + len, s, n * sizeof(T));
-//     len      += n;
-//     ptr[len]  = 0;
-//     return *this;
-//   }
-
-//   auto operator+=(const BaseStringBuilder &rhs) -> BaseStringBuilder & {
-//     if (rhs.len == 0) return *this;
-//     if (len + rhs.len + 1 > cap) {
-//       cap = len + rhs.len + 1;
-//       ptr = realloc(ptr, cap * sizeof(T));
-//     }
-//     memcpy(ptr + len, rhs.ptr, rhs.len * sizeof(T));
-//     len      += rhs.len;
-//     ptr[len]  = 0;
-//     return *this;
-//   }
-
-//   auto operator==(const BaseStringBuilder &rhs) const -> bool {
-//     if (len != rhs.len) return false;
-//     for (uint32_t i = 0; i < size; i++) {
-//       if (ptr[i] != rhs.ptr[i]) return false;
-//     }
-//     return true;
-//   }
-// };
+namespace lumos::base {
 
 template <typename T>
 class BaseString {
@@ -326,6 +253,7 @@ private:
   void allocdata() {
     void *addr = malloc(sizeof(Data) + (len + 1) * sizeof(T));
     ptr        = (T *)((size_t)addr + sizeof(Data));
+    rawlen     = len;
     rc         = 1;
   }
 
@@ -336,8 +264,7 @@ private:
 
   void freedata() {
     if (ptr == null) return;
-    void *addr = (void *)((size_t)ptr - pos - sizeof(Data));
-    if (--rc == 0) free(addr);
+    if (--rc == 0) free(dataptr);
   }
 
   void setdata(const T *s) {
@@ -742,19 +669,19 @@ public:
   }
 
   auto operator+(const BaseString &s) const -> BaseString {
-    append(s);
+    return append(s);
   }
 
   auto operator+(const std::string &s) const -> BaseString {
-    append(s);
+    return append(s);
   }
 
   auto operator+(const T *s) const -> BaseString {
-    append(s);
+    return append(s);
   }
 
   auto operator+(T c) const -> BaseString {
-    append(c);
+    return append(c);
   }
 
   auto prepend(const BaseString &s) const -> BaseString {
@@ -795,16 +722,28 @@ public:
     return t;
   }
 
-  friend auto operator+(std::string &s, const BaseString &t) -> BaseString {
-    t.prepend(s);
+  auto operator+=(std::string &s) -> BaseString & {
+    return *this = prepend(s);
+  }
+
+  auto operator+=(const T *s) -> BaseString & {
+    return *this = prepend(s);
+  }
+
+  auto operator+=(T c) -> BaseString & {
+    return *this = prepend(c);
+  }
+
+  friend auto operator+(const std::string &s, const BaseString &t) -> BaseString {
+    return t.prepend(s);
   }
 
   friend auto operator+(const T *s, const BaseString &t) -> BaseString {
-    t.prepend(s);
+    return t.prepend(s);
   }
 
   friend auto operator+(T c, const BaseString &t) -> BaseString {
-    t.prepend(c);
+    return t.prepend(c);
   }
 
   auto remove(const T &c) const -> BaseString {
@@ -835,26 +774,127 @@ public:
 #undef data
 };
 
-} // namespace lumos
+template <typename T>
+class BaseStringBuilder {
+  u32 len = 0;
+  u32 cap = 0;
+  T  *ptr = null;
+
+  using BaseString = BaseString<T>;
+
+public:
+  BaseStringBuilder() = default;
+  BaseStringBuilder(size_t cap) : cap(cap) {
+    if (cap == 0) return;
+    ptr = malloc(cap * sizeof(T));
+  }
+  ~BaseStringBuilder() {
+    if (ptr != null) free(ptr);
+  }
+
+  auto setcap(size_t n) -> BaseStringBuilder & {
+    static constexpr u32 cap_padding = 64;
+    if (n <= cap) return *this;
+    cap = n & ~(cap_padding - 1) + cap_padding;
+    ptr = realloc(ptr, cap * sizeof(T));
+    return *this;
+  }
+
+  auto empty() const -> bool {
+    return len == 0;
+  }
+
+  auto length() const -> size_t {
+    return len;
+  }
+
+  auto size() const -> size_t {
+    return len * sizeof(T);
+  }
+
+  auto operator[](size_t i) const -> T {
+    return ptr[i];
+  }
+
+  auto at(size_t i) const -> T {
+    if (i >= len) return 0;
+    return ptr[i];
+  }
+
+  auto append(const BaseString &s) -> BaseStringBuilder & {
+    if (s.empty()) return *this;
+    setcap(len + s.length());
+    memcpy(ptr + len, s.getptr(), s.length() * sizeof(T));
+    len += s.length();
+    return *this;
+  }
+
+  auto append(const T *s, size_t n) -> BaseStringBuilder & {
+    if (s == null || n == 0) return *this;
+    setcap(len + n);
+    memcpy(ptr + len, s, n * sizeof(T));
+    len += n;
+    return *this;
+  }
+
+  auto append(const T *s) -> BaseStringBuilder & {
+    if (s == null) return *this;
+    size_t n = strlen(s);
+    if (n == 0) return *this;
+    setcap(len + n);
+    memcpy(ptr + len, s, n * sizeof(T));
+    len += n;
+    return *this;
+  }
+
+  auto append(const T &c) -> BaseStringBuilder & {
+    setcap(len + 1);
+    ptr[len++] = c;
+    return *this;
+  }
+
+  auto operator+=(const BaseString &s) -> BaseStringBuilder & {
+    return append(s);
+  }
+
+  auto operator+=(const T *s) -> BaseStringBuilder & {
+    return append(s);
+  }
+
+  auto operator+=(const T &c) -> BaseStringBuilder & {
+    return append(c);
+  }
+
+  // 输出为 string 并清空 builder 的内容
+  auto str() -> BaseString {
+    if (len == cap) ptr = realloc(ptr, (cap + 1) * sizeof(T));
+    ptr[len] = 0;
+    BaseString s{len, 0, ptr};
+    len = 0, cap = 0, ptr = null;
+    return s;
+  }
+};
+
+} // namespace lumos::base
 
 namespace std {
 
-template <>
 template <typename T>
-struct hash<lumos::BaseString<T>> {
-  auto operator()(const lumos::BaseString<T> &s) const -> size_t {
+struct hash<lumos::base::BaseString<T>> {
+  auto operator()(const lumos::base::BaseString<T> &s) const -> size_t {
     return s.hash();
   }
 };
 
-template struct hash<lumos::BaseString<char>>;
-template struct hash<lumos::BaseString<wchar_t>>;
-template struct hash<lumos::BaseString<char16_t>>;
-template struct hash<lumos::BaseString<char32_t>>;
+template struct hash<lumos::base::BaseString<char>>;
+template struct hash<lumos::base::BaseString<wchar_t>>;
+template struct hash<lumos::base::BaseString<char16_t>>;
+template struct hash<lumos::base::BaseString<char32_t>>;
 
 } // namespace std
 
-using str = lumos::BaseString<char>;
+using str        = lumos::base::BaseString<char>;
+using strbuilder = lumos::base::BaseStringBuilder<char>;
 
 using sstream  = std::stringstream;
 using isstream = std::istringstream;
@@ -1016,6 +1056,20 @@ public:
     return ptr == p;
   }
 
+  template <typename U>
+  auto operator!=(const _P_<U> &p) const -> bool {
+    return ptr != p.ptr;
+  }
+
+  template <typename U>
+  auto operator!=(const U *p) const -> bool {
+    return ptr != p;
+  }
+
+  auto operator!=(const std::nullptr_t &p) const -> bool {
+    return ptr != p;
+  }
+
   auto operator*() const -> T & {
     return *ptr;
   }
@@ -1028,7 +1082,6 @@ public:
     return u << p.ptr;
   }
 
-  template <typename U>
   friend auto operator<<(ostream &u, _P_<T> &p) -> ostream & {
     return u << p.ptr;
   }
@@ -1041,14 +1094,18 @@ public:
     return u >> p.ptr;
   }
 
-  operator T *() const {
-    return ptr;
+  operator bool() const {
+    return ptr != null;
   }
 
-  template <typename U, typename = typename std::enable_if_t<std::is_base_of_v<U, T>>>
-  operator U *() const {
-    return static_cast<U *>(ptr);
-  }
+  // operator T *() const {
+  //   return ptr;
+  // }
+
+  // template <typename U, typename = typename std::enable_if_t<std::is_base_of_v<U, T>>>
+  // operator U *() const {
+  //   return static_cast<U *>(ptr);
+  // }
 
 #undef rc
 };
@@ -1082,19 +1139,19 @@ static inline auto isinstance(const T2 *ptr) -> bool {
 class mpz : public mpz_class {
 public:
   using mpz_class::mpz_class;
-  mpz(str s, int base = 10) : mpz_class(s.c_str(), base) {}
+  mpz(str s, int base = 10) : mpz_class((std::string)s, base) {}
 };
 
 class mpq : public mpq_class {
 public:
   using mpq_class::mpq_class;
-  mpq(str s, int base = 10) : mpq_class(s.c_str(), base) {}
+  mpq(str s, int base = 10) : mpq_class((std::string)s, base) {}
 };
 
 class mpf : public mpf_class {
 public:
   using mpf_class::mpf_class;
-  mpf(str s, int base = 10) : mpf_class(s.c_str(), base) {}
+  mpf(str s, int base = 10) : mpf_class((std::string)s, base) {}
 };
 
 namespace lumos {

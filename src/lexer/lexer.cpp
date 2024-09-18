@@ -168,9 +168,8 @@ auto Lexer::get_block() -> cstr {
 
 auto Lexer::getall() -> Vector<Token> {
   Vector<Token> tokens;
-  while (Token *tok = get()) {
+  while (PToken tok = get()) {
     tokens.push_back(*tok);
-    delete tok;
   }
   return tokens;
 }

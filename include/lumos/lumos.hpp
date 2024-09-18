@@ -4,6 +4,8 @@
 
 namespace lumos {
 
+__ERRORIMPL__("Lumos");
+
 // 是否为空格
 static auto isspace(char c) -> bool {
   return c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r' || c == '\n';
@@ -37,75 +39,68 @@ static auto isalnum(char c) -> bool {
   return 'A' <= c && c <= 'Z' || 'a' <= c && c <= 'z' || '0' <= c && c <= '9';
 }
 
-} // namespace lumos
-
-namespace lumos::compiler {
+namespace token {
+struct TokenPos;
+}
 
 class Logger {
+  using Pos = token::TokenPos;
+
 public:
   enum EType {
-    debug,
-    info,
-    warning,
-    error,
-    fatal,
-    none,
+    Debug,
+    Info,
+    Warn,
+    Error,
+    Fatal,
+    None,
+    TypeCnt = None,
   };
 
   ostream &os;
-  EType    _level = info;
+  EType    _level       = Info;
+  size_t   cnt[TypeCnt] = {};
 
   Logger(ostream &os) : os(os) {}
 
-  auto clear() -> Logger & {
-    os << "\ec";
-    return *this;
-  }
-
-  auto endl() -> Logger & {
-    os << std::endl;
-    return *this;
-  }
-
-  auto color() -> Logger & {
-    os << "\e[0m";
-    return *this;
-  }
-
-  auto fg(u8 r, u8 g, u8 b) -> Logger & {
-    os << "\e[38;2;" << r << ';' << g << ';' << b << 'm';
-    return *this;
-  }
-
-  auto bg(u8 r, u8 g, u8 b) -> Logger & {
-    os << "\e[48;2;" << r << ';' << g << ';' << b << 'm';
-    return *this;
-  }
-
-  auto color(u8 r, u8 g, u8 b) -> Logger & {
-    return fg(r, g, b);
-  }
-
-  auto level(EType type) -> Logger & {
-    _level = type;
-    return *this;
-  }
+  auto check() -> Logger &;
+  auto clear() -> Logger &;
+  auto endl() -> Logger &;
+  auto color() -> Logger &;
+  auto fg(byte r, byte g, byte b) -> Logger &;
+  auto bg(byte r, byte g, byte b) -> Logger &;
+  auto color(byte r, byte g, byte b) -> Logger &;
+  auto setlevel(EType type) -> Logger &;
+  auto level(EType type) -> Logger &;
+  auto print(EType type) -> Logger &;
+  auto print(const Pos &pos) -> Logger &;
 
   template <typename T>
-  auto print(T v) -> Logger & {
+  auto print(const T &v) -> Logger & {
     os << v;
     return *this;
   }
 
-  auto operator<<(EType type) -> Logger & {
-    if (_level > type) return *this;
-    print('[');
-    switch (type) {
-    case debug: fg(255, 255, 255).print("debug"); break;
-    }
-    color().print(']');
-    return *this;
+  template <typename T>
+  auto operator<<(const T &v) -> Logger & {
+    return print(v);
   }
+
+  auto debug(const str &msg) -> Logger &;
+  auto info(const str &msg) -> Logger &;
+  auto warn(const str &msg) -> Logger &;
+  auto error(const str &msg) -> Logger &;
+  auto fatal(const str &msg) -> Logger &;
+
+  auto debug(const Pos &pos, const str &msg) -> Logger &;
+  auto info(const Pos &pos, const str &msg) -> Logger &;
+  auto warn(const Pos &pos, const str &msg) -> Logger &;
+  auto error(const Pos &pos, const str &msg) -> Logger &;
+  auto fatal(const Pos &pos, const str &msg) -> Logger &;
+
+  auto fix(const str &msg) -> Logger &;
 };
 
-} // namespace lumos::compiler
+extern Logger logger;
+
+} // namespace lumos

@@ -5,14 +5,16 @@ namespace lumos::token {
 static constexpr auto tab_indent = 4;
 
 auto operator<<(ostream &os, Token::EToken t) -> ostream & {
-  static str lut[] = {"Inv", "Space", "Comment", "Int",  "Float", "Fixed", "Integer", "Frac",
-                      "Str", "Chr",   "Op",      "Attr", "Punc",  "Sym",   "Kwd"};
+  static const char *lut[] = {
+      "Inv", "Space", "Comment", "Int", "Float", "Fixed", "Integer", "Frac", "Str", "Chr",
+      "Op",  "Attr",  "Punc",    "Sym", "Kwd",   "BB",    "BE",      "FSB",  "FSE",
+  };
   if (t < 0 || t >= Token::Cnt) throw Error("EToken 超出范围");
   return os << lut[t];
 }
 
 Token::Token(EToken type, const str &raw, const TokenPos &pos)
-    : TokenPos(pos), type(type), raw(raw){};
+    : TokenPos(pos), type(type), raw(raw) {}
 
 auto Token::is(EToken type) const -> bool {
   throw this->type == type;
@@ -76,7 +78,7 @@ no_suffix:
   return {is_float ? Token::Float : Token::Int, 0, 0};
 }
 
-num_data::num_data(str raw) {
+void num_data::parse(const TokenPos &pos, str raw) {
   if (raw.length() == 0) throw Fail("不应该出现长度为 0 的整数字面量");
   if (!isdigit(raw[0]) && (raw[0] != '.' || !isdigit(raw[1])))
     throw Fail("整数字面量应该以数字或小数点开头");
@@ -112,7 +114,11 @@ suffix: {
   for (; i >= 0; i--) {
     const char c = raw[i];
     if (c == 'i' || c == 'I') {
-      if (is_imag) throw Error("重复的虚数标记");
+      if (is_imag) {
+        logger.error(pos, "重复的虚数标记");
+        logger.fix("删除多于的虚数标记");
+        throw Error("重复的虚数标记");
+      }
       is_imag = 1;
     } else if (c == 'j' || c == 'J') {
       if (is_imag) throw Error("重复的虚数标记");
@@ -264,7 +270,7 @@ Frac::Frac(const str &raw, const TokenPos &pos) : Num(Token::Frac, raw, pos) {
   val.canonicalize();
 }
 
-auto mktoken(Token::EToken type, str raw, TokenPos pos) -> Token * {
+auto mktoken(Token::EToken type, const str &raw, TokenPos pos) -> Token * {
   switch (type) {
   case Token::Inv: return new Inv(raw, pos);
   case Token::Space: return new Space(raw, pos);
@@ -279,7 +285,8 @@ auto mktoken(Token::EToken type, str raw, TokenPos pos) -> Token * {
   case Token::Attr: return new Token(type, raw, pos);
   case Token::Punc: return new Token(type, raw, pos);
   case Token::Sym: return new Token(type, raw, pos);
-  default: throw Error("无法创建未知类型的 token");
+  case Token::Kwd: return new Token(type, raw, pos);
+  default: throw Fail("无法创建未知类型的 token: " + std::to_string(type));
   }
 }
 
