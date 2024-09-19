@@ -11,7 +11,7 @@ Container::Container(Container *parent) : Named(parent) {}
 
 Container::Container(Container *parent, str name) : Named(parent, std::move(name)) {}
 
-auto Container::find(const str &name) const -> AST * {
+auto Container::find(strref name) const -> AST * {
   if (auto it = children.find(name); it != children.end()) return it->second;
   return parent != null ? parent->find(name) : null;
 }

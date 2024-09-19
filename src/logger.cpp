@@ -86,43 +86,43 @@ auto Logger::print(const Pos &pos) -> Logger & {
       .print("] ");
 }
 
-auto Logger::debug(const str &msg) -> Logger & {
+auto Logger::debug(strref msg) -> Logger & {
   return print(Debug).print(msg).endl();
 }
 
-auto Logger::info(const str &msg) -> Logger & {
+auto Logger::info(strref msg) -> Logger & {
   return print(Info).print(msg).endl();
 }
 
-auto Logger::warn(const str &msg) -> Logger & {
+auto Logger::warn(strref msg) -> Logger & {
   return print(Warn).print(msg).endl();
 }
 
-auto Logger::error(const str &msg) -> Logger & {
+auto Logger::error(strref msg) -> Logger & {
   return print(Error).print(msg).endl();
 }
 
-auto Logger::fatal(const str &msg) -> Logger & {
+auto Logger::fatal(strref msg) -> Logger & {
   return print(Fatal).print(msg).endl();
 }
 
-auto Logger::debug(const Pos &pos, const str &msg) -> Logger & {
+auto Logger::debug(const Pos &pos, strref msg) -> Logger & {
   return print(Debug).print(pos).print(msg).endl();
 }
-auto Logger::info(const Pos &pos, const str &msg) -> Logger & {
+auto Logger::info(const Pos &pos, strref msg) -> Logger & {
   return print(Info).print(pos).print(msg).endl();
 }
-auto Logger::warn(const Pos &pos, const str &msg) -> Logger & {
+auto Logger::warn(const Pos &pos, strref msg) -> Logger & {
   return print(Warn).print(pos).print(msg).endl();
 }
-auto Logger::error(const Pos &pos, const str &msg) -> Logger & {
+auto Logger::error(const Pos &pos, strref msg) -> Logger & {
   return print(Error).print(pos).print(msg).endl();
 }
-auto Logger::fatal(const Pos &pos, const str &msg) -> Logger & {
+auto Logger::fatal(const Pos &pos, strref msg) -> Logger & {
   return print(Fatal).print(pos).print(msg).endl();
 }
 
-auto Logger::fix(const str &msg) -> Logger & {
+auto Logger::fix(strref msg) -> Logger & {
   return print(Info).print("可修复").endl().print(msg).endl();
 }
 

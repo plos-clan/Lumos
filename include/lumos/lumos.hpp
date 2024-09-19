@@ -26,7 +26,7 @@ static auto issymc(char c) -> bool {
   if ('A' <= c && c <= 'Z') return true;
   if ('a' <= c && c <= 'z') return true;
   if ('0' <= c && c <= '9') return true;
-  if (c == '_' || c == '$') return true;
+  if (c == '_') return true;
   if ((byte)c >= 128) return true;
   return false;
 }
@@ -86,19 +86,19 @@ public:
     return print(v);
   }
 
-  auto debug(const str &msg) -> Logger &;
-  auto info(const str &msg) -> Logger &;
-  auto warn(const str &msg) -> Logger &;
-  auto error(const str &msg) -> Logger &;
-  auto fatal(const str &msg) -> Logger &;
+  auto debug(strref msg) -> Logger &;
+  auto info(strref msg) -> Logger &;
+  auto warn(strref msg) -> Logger &;
+  auto error(strref msg) -> Logger &;
+  auto fatal(strref msg) -> Logger &;
 
-  auto debug(const Pos &pos, const str &msg) -> Logger &;
-  auto info(const Pos &pos, const str &msg) -> Logger &;
-  auto warn(const Pos &pos, const str &msg) -> Logger &;
-  auto error(const Pos &pos, const str &msg) -> Logger &;
-  auto fatal(const Pos &pos, const str &msg) -> Logger &;
+  auto debug(const Pos &pos, strref msg) -> Logger &;
+  auto info(const Pos &pos, strref msg) -> Logger &;
+  auto warn(const Pos &pos, strref msg) -> Logger &;
+  auto error(const Pos &pos, strref msg) -> Logger &;
+  auto fatal(const Pos &pos, strref msg) -> Logger &;
 
-  auto fix(const str &msg) -> Logger &;
+  auto fix(strref msg) -> Logger &;
 };
 
 extern Logger logger;

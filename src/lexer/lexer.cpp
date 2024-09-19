@@ -16,7 +16,7 @@ Lexer::Lexer(CTX &ctx, cstr file, void *code, size_t len) : ctx(ctx) {
 
 Lexer::Lexer(CTX &ctx, void *code, size_t len) : Lexer(ctx, "", code, len) {}
 
-auto Lexer::token(EToken type, size_t n, const str &raw) -> Token * {
+auto Lexer::token(EToken type, size_t n, strref raw) -> Token * {
   if (n == 0) throw Error("尝试输出空token");
   if (n > rem) throw Error("输出的token长度大于剩余的字符数");
 
@@ -52,6 +52,8 @@ auto Lexer::_get() -> Token * {
     if (rem == 0) return null;            // 保证 rem 不为 0
   }
 
+  if (instr) {}
+
   // 然后处理宏
   TRY(macro);
 
@@ -60,6 +62,8 @@ auto Lexer::_get() -> Token * {
   TRY(chr);
   TRY(op);
   TRY(attr);
+  TRY(bb);
+  TRY(be);
   TRY(punc);
   TRY(sym);
 
@@ -95,16 +99,16 @@ auto Lexer::peek(EToken type) -> Token * {
   return tok != null && tok->type == type ? tok : null;
 }
 
-auto Lexer::peek(const str &val) -> Token * {
-  tryed.emplace_back(Token::Inv, val);
+auto Lexer::peek(strref value) -> Token * {
+  tryed.emplace_back(Token::Inv, value);
   Token *tok = peek();
-  return tok != null && tok->raw == val ? tok : null;
+  return tok != null && tok->raw == value ? tok : null;
 }
 
-auto Lexer::peek(EToken type, const str &val) -> Token * {
-  tryed.emplace_back(type, val);
+auto Lexer::peek(EToken type, strref value) -> Token * {
+  tryed.emplace_back(type, value);
   Token *tok = peek();
-  return tok != null && tok->type == type && tok->raw == val ? tok : null;
+  return tok != null && tok->type == type && tok->raw == value ? tok : null;
 }
 
 auto Lexer::get() -> PToken {
@@ -124,15 +128,15 @@ auto Lexer::get(EToken type) -> PToken {
   return tok;
 }
 
-auto Lexer::get(const str &val) -> PToken {
-  Token *tok = peek(val);
+auto Lexer::get(strref value) -> PToken {
+  Token *tok = peek(value);
   if (tok == null) return null;
   _tok = null;
   return tok;
 }
 
-auto Lexer::get(EToken type, const str &val) -> PToken {
-  Token *tok = peek(type, val);
+auto Lexer::get(EToken type, strref value) -> PToken {
+  Token *tok = peek(type, value);
   if (tok == null) return null;
   _tok = null;
   return tok;
@@ -175,15 +179,15 @@ auto Lexer::getall() -> Vector<Token> {
 }
 
 void Lexer::error(str msg) {
+  logger.error(*this, "");
   cout << "Lexer: 期望 ";
-  for (const auto [type, val] : tryed) {
+  for (const auto &[type, value] : tryed) {
     if (type != Token::Inv) cout << type;
-    if (type != Token::Inv && val.length() > 0) cout << ':';
-    if (val.length() > 0) cout << '`' << val << '`';
+    if (type != Token::Inv && value.length() > 0) cout << ':';
+    if (value.length() > 0) cout << '`' << value << '`';
     cout << ' ';
   }
-  auto tok = peek();
-  if (tok) {
+  if (const auto *tok = peek(); tok != null) {
     cout << "但是遇到了 " << tok->type << ":`" << tok->raw << '`' << endl;
   } else {
     cout << "但文件已结束" << endl;

@@ -64,15 +64,20 @@ end:
   return token(toktype, n);
 }
 
+// """xxx"""
+static auto _rawstr(cstr code, char c) -> size_t {
+  if (code[0] != c || code[1] != c || code[2] != c) return 0;
+  size_t n = 6;
+  for (; code[n - 4] != '\\' || code[n - 3] != c || code[n - 2] != c || code[n - 1] != c; n++) {}
+  return n;
+}
+
 // 解析个字符串
 // xxx"yyy"zzz 这样的形式
 static auto _str(cstr code, char c) -> size_t {
   size_t n = 0;
   for (; issymc(code[n]); n++) {}
   if (code[n++] != c) return 0;
-  if (n == 2 && (code[0] == 'r' || code[0] == 'R')) {
-    // 未实现
-  }
   for (; code[n] && (code[n] != c || code[n - 1] == '\\'); n++) {
     if (code[n] == '\n' && code[n - 1] != '\\') throw Error("字符串不能跨行");
   }
@@ -94,7 +99,7 @@ auto Lexer::try_chr() -> Token * {
   if (rem == 0) return null;
   size_t n = _str(code, '\'');
   if (n == 0) return null;
-  return token(Token::Chr, n);
+  return token(Token::Str, n);
 }
 
 // 尝试解析运算符
@@ -118,19 +123,42 @@ auto Lexer::try_attr() -> Token * {
   return token(Token::Attr, n);
 }
 
-// 尝试解析
+auto Lexer::try_rns() -> Token * {
+  if (rem == 0) return null;
+  if (code[0] == ':' && code[1] == ':') return token(Token::RootNS, 2);
+  return null;
+}
+
+auto Lexer::try_bb() -> Token * {
+  if (rem == 0) return null;
+  if (nfmtstr > 0) {
+    if (code[0] == '$' && code[1] == '{') return token(Token::BlkBeg, 2);
+  } else {
+    if (code[0] == '{') return token(Token::BlkBeg, 1);
+    if (code[0] == '[') return token(Token::BlkBeg, 1);
+    if (code[0] == '(') return token(Token::BlkBeg, 1);
+  }
+  return null;
+}
+
+auto Lexer::try_be() -> Token * {
+  if (rem == 0) return null;
+  if (nfmtstr > 0) {
+    if (code[1] != '}') return null;
+    return token(Token::BlkEnd, 1);
+  }
+  if (code[0] == '}') return token(Token::BlkEnd, 1);
+  if (code[0] == ']') return token(Token::BlkEnd, 1);
+  if (code[0] == ')') return token(Token::BlkEnd, 1);
+  return null;
+}
+
 auto Lexer::try_punc() -> Token * {
   if (rem == 0) return null;
-  if (code[0] == ':' && code[1] == ':') return token(Token::Punc, 2);
+  if (code[0] == '.' && code[1] == '.' && code[2] == '.') return token(Token::Punc, 3);
   if (code[0] == '.') return token(Token::Punc, 1);
   if (code[0] == ',') return token(Token::Punc, 1);
   if (code[0] == ';') return token(Token::Punc, 1);
-  if (code[0] == '{') return token(Token::Punc, 1);
-  if (code[0] == '}') return token(Token::Punc, 1);
-  if (code[0] == '[') return token(Token::Punc, 1);
-  if (code[0] == ']') return token(Token::Punc, 1);
-  if (code[0] == '(') return token(Token::Punc, 1);
-  if (code[0] == ')') return token(Token::Punc, 1);
   return null;
 }
 

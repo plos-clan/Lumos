@@ -24,7 +24,7 @@ public:
 
   // 从 Container 中搜索指定名称的节点
   // 该 Container 中搜不到就往上层搜
-  virtual auto find(const str &name) const -> AST *;
+  virtual auto find(strref name) const -> AST *;
 
   // child 由调用者分配，所有权转移到类
   virtual auto append(Named *child) -> void;

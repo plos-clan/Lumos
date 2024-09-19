@@ -9,13 +9,13 @@ namespace lumos::parser {
 // 用户输入错误
 class Error : public ::Error {
 public:
-  explicit Error(const str &msg) : ::Error("Parser: " + msg) {}
+  explicit Error(strref msg) : ::Error("Parser: " + msg) {}
 };
 
 // 程序内部错误
 class Fail : public ::Error {
 public:
-  explicit Fail(const str &msg) : ::Error("[fail] Parser: " + msg) {}
+  explicit Fail(strref msg) : ::Error("[fail] Parser: " + msg) {}
 };
 
 // --------------------------------------------------

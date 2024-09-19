@@ -8,7 +8,7 @@ namespace lumos::ast {
 //   struct class_var {
 //     str      name;
 //     PType    type;
-//     PLiteral val;
+//     PLiteral value;
 //   };
 //   struct class_func {
 //     str       name;

@@ -6,15 +6,14 @@ static constexpr auto tab_indent = 4;
 
 auto operator<<(ostream &os, Token::EToken t) -> ostream & {
   static const char *lut[] = {
-      "Inv", "Space", "Comment", "Int", "Float", "Fixed", "Integer", "Frac", "Str", "Chr",
-      "Op",  "Attr",  "Punc",    "Sym", "Kwd",   "BB",    "BE",      "FSB",  "FSE",
+      "Inv", "Space", "Comment", "Int",  "Float", "Fixed", "Integer", "Frac", "Str", "FSB",
+      "FSD", "FSE",   "Op",      "Attr", "RNS",   "BB",    "BE",      "Punc", "Sym", "Kwd",
   };
   if (t < 0 || t >= Token::Cnt) throw Error("EToken 超出范围");
   return os << lut[t];
 }
 
-Token::Token(EToken type, const str &raw, const TokenPos &pos)
-    : TokenPos(pos), type(type), raw(raw) {}
+Token::Token(EToken type, strref raw, TokenPosRef pos) : TokenPos(pos), type(type), raw(raw) {}
 
 auto Token::is(EToken type) const -> bool {
   throw this->type == type;
@@ -38,19 +37,19 @@ auto operator<<(ostream &os, const Token *tok) -> ostream & {
   return os;
 }
 
-Inv::Inv(const str &raw, const TokenPos &pos, EToken matchtype, const str &msg)
+Inv::Inv(strref raw, TokenPosRef pos, EToken matchtype, strref msg)
     : Token(Token::Inv, raw, pos), matchtype(matchtype), msg(msg) {
   if (matchtype < 0 || matchtype >= Token::Cnt) throw Fail("EToken 超出范围");
 }
 
-Space::Space(const str &raw, const TokenPos &pos) : Token(Token::Space, raw, pos) {
+Space::Space(strref raw, TokenPosRef pos) : Token(Token::Space, raw, pos) {
   indent = 0;
   for (const auto &c : raw) {
     indent += c == '\t' ? tab_indent : 1;
   }
 }
 
-Comment::Comment(const str &raw, const TokenPos &pos) : Token(Token::Comment, raw, pos) {
+Comment::Comment(strref raw, TokenPosRef pos) : Token(Token::Comment, raw, pos) {
   if (raw[1] == '/') {
     is_line = true;
     text    = raw.substr(2, raw.size() - 2);
@@ -60,11 +59,39 @@ Comment::Comment(const str &raw, const TokenPos &pos) : Token(Token::Comment, ra
   }
 }
 
+//* ----------------------------------------------------------------------------------------------------
+//; 格式化字符串  字符串字面量
+//* ----------------------------------------------------------------------------------------------------
+
+auto rawstring(str raw, TokenPosRef pos) -> Token * {
+  if (raw.size() < 2) return null;
+  Token *tok  = new Token(Token::Str, raw, pos);
+  tok->strval = raw.substr(3, raw.length() - 6);
+  if (!raw.contains('\n')) return tok; // 单行的就直接返回原始字符串
+  strbuilder sb;
+  for (str line : raw.lines()) {
+    ssize_t pos = line.find('|');
+    if (pos < 0) {
+      for (char c : line) {
+        if (!isspace(c)) throw Error("多行字符串的每行必须以 `|` 开头");
+      }
+      continue;
+    }
+    sb += raw.substr(pos + 1);
+  }
+  tok->strval = sb.str();
+  return tok;
+}
+
+//* ----------------------------------------------------------------------------------------------------
+//; 数字字面量
+//* ----------------------------------------------------------------------------------------------------
+
 // 解析数字后缀
 auto num_type_suffix(str raw, bool is_float) -> Tuple<Token::EToken, int, int> {
   auto it = raw.rbegin();
-  if (*it == 'z' || *it == 'Z') return {Token::Integer, 0, 1};
-  if (*it == 'q' || *it == 'Q') return {Token::Frac, 0, 1};
+  if (*it == 'z' || *it == 'Z') return {Token::MPZ, 0, 1};
+  if (*it == 'q' || *it == 'Q') return {Token::MPQ, 0, 1};
   if (!isdigit(*it)) goto no_suffix;
   for (; it != raw.rend() && isdigit(*it); it++) {}
   if (it != raw.rend()) {
@@ -78,7 +105,7 @@ no_suffix:
   return {is_float ? Token::Float : Token::Int, 0, 0};
 }
 
-void num_data::parse(const TokenPos &pos, str raw) {
+void num_data::parse(TokenPosRef pos, str raw) {
   if (raw.length() == 0) throw Fail("不应该出现长度为 0 的整数字面量");
   if (!isdigit(raw[0]) && (raw[0] != '.' || !isdigit(raw[1])))
     throw Fail("整数字面量应该以数字或小数点开头");
@@ -196,98 +223,104 @@ void num_data::println() const {
   cout << ">" << endl;
 }
 
-Num::Num(EToken type, const str &raw, const TokenPos &pos) : Token(type, raw, pos), num_data(raw) {}
+Num::Num(EToken type, strref raw, TokenPosRef pos) : Token(type, raw, pos), num_data(raw) {}
 
-Int::Int(const str &raw, const TokenPos &pos) : Num(Token::Int, raw, pos) {
+Int::Int(strref raw, TokenPosRef pos) : Num(Token::Int, raw, pos) {
   if (nbits != 0 && nbits != 8 && nbits != 16 && nbits != 32 && nbits != 64)
     throw Error("整数数位数只能是 8, 16, 32, 64");
-  if (nbits == 0) nbits = val.fits_sint_p() ? 32 : 64;
-  val = int_part;
+  if (nbits == 0) nbits = value.fits_sint_p() ? 32 : 64;
+  value = int_part;
   if (exp_part > 0) {
     mpz exp = 10;
     mpz_pow_ui(exp.get_mpz_t(), exp.get_mpz_t(), exp_part.get_si());
-    val *= exp;
-    if (dec_part != 0) val += dec_part * exp / dec_deno;
+    value *= exp;
+    if (dec_part != 0) value += dec_part * exp / dec_deno;
   }
   if (exp_part < 0) {
     mpz exp = 10;
     mpz_pow_ui(exp.get_mpz_t(), exp.get_mpz_t(), -exp_part.get_si());
-    val /= exp;
+    value /= exp;
   }
-  auto v = val.get_si();
+  auto v = value.get_si();
   if (nbits == 8) val8 = v;
   if (nbits == 16) val16 = v;
   if (nbits == 32) val32 = v;
   if (nbits == 64) val64 = v;
 }
 
-Float::Float(const str &raw, const TokenPos &pos) : Num(Token::Float, raw, pos) {
+Float::Float(strref raw, TokenPosRef pos) : Num(Token::Float, raw, pos) {
   if (nbits != 0 && nbits != 32 && nbits != 64) throw Error("浮点数位数只能是 32 或 64");
   if (nbits == 0) nbits = 32;
-  val = mpf(int_part);
-  if (dec_part > 0) val += mpf(dec_part) / mpf(dec_deno);
+  value = mpf(int_part);
+  if (dec_part > 0) value += mpf(dec_part) / mpf(dec_deno);
   if (exp_part > 0) {
     mpf exp = 10;
     mpf_pow_ui(exp.get_mpf_t(), exp.get_mpf_t(), exp_part.get_si());
-    val *= exp;
+    value *= exp;
   }
   if (exp_part < 0) {
     mpf exp = 10;
     mpf_pow_ui(exp.get_mpf_t(), exp.get_mpf_t(), -exp_part.get_si());
-    val /= exp;
+    value /= exp;
   }
-  val64 = val.get_d();
+  val64 = value.get_d();
 }
 
-Integer::Integer(const str &raw, const TokenPos &pos) : Num(Token::Integer, raw, pos) {
-  val = int_part;
+MPZ::MPZ(strref raw, TokenPosRef pos) : Num(Token::MPZ, raw, pos) {
+  value = int_part;
   if (exp_part > 0) {
     mpz exp = 10;
     mpz_pow_ui(exp.get_mpz_t(), exp.get_mpz_t(), exp_part.get_si());
-    val *= exp;
-    if (dec_part != 0) val += dec_part * exp / dec_deno;
+    value *= exp;
+    if (dec_part != 0) value += dec_part * exp / dec_deno;
   }
   if (exp_part < 0) {
     mpz exp = 10;
     mpz_pow_ui(exp.get_mpz_t(), exp.get_mpz_t(), -exp_part.get_si());
-    val /= exp;
+    value /= exp;
   }
 }
 
-Frac::Frac(const str &raw, const TokenPos &pos) : Num(Token::Frac, raw, pos) {
-  val = mpq(int_part);
-  if (dec_part > 0) val += mpq(dec_part) / mpq(dec_deno);
+MPQ::MPQ(strref raw, TokenPosRef pos) : Num(Token::MPQ, raw, pos) {
+  value = mpq(int_part);
+  if (dec_part > 0) value += mpq(dec_part) / mpq(dec_deno);
   if (exp_part > 0) {
     mpz exp = 10;
     mpz_pow_ui(exp.get_mpz_t(), exp.get_mpz_t(), exp_part.get_si());
-    val *= exp;
+    value *= exp;
   }
   if (exp_part < 0) {
     mpz exp = 10;
     mpz_pow_ui(exp.get_mpz_t(), exp.get_mpz_t(), -exp_part.get_si());
-    val /= exp;
+    value /= exp;
   }
-  val.canonicalize();
+  value.canonicalize();
 }
 
-auto mktoken(Token::EToken type, const str &raw, TokenPos pos) -> Token * {
+auto mktoken(Token::EToken type, strref raw, TokenPos pos) -> Token * {
+#define caseof(_name_)                                                                             \
+  case Token::_name_: return new _name_(raw, pos)
   switch (type) {
-  case Token::Inv: return new Inv(raw, pos);
-  case Token::Space: return new Space(raw, pos);
-  case Token::Comment: return new Comment(raw, pos);
-  case Token::Int: return new Int(raw, pos);
-  case Token::Float: return new Float(raw, pos);
-  case Token::Integer: return new Integer(raw, pos);
-  case Token::Frac: return new Frac(raw, pos);
-  case Token::Str: return new Str(raw, pos);
-  case Token::Chr: return new Chr(raw, pos);
+    caseof(Inv);
+    caseof(Space);
+    caseof(Comment);
+    caseof(Int);
+    caseof(Float);
+    caseof(MPZ);
+    caseof(MPQ);
+    caseof(Str);
   case Token::Op: return new Token(type, raw, pos);
-  case Token::Attr: return new Token(type, raw, pos);
-  case Token::Punc: return new Token(type, raw, pos);
-  case Token::Sym: return new Token(type, raw, pos);
-  case Token::Kwd: return new Token(type, raw, pos);
+  case Token::Attr:
+    return new Token(type, raw, pos);
+    caseof(BlkBeg);
+    caseof(BlkEnd);
+  case Token::Punc:
+    return new Token(type, raw, pos);
+    caseof(Sym);
+    caseof(Kwd);
   default: throw Fail("无法创建未知类型的 token: " + std::to_string(type));
   }
+#undef caseof
 }
 
 } // namespace lumos::token

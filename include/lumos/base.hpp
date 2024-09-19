@@ -28,6 +28,8 @@
 #include <unordered_set>
 #include <vector>
 
+#include <gmpxx.h>
+
 #define $auto const auto
 
 static const auto null = nullptr;
@@ -244,6 +246,69 @@ public:
     return {ptr - 1};
   }
 
+  class LineIterator {
+  private:
+    void next() {
+      beg = end;
+      for (; end < raw.len && raw.ptr[end] != '\n'; end++) {}
+    }
+
+  public:
+    const BaseString &raw;
+    size_t            beg = 0;
+    size_t            end = 0;
+
+    LineIterator(const BaseString &raw) : raw(raw) {
+      next();
+    }
+    LineIterator(const BaseString &raw, size_t len) : raw(raw), end(len) {}
+
+    auto operator==(const LineIterator &it) const -> bool {
+      return end == it.end;
+    }
+
+    auto operator!=(const LineIterator &it) const -> bool {
+      return end != it.end;
+    }
+
+    auto operator*() const -> BaseString {
+      return raw.substr(beg, end);
+    }
+
+    auto operator++() -> LineIterator & {
+      end++;
+      next();
+      return *this;
+    }
+
+    auto operator++(int) -> LineIterator & {
+      auto t = *this;
+      end++;
+      next();
+      return t;
+    }
+  };
+
+  class LineIteratorWrapper {
+  private:
+    const BaseString &raw;
+
+  public:
+    LineIteratorWrapper(const BaseString &raw) : raw(raw) {}
+
+    auto begin() const -> LineIterator {
+      return {raw};
+    }
+
+    auto end() const -> LineIterator {
+      return {raw, raw.len};
+    }
+  };
+
+  auto lines() -> LineIteratorWrapper {
+    return {*this};
+  }
+
 #define dataptr ((Data *)((size_t)this->ptr - this->pos - sizeof(Data)))
 #define rc      (dataptr->_rc)
 #define rawlen  (dataptr->_len)
@@ -386,6 +451,10 @@ public:
 
   // 获取原始字符串数据，预分配后这样写入数据
   auto getptr() -> T * {
+    return ptr;
+  }
+
+  auto getptr() const -> const T * {
     return ptr;
   }
 
@@ -590,6 +659,118 @@ public:
     return ptr[i];
   }
 
+  auto find(const BaseString &s) const -> ssize_t {
+    if (s.len == 0) return 0;
+    if (s.len > len) return -1;
+    for (size_t i = 0; i <= len - s.len; i++) {
+      if (memcmp(ptr + i, s.ptr, s.len * sizeof(T)) == 0) return i;
+    }
+    return -1;
+  }
+
+  auto find(const std::string &s) const -> ssize_t {
+    if (s.length() == 0) return 0;
+    if (s.length() > len) return -1;
+    for (size_t i = 0; i <= len - s.length(); i++) {
+      if (memcmp(ptr + i, s.c_str(), s.length() * sizeof(T)) == 0) return i;
+    }
+    return -1;
+  }
+
+  auto find(const T *s) const -> ssize_t {
+    if (s == null) return -1;
+    size_t n = strlen(s);
+    if (n == 0) return 0;
+    if (n > len) return -1;
+    for (size_t i = 0; i <= len - n; i++) {
+      if (memcmp(ptr + i, s, n * sizeof(T)) == 0) return i;
+    }
+    return -1;
+  }
+
+  auto find(const T *s, size_t n) const -> ssize_t {
+    if (s == null) return -1;
+    if (n == 0) return 0;
+    if (n > len) return -1;
+    for (size_t i = 0; i <= len - n; i++) {
+      if (memcmp(ptr + i, s, n * sizeof(T)) == 0) return i;
+    }
+    return -1;
+  }
+
+  auto find(T c) const -> ssize_t {
+    for (size_t i = 0; i < len; i++) {
+      if (ptr[i] == c) return i;
+    }
+    return -1;
+  }
+
+  auto rfind(const BaseString &s) const -> ssize_t {
+    if (s.len == 0) return len;
+    if (s.len > len) return -1;
+    for (ssize_t i = len - s.len; i >= 0; i--) {
+      if (memcmp(ptr + i, s.ptr, s.len * sizeof(T)) == 0) return i;
+    }
+    return -1;
+  }
+
+  auto rfind(const std::string &s) const -> ssize_t {
+    if (s.length() == 0) return len;
+    if (s.length() > len) return -1;
+    for (ssize_t i = len - s.length(); i >= 0; i--) {
+      if (memcmp(ptr + i, s.c_str(), s.length() * sizeof(T)) == 0) return i;
+    }
+    return -1;
+  }
+
+  auto rfind(const T *s) const -> ssize_t {
+    if (s == null) return -1;
+    size_t n = strlen(s);
+    if (n == 0) return len;
+    if (n > len) return -1;
+    for (ssize_t i = len - n; i >= 0; i--) {
+      if (memcmp(ptr + i, s, n * sizeof(T)) == 0) return i;
+    }
+    return -1;
+  }
+
+  auto rfind(const T *s, size_t n) const -> ssize_t {
+    if (s == null) return -1;
+    if (n == 0) return len;
+    if (n > len) return -1;
+    for (ssize_t i = len - n; i >= 0; i--) {
+      if (memcmp(ptr + i, s, n * sizeof(T)) == 0) return i;
+    }
+    return -1;
+  }
+
+  auto rfind(T c) const -> ssize_t {
+    for (ssize_t i = len - 1; i >= 0; i--) {
+      if (ptr[i] == c) return i;
+    }
+    return -1;
+  }
+
+  auto contains(const BaseString &s) const -> bool {
+    return find(s) >= 0;
+  }
+
+  auto contains(const std::string &s) const -> bool {
+    return find(s) >= 0;
+  }
+
+  auto contains(const T *s) const -> bool {
+    return find(s) >= 0;
+  }
+
+  auto contains(const T *s, size_t n) const -> bool {
+    return find(s, n) >= 0;
+  }
+
+  auto contains(T c) const -> bool {
+    return find(c) >= 0;
+  }
+
   template <typename U = size_t>
   auto hash() const -> U {
     U h = 0;
@@ -776,9 +957,17 @@ public:
 
 template <typename T>
 class BaseStringBuilder {
-  u32 len = 0;
-  u32 cap = 0;
-  T  *ptr = null;
+  struct Data {
+    u32 _rc;     // 引用计数
+    u32 _len;    // 数据长度
+    T   _data[]; // 数据 (动态分配)
+  };
+
+  u32   len = 0;
+  u32   cap = 0;
+  Data *ptr = null;
+
+#define data (this->ptr->_data)
 
   using BaseString = BaseString<T>;
 
@@ -786,7 +975,7 @@ public:
   BaseStringBuilder() = default;
   BaseStringBuilder(size_t cap) : cap(cap) {
     if (cap == 0) return;
-    ptr = malloc(cap * sizeof(T));
+    ptr = (Data *)malloc(sizeof(Data) + cap * sizeof(T));
   }
   ~BaseStringBuilder() {
     if (ptr != null) free(ptr);
@@ -796,7 +985,7 @@ public:
     static constexpr u32 cap_padding = 64;
     if (n <= cap) return *this;
     cap = n & ~(cap_padding - 1) + cap_padding;
-    ptr = realloc(ptr, cap * sizeof(T));
+    ptr = (Data *)realloc(ptr, sizeof(Data) + cap * sizeof(T));
     return *this;
   }
 
@@ -813,18 +1002,18 @@ public:
   }
 
   auto operator[](size_t i) const -> T {
-    return ptr[i];
+    return data[i];
   }
 
   auto at(size_t i) const -> T {
     if (i >= len) return 0;
-    return ptr[i];
+    return data[i];
   }
 
   auto append(const BaseString &s) -> BaseStringBuilder & {
     if (s.empty()) return *this;
     setcap(len + s.length());
-    memcpy(ptr + len, s.getptr(), s.length() * sizeof(T));
+    memcpy(data + len, s.getptr(), s.length() * sizeof(T));
     len += s.length();
     return *this;
   }
@@ -832,7 +1021,7 @@ public:
   auto append(const T *s, size_t n) -> BaseStringBuilder & {
     if (s == null || n == 0) return *this;
     setcap(len + n);
-    memcpy(ptr + len, s, n * sizeof(T));
+    memcpy(data + len, s, n * sizeof(T));
     len += n;
     return *this;
   }
@@ -842,14 +1031,14 @@ public:
     size_t n = strlen(s);
     if (n == 0) return *this;
     setcap(len + n);
-    memcpy(ptr + len, s, n * sizeof(T));
+    memcpy(data + len, s, n * sizeof(T));
     len += n;
     return *this;
   }
 
   auto append(const T &c) -> BaseStringBuilder & {
     setcap(len + 1);
-    ptr[len++] = c;
+    data[len++] = c;
     return *this;
   }
 
@@ -867,12 +1056,17 @@ public:
 
   // 输出为 string 并清空 builder 的内容
   auto str() -> BaseString {
-    if (len == cap) ptr = realloc(ptr, (cap + 1) * sizeof(T));
-    ptr[len] = 0;
-    BaseString s{len, 0, ptr};
+    if (ptr == null) return {};
+    if (len == cap) ptr = (Data *)realloc(ptr, sizeof(Data) + (cap + 1) * sizeof(T));
+    ptr->_rc  = 0;
+    ptr->_len = len;
+    data[len] = 0;
+    BaseString s{len, 0, data};
     len = 0, cap = 0, ptr = null;
     return s;
   }
+
+#undef data
 };
 
 } // namespace lumos::base
@@ -886,15 +1080,17 @@ struct hash<lumos::base::BaseString<T>> {
   }
 };
 
-template struct hash<lumos::base::BaseString<char>>;
-template struct hash<lumos::base::BaseString<wchar_t>>;
-template struct hash<lumos::base::BaseString<char16_t>>;
-template struct hash<lumos::base::BaseString<char32_t>>;
+static template struct hash<lumos::base::BaseString<char>>;
+static template struct hash<lumos::base::BaseString<wchar_t>>;
+static template struct hash<lumos::base::BaseString<char16_t>>;
+static template struct hash<lumos::base::BaseString<char32_t>>;
 
 } // namespace std
 
 using str        = lumos::base::BaseString<char>;
 using strbuilder = lumos::base::BaseStringBuilder<char>;
+
+using strref = const str &;
 
 using sstream  = std::stringstream;
 using isstream = std::istringstream;
@@ -955,7 +1151,7 @@ using Regex = std::regex;
 template <typename T>
 using ST = HashMap<str, T>;
 
-inline static auto println(const str &s) {
+inline static auto println(strref s) {
   cout << s << endl;
 }
 
@@ -1107,6 +1303,14 @@ public:
   //   return static_cast<U *>(ptr);
   // }
 
+  auto get() -> T * {
+    return ptr;
+  }
+
+  auto get() const -> const T * {
+    return ptr;
+  }
+
 #undef rc
 };
 
@@ -1133,8 +1337,6 @@ static inline auto isinstance(const T2 *ptr) -> bool {
   static_assert(std::is_base_of_v<T2, T1>);
   return dynamic_cast<const T1 *>(ptr) != null;
 }
-
-#include <gmpxx.h>
 
 class mpz : public mpz_class {
 public:
@@ -1164,7 +1366,7 @@ class MatchList {
 public:
   MatchList() = default;
 
-  auto find(const str &s) const -> T * {
+  auto find(strref s) const -> T * {
     const auto &ss = strs[s[0]];
     const auto &vs = vals[s[0]];
     for (size_t i = 0; i < ss.size(); i++) {
@@ -1185,7 +1387,7 @@ public:
     return {null, null};
   }
 
-  void append(const str &s, const T &v) {
+  void append(strref s, const T &v) {
     strs[s[0]].push_back(s);
     vals[s[0]].push_back(v);
   }
@@ -1201,10 +1403,10 @@ struct ENV;
   /* 用户输入错误 */                                                                         \
   class Error : public ::Error {                                                                   \
   public:                                                                                          \
-    explicit Error(const str &msg) : ::Error(name ": " + msg) {}                                   \
+    explicit Error(strref msg) : ::Error(name ": " + msg) {}                                       \
   };                                                                                               \
   /* 程序内部错误 */                                                                         \
   class Fail : public ::Error {                                                                    \
   public:                                                                                          \
-    explicit Fail(const str &msg) : ::Error("[fail] " name ": " + msg) {}                          \
+    explicit Fail(strref msg) : ::Error("[fail] " name ": " + msg) {}                              \
   };
