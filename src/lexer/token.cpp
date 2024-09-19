@@ -37,11 +37,6 @@ auto operator<<(ostream &os, const Token *tok) -> ostream & {
   return os;
 }
 
-Inv::Inv(strref raw, TokenPosRef pos, EToken matchtype, strref msg)
-    : Token(Token::Inv, raw, pos), matchtype(matchtype), msg(msg) {
-  if (matchtype < 0 || matchtype >= Token::Cnt) throw Fail("EToken 超出范围");
-}
-
 Space::Space(strref raw, TokenPosRef pos) : Token(Token::Space, raw, pos) {
   indent = 0;
   for (const auto &c : raw) {
@@ -63,10 +58,10 @@ Comment::Comment(strref raw, TokenPosRef pos) : Token(Token::Comment, raw, pos) 
 //; 格式化字符串  字符串字面量
 //* ----------------------------------------------------------------------------------------------------
 
-auto rawstring(str raw, TokenPosRef pos) -> Token * {
+auto rawstring(strref raw, TokenPosRef pos) -> Token * {
   if (raw.size() < 2) return null;
-  Token *tok  = new Token(Token::Str, raw, pos);
-  tok->strval = raw.substr(3, raw.length() - 6);
+  Str *tok   = new Str(raw, pos);
+  tok->value = raw.substr(3, raw.length() - 6);
   if (!raw.contains('\n')) return tok; // 单行的就直接返回原始字符串
   strbuilder sb;
   for (str line : raw.lines()) {
@@ -79,7 +74,7 @@ auto rawstring(str raw, TokenPosRef pos) -> Token * {
     }
     sb += raw.substr(pos + 1);
   }
-  tok->strval = sb.str();
+  tok->value = sb.str();
   return tok;
 }
 
@@ -223,6 +218,9 @@ void num_data::println() const {
   cout << ">" << endl;
 }
 
+// --------------------------------------------------
+// 类
+
 Num::Num(EToken type, strref raw, TokenPosRef pos) : Token(type, raw, pos), num_data(raw) {}
 
 Int::Int(strref raw, TokenPosRef pos) : Num(Token::Int, raw, pos) {
@@ -297,6 +295,10 @@ MPQ::MPQ(strref raw, TokenPosRef pos) : Num(Token::MPQ, raw, pos) {
   value.canonicalize();
 }
 
+//* ----------------------------------------------------------------------------------------------------
+//; 创建 token
+//* ----------------------------------------------------------------------------------------------------
+
 auto mktoken(Token::EToken type, strref raw, TokenPos pos) -> Token * {
 #define caseof(_name_)                                                                             \
   case Token::_name_: return new _name_(raw, pos)
@@ -309,13 +311,9 @@ auto mktoken(Token::EToken type, strref raw, TokenPos pos) -> Token * {
     caseof(MPZ);
     caseof(MPQ);
     caseof(Str);
-  case Token::Op: return new Token(type, raw, pos);
-  case Token::Attr:
-    return new Token(type, raw, pos);
-    caseof(BlkBeg);
-    caseof(BlkEnd);
-  case Token::Punc:
-    return new Token(type, raw, pos);
+    caseof(Op);
+    caseof(Attr);
+    caseof(Punc);
     caseof(Sym);
     caseof(Kwd);
   default: throw Fail("无法创建未知类型的 token: " + std::to_string(type));

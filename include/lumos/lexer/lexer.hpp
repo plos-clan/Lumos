@@ -44,9 +44,7 @@ class Lexer : private LexerState {
   auto try_chr() -> Token *;     // 尝试解析
   auto try_op() -> Token *;      // 尝试解析
   auto try_attr() -> Token *;    // 尝试解析
-  auto try_rns() -> Token *;     // 尝试解析根命名空间
-  auto try_bb() -> Token *;      // 尝试解析括号开始
-  auto try_be() -> Token *;      // 尝试解析括号结束
+  auto try_rootns() -> Token *;  // 尝试解析根命名空间
   auto try_punc() -> Token *;    // 尝试解析分隔符
   auto try_sym() -> Token *;     // 尝试解析
 

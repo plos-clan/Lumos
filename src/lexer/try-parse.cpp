@@ -123,33 +123,9 @@ auto Lexer::try_attr() -> Token * {
   return token(Token::Attr, n);
 }
 
-auto Lexer::try_rns() -> Token * {
+auto Lexer::try_rootns() -> Token * {
   if (rem == 0) return null;
   if (code[0] == ':' && code[1] == ':') return token(Token::RootNS, 2);
-  return null;
-}
-
-auto Lexer::try_bb() -> Token * {
-  if (rem == 0) return null;
-  if (nfmtstr > 0) {
-    if (code[0] == '$' && code[1] == '{') return token(Token::BlkBeg, 2);
-  } else {
-    if (code[0] == '{') return token(Token::BlkBeg, 1);
-    if (code[0] == '[') return token(Token::BlkBeg, 1);
-    if (code[0] == '(') return token(Token::BlkBeg, 1);
-  }
-  return null;
-}
-
-auto Lexer::try_be() -> Token * {
-  if (rem == 0) return null;
-  if (nfmtstr > 0) {
-    if (code[1] != '}') return null;
-    return token(Token::BlkEnd, 1);
-  }
-  if (code[0] == '}') return token(Token::BlkEnd, 1);
-  if (code[0] == ']') return token(Token::BlkEnd, 1);
-  if (code[0] == ')') return token(Token::BlkEnd, 1);
   return null;
 }
 
@@ -159,6 +135,12 @@ auto Lexer::try_punc() -> Token * {
   if (code[0] == '.') return token(Token::Punc, 1);
   if (code[0] == ',') return token(Token::Punc, 1);
   if (code[0] == ';') return token(Token::Punc, 1);
+  if (code[0] == '{') return token(Token::Punc, 1);
+  if (code[0] == '}') return token(Token::Punc, 1);
+  if (code[0] == '[') return token(Token::Punc, 1);
+  if (code[0] == ']') return token(Token::Punc, 1);
+  if (code[0] == '(') return token(Token::Punc, 1);
+  if (code[0] == ')') return token(Token::Punc, 1);
   return null;
 }
 

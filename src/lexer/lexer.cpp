@@ -43,6 +43,8 @@ auto Lexer::_get() -> Token * {
   })
   if (rem == 0) return null; // 保证 rem 不为 0
 
+  if (instr) {}
+
   // 先处理空格和注释
   if (return_space) {
     TRY(space);
@@ -52,8 +54,6 @@ auto Lexer::_get() -> Token * {
     if (rem == 0) return null;            // 保证 rem 不为 0
   }
 
-  if (instr) {}
-
   // 然后处理宏
   TRY(macro);
 
@@ -62,8 +62,7 @@ auto Lexer::_get() -> Token * {
   TRY(chr);
   TRY(op);
   TRY(attr);
-  TRY(bb);
-  TRY(be);
+  TRY(rootns);
   TRY(punc);
   TRY(sym);
 

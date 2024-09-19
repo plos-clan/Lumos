@@ -305,7 +305,7 @@ public:
     }
   };
 
-  auto lines() -> LineIteratorWrapper {
+  auto lines() const -> LineIteratorWrapper {
     return {*this};
   }
 

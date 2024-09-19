@@ -6,24 +6,29 @@
 
 namespace lumos::parser {
 
-// 用户输入错误
-class Error : public ::Error {
-public:
-  explicit Error(strref msg) : ::Error("Parser: " + msg) {}
-};
-
-// 程序内部错误
-class Fail : public ::Error {
-public:
-  explicit Fail(strref msg) : ::Error("[fail] Parser: " + msg) {}
-};
+__ERRORIMPL__("Parser");
 
 // --------------------------------------------------
 
-void try_func_impl();
+class Parser {
+  lexer::Lexer &lex;
 
-auto parse_using() -> AST *;
+public:
+  explicit Parser(lexer::Lexer &lex) : lex(lex) {}
 
-auto parse(Lexer &lex) -> AST *;
+  auto parse_fmtstr(); // 最阴间的玩意，格式化字符串
+
+  auto parse_using() -> AST *; // 解析 using
+  void try_func_impl();
+  auto parse_function() -> ast::Function *;
+  auto try_function(bool allow_lambda = true) -> ast::Function *;
+  auto parse_namespace(strref name) -> ast::Namespace *;
+  auto try_namespace() -> ast::Namespace *;
+  auto parse() -> AST *; // 语法解析开始
+};
 
 } // namespace lumos::parser
+
+namespace lumos {
+using parser::Parser;
+}

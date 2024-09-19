@@ -13,7 +13,7 @@ auto main() -> int {
 
   logger.check();
 
-  // AST  *ast = parser::parse(lexer);
+  AST *ast = Parser(lexer).parse();
 
   return 0;
 }

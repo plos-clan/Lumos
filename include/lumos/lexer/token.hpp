@@ -47,18 +47,15 @@ pstruct(Token), TokenPos {
     Op,         // 运算符
     Attr,       // 属性             '@xxx'
     RootNS,     // 根命名空间       '::'
-    BlkBeg,     // 括号开始         '(' '[' '{'
-    BlkEnd,     // 括号结束         ')' ']' '}'
-    Punc,       // 分隔符           ',' ';' '.' '...'
+    Punc,       // 分隔符           ',' ';' '.' '...' '(' ')' '[' ']' '{' '}'
     Sym,        // 标识符           (变量名)
     Kwd,        // 关键字
     Eof,        // 文件结束
     Cnt = Eof,  // 最大值
   };
 
-  EToken type;   // token 类型
-  str    raw;    // token 对应的字符串
-  str    strval; // 字符串值
+  EToken type; // token 类型
+  str    raw;  // token 对应的字符串
 
   Token(EToken type, strref raw, TokenPosRef pos);
   virtual ~Token() = default;
@@ -80,17 +77,16 @@ pstruct(Token), TokenPos {
   auto is(EToken type) const->bool;
 };
 
+#define TokenOf(type)                                                                              \
+  struct type : Token {                                                                            \
+    type(strref raw, TokenPosRef pos) : Token(Token::type, raw, pos) {}                            \
+  }
+
 // --------------------------------------------------
 
-auto rawstring(str raw, TokenPosRef pos) -> Token *;
+auto rawstring(strref raw, TokenPosRef pos) -> Token *;
 
-struct Inv : Token {
-  EToken matchtype; // 匹配到什么类型的 token 但解析出错时创建的 Inv
-  str    msg;       // 错误信息
-
-  Inv(strref raw, TokenPosRef pos, EToken matchtype = Token::Inv, strref msg = "");
-  ~Inv() override = default;
-};
+TokenOf(Inv);
 
 // --------------------------------------------------
 
@@ -181,32 +177,23 @@ struct MPQ : Num {
 // --------------------------------------------------
 
 struct Str : Token {
-  bytes value;
+  str value; // 字符串值
 
   Str(str s, TokenPosRef pos) : Token(Token::Str, s, pos) {}
   ~Str() override = default;
 };
 
-struct BlkBeg : Token {
-  BlkBeg(strref raw, TokenPosRef pos) : Token(Token::BlkBeg, raw, pos) {}
-};
-
-struct BlkEnd : Token {
-  BlkEnd(strref raw, TokenPosRef pos) : Token(Token::BlkEnd, raw, pos) {}
-};
-
-struct Sym : Token {
-  Sym(strref raw, TokenPosRef pos) : Token(Token::Sym, raw, pos) {}
-};
-
-struct Kwd : Token {
-  Kwd(strref raw, TokenPosRef pos) : Token(Token::Kwd, raw, pos) {}
-};
+TokenOf(Op);
+TokenOf(Attr);
+TokenOf(Punc);
+TokenOf(Sym);
+TokenOf(Kwd);
 
 // --------------------------------------------------
 
 auto mktoken(Token::EToken type, strref raw, TokenPos pos) -> Token *;
 
+#undef TokenOf
 } // namespace lumos::token
 
 namespace lumos {
