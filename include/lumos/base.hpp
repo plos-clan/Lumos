@@ -272,7 +272,7 @@ public:
     }
 
     auto operator*() const -> BaseString {
-      return raw.substr(beg, end);
+      return raw.substr(beg, end - beg);
     }
 
     auto operator++() -> LineIterator & {
@@ -427,7 +427,7 @@ public:
   }
 
   auto substr(size_t p) const -> BaseString {
-    if (pos >= len) return {};
+    if (p >= len) return {};
     return {(u32)(len - p), (u32)(pos + p), ptr + p};
   }
 
@@ -646,11 +646,6 @@ public:
 
   auto operator>=(const T *s) const -> bool {
     return cmp(s) >= 0;
-  }
-
-  auto at(size_t i) const -> T {
-    if (i >= len) return 0;
-    return ptr[i];
   }
 
   auto at(ssize_t i) const -> T {
@@ -984,7 +979,7 @@ public:
   auto setcap(size_t n) -> BaseStringBuilder & {
     static constexpr u32 cap_padding = 64;
     if (n <= cap) return *this;
-    cap = n & ~(cap_padding - 1) + cap_padding;
+    cap = (n & ~(cap_padding - 1)) + cap_padding;
     ptr = (Data *)realloc(ptr, sizeof(Data) + cap * sizeof(T));
     return *this;
   }

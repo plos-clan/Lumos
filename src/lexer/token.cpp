@@ -6,8 +6,23 @@ static constexpr auto tab_indent = 4;
 
 auto operator<<(ostream &os, Token::EToken t) -> ostream & {
   static const char *lut[] = {
-      "Inv", "Space", "Comment", "Int",  "Float", "Fixed", "Integer", "Frac", "Str", "FSB",
-      "FSD", "FSE",   "Op",      "Attr", "RNS",   "BB",    "BE",      "Punc", "Sym", "Kwd",
+      "Inv",       //
+      "Space",     //
+      "Comment",   //
+      "Int",       //
+      "Float",     //
+      "Fixed",     //
+      "MPZ",       //
+      "MPQ",       //
+      "Str",       //
+      "FmtStrBeg", //
+      "FmtStrEnd", //
+      "Op",        //
+      "Attr",      //
+      "RootNS",    //
+      "Punc",      //
+      "Sym",       //
+      "Kwd",       //
   };
   if (t < 0 || t >= Token::Cnt) throw Error("EToken 超出范围");
   return os << lut[t];
@@ -19,11 +34,16 @@ auto Token::is(EToken type) const -> bool {
   throw this->type == type;
 }
 
+void Token::_print_to(ostream &os) const {}
+
 // 输出 token 信息
 void Token::print_to(ostream &os) const {
-  os << "<token " << type << " str='" << raw << "'";
-  if (line > 0) os << " line=" << line;
-  if (col > 0) os << " col=" << col;
+  os << "<token " << type;
+  _print_to(os);
+  os << " raw='" << raw << "'";
+  // if (line > 0) os << " line=" << line;
+  // if (col > 0) os << " col=" << col;
+  if (line > 0 && col > 0) os << " pos=" << line << ':' << col;
   os << '>';
 }
 
@@ -58,24 +78,103 @@ Comment::Comment(strref raw, TokenPosRef pos) : Token(Token::Comment, raw, pos) 
 //; 格式化字符串  字符串字面量
 //* ----------------------------------------------------------------------------------------------------
 
-auto rawstring(strref raw, TokenPosRef pos) -> Token * {
-  if (raw.size() < 2) return null;
-  Str *tok   = new Str(raw, pos);
-  tok->value = raw.substr(3, raw.length() - 6);
-  if (!raw.contains('\n')) return tok; // 单行的就直接返回原始字符串
+// 转义字符串
+static auto escstring(str raw) -> str {
+  raw = raw.substr(1, raw.length() - 2);
   strbuilder sb;
-  for (str line : raw.lines()) {
-    ssize_t pos = line.find('|');
-    if (pos < 0) {
-      for (char c : line) {
-        if (!isspace(c)) throw Error("多行字符串的每行必须以 `|` 开头");
-      }
+  for (size_t i = 0; i < raw.length(); i++) {
+    if (raw[i] != '\\') {
+      sb.append(raw[i]);
       continue;
     }
-    sb += raw.substr(pos + 1);
+    switch (raw[++i]) {
+    case '\r':
+      if (raw[i + 1] == '\n') i++;
+      break;
+    case '\n': break;
+    case 'a': sb += '\a'; break;
+    case 'b': sb += '\b'; break;
+    case 'e': sb += '\e'; break;
+    case 'f': sb += '\f'; break;
+    case 'n': sb += '\n'; break;
+    case 'r': sb += '\r'; break;
+    case 't': sb += '\t'; break;
+    case 'v': sb += '\v'; break;
+    case 'x': {
+      if (i + 2 >= raw.length()) throw Error("字符串字面量的十六进制转义字符不完整");
+      char c = 0;
+      for (size_t j = 1; j <= 2; j++) {
+        c <<= 4;
+        if (isdigit(raw[i + j]))
+          c += raw[i + j] - '0';
+        else if (raw[i + j] >= 'a' && raw[i + j] <= 'f')
+          c += raw[i + j] - 'a' + 10;
+        else if (raw[i + j] >= 'A' && raw[i + j] <= 'F')
+          c += raw[i + j] - 'A' + 10;
+        else
+          throw Error("字符串字面量的十六进制转义字符不合法");
+      }
+      sb += c;
+      i  += 2;
+      break;
+    }
+    default:
+      if ('0' <= raw[i] && raw[i] <= '7') { // 八进制转义字符
+        char c = raw[i] - '0';
+        if ('0' <= raw[i + 1] && raw[i + 1] <= '7') { // 2 位八进制
+          c = c * 8 + raw[++i] - '0';
+          if ('0' <= raw[i + 1] && raw[i + 1] <= '7') { // 3 位八进制
+            c = c * 8 + raw[++i] - '0';
+          }
+        }
+        sb += c;
+      } else if (raw[i] == '8' || raw[i] == '9') {
+        throw Error("字符串字面量的八进制转义字符不合法");
+      } else {
+        static const str esc = "'\"\\";
+        if (!esc.contains(raw[i])) logger.warn("未知的转义字符: " + raw[i]);
+        sb += raw[i];
+      }
+      break;
+    }
   }
-  tok->value = sb.str();
-  return tok;
+  return sb.str();
+}
+
+// 原始字符串
+static auto rawstring(str raw) -> str {
+  raw = raw.substr(3, raw.length() - 6);
+  if (!raw.contains('\n')) return raw; // 单行的就直接返回原始字符串
+  strbuilder sb;
+  for (str line : raw.lines()) {
+    ssize_t pos = line.find("| ");
+    if (pos < 0) {
+      for (char c : line) {
+        if (!isspace(c)) throw Error("多行字符串的每行必须以 `| ` 开头");
+      }
+    } else {
+      for (char c : line.substr(0, pos)) {
+        if (!isspace(c)) throw Error("多行字符串的每行必须以 `| ` 开头");
+      }
+      sb += '\n';
+      sb += line.substr(pos + 2);
+    }
+  }
+  return sb.str().substr(1);
+}
+
+Str::Str(strref s, TokenPosRef pos) : Token(Token::Str, s, pos) {
+  if (raw.length() < 2) throw Fail("字符串字面量长度不足");
+  if (raw.length() == 2) return;
+  if (raw[1] != '\'') {
+    value = escstring(raw);
+  } else {
+    value = rawstring(raw);
+  }
+}
+
+void Str::_print_to(ostream &os) const {
+  os << " value='" << value << "'";
 }
 
 //* ----------------------------------------------------------------------------------------------------
@@ -90,11 +189,15 @@ auto num_type_suffix(str raw, bool is_float) -> Tuple<Token::EToken, int, int> {
   if (!isdigit(*it)) goto no_suffix;
   for (; it != raw.rend() && isdigit(*it); it++) {}
   if (it != raw.rend()) {
-    str suffix = str(it.base() - 1, raw.end());
-    int nbits  = atoi(suffix.substr(1).c_str());
-    if (*it == 'i' || *it == 'I') return {Token::Int, nbits, suffix.length()};
-    if (*it == 'u' || *it == 'U') return {Token::Int, nbits, suffix.length()};
-    if (is_float && (*it == 'f' || *it == 'F')) return {Token::Float, nbits, suffix.length()};
+    auto type = Token::Inv;
+    if (*it == 'i' || *it == 'I') type = Token::Int;
+    if (*it == 'u' || *it == 'U') type = Token::Int;
+    if (is_float && (*it == 'f' || *it == 'F')) type = Token::Float;
+    if (type != Token::Inv) {
+      str suffix = str(it.base() - 1, raw.end());
+      int nbits  = atoi(suffix.substr(1).c_str());
+      return {type, nbits, suffix.length()};
+    }
   }
 no_suffix:
   return {is_float ? Token::Float : Token::Int, 0, 0};
@@ -293,6 +396,16 @@ MPQ::MPQ(strref raw, TokenPosRef pos) : Num(Token::MPQ, raw, pos) {
     value /= exp;
   }
   value.canonicalize();
+}
+
+//* ----------------------------------------------------------------------------------------------------
+//; 标识符
+//* ----------------------------------------------------------------------------------------------------
+
+Sym::Sym(strref raw, TokenPosRef pos) : Token(Token ::Sym, raw, pos) {
+  if (raw.at(0) == '_' && raw.at(1) == '_' && raw.at(-2) == '_' && raw.at(-1) == '_') {
+    reserved = true;
+  }
 }
 
 //* ----------------------------------------------------------------------------------------------------

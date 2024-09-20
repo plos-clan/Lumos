@@ -42,7 +42,6 @@ pstruct(Token), TokenPos {
     MPQ,        // 高精度分数
     Str,        // 字符串
     FmtStrBeg,  // 格式化字符串开始 '"'
-    FmtStrData, // 格式化字符串数据
     FmtStrEnd,  // 格式化字符串结束 '"'
     Op,         // 运算符
     Attr,       // 属性             '@xxx'
@@ -54,8 +53,9 @@ pstruct(Token), TokenPos {
     Cnt = Eof,  // 最大值
   };
 
-  EToken type; // token 类型
-  str    raw;  // token 对应的字符串
+  EToken type;                 // token 类型
+  str    raw;                  // token 对应的字符串
+  bool   reserved : 1 = false; // 是否是保留字
 
   Token(EToken type, strref raw, TokenPosRef pos);
   virtual ~Token() = default;
@@ -67,6 +67,8 @@ pstruct(Token), TokenPos {
   auto operator==(strref raw) const->bool {
     return this->raw == raw;
   }
+
+  virtual void _print_to(ostream & os) const;
 
   void print_to(ostream & os) const;
 
@@ -83,8 +85,6 @@ pstruct(Token), TokenPos {
   }
 
 // --------------------------------------------------
-
-auto rawstring(strref raw, TokenPosRef pos) -> Token *;
 
 TokenOf(Inv);
 
@@ -179,14 +179,21 @@ struct MPQ : Num {
 struct Str : Token {
   str value; // 字符串值
 
-  Str(str s, TokenPosRef pos) : Token(Token::Str, s, pos) {}
+  void _print_to(ostream &os) const override;
+
+  Str(strref s, TokenPosRef pos);
   ~Str() override = default;
 };
+
+TokenOf(FmtStrBeg);
+TokenOf(FmtStrEnd);
 
 TokenOf(Op);
 TokenOf(Attr);
 TokenOf(Punc);
-TokenOf(Sym);
+struct Sym : Token {
+  Sym(strref raw, TokenPosRef pos);
+};
 TokenOf(Kwd);
 
 // --------------------------------------------------

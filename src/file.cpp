@@ -9,11 +9,12 @@ auto CTX::loadfile(str path) -> File * {
   if (!fs.is_open()) return null;
   size_t size = fs.tellg();
   fs.seekg(0, std::ios::beg);
-  auto data = malloc(size);
+  auto data = malloc(size + 1);
   if (!fs.read((char *)data, size)) {
     free(data);
     return null;
   }
+  ((char *)data)[size] = '\0';
   fs.close();
   auto file   = new File{path, data, size};
   files[path] = file;

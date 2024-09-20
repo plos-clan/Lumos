@@ -67,7 +67,8 @@ auto Lexer::_get() -> Token * {
   TRY(sym);
 
   if (return_invalid) return token(Token::Inv, 1);
-  throw Error("无法识别的字符 " + std::to_string(code[0]) + ": " + code[0]);
+  throw Error("无法识别的字符 " + std::to_string(code[0]) + ": " + code[0] + " 在" +
+              std::to_string(line) + ':' + std::to_string(col));
 
 #undef TRY
 }

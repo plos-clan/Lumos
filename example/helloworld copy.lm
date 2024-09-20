@@ -1,0 +1,12 @@
+using "std" -> std;
+
+fn main([int argc, char** argv, [char** envp]]) -> int;
+
+@assert(argc >= 1)
+fn main(int argc, char* argv[argc]) -> int {
+  std.println("Argc is 1.") if argc == 1;
+  for (var a from 1 to argc) {
+    std.println("Hello, world!");
+  }
+  return 0;
+}

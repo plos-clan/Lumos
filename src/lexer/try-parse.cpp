@@ -68,7 +68,9 @@ end:
 static auto _rawstr(cstr code, char c) -> size_t {
   if (code[0] != c || code[1] != c || code[2] != c) return 0;
   size_t n = 6;
-  for (; code[n - 4] != '\\' || code[n - 3] != c || code[n - 2] != c || code[n - 1] != c; n++) {}
+  for (; code[n - 4] == '\\' || code[n - 3] != c || code[n - 2] != c || code[n - 1] != c; n++) {
+    if (code[n - 1] == '\0') throw Error("字符串未结束");
+  }
   return n;
 }
 
@@ -89,17 +91,17 @@ static auto _str(cstr code, char c) -> size_t {
 // 尝试解析字符串
 auto Lexer::try_str() -> Token * {
   if (rem == 0) return null;
-  size_t n = _str(code, '"');
-  if (n == 0) return null;
-  return token(Token::Str, n);
+  if (size_t n = _rawstr(code, '"'); n != 0) return token(Token::Str, n);
+  if (size_t n = _str(code, '"'); n != 0) return token(Token::Str, n);
+  return null;
 }
 
 // 尝试解析字符
 auto Lexer::try_chr() -> Token * {
   if (rem == 0) return null;
-  size_t n = _str(code, '\'');
-  if (n == 0) return null;
-  return token(Token::Str, n);
+  if (size_t n = _rawstr(code, '\''); n != 0) return token(Token::Str, n);
+  if (size_t n = _str(code, '\''); n != 0) return token(Token::Str, n);
+  return null;
 }
 
 // 尝试解析运算符
@@ -146,7 +148,7 @@ auto Lexer::try_punc() -> Token * {
 
 // 尝试解析标识符
 // 标识符必须以非数字开头
-// 基本词法只允许 A-Z a-z _ $
+// 基本词法只允许 A-Z a-z _
 // 扩展的词法允许其它语言的字符
 auto Lexer::try_sym() -> Token * {
   if (rem == 0) return null;
