@@ -15,7 +15,15 @@ public:
 
   virtual auto tostr() const -> str;
 
-  // void check() const override;
+  void check() const override;
+};
+
+class NamedType : public Type, public Named {
+public:
+  NamedType()           = default;
+  ~NamedType() override = default;
+
+  auto tostr() const -> str override;
 };
 
 } // namespace lumos::ast

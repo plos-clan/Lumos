@@ -1,6 +1,9 @@
 testexec(lexer lexer.cpp)
 testlib(lexer lumos-s)
 
+testexec(num num.cpp)
+testlib(num lumos-s)
+
 find_package(LLVM REQUIRED CONFIG)
 include_directories(${LLVM_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINITIONS})

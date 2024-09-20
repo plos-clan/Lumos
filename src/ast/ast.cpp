@@ -16,6 +16,26 @@ void AST::print_to(ostream &os, i32 indent) const {
   print_children_to(os);
 }
 
+void AST::print_to(ostream &os) const {
+  os << "<AST> // what the fuck!";
+}
+
+void AST::print_children_to(ostream &os, i32 indent) const {
+  // 无
+}
+
+void AST::check() const {
+  throw Fail("AST::check() 不能被直接调用");
+}
+
+void AST::gencode() const {
+  throw Fail("AST::gencode() 不能被直接调用");
+}
+
+void AST::eval(ENV &env) const {
+  throw Fail("AST::eval() 不能被直接调用");
+}
+
 //* ----------------------------------------------------------------------------------------------------
 //; Named
 //* ----------------------------------------------------------------------------------------------------
@@ -28,22 +48,23 @@ Named::Named(Container *parent, str name)
 }
 
 auto Named::mangling() -> str {
-  osstream os("$$");
-  mangling(os, mangling_style);
-  return os.str();
+  strbuilder sb = "$$";
+  mangling(sb, mangling_style);
+  return sb.str();
 }
 
 auto Named::mangling(Mangling style) -> str {
-  osstream os("$$");
-  mangling(os, style);
-  return os.str();
+  strbuilder sb = "$$";
+  mangling(sb, style);
+  return sb.str();
 }
 
-// 空的
-void Named::mangling(std::ostream &os, Mangling style) {}
+void Named::mangling(strbuilder &sb, Mangling style) {
+  throw Fail("Named::mangling 不能被直接调用");
+}
 
-auto Named::print_to(ostream &os) const -> void {
-  os << "<named " + name + "> If you see this node printed, please check the code.";
+void Named::print_to(ostream &os) const {
+  os << "<named " << name << "> // what the fuck!";
 }
 
 //* ----------------------------------------------------------------------------------------------------
@@ -57,13 +78,5 @@ RefCntType::RefCntType(Type *type) : type(type) {}
 auto RefCntType::tostr() const -> str {
   return type->tostr() + "!";
 }
-
-class Operator : public Named {};
-
-class Operation : public AST {
-  Operator  *op;  // 要进行的运算
-  Evaluable *lhs; // 左侧的操作数
-  Evaluable *rhs; // 右侧的操作数
-};
 
 } // namespace lumos::ast

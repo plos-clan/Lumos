@@ -972,6 +972,24 @@ public:
     if (cap == 0) return;
     ptr = (Data *)malloc(sizeof(Data) + cap * sizeof(T));
   }
+  BaseStringBuilder(const BaseString &s) : len(s.length()), cap(s.length()) {
+    if (len == 0) return;
+    ptr = (Data *)malloc(sizeof(Data) + len * sizeof(T));
+    memcpy(data, s.getptr(), len * sizeof(T));
+  }
+  BaseStringBuilder(const T *s) {
+    if (s == null) return;
+    len = strlen(s);
+    if (len == 0) return;
+    cap = len;
+    ptr = (Data *)malloc(sizeof(Data) + len * sizeof(T));
+    memcpy(data, s, len * sizeof(T));
+  }
+  BaseStringBuilder(const T *s, size_t n) : len(n), cap(n) {
+    if (n == 0) return;
+    ptr = (Data *)malloc(sizeof(Data) + n * sizeof(T));
+    memcpy(data, s, n * sizeof(T));
+  }
   ~BaseStringBuilder() {
     if (ptr != null) free(ptr);
   }

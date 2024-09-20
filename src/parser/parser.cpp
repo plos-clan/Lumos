@@ -12,33 +12,37 @@ auto Parser::parse_using() -> AST * {
   }
 }
 
+static auto func_params() -> ast::AST * {
+  return null;
+}
+
 auto Parser::try_function(bool allow_lambda) -> ast::Function * {
   if (!lex.get("fn")) return null;
   str name;
   if (auto tok = lex.get(Token::Sym); tok) name = tok->raw;
 
-  // if (lex.get("(") == null) lex.error();
-  // auto fn = new Function(null, name->raw);
-  // while (!lex.eof() && !lex.get(")")) {
-  //   auto arg = lex.get(Token::Sym);
-  //   if (arg == null) lex.error("参数名不能为空");
-  //   fn->append(new Argument(null, arg->raw));
-  //   if (lex.get(",") == null) break;
-  // }
-  // if (lex.get(")") == null) lex.error();
-  // if (lex.get("->")) {
-  //   auto ret = lex.get(Token::Sym);
-  //   if (ret == null) lex.error("返回值不能为空");
-  //   fn->ret = new Type(null, ret->raw);
-  // }
-  // if (lex.get("{") == null) lex.error();
-  // while (!lex.eof() && !lex.get("}")) {
-  //   auto stmt = lex.get(Token::Str);
-  //   if (stmt == null) lex.error("语句不能为空");
-  //   fn->append(new Statement(null, stmt->raw));
-  // }
-  // if (lex.get("}") == null) lex.error();
-  // return fn;
+  if (lex.get("(") == null) lex.error();
+  auto fn = new Function(null, name->raw);
+  while (!lex.eof() && !lex.get(")")) {
+    auto arg = lex.get(Token::Sym);
+    if (arg == null) lex.error("参数名不能为空");
+    fn->append(new Argument(null, arg->raw));
+    if (lex.get(",") == null) break;
+  }
+  if (lex.get(")") == null) lex.error();
+  if (lex.get("->")) {
+    auto ret = lex.get(Token::Sym);
+    if (ret == null) lex.error("返回值不能为空");
+    fn->ret = new Type(null, ret->raw);
+  }
+  if (lex.get("{") == null) lex.error();
+  while (!lex.eof() && !lex.get("}")) {
+    auto stmt = lex.get(Token::Str);
+    if (stmt == null) lex.error("语句不能为空");
+    fn->append(new Statement(null, stmt->raw));
+  }
+  if (lex.get("}") == null) lex.error();
+  return fn;
 }
 
 auto Parser::parse_namespace(strref name) -> Namespace * {

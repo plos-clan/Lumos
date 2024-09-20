@@ -11,7 +11,17 @@ public:
 
   auto tostr() const -> str override;
 
-  // void check() const override;
+  void check() const override;
+};
+
+class Void : public InnerType {
+public:
+  Void()           = default;
+  ~Void() override = default;
+
+  auto tostr() const -> str override;
+
+  void check() const override;
 };
 
 class IntType : public InnerType {

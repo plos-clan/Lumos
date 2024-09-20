@@ -4,7 +4,7 @@
 
 namespace lumos::ast {
 
-class Literal : public Evaluable {};
+class Literal : public Expr {};
 
 class Int : public Literal {};
 

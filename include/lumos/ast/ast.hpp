@@ -16,20 +16,20 @@ Pclass(Named); //. 有名称的语法树节点基类
 //; AST Named
 
 Pclass(Type);      //. AST   -> 数据类型
-Pclass(Evaluable); //. AST   -> 可求值对象
+Pclass(Expr);      //. AST   -> 可求值对象
 Pclass(BaseStat);  //. AST   -> 语句
 Pclass(Container); //. Named -> 容器
 
 // --------------------------------------------------
-//; Evaluable
+//; Expr
 
-Pclass(FunctionCall);   //. Evaluable -> 函数调用
-Pclass(Literal);        //. Evaluable -> 字面量 或 常量表达式
-Pclass(SymbolRef);      //. Evaluable -> 对某个名称的引用
-Pclass(Operation);      //. Evaluable -> 运算
-Pclass(EvaluableBlock); //. Evaluable -> 可求值代码块
-Pclass(Function);       //. Evaluable -> 函数
-Pclass(ArrayAccess);    //. Evaluable -> 函数
+Pclass(FunctionCall); //. Expr -> 函数调用
+Pclass(Literal);      //. Expr -> 字面量 或 常量表达式
+Pclass(SymbolRef);    //. Expr -> 对某个名称的引用
+Pclass(Operation);    //. Expr -> 运算
+Pclass(ExprBlock);    //. Expr -> 可求值代码块
+Pclass(Function);     //. Expr -> 函数
+Pclass(ArrayAccess);  //. Expr -> 函数
 
 // --------------------------------------------------
 //; Type
@@ -91,16 +91,14 @@ public:
   // debug 用
   // 检查对象是否有错误
   // 有错误直接抛出异常
-  virtual void check() const {
-    throw Fail("AST::check() 不应该被调用");
-  }
+  virtual void check() const;
 
-  virtual void gencode();      // 生成代码
-  virtual void eval(ENV &env); // 求值、运行
+  virtual void gencode() const;      // 生成代码
+  virtual void eval(ENV &env) const; // 求值、运行
 
 protected:
-  virtual auto print_to(ostream &os) const -> void;
-  virtual auto print_children_to(ostream &os, i32 indent = 0) const -> void;
+  virtual void print_to(ostream &os) const;
+  virtual void print_children_to(ostream &os, i32 indent = 0) const;
 
 private:
   void print_to(ostream &os, i32 indent) const;
@@ -129,10 +127,10 @@ public:                     // 根元素的以下两个属性为 null
   // style: 名称重整的风格，没有就按照 mangling_style 成员的值
   auto         mangling() -> str;               // 不应该更改
   auto         mangling(Mangling style) -> str; // 不应该更改
-  virtual auto mangling(ostream &os, Mangling style) -> void;
+  virtual void mangling(strbuilder &sb, Mangling style);
 
 protected:
-  auto print_to(ostream &os) const -> void override;
+  void print_to(ostream &os) const override;
 };
 
 } // namespace lumos::ast

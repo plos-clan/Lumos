@@ -53,26 +53,6 @@ class Namespace : public Container {
 public:
   Namespace(Container *parent, str name) : Container(parent, std::move(name)) {}
   ~Namespace() override = default;
-
-  // auto mangling(ostream &os, Mangling style) -> void override;
-};
-
-// --------------------------------------------------
-
-class Class : public Container {
-public:
-  ~Class() override = default;
-
-  auto append(Named *child) -> void override;
-};
-
-// --------------------------------------------------
-
-class Struct : public Container {
-public:
-  ~Struct() override = default;
-
-  auto append(Named *child) -> void override;
 };
 
 // --------------------------------------------------
