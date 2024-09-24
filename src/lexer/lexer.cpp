@@ -59,7 +59,6 @@ auto Lexer::_get() -> Token * {
 
   TRY(num);
   TRY(str);
-  TRY(chr);
   TRY(op);
   TRY(attr);
   TRY(rootns);
@@ -67,8 +66,8 @@ auto Lexer::_get() -> Token * {
   TRY(sym);
 
   if (return_invalid) return token(Token::Inv, 1);
-  throw Error("无法识别的字符 " + std::to_string(code[0]) + ": " + code[0] + " 在" +
-              std::to_string(line) + ':' + std::to_string(col));
+  throw Error("无法识别的字符 " + to_string(code[0]) + ": " + code[0] + " 在" + to_string(line) +
+              ':' + to_string(col));
 
 #undef TRY
 }
@@ -79,13 +78,18 @@ auto Lexer::eof() const -> bool {
   return rem == 0;
 }
 
-auto Lexer::peek_char() const -> byte {
-  return rem == 0 ? 0 : code[pos];
+void Lexer::skip_space() {
+  if (return_space || rem == 0) return;
+  while (try_space() != null || try_comment() != null) {}
 }
 
-auto Lexer::get_char() -> byte {
+auto Lexer::peekch() const -> char {
+  return rem == 0 ? '\0' : code[0];
+}
+
+auto Lexer::getch() -> char {
   if (rem == 0) return 0;
-  const auto [s, pos] = update(1);
+  val[s, pos] = update(1);
   return s[0];
 }
 

@@ -2,7 +2,6 @@
 
 using namespace lumos::ast;
 
-#if 0
 namespace lumos::parser {
 
 auto Parser::parse_using() -> AST * {
@@ -75,4 +74,3 @@ auto Parser::parse() -> AST * {
 }
 
 } // namespace lumos::parser
-#endif

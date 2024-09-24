@@ -48,8 +48,9 @@ markdown_extensions:
       permalink: true
   - tables # 支持表格
   - fenced_code # 支持围栏代码块
-  - codehilite:
-      guess_lang: false # 代码高亮
+  - codehilite: # 代码高亮
+      guess_lang: false # 不猜测语言
+      use_pygments: true
   - admonition # 支持附注框
   - pymdownx.superfences # 增强的围栏代码块支持
   - pymdownx.tasklist # 支持任务列表
@@ -69,3 +70,6 @@ markdown_extensions:
 
 extra_javascript:
   - "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"
+
+extra_css:
+  - highlight.css

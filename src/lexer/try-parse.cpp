@@ -93,12 +93,6 @@ auto Lexer::try_str() -> Token * {
   if (rem == 0) return null;
   if (size_t n = _rawstr(code, '"'); n != 0) return token(Token::Str, n);
   if (size_t n = _str(code, '"'); n != 0) return token(Token::Str, n);
-  return null;
-}
-
-// 尝试解析字符
-auto Lexer::try_chr() -> Token * {
-  if (rem == 0) return null;
   if (size_t n = _rawstr(code, '\''); n != 0) return token(Token::Str, n);
   if (size_t n = _str(code, '\''); n != 0) return token(Token::Str, n);
   return null;

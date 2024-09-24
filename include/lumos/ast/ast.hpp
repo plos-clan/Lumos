@@ -79,6 +79,11 @@ Pclass(Operator); // 运算符
 //; AST Named
 //* ----------------------------------------------------------------------------------------------------
 
+class Object {
+public:
+  explicit virtual operator std::string() const;
+};
+
 class AST {
 public:
   u32 id; // 对象的 ID

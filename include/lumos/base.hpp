@@ -30,6 +30,9 @@
 
 #include <gmpxx.h>
 
+#define var auto
+#define val const auto
+
 #define $auto const auto
 
 static const auto null = nullptr;
@@ -1156,6 +1159,7 @@ using std::cerr;
 using std::cin;
 using std::cout;
 using std::endl;
+using std::to_string;
 
 using Error = std::runtime_error;
 

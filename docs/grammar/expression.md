@@ -12,20 +12,20 @@ constexpr expr3 = 10;      // 右值
 val c = &expr3; // 错误
 ```
 
-## 表达式 `expression`
+## 表达式定义 `let`
 
-`expression` 用于声明一个表达式，其值在运行时确定，可以作为宏的替代。<br>
+`let` 用于声明一个表达式，其值在运行时确定，可以作为宏的替代。<br>
 以下两种写法在使用 `int b = expr * 2;` 时等效，均展开为 `int b = (a + 10) * 2;`。
 
 ```lumos
 #define expr (a + 10)
-expression expr = a + 10;
+let expr = a + 10;
 ```
 
 表达式也可以是可求值代码块：
 
 ```lumos
-expression expr = val {
+let expr = val {
     int x = a + 10;
     x * 2;
 };
@@ -35,7 +35,7 @@ expression expr = val {
 
 ```lumos
 {
-    expression expr = a + 10;
+    let expr = a + 10;
     int b = expr * 2;
 } // expr 超出作用域，不再可用
 
@@ -49,15 +49,15 @@ expression expr = val {
 表达式可以在作用域内重新定义，不会影响外部作用域。
 
 ```lumos
-expression expr = a + 10;
+let expr = a + 10;
 {
-    expression expr = a + 20;
+    let expr = a + 20;
     int b = expr * 2; // b = (a + 20) * 2
 }
 int b = expr * 2; // b = (a + 10) * 2
 ```
 
-## 常量表达式 `constexpr`
+## 常量表达式定义 `constexpr`
 
 `constexpr` 用于声明一个常量表达式，其值在编译时确定。
 

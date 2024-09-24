@@ -13,7 +13,11 @@ auto main() -> int {
 
   logger.check();
 
-  // AST *ast = Parser(lexer).parse();
+  AST *ast = Parser(lexer).parse();
+
+  if (isinstance<ast::Container>(ast)) {}
+
+  ast;
 
   return 0;
 }

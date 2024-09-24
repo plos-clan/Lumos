@@ -5,9 +5,9 @@
 
 语法树的根节点是 `AST` 类型，它是一个抽象的节点，不包含任何具体的语法信息。
 
-## [命名节点 `Named`](named)
+## [命名节点 `Named`](named.md)
 
-## [语句节点 `Stat`](statment)
+## [语句节点 `Stat`](statment.md)
 
 ## 代码块节点 `Block`
 

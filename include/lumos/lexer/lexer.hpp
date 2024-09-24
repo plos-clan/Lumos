@@ -30,20 +30,20 @@ struct LexerState : TokenPos {
   auto update(size_t n) -> Pair<cstr, TokenPos>; // 更新指针位置 更新行数和列数
 };
 
+// 上下文无关的词法分析器
 class Lexer : private LexerState {
   using EToken = Token::EToken;
 
-  auto token(EToken type, size_t n) -> Token *; // 输出一个 token
-  auto token(EToken type, size_t n, strref raw) -> Token *;
+  auto token(EToken type, size_t n) -> Token *;             // 输出一个 token
+  auto token(EToken type, size_t n, strref raw) -> Token *; // 输出一个 token
 
   auto try_space() -> Token *;   // 尝试解析连续的空字符
   auto try_comment() -> Token *; // 尝试解析注释
   auto try_macro() -> Token *;   // 尝试解析宏
   auto try_num() -> Token *;     // 尝试解析数字
   auto try_str() -> Token *;     // 尝试解析字符串
-  auto try_chr() -> Token *;     // 尝试解析
-  auto try_op() -> Token *;      // 尝试解析
-  auto try_attr() -> Token *;    // 尝试解析
+  auto try_op() -> Token *;      // 尝试解析运算符
+  auto try_attr() -> Token *;    // 尝试解析属性
   auto try_rootns() -> Token *;  // 尝试解析根命名空间
   auto try_punc() -> Token *;    // 尝试解析分隔符
   auto try_sym() -> Token *;     // 尝试解析
@@ -66,8 +66,9 @@ public:
   using LexerState::save;
 
   auto eof() const -> bool;                        // 是否已解析完毕
-  auto peek_char() const -> byte;                  // 读取一个字符 (不移动指针)
-  auto get_char() -> byte;                         // 读取一个字符 (移动指针)
+  void skip_space();                               // 跳过空字符
+  auto peekch() const -> char;                     // 读取一个字符 (不移动指针)
+  auto getch() -> char;                            // 读取一个字符 (移动指针)
   auto peek() -> Token *;                          // 读取一个 token (不移动指针)
   auto peek(EToken type) -> Token *;               // 读取一个 token (不移动指针)
   auto peek(strref value) -> Token *;              // 读取一个 token (不移动指针)
@@ -77,7 +78,7 @@ public:
   auto get(strref value) -> PToken;                // 读取一个 token (移动指针)
   auto get(EToken type, strref value) -> PToken;   // 读取一个 token (移动指针)
   auto get_block() -> cstr;                        // 读取一个块
-  auto getall() -> Vector<Token>;                  //
+  auto getall() -> Vector<Token>;                  // 读取所有 token
   void error(str msg = "");                        // 抛出错误
 };
 

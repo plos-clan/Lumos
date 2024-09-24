@@ -34,15 +34,15 @@ auto Token::is(EToken type) const -> bool {
   throw this->type == type;
 }
 
-void Token::_print_to(ostream &os) const {}
+void Token::_print_to(ostream &os) const {
+  // do nothing
+}
 
 // 输出 token 信息
 void Token::print_to(ostream &os) const {
   os << "<token " << type;
   _print_to(os);
   os << " raw='" << raw << "'";
-  // if (line > 0) os << " line=" << line;
-  // if (col > 0) os << " col=" << col;
   if (line > 0 && col > 0) os << " pos=" << line << ':' << col;
   os << '>';
 }
@@ -87,7 +87,10 @@ static auto escstring(str raw) -> str {
       sb.append(raw[i]);
       continue;
     }
-    switch (raw[++i]) {
+    switch (({
+      char c = raw[++i];
+      'A' <= c &&c <= 'Z' ? c - 'A' + 'a' : c;
+    })) {
     case '\r':
       if (raw[i + 1] == '\n') i++;
       break;
@@ -101,21 +104,24 @@ static auto escstring(str raw) -> str {
     case 't': sb += '\t'; break;
     case 'v': sb += '\v'; break;
     case 'x': {
-      if (i + 2 >= raw.length()) throw Error("字符串字面量的十六进制转义字符不完整");
-      char c = 0;
-      for (size_t j = 1; j <= 2; j++) {
-        c <<= 4;
-        if (isdigit(raw[i + j]))
-          c += raw[i + j] - '0';
-        else if (raw[i + j] >= 'a' && raw[i + j] <= 'f')
-          c += raw[i + j] - 'a' + 10;
-        else if (raw[i + j] >= 'A' && raw[i + j] <= 'F')
-          c += raw[i + j] - 'A' + 10;
-        else
-          throw Error("字符串字面量的十六进制转义字符不合法");
-      }
+      char *end = null;
+      char  c   = strtol(raw.substr(i + 1, 2).c_str(), &end, 16);
+      if (end == null) throw Error("字符串字面量的十六进制转义字符不合法");
       sb += c;
       i  += 2;
+      break;
+    }
+    case 'u': {
+      char *end = null;
+      int   n   = 6;
+      u32   c   = strtol(raw.substr(i + 1, 6).c_str(), &end, 16);
+      if (end == null) n = 4, c = strtol(raw.substr(i + 1, 4).c_str(), &end, 16);
+      if (end == null) throw Error("字符串字面量的 Unicode 转义字符不合法");
+      char      buf[MB_CUR_MAX];
+      mbstate_t state = {};
+      size_t    ret   = wcrtomb(buf, c, &state);
+      sb.append(buf, ret);
+      i += n;
       break;
     }
     default:
@@ -290,6 +296,7 @@ _int: { // 解析整数部分
   return;
 
 L1:
+  if (b == 3 && raw.length() == 2) b = 2;
   if (b == 3) throw Error("重复的进制标记");
   if (b == 2) int_part = mpz(raw.substr(0, raw.length() - 1), base);
   if (b == 1) int_part = mpz(raw.substr(2), base);
@@ -429,7 +436,7 @@ auto mktoken(Token::EToken type, strref raw, TokenPos pos) -> Token * {
     caseof(Punc);
     caseof(Sym);
     caseof(Kwd);
-  default: throw Fail("无法创建未知类型的 token: " + std::to_string(type));
+  default: throw Fail("无法创建未知类型的 token: " + to_string(type));
   }
 #undef caseof
 }

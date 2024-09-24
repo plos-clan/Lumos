@@ -50,6 +50,9 @@ pstruct(Token), TokenPos {
     Sym,        // 标识符           (变量名)
     Kwd,        // 关键字
     Eof,        // 文件结束
+    Namespace,  // 命名空间
+    Type,       // 类型
+    Var,        // 变量
     Cnt = Eof,  // 最大值
   };
 

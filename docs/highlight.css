@@ -1,0 +1,57 @@
+pre code {
+  /* color: #abb2bf !important; */
+  border-radius: 8px !important;
+  /* background-color: #282c34 !important; */
+}
+
+.highlight span.c {
+  color: #5c6370;
+
+  font-style: italic;
+}
+
+.highlight span.k {
+  color: #c678dd;
+}
+
+.highlight span.n  {
+  color: #ef596b;
+}
+
+.highlight span.nf {
+  color: #61afef;
+}
+
+.highlight span.nc {
+  color: #e5c07b;
+}
+
+.highlight span.s {
+  color: #98c379;
+}
+
+.highlight span.m {
+  color: #d19a66;
+}
+
+.highlight span.o {
+  color: #56b6c2;
+}
+
+.highlight span.cs {
+  color: #a2c256;
+
+  font-style: italic;
+}
+
+.highlight span.gp {
+  color: #61afef;
+}
+
+.highlight span.go {
+  color: #5c6370;
+}
+
+.highlight span.p {
+  color: #50aa9b
+}

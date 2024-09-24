@@ -1,5 +1,5 @@
 
-# [命名节点 `Named`](named)
+# 命名节点 `Named`
 
 - `str` 节点的名称
 
