@@ -4,12 +4,12 @@
 
 ```lumos
 var my_var = 10;
-expression expr1 = my_var; // 左值
-val a = &expr1; // 通过编译
-expression expr2 = 10;     // 右值
-val b = &expr2; // 错误
-constexpr expr3 = 10;      // 右值
-val c = &expr3; // 错误
+let expr1 = my_var; // 左值
+val a = &expr1;     // 通过编译
+let expr2 = 10;     // 右值
+val b = &expr2;     // 错误
+constexpr expr3 = 10; // 右值
+val c = &expr3;     // 错误
 ```
 
 ## 表达式定义 `let`
