@@ -16,12 +16,12 @@ Lumos 的属性以 `@` 符号开头，后面跟着属性的名称和可选的参
 
 可以为常用属性设置新的名字，如
 
-```lm
+```lumos
 using @属性 = @属性1 @属性2 @属性3;
 using @属性(xxx) = @属性1 @属性2(xxx) @属性3;
 ```
 
-```lm
+```lumos
 // 多个属性，如
 @属性1 @属性2 @属性3
 // 可以写作
@@ -30,7 +30,7 @@ using @属性(xxx) = @属性1 @属性2(xxx) @属性3;
 
 可以重设默认属性，如
 
-```lm
+```lumos
 // 这样来设置所有对象的通用属性
 using @default = @属性1 @属性2 @属性3;
 // 这样来设置每种对象的属性
@@ -38,7 +38,7 @@ using @default fn = @属性1 @属性2 @属性3;
 using @default var = @属性1 @属性2 @属性3;
 ```
 
-```lm
+```lumos
 #set @default = @属性1 @属性2 @属性3;
 #clear @default;
 ```
@@ -64,7 +64,7 @@ using @default var = @属性1 @属性2 @属性3;
 
   它会将函数改变成返回一个仅可迭代对象
 
-  ```lm
+  ```lumos
   @generator
   fn my_func(int n) -> int {
     for (int i = 0; i < n; i++) {

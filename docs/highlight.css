@@ -5,7 +5,7 @@ pre code {
 }
 
 .highlight span.c {
-  color: #5c6370;
+  color: #a6afbe;
 
   font-style: italic;
 }
@@ -24,6 +24,10 @@ pre code {
 
 .highlight span.nc {
   color: #e5c07b;
+}
+
+.highlight span.na {
+  color: #e478a5;
 }
 
 .highlight span.s {

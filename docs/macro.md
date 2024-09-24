@@ -17,21 +17,21 @@
 
   取消某个普通宏
 
-  ```lm
+  ```lumos
   #define XXX
   #undef XXX
   ```
 
   取消某个宏函数
 
-  ```lm
+  ```lumos
   #define XXX(name) name
   #undef XXX(1) // XXX(N) 表示有 N 个参数
   ```
 
 > 编译器内置宏定义以 `#%` 开头
 
-```lm
+```lumos
 #define linux #%config.os.linux
 ```
 
@@ -61,7 +61,7 @@
 
 ``#` code `#``
 
-```lm
+```lumos
 #```
 code1
 code2
@@ -84,7 +84,7 @@ code3
 
 # 自定义宏
 
-```lm
+```lumos
 // #macro 宏不能出现在单行多个宏中
 #macro Y-my_macro #undef xxx #; define xxx #%ARGS
 #Y-my_macro 1 // xxx 被定义为 1
@@ -97,14 +97,14 @@ code3
 
 #
 
-```lm
+```lumos
 #replace rule0 "xxx" -> "yyy"  // 将 xxx 替换为 yyy
 #end rule0                     // 删除 rule0
 #replace rule1 /xxx$/ -> /yyy/ // 将行结尾的 xxx 替换为 yyy
 #end rule1                     // 删除 rule1
 ```
 
-```lm
+```lumos
 #set xxx = 3
 #while xxx > 0
 #if xxx == 1 #; break
@@ -112,11 +112,11 @@ code3
 #end
 ```
 
-```lm
+```lumos
 #calc xxx -= 1
 ```
 
-```lm
+```lumos
 #set xxx = 3
 
 #if xxx != 0
