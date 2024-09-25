@@ -1,7 +1,24 @@
+code {
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+
+  border-radius: 4px !important;
+  background-color: #669dc222 !important;
+  box-shadow: 0 0 4px #0002 !important;
+}
+
+code:hover {
+  box-shadow: 0 0 6px #0003 !important;
+}
+
 pre code {
-  /* color: #abb2bf !important; */
   border-radius: 8px !important;
-  /* background-color: #282c34 !important; */
+  background: linear-gradient(135deg, #f6d36511 0%, #fd85ac11 100%) !important;
+  box-shadow: 2px 2px 8px #b0f3 !important;
+}
+
+pre code:hover {
+  background: linear-gradient(135deg, #f6d36533 0%, #fd85ac33 100%) !important;
+  box-shadow: 2px 2px 10px #b0f5 !important;
 }
 
 .highlight span.c {
