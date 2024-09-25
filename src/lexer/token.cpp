@@ -15,6 +15,7 @@ auto operator<<(ostream &os, Token::EToken t) -> ostream & {
       "MPZ",       //
       "MPQ",       //
       "Str",       //
+      "Chr",       //
       "FmtStrBeg", //
       "FmtStrEnd", //
       "Op",        //
@@ -78,9 +79,8 @@ Comment::Comment(strref raw, TokenPosRef pos) : Token(Token::Comment, raw, pos) 
 //; 格式化字符串  字符串字面量
 //* ----------------------------------------------------------------------------------------------------
 
-// 转义字符串
-static auto escstring(str raw) -> str {
-  raw = raw.substr(1, raw.length() - 2);
+// 将字符串转义
+static auto unescape(str raw) -> str {
   strbuilder sb;
   for (size_t i = 0; i < raw.length(); i++) {
     if (raw[i] != '\\') {
@@ -147,23 +147,49 @@ static auto escstring(str raw) -> str {
   return sb.str();
 }
 
-// 原始字符串
-static auto rawstring(str raw) -> str {
+// 普通字符串 "xxx"
+static auto normal_string(str raw) -> str {
+  return unescape(raw.substr(1, raw.length() - 2));
+}
+
+// 原始字符串 '''xxx'''
+static auto raw_string(str raw) -> str {
+  if (raw.at(0) != '\n' && raw.at(-1) != '\n') throw Error("原始字符串必须以换行开头和结尾");
+  return raw.substr(1, raw.length() - 2);
+}
+
+// 多行字符串 """xxx"""
+static auto multiline_string(str raw) -> str {
   raw = raw.substr(3, raw.length() - 6);
   if (!raw.contains('\n')) return raw; // 单行的就直接返回原始字符串
   strbuilder sb;
+  bool       first = true;
   for (str line : raw.lines()) {
-    ssize_t pos = line.find("| ");
-    if (pos < 0) {
-      for (char c : line) {
-        if (!isspace(c)) throw Error("多行字符串的每行必须以 `| ` 开头");
+    for (size_t i = 0; i < line.length(); i++) {
+      if (!isspace(line[i])) {
+        line = line.substr(i + 1);
+        goto L1;
       }
-    } else {
-      for (char c : line.substr(0, pos)) {
-        if (!isspace(c)) throw Error("多行字符串的每行必须以 `| ` 开头");
+    }
+  L1:
+    str data = unescape(line.substr(2));
+    if (first) {
+      first = false;
+      if (line[0] == '|' && line[1] == ' ') {
+        sb += data;
+      } else {
+        throw Error("多行字符串的第一行必须以 `|` 开头并加空格");
       }
+    } else if (line[0] == '|' && line[1] == ' ') {
       sb += '\n';
-      sb += line.substr(pos + 2);
+      sb += data;
+    } else if (line[0] == '+' && line[1] == ' ') {
+      sb += data;
+    } else if (line[0] == '*' && line[1] == ' ') {
+      sb += ' ';
+      sb += data;
+    } else {
+      throw Error("多行字符串的每行必须以 `|` `+` `*` 开头并加空格");
     }
   }
   return sb.str().substr(1);
@@ -172,14 +198,27 @@ static auto rawstring(str raw) -> str {
 Str::Str(strref s, TokenPosRef pos) : Token(Token::Str, s, pos) {
   if (raw.length() < 2) throw Fail("字符串字面量长度不足");
   if (raw.length() == 2) return;
-  if (raw[1] != '\'') {
-    value = escstring(raw);
+  if (raw[0] == '\'') {
+    value = raw_string(raw);
+  } else if (raw[1] == '\"') {
+    value = multiline_string(raw);
   } else {
-    value = rawstring(raw);
+    value = normal_string(raw);
   }
 }
 
 void Str::_print_to(ostream &os) const {
+  os << " value='" << value << "'";
+}
+
+Chr::Chr(strref s, TokenPosRef pos) : Token(Token::Chr, s, pos) {
+  if (raw.length() < 2) throw Fail("字符串字面量长度不足");
+  if (raw.length() == 2) return;
+  str chs = unescape(raw.substr(1, raw.length() - 2));
+  value   = chs.at(0) | chs.at(1) << 8 | chs.at(2) << 16 | chs.at(3) << 24;
+}
+
+void Chr::_print_to(ostream &os) const {
   os << " value='" << value << "'";
 }
 

@@ -41,6 +41,7 @@ pstruct(Token), TokenPos {
     MPZ,        // 高精度整数
     MPQ,        // 高精度分数
     Str,        // 字符串
+    Chr,        // 字符
     FmtStrBeg,  // 格式化字符串开始 '"'
     FmtStrEnd,  // 格式化字符串结束 '"'
     Op,         // 运算符
@@ -186,6 +187,15 @@ struct Str : Token {
 
   Str(strref s, TokenPosRef pos);
   ~Str() override = default;
+};
+
+struct Chr : Token {
+  char32_t value = 0;
+
+  void _print_to(ostream &os) const override;
+
+  Chr(strref s, TokenPosRef pos);
+  ~Chr() override = default;
 };
 
 TokenOf(FmtStrBeg);
