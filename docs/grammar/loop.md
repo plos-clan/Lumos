@@ -15,6 +15,12 @@ while (i < 10) {
 }
 ```
 
+```lumos
+while (条件表达式) {
+    循环体
+}
+```
+
 ## 条件循环 `do while`
 
 <span style="color:green">与 C 类似，不过多赘述</span>
@@ -29,6 +35,12 @@ do {
 } while (i < 10);
 ```
 
+```lumos
+do {
+    循环体
+} while (条件表达式);
+```
+
 ## 计数循环 `for`
 
 <span style="color:green">与 C 类似，不过多赘述</span>
@@ -38,6 +50,12 @@ do {
 ```lumos
 for (int i = 0; i < 10; i++) {
     println(i);
+}
+```
+
+```lumos
+for (初始化语句; 条件表达式; 更新语句) {
+    循环体
 }
 ```
 
@@ -95,6 +113,29 @@ for (int i = 0; i < 10; i++) {
 end:
 ```
 
+如果是 `for` 中嵌 `switch` 或 `switch` 中嵌 `for`，可以使用 `break xxx` 来跳出。
+
+```lumos
+for (int i = 0; i < 10; i++) {
+    switch (i) {
+        case 5: break for;
+        default: println(i);
+    }
+}
+```
+
+```lumos
+switch (ch) {
+    case 'A':
+        for (int i = 0; i < 10; i++) {
+            if (i == 5) break switch;
+            println(i);
+        }
+        break;
+    default: println(i);
+}
+```
+
 ## 在循环之后继续执行代码
 
 ### 当循环被中断时 `breaked`
@@ -107,16 +148,7 @@ for (int i = 0; i < 10; i++) {
     if (i == 5) break;
     println(i);
 } breaked {
-    println("Loop breaked");
-}
-```
-
-```lumos
-for (int i = 0; i < 10; i++) {
-    break if i == 5;
-    println(i);
-} breaked {
-    println("Loop breaked");
+    println(`Loop breaked with i = $i.`);
 }
 ```
 
@@ -128,7 +160,7 @@ for (int i = 0; i < 10; i++) {
     if (i == 5) break;
     println(i);
 } breaked {
-    println("Loop breaked");
+    println(`Loop breaked with i = $i.`);
     continue;
 }
 ```
@@ -140,8 +172,17 @@ for (int i = 0; i < 10; i++) {
 ```lumos
 for (int i = 0; i < 10; i++) {
     println(i);
-} then {
-    println("Loop finished");
+} then { // 会执行
+    println(`Loop finished with i = $i.`);
+}
+```
+
+```lumos
+for (int i = 0; i < 10; i++) {
+    if (i == 5) break;
+    println(i);
+} then { // 不会执行
+    println(`Loop finished with i = $i.`);
 }
 ```
 

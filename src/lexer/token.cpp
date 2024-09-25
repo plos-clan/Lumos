@@ -215,7 +215,7 @@ Chr::Chr(strref s, TokenPosRef pos) : Token(Token::Chr, s, pos) {
   if (raw.length() < 2) throw Fail("字符串字面量长度不足");
   if (raw.length() == 2) return;
   str chs = unescape(raw.substr(1, raw.length() - 2));
-  value   = chs.at(0) | chs.at(1) << 8 | chs.at(2) << 16 | chs.at(3) << 24;
+  value   = (u32)chs.at(0) | (u32)chs.at(1) << 8 | (u32)chs.at(2) << 16 | (u32)chs.at(3) << 24;
 }
 
 void Chr::_print_to(ostream &os) const {
