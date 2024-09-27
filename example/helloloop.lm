@@ -1,0 +1,16 @@
+using "std" -> std;
+
+fn main() -> int {
+  var i = 0;
+  while (i < 10) {
+    std.println("Hello, while loop!");
+    i++;
+  }
+  for (var i = 0; i < 10; i++) {
+    std.println("Hello, for loop!");
+  }
+  for (a : 0..9) {
+    std.println("Hello, range-based for loop!");
+  }
+  return 0;
+}

@@ -26,7 +26,6 @@ pre code:hover {
 
 pre code::before {
   position: absolute;
-  z-index: -1;
   top: 0;
   left: 0;
 

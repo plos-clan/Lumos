@@ -30,17 +30,19 @@ class LumosLexer(RegexLexer):
           (kwds(['sizeof', 'lengthof', 'typeof']), Operator),
           (r'# *(define|undef|if|fidef|ifndef|end|set|clear|once|include)', Generic.Prompt),
           (kwds([
-              ['void', 'int', 'uint', 'float'],
+              ['void', 'bool', 'char', 'int', 'uint', 'float'],
               ['i8', 'i16', 'i32', 'i64', 'u8', 'u16', 'u32', 'u64'],
               ['f16', 'f32', 'f64', 'f128'],
           ]), Name.Class),
+          (kwds(['true', 'false', 'null', 'undefined']), Number),
           (kwds([
-              ['var', 'val', 'const', 'obj', 'let', 'constexpr'],
+              ['var', 'val', 'obj', 'let', 'lit'],
               ['try', 'catch', 'throw'],
               ['for', 'while', 'do', 'if', 'else', 'elif'],
               ['in', 'of', 'as', 'from', 'to', 'using'],
               ['break', 'continue', 'leave', 'breaked', 'then', 'goto', 'return'],
               ['namespace', 'struct', 'class', 'enum', 'union'],
+              ['typename'],
           ]), Keyword),
           (r'[A-Z][a-zA-Z0-9_]*', Name.Class),
           (r'(fn)(\s|\n|\r)*([a-zA-Z_][a-zA-Z0-9_]*)', bygroups(Keyword, Whitespace, Name.Function)),
@@ -49,7 +51,8 @@ class LumosLexer(RegexLexer):
           (kwds(['pow', 'sqrt']), Operator),
           (r'[a-z_][a-zA-Z0-9_]*', Name),
           (r'@[a-zA-Z_][a-zA-Z0-9_\-]*', Name.Attribute),
-          (r'@[^a-zA-Z_][^ \t\r\n\(\)\[\]\{\}\,\;]*', Name.Attribute),
+          (r'@[^ \t\r\n\<\>\(\)\[\]\{\}\,\;]*', Name.Attribute),
+          (r'\$[a-zA-Z0-9_]+', Name.Attribute),
           (r'.', Comment.Special),
       ]
   }

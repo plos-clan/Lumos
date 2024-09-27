@@ -1,0 +1,16 @@
+using "std" -> std;
+
+fn foo() {
+  std.println("Hello, foo!");
+}
+
+fn bar() {
+  std.println("Hello, bar!");
+}
+
+fn main() -> int {
+  std.println("Hello, main!");
+  foo();
+  bar();
+  return 0;
+}

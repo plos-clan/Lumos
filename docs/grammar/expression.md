@@ -3,13 +3,13 @@
 <span style="color:purple">与 C++ 中不一样的是，在 lumos 中如果表达式是一个右值，则不能取地址。<br>常量表达式必为右值，故不能取地址。</span>
 
 ```lumos
-var my_var = 10;
-let expr1 = my_var; // 左值
-val a = &expr1;     // 通过编译
+var myvar = 10;     // 变量
+let expr1 = myvar;  // 左值
+val a     = &expr1; // 通过编译
 let expr2 = 10;     // 右值
-val b = &expr2;     // 错误
-constexpr expr3 = 10; // 右值
-val c = &expr3;     // 错误
+val b     = &expr2; // 错误
+lit expr3 = 10;     // 右值
+val c     = &expr3; // 错误
 ```
 
 ## 表达式定义 `let`
@@ -36,13 +36,13 @@ let expr = val {
 ```lumos
 {
     let expr = a + 10;
-    int b = expr * 2;
+    int b    = expr * 2;
 } // expr 超出作用域，不再可用
 
 {
 #define expr (a + 10)
     int b = expr * 2;
-#undef expr // 需要手动取消定义
+#undef expr // 宏需要手动取消定义
 }
 ```
 
@@ -52,17 +52,17 @@ let expr = val {
 let expr = a + 10;
 {
     let expr = a + 20;
-    int b = expr * 2; // b = (a + 20) * 2
+    int b    = expr * 2; // b = (a + 20) * 2
 }
-int b = expr * 2; // b = (a + 10) * 2
+int b = expr * 2;        // b = (a + 10) * 2
 ```
 
-## 常量表达式定义 `constexpr`
+## 常量表达式定义 `lit`
 
-`constexpr` 用于声明一个常量表达式，其值在编译时确定。
+`lit` 用于声明一个常量表达式，其值在编译时确定。
 
 ```lumos
-constexpr expr = 10 + 1;
+lit expr = 10 + 1;
 ```
 
 其余用法与表达式相同。
