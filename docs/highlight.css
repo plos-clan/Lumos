@@ -44,7 +44,8 @@ pre code:hover::before {
   opacity: 0.2;
 }
 
-.highlight span.c {
+.highlight span.c,
+.highlight span.c1 {
   color: #a6afbe;
 
   font-style: italic;

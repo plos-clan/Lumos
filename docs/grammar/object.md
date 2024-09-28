@@ -7,12 +7,26 @@ Lumos 中可以使用动态类型，变量的类型在运行时确定，就像 j
 </span>
 
 !!! note "我知道你在想什么"
-    `list() + map()` 不会得到 `'[object Object]'`，别试了。
+    `list() + map()` 不会得到 `"[object Object]"`，别试了。
 
 ```lumos
 obj a = 10;  // 现在 a 为 i32 类型
 a     = 0.1; // 现在 a 为 f32 类型
 a     = "1"; // 现在 a 为 str 类型
+```
+
+对动态类型成员的访问都会被封装为对哈希表的访问。
+
+```lumos
+a.xxx(); // ((void (*)())a.members["xxx"])();
+```
+
+使用 `typeof` 运算符可以获取它的类型。<br>
+使用 `typenameof` 运算符可以以字符串形式获取它的类型。
+
+```lumos
+obj a = 10;
+println(typenameof(a)); // i32
 ```
 
 如果不初始化动态类型对象，那么它的类型为 `void`，值为 `undefined`。

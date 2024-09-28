@@ -48,8 +48,3 @@ while (true) { /* do nothing */ }
 list() + map();
 // 很明显它们不应该能够相加
 ```
-
-```lumos
-using "std" -> std;
-using std.* @not($1[0] == '_');
-```

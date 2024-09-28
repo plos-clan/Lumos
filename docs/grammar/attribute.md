@@ -1,13 +1,6 @@
 
 # 属性
-
-编译时的警告与错误将会以以下方式在文档中说明
-
-- *<span style="color:orange">warning</span>* 在某个条件下会产生警告
-- *<span style="color:red">error</span>* 在某个条件下会产生错误
-
----
-
+  
 Lumos 属性是用于修饰变量、函数和类的特殊语法，用于指定它们的特定行为或属性。<br>
 Lumos 的属性以 `@` 符号开头，后面跟着属性的名称和可选的参数。<br>
 `@属性名(参数列表)`<br>
@@ -52,15 +45,15 @@ using @default var = @属性1 @属性2 @属性3;
 - `@protected`: 声明变量或函数为受保护的，可以被当前类和子类访问
 - `@hidden`: 类似 C 语言中的 static，将函数的可见性限制在当前编译单元内。
 
-- `@deprecated(消息)`: 标记变量、函数或类为已废弃的，提供一个可选的提示消息说明替代方案或原因。
-- `@deleted(消息)`: 标记变量、函数或类为已删除的，提供一个可选的提示消息说明替代方案或原因。
-- `@replaced-by(函数名)`: 标记某个函数已被其它函数替代，同时标记其已被废弃。
+### 旧版本兼容
 
-> `消息` 的格式应当为字符串
+- `@deprecated("消息")`: 标记变量、函数或类为已废弃的，提供一个可选的提示消息说明替代方案或原因。
+- `@deleted("消息")`: 标记变量、函数或类为已删除的，提供一个可选的提示消息说明替代方案或原因。
+- `@replaced-by(函数名)`: 标记某个函数已被其它函数替代，同时标记其已被废弃。
 
 ## 函数属性
 
-- `@generator`: 声明函数是一个生成器，可以多次返回直到返回为 void
+- `@generator`: 声明函数是一个生成器，可以多次返回直到 `return` 后为空。
 
   它会将函数改变成返回一个仅可迭代对象
 
@@ -70,13 +63,7 @@ using @default var = @属性1 @属性2 @属性3;
     for (int i = 0; i < n; i++) {
       return i;
     }
-    return; // 返回 void，函数终止
-  }
-
-  ...
-
-  for (int i of my_func(10)) {
-    println(i);
+    return; // 空的 return，函数终止
   }
 
   for (int i : my_func(10)) {
@@ -84,16 +71,26 @@ using @default var = @属性1 @属性2 @属性3;
   }
   ```
 
----
+### 调用约定
 
 - `@cdecl`: 调用约定
 - `@stdcall`: 调用约定
 - `@fastcall`: 调用约定
 - `@thiscall`: 调用约定
 
+  使用 thiscall 时，第一个参数无需参数名，会自动被编译器识别为 this 指针
+
+  ```lumos
+  @thiscall
+  fn my_func(MyClass, int value) {
+    member = value;
+  }
+  ```
+
 - `@no-stack-frame`: 无栈帧
 
----
+  编译器不会为函数创建栈帧，这样可以减少函数调用的开销。<br>
+  如果函数中变量过多，寄存器不足，会导致编译错误。
 
 ### 多态
 
@@ -112,7 +109,6 @@ using @default var = @属性1 @属性2 @属性3;
   > 注意：常量表达式不算外部状态
 - `@noreturn`: 声明函数不会返回。
 - `@rettwice`: 声明函数会返回两次。
-- `@nothrow`: 声明函数不会抛出异常。
 
 ---
 
@@ -125,31 +121,39 @@ using @default var = @属性1 @属性2 @属性3;
 
 - `@constexpr`: 声明函数为编译时常量表达式，可以在编译时求值。
 - `@inline`: 强制内联函数，使函数在调用处展开，而不是 C 那样的建议内联。<br>
-  inline 的函数不能被导出
+  inline 的函数不能被导出。<br>
+  <span style="color:purple">无特殊需求不应该使用</span>
 - `@threadlocal`: 声明变量为线程局部变量，每个线程都会有一份独立的副本。
-- `@restrict(参数名列表)`: 声明函数的参数是限定指针，指针之间没有重叠。
+- `@restrict(参数名或序号列表)`: 声明函数的参数是限定指针，指针之间没有重叠。
+
+  ```lumos
+  @restrict(1, 2)
+  fn memcpy(void* dst, void* src, size_t n) {
+    实现
+  }
+  ```
 
 ## 变量属性
 
 - `@align(对齐数)`: 声明变量按照指定的对齐数对齐。
 - `@static`: 修饰函数中的变量，效果同 C语言
 - `@thread`: 变量为每个线程独有，在函数中使用时同时自动设置变量为 `@static`
-- `@generator-local`: 声明函数是一个生成器，可以多次返回直到返回为 void
+- `@register`: 强制变量存储在寄存器中，而不是内存中。<br>
+  <span style="color:purple">无特殊需求不应该使用</span>
 
 ### 示例
 
 ```lumos
-@const
+@const // 输入相同得到相同输出
 fn square(int x) -> int {
   return x * x;
 }
 
-@nothrow
-@inline
+@inline // 强制内联
 fn add(int a, int b) = a + b;
 
 @hidden
 fn helper(int x) -> int {
-  // implementation
+  实现
 }
 ```
