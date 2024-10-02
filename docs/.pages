@@ -5,5 +5,6 @@ nav:
   - 宏: macro
   - 词法: lexical
   - 语法: grammar
+  - 标准库: std
   - 语法树: ast
   - 中间表示: ir

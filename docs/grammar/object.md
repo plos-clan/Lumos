@@ -33,8 +33,8 @@ println(typenameof(a)); // i32
 
 ```lumos
 obj a;         // 不初始化
-a == undefined // true
-typeof(a)      // void
+a == undefined; // true
+typeof(a);      // void
 ```
 
 锁定动态类型对象的类型

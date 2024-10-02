@@ -35,15 +35,6 @@
 #define linux #%config.os.linux
 ```
 
-内置类型
-
-| 名称    | b |
-|---------|---|
-| int32   |   |
-| uint32  |   |
-| float32 |   |
-| float32 |   |
-
 # 控制语句
 
 - `#if`

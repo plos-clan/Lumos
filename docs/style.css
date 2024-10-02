@@ -1,3 +1,22 @@
+@font-face {
+  font-family: 'Ligconsolata';
+  font-weight: normal;
+
+  src: url('assets/Ligconsolata-Regular.ttf') format('woff');
+}
+
+@font-face {
+  font-family: 'Ligconsolata';
+  font-weight: bold;
+
+  src: url('assets/Ligconsolata-Bold.ttf') format('woff');
+}
+
+code,
+pre {
+  font-family: 'Ligconsolata', monospace;
+}
+
 .md-header,
 .md-tabs {
   background: linear-gradient(90deg, #4051b5, #6a82fb);
