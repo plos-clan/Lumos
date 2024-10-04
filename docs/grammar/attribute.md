@@ -51,20 +51,20 @@ using @default = @reset;
 ```lumos
 @assert(arg >= 0)
 fn my_func(int arg) { // 在函数开始处检查
-    println(arg);
-    arg = -1; // 再次检查，打印错误信息并终止
+    println(arg);     // 检查，值未改变
+    arg = -1;         // 再次检查，打印错误信息并终止
 }
 ```
 
 ```lumos
 fn my_func(int arg) {
     assert(arg >= 0); // 只在此处检查
-    println(arg);
-    arg = -1; // 不会再次检查
+    println(arg);     // 不会再次检查
+    arg = -1;         // 不会再次检查
 }
 ```
 
-### 旧版本兼容
+### 函数可用性
 
 - `@deprecated("消息")`: 标记变量、函数或类为已废弃的，提供一个可选的提示消息说明替代方案或原因。
 - `@deleted("消息")`: 标记变量、函数或类为已删除的，提供一个可选的提示消息说明替代方案或原因。

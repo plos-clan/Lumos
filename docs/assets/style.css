@@ -2,19 +2,29 @@
   font-family: 'Ligconsolata';
   font-weight: normal;
 
-  src: url('assets/Ligconsolata-Regular.ttf') format('woff');
+  src: url('Ligconsolata-Regular.ttf') format('woff');
 }
 
 @font-face {
   font-family: 'Ligconsolata';
   font-weight: bold;
 
-  src: url('assets/Ligconsolata-Bold.ttf') format('woff');
+  src: url('Ligconsolata-Bold.ttf') format('woff');
+}
+
+.md-typeset table th,
+.md-typeset table td { 
+  padding: .5em 1em !important;
 }
 
 code,
 pre {
   font-family: 'Ligconsolata', monospace;
+  font-size: 1em !important;
+}
+
+pre>code {
+  font-size: .85em !important;
 }
 
 .md-header,
@@ -30,10 +40,7 @@ pre {
 .md-typeset h6 {
   position: relative;
 
-  display: inline-block;
   overflow: hidden;
-
-  width: 100%;
 }
 
 .md-typeset h1::before,
@@ -43,6 +50,7 @@ pre {
 .md-typeset h5::before,
 .md-typeset h6::before {
   position: absolute;
+  z-index: -1;
   top: 0;
   left: -100%;
 
@@ -55,7 +63,7 @@ pre {
 
   border: 0;
   border-radius: 6px;
-  background: linear-gradient(45deg, #a0f1,#ff00ff0a, #f0a0);
+  background: linear-gradient(45deg, #a0f3,#f0f2, #f0a0);
 }
 
 .md-typeset h1:hover::before,
@@ -109,6 +117,11 @@ pre {
 .md-typeset li p:hover::before,
 .md-typeset li li:hover::before {
   border-color: transparent;
+}
+
+.md-typeset .admonition code,
+.md-typeset details code {
+  font-size: 1em !important;
 }
 
 div.admonition p.admonition-title {
