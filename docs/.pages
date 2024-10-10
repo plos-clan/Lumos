@@ -3,7 +3,6 @@ nav:
   - 快速开始: begin
   - 示例: examples
   - 宏: macro
-  - 词法: lexical
   - 语法: grammar
   - 标准库: std
   - 语法树: ast

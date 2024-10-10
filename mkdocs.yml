@@ -10,7 +10,7 @@ theme:
   favicon: assets/favicon.ico
   logo: assets/favicon.ico
   name: material
-  # custom_dir: overrides
+  custom_dir: overrides
   language: zh
   features:
     - content.tooltips
@@ -24,15 +24,17 @@ theme:
     - navigation.path
     - navigation.indexes
     - navigation.top
-    - navigation.footer
     - toc.follow
-    - toc.integrate
+    # - toc.integrate
     - search.suggest
     - search.highlight
     - search.share
 
 extra:
   generator: false # 删除 Made with Material for MkDocs 文本
+  license: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+  search:
+    language: en, zh
 
 plugins:
   - search

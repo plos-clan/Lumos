@@ -71,6 +71,12 @@ pre code:hover::before {
   color: #e478a5;
 }
 
+.highlight span.no {
+  color: #e4a468;
+
+  font-weight: bold;
+}
+
 .highlight span.s {
   color: #98c379;
 }
@@ -95,6 +101,7 @@ pre code:hover::before {
 
 .highlight span.go {
   color: #5c6370;
+  background-color: #0002;
 }
 
 .highlight span.p {

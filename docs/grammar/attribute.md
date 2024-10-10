@@ -64,7 +64,7 @@ fn my_func(int arg) {
 }
 ```
 
-### 函数可用性
+### 可用性
 
 - `@deprecated("消息")`: 标记变量、函数或类为已废弃的，提供一个可选的提示消息说明替代方案或原因。
 - `@deleted("消息")`: 标记变量、函数或类为已删除的，提供一个可选的提示消息说明替代方案或原因。
@@ -87,6 +87,33 @@ fn my_func(int arg) {
 
   for (val i : my_func(10)) {
     println(i);
+  }
+  ```
+
+- `@mt-lock`：<br>
+  对函数的调用加锁使其同一时间只能被一个线程调用。<br>
+  对类加锁使其同一时间只能有一个成员函数被调用。
+
+  ```lumos
+  var count = 0;
+
+  @mt-lock
+  fn call_count() {
+    count++;
+  }
+  ```
+
+- `@cache`：允许运行时缓存函数返回值，以减少重复计算。<br>
+  <span style="color:purple">`cache` 属性隐式地包含 `pure` 属性</span><br>
+  <span style="color:green">具体是否缓存取决于编译器实现</span>
+
+  ```lumos
+  @cache
+  fn fib(int n) -> int {
+    if (n <= 1) {
+      return n;
+    }
+    return fib(n - 1) + fib(n - 2);
   }
   ```
 
@@ -147,7 +174,7 @@ fn my_func(int arg) {
 
   ```lumos
   @restrict(1, 2)
-  fn memcpy(void* dst, void* src, size_t n) {
+  fn memcpy(void* dst, void* src, usize n) {
     实现
   }
   ```

@@ -1,6 +1,22 @@
 
 # 控制流程
 
+分支包含：
+
+```lumos
+if (条件表达式) {
+    代码块
+} elif (条件表达式) {
+    代码块
+} else {
+    代码块
+}
+
+代码 if 条件表达式;
+
+条件表达式 then 代码;
+```
+
 <span style="color:green">与 C 类似的部分，不会过多赘述</span>
 
 ## 分支
@@ -12,6 +28,67 @@
 ```lumos
 if (条件表达式) {
     代码块
+}
+
+if (条件表达式) 代码;
+```
+
+也可以后置 `if` 语句。
+
+```lumos
+代码 if 条件表达式;
+```
+
+可以在 `if` 中写多个表达式，用 `,` 隔开。条件表达式为最后一个表达式。<br>
+<span style="color:green">表达式中可以定义变量，其作用域为 `if` 语句内</span>
+
+```lumos
+if (表达式, 表达式, 条件表达式) {
+    代码块
+}
+```
+
+```lumos
+if (var a = my_func(), a != null) return a;
+// 等效于
+if (var a = my_func()) return a;
+```
+
+### 条件分支 `else`
+
+`else` 语句是一个可选的标签，用于处理没有匹配的情况。
+
+```lumos
+if (条件表达式) {
+    代码块1
+} else {
+    代码块2
+}
+```
+
+### 条件分支 `then`
+
+`then` 用于表达式和语句之间，在表达式为真时执行语句。
+
+```lumos
+条件表达式 then 代码;
+```
+
+```lumos
+a > 0 then println("a is positive.");
+```
+
+### 多条件分支 `elif`
+
+`elif` 语句是一个可选的标签，用于处理多个条件的情况。
+
+```lumos
+if (条件表达式1) {
+    代码块1
+} elif (条件表达式2) {
+    代码块2
+} else {
+    代码块3
 }
 ```
 
@@ -197,7 +274,8 @@ for (int i = 0; i < 10; i++) {
 }
 ```
 
-利用 `break` 加层数可以快速跳出多层循环。
+利用 `break` 加层数可以快速跳出多层循环。<br>
+<span style="color:green">默认的跳出一层就是 `break 1;`</span>
 
 ```lumos
 for (int i = 0; i < 10; i++) {

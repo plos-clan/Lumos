@@ -16,6 +16,7 @@
    1. 为文件，找到则终止
 4. 源文件名，查找工作目录下是否存在路径 `xxx.lm`
    1. 为文件，找到则终止
-5. 抛出错误：找不到文件 `xxx`
+5. 在默认路径下查找（再次执行 1 至 4 步）
+6. 抛出错误：找不到文件 `xxx`
 
 *<span style="color:orange">warning</span>: <span style="color:darkcyan">include 一个模块时</span>*

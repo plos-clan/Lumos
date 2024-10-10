@@ -73,3 +73,32 @@ fn main {
   return add(1, -1);
 }
 ```
+
+## 调用简写
+
+对于没有参数的函数，可以直接使用函数名来调用。
+
+如果有以下函数：
+
+```lumos
+fn rand() {
+    @static
+    int seed = 1;
+    seed = seed * 114514 + 1919810;
+    return seed;
+}
+```
+
+我们就可以：
+
+```lumos
+println(rand());
+println(rand);
+```
+
+对于单个参数的函数，我们可以省略括号：
+
+```lumos
+println("Hello world!");
+println "Hello world!";
+```

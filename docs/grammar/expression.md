@@ -1,6 +1,6 @@
 # 表达式
 
-<span style="color:purple">与 C++ 中不一样的是，在 lumos 中如果表达式是一个右值，则不能取地址。<br>常量表达式必为右值，故不能取地址。</span>
+<span style="color:purple">与 C++ 中不一样的是，在 Lumos 中如果表达式是一个右值，则不能取地址。<br>常量表达式必为右值，故不能取地址。</span>
 
 ```lumos
 var myvar = 10;     // 变量
@@ -18,7 +18,7 @@ val c     = &expr3; // 错误
 以下两种写法在使用 `int b = expr * 2;` 时等效，均展开为 `int b = (a + 10) * 2;`。
 
 ```lumos
-#define expr (a + 10)
+#define \num> expr (a + 10)
 let expr = a + 10;
 ```
 
@@ -48,9 +48,9 @@ let expr = float(a + 10);
 } // expr 超出作用域，不再可用
 
 {
-#define expr (a + 10)
-    int b = expr * 2;
-#undef expr // 宏需要手动取消定义
+#define \num> expr (a + 10)
+    int b = \num> expr * 2;
+#undef \num> expr // 宏需要手动取消定义
 }
 ```
 
@@ -77,4 +77,4 @@ int b[11];
 // a 与 b 的大小完全相同
 ```
 
-其余用法与普通表达式相同。
+***其余用法与普通表达式相同。***
