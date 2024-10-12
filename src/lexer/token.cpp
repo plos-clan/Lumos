@@ -228,6 +228,7 @@ void Chr::_print_to(ostream &os) const {
 
 // 解析数字后缀
 auto num_type_suffix(str raw, bool is_float) -> Tuple<Token::EToken, int, int> {
+  if (raw.length() == 0) return {is_float ? Token::Float : Token::Int, 0, 0};
   auto it = raw.rbegin();
   if (*it == 'z' || *it == 'Z') return {Token::MPZ, 0, 1};
   if (*it == 'q' || *it == 'Q') return {Token::MPQ, 0, 1};
@@ -342,7 +343,7 @@ L1:
   return;
 }
 _float: { // 浮点字面量，此时整数和小数部分应该已经被删除
-  if (raw[0] == 'e' || raw[0] == 'E') { // 解析指数部分
+  if (raw.length() > 0 && (raw[0] == 'e' || raw[0] == 'E')) { // 解析指数部分
     size_t b = 1, n = 1;
     bool   exp_sign = raw[n] == '-';
     if (raw[n] == '+' || raw[n] == '-') b++, n++;

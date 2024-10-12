@@ -86,15 +86,6 @@ code3
 > 编译器自定义宏以 `#X-` 开头
 > 用户自定义宏以 `#Y-` 开头
 
-#
-
-```lumos
-#replace rule0 "xxx" -> "yyy"  // 将 xxx 替换为 yyy
-#end rule0                     // 删除 rule0
-#replace rule1 /xxx$/ -> /yyy/ // 将行结尾的 xxx 替换为 yyy
-#end rule1                     // 删除 rule1
-```
-
 ```lumos
 #set xxx = 3
 #while xxx > 0
@@ -121,6 +112,19 @@ code3
   `#warning "提示信息"`<br>
   `#warning W1145 "提示信息"` 定义警告编号，自定义的用 `WX` 开头
 
-- `#system curl -O http://example.com/xxx.lm`<br>
-  `#import "xxx.lm"`<br>
+- `#system`：执行系统命令
+
+  ```lumos
+  #system curl -O http://example.com/xxx.lm
+  #import "xxx.lm"
+  ```
+
   > 不是哥们，这啥玩意啊？
+
+```lumos
+#define fib(n) \
+    #if n == 0 #; 0 #\
+    #elif n == 1 #; 1 #\
+    #else #; fib(n - 1) + fib(n - 2) #\
+    #end
+```

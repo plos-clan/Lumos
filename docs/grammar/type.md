@@ -122,3 +122,16 @@ fn main() {
     }
 }
 ```
+
+## 类型转换
+
+```lumos
+int a = 1;
+float b = a;
+```
+
+## 类型别名
+
+```lumos
+using MyInt = int;
+```
