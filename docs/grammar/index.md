@@ -21,3 +21,31 @@ val b = 2; // 不可变变量
 let c = 3; // 表达式
 lit d = 4; // 常量表达式
 ```
+
+```lumos
+// 函数
+fn main(int argc, char* argv[argc]) -> int {
+    return 0;
+}
+```
+
+```lumos
+// lambda 表达式
+var squre = fn (float a) {
+    return a * a;
+}
+```
+
+```lumos
+fn main {
+    var a = 1;
+    var b = 2;
+    var c = a + b;
+    println(`$a + $b = $c`); // 格式化字符串
+    return 0;
+}
+```
+
+```lumos
+using "std";
+```

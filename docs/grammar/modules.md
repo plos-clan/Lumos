@@ -3,34 +3,35 @@
 
 ## 导入模块
 
-使用 `using` 来导入模块，模块中的内容将会被导入到当前命名空间中。
+使用 `using` 来导入模块，模块中的内容将会被导入到对应的命名空间中。
 
 ```lumos
 using "std";
 ```
 
-这样会导致一些问题，比如向当前命名空间导入了一些不需要或不应该导入的内容。<br>
-所以 Lumos 提供了一种写法，可以导入模块内容到指定的命名空间中。
+*对应的命名空间* 指配置文件中指定的模块名，如果没有指定则为模块所在的文件夹名。
+
+Lumos 提供了一种写法，可以导入模块内容到指定的命名空间中。
 
 ```lumos
-using "std" -> std; // 导入 std 模块到 std 命名空间
-                    // std 命名空间可以不存在
-```
-
-上面的写法相当于
-
-```lumos
-namespace std {
-    using "std";
-}
+using "std" -> abc; // 导入 std 模块到 abc 命名空间
+                    // abc 命名空间可以不存在
 ```
 
 导入模块后可以 using 需要的内容。
 
 ```lumos
-using "std" -> std;
+using "std";
 using std.println;
 ```
+
+当然也可以导入到根命名空间：
+
+```lumos
+using "std" -> ::;
+```
+
+但这样会导致一些问题，比如向当前命名空间导入了一些不需要或不应该导入的内容。
 
 ## 构建模块
 
@@ -125,4 +126,43 @@ author:
     email: zzz  # 联系邮箱
     avatar: zzz # 头像地址
     url: zzz    # 个人主页
+```
+
+可以使用更复杂的目录结构，比如模块中包含子模块：
+
+```files
+my_model/
+  my_submodel/
+    main.lh
+    main.lm
+    lumos.yaml
+  main.lh
+  main.lm
+  lumos.yaml
+```
+
+此时你可以在 `lumos.yaml` 中
+
+```yaml
+using:
+  - ".my_submodel -> submodel"
+```
+
+## 模块宏
+
+`ismodelimpl` 宏用于判断当前文件是否被当前模块实现文件包含或导入。
+
+```lumos
+#if ismodelimpl
+// 代码
+#endif
+```
+
+`isfileimpl` 宏用于判断当前文件是否被对应的实现文件包含。<br>
+*如 `xxx.lh` 和 `xxx.lm`*
+
+```lumos
+#if isfileimpl
+// 代码
+#endif
 ```

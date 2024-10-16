@@ -5,48 +5,8 @@
 
 - `#include` 包含另一个文件的内容
 - `#import`
-- `#once`
-
-# 宏定义
-
-对于某个宏定义：
-
-- `#define` 定义
-- `#redef` 重写
-- `#undef` 取消
-
-  取消某个普通宏
-
-  ```lumos
-  #define XXX
-  #undef XXX
-  ```
-
-  取消某个宏函数
-
-  ```lumos
-  #define XXX(name) name
-  #undef XXX(1) // XXX(N) 表示有 N 个参数
-  ```
-
-> 编译器内置宏定义以 `#%` 开头
-
-```lumos
-#define linux #%config.os.linux
-```
-
-# 控制语句
-
-- `#if`
-- `#elif`
-- `#else`
-- `#end`
-- `#while`<br>
-  `#while 1 <= 10`
-- `#for`<br>
-  `#for i from 1 to 10`
-- `#.L1` 建立一个 label
-- `#goto L1` 跳转到 label L1
+- `#once` 该文件最多被包含一次
+- `#includeable` 该文件可以被包含
 
 # 在宏中嵌入代码
 
@@ -105,12 +65,6 @@ code3
 #  eof
 #end
 ```
-
-- `#enwarning` 开启某个警告
-- `#diswarning` 关闭某个警告
-- `#warning` 发出某个警告<br>
-  `#warning "提示信息"`<br>
-  `#warning W1145 "提示信息"` 定义警告编号，自定义的用 `WX` 开头
 
 - `#system`：执行系统命令
 

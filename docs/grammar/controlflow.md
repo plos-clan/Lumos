@@ -397,3 +397,42 @@ for (int i = 0; i < 10; i++) {
 <span style="color:green">以上两个可以同时使用</span>
 
 <span style="color:green">`breaked` 和 `then` 中都可以使用迭代变量</span>
+
+## 跳转
+
+### 标签跳转 `goto`
+
+`goto` 用于跳转到指定标签。
+
+```lumos
+loop:
+    println("Hello world!");
+    goto loop;
+```
+
+对于标签跳转，无法跳过变量的初始化。
+
+```lumos
+    if (某些条件) goto label; // 这是不行的，因为跳转到 label 后无法确定 my_var 的值。
+    size_t my_var = 10;
+    println(my_var);
+label:
+    println("Hello world!");
+```
+
+### 任意地址跳转 `goto`
+
+`goto` 用于跳转到任意地址，对应汇编中的 jmp 指令。
+
+```lumos
+goto 0x12345678;
+```
+
+对标签取地址后为其后一行代码地址，类型为 `void*`。
+
+```lumos
+loop:
+    println("Hello world!");
+    let addr = &loop;
+    goto addr;
+```

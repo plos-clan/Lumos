@@ -37,7 +37,7 @@ class LumosLexer(RegexLexer):
           (chars('+-*/%=^&|?:<>!~.'), Operator),
           (kwds(['sizeof', 'lengthof', 'typeof', 'typenameof']), Operator),
           # (r'# *(define|undef|if|fidef|ifndef|end|set|clear|once|include)', Generic.Prompt),
-          (r'# *[a-z]*', Generic.Prompt),
+          (r'# *[a-z\-]*', Generic.Prompt),
           (kwds([
               ['void', 'bool', 'char', 'int', 'uint', 'float'],
               ['i8', 'i16', 'i32', 'i64', 'u8', 'u16', 'u32', 'u64'],
