@@ -94,28 +94,72 @@ if (条件表达式1) {
 
 ### 多条件分支 `switch`
 
-`switch` 语句是一种多条件分支，根据条件执行不同的代码块。
+`switch` 语句是一种多条件分支，根据条件执行不同的代码块。<br>
+实际上的实现就是 `if - elif - else` 序列，只是更加简洁。<br>
+<span style="color:green">由于现代编译器的优化，在编译时将 `switch` 展开为 `if` 并不会导致低性能</span>
 
 ```lumos
 switch (表达式) {
-    case 常量表达式1:
+    常量表达式1: {
         代码块1
-        break;
-    case 常量表达式2:
+    }
+    常量表达式2: {
         代码块2
-        break;
-    default:
+    }
+    default: {
         代码块3
+    }
 }
 ```
 
-`switch` 语句中的 `case` 语句是一种标签，用于标记代码块的入口。
+`switch` 中的每个条目由 常量表达式 + `:` + 语句或代码块 组成。
 
-`break` 语句用于跳出 `switch` 语句。
+!!! question "为什么不使用 `case`？"
+    Lumos 不会像 C 语言那样只把 `case` 处当作跳转的标签（要和普通标签区分开），需要在下一段代码前手动 `break`，所以不需要和普通标签区分，直接出现在 `switch` 内的必定是条件表达式。
 
+`break` 语句用于跳出 `switch` 语句。<br>
+`continue` 语句用于跳到下一个条件的处理过程。<br>
 `default` 语句是一个可选的标签，用于处理没有匹配的情况。
 
+```lumos
+switch (num) {
+    1: {
+        for (var i in [2, 3, 5, 7, 11]) {
+            println(i);
+        }
+    } // 代码块结束，自动跳出
+    2: continue; // 向下跳
+    3: continue; // 向下跳
+    4: {
+        println("2 或 3 或 4");
+    }
+    default: break; // 跳出 switch
+}
+```
+
+任何数据类型，只要重载 `==` 运算符就能支持 `switch`，只要重载 `\hash` 运算符就能进行匹配优化。
+
 ## 循环
+
+`@limit(次数)` 属性可以限制循环的最大执行次数，防止出现无限循环，其实现为循环达到指定次数后自动调用 `break`。
+
+```lumos
+@limit(10)
+for (int i = 0; i < 100; i++) {
+    println(i);
+} breaked {
+    println("Limit reached.");
+}
+```
+
+`@unroll` 属性可以展开编译时已知次数的循环，减少循环的开销。
+
+```lumos
+@unroll
+for (int i = 0; i < 10; i++) {
+    println(i);
+}
+```
 
 ### 条件循环 `while`
 

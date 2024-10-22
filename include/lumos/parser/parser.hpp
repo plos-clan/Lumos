@@ -14,16 +14,6 @@ __ERRORIMPL__("Parser");
 class Parser {
   lexer::Lexer &lex;
 
-public:
-  ast::Container *container;
-
-  auto find(strref name) const -> AST * {
-    if (container == null) return null;
-    return container->find(name);
-  }
-
-  explicit Parser(lexer::Lexer &lex) : lex(lex) {}
-
   auto lexpeek() -> Token * {
     return lex.peek();
   }
@@ -49,8 +39,19 @@ public:
     return lex.get(type, value);
   }
 
+public:
+  ast::Container *container;
+
+  auto find(strref name) const -> AST * {
+    if (container == null) return null;
+    return container->find(name);
+  }
+
+  explicit Parser(lexer::Lexer &lex) : lex(lex) {}
+
   auto parse_fmtstr(); // 最阴间的玩意，格式化字符串
 
+  auto parse_block() -> AST *; // 解析 using
   auto parse_using() -> AST *; // 解析 using
   void try_func_impl();
   auto parse_function() -> ast::Function *;

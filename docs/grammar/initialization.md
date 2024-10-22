@@ -27,7 +27,7 @@ println(a);    // 1
 
 ```lumos
 @lateinit
-val int a;     // 此时 a 未初始化
+int val a;     // 此时 a 未初始化
 initvar a = 1; // 手动初始化 a
 println(a);    // 1
 a = 2;         // error: 无法重新赋值给不可变变量
@@ -36,7 +36,7 @@ a = 2;         // error: 无法重新赋值给不可变变量
 对于任意的变量，我们都能不断地重新初始化它。
 
 ```lumos
-val int a = 1;
+int val a = 1;
 initvar a = 2;
 initvar a = 3;
 ```

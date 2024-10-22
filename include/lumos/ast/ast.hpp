@@ -87,7 +87,7 @@ public:
 class AST {
 public:
   u32 id; // 对象的 ID
-  AST() {}
+  AST()          = default;
   virtual ~AST() = default;
 
   // 输出 直接调用 print_to 不应该修改
@@ -111,7 +111,10 @@ private:
 
 // --------------------------------------------------
 
-// 不强制 Named 有名称
+/**
+ *\brief 有名称对象（基类）
+ *
+ */
 class Named : public AST {
 public:                     // 根元素的以下两个属性为 null
   Root      *root   = null; // 储存根元素
@@ -124,7 +127,6 @@ public:                     // 根元素的以下两个属性为 null
   //   该节点导出时名称重整的策略
   Mangling mangling_style = Mangling::none;
 
-  explicit Named(Container *parent);
   Named(Container *parent, str name);
   ~Named() override = default;
 

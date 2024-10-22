@@ -107,6 +107,8 @@ fn MyInt.as int {
 }
 ```
 
+也可以省去每个函数前都写 `MyInt.` 的麻烦，使用 `impl` 关键字：
+
 ```lumos
 impl MyInt {
 

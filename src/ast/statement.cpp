@@ -1,4 +1,4 @@
-#include <lumos/ast.hpp>
+#include <lumos.hpp>
 
 namespace lumos::ast {
 

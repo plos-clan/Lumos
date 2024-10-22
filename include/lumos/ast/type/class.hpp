@@ -6,19 +6,20 @@
 namespace lumos::ast {
 
 class Struct : public Type, public Container {
-  struct class_var {
+  struct MemberVar {
     str      name;
     PType    type;
     PLiteral value;
   };
-  struct class_func {
+  struct MemberFunc {
     str       name;
     PFunction func;
   };
 
-  Vector<class_var>  variables;
-  Vector<class_func> functions;
+  Vector<MemberVar>  variables;
+  Vector<MemberFunc> functions;
 
+public:
   Struct()           = default;
   ~Struct() override = default;
 
@@ -27,19 +28,20 @@ class Struct : public Type, public Container {
 
 // 结构体或类
 class Class : public Type, public Container {
-  struct class_var {
+  struct MemberVar {
     str      name;
     PType    type;
     PLiteral value;
   };
-  struct class_func {
+  struct MemberFunc {
     str       name;
     PFunction func;
   };
 
-  Vector<class_var>  variables;
-  Vector<class_func> functions;
+  Vector<MemberVar>  variables;
+  Vector<MemberFunc> functions;
 
+public:
   Class()           = default;
   ~Class() override = default;
 
