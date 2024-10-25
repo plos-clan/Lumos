@@ -106,7 +106,7 @@ switch (表达式) {
     常量表达式2: {
         代码块2
     }
-    default: {
+    @default: {
         代码块3
     }
 }
@@ -117,9 +117,11 @@ switch (表达式) {
 !!! question "为什么不使用 `case`？"
     Lumos 不会像 C 语言那样只把 `case` 处当作跳转的标签（要和普通标签区分开），需要在下一段代码前手动 `break`，所以不需要和普通标签区分，直接出现在 `switch` 内的必定是条件表达式。
 
-`break` 语句用于跳出 `switch` 语句。<br>
-`continue` 语句用于跳到下一个条件的处理过程。<br>
-`default` 语句是一个可选的标签，用于处理没有匹配的情况。
+`leave` 语句用于跳出 `switch` 语句。<br>
+`@next` 语句用于跳到下一个条件的处理过程。<br>
+`@default` 是一个可选的标签，用于处理没有匹配的情况。
+
+> 不是？你属性咋跑这来了
 
 ```lumos
 switch (num) {
@@ -128,16 +130,64 @@ switch (num) {
             println(i);
         }
     } // 代码块结束，自动跳出
-    2: continue; // 向下跳
-    3: continue; // 向下跳
+    2: @next; // 向下跳
+    3: @next; // 向下跳
     4: {
         println("2 或 3 或 4");
     }
-    default: break; // 跳出 switch
+    @default: leave; // 跳出 switch
 }
 ```
 
 任何数据类型，只要重载 `==` 运算符就能支持 `switch`，只要重载 `\hash` 运算符就能进行匹配优化。
+
+### 多条件分支 `match`
+
+与 `switch` 类似，`match` 语句是一种多条件分支，根据条件执行不同的代码块，但条件为匹配表达式而不是匹配值。<br>
+<span style="color:green">`match` 语句是 `switch` 语句的增强版</span>
+
+```lumos
+match (表达式) {
+    匹配表达式1: {
+        代码块1
+    }
+    匹配表达式2: {
+        代码块2
+    }
+    @default: {
+        代码块3
+    }
+}
+```
+
+无初始表达式的 `match` 语句。<br>
+可以当作另一种 `if - elif - else` 使用。
+
+```lumos
+match {
+    条件表达式1: {
+        代码块1
+    }
+    条件表达式2: {
+        代码块2
+    }
+    @default: {
+        代码块3
+    }
+}
+```
+
+相当于：
+
+```lumos
+if (条件表达式1) {
+    代码块1
+} elif (条件表达式2) {
+    代码块2
+} else {
+    代码块3
+}
+```
 
 ## 循环
 
@@ -213,6 +263,14 @@ for (初始化语句; 条件表达式; 更新语句) {
 }
 ```
 
+当我们不需要计数器变量时可以直接：
+
+```lumos
+for (迭代次数) {
+    循环体
+}
+```
+
 ### 遍历循环 `for`
 
 `for` 循环是一种遍历循环，可以在循环体内遍历容器。
@@ -247,7 +305,7 @@ for (int i = 0; i < 10; i++) {
 }
 ```
 
-## 跳出
+## 跳转
 
 ### 跳过本次循环 `continue`
 
@@ -287,7 +345,7 @@ for (int i = 0; i < 10; i++) {
 end:
 ```
 
-### 跳出多条件分支 `break`
+<!-- ### 跳出多条件分支 `break`
 
 `break` 用于跳出多条件分支。
 
@@ -302,9 +360,9 @@ switch (ch) {
     default:
         break;
 }
-```
+``` -->
 
-### 跳出多层
+### 跳出多层循环
 
 利用 `break` 加循环标签可以快速跳出多层循环。
 
@@ -330,7 +388,9 @@ for (int i = 0; i < 10; i++) {
 }
 ```
 
-### 指定跳出 `for` 或 `switch`
+<!-- 我们现在不需要这个特性，因为 switch 使用 leave -->
+
+<!-- ### 指定跳出 `for` 或 `switch`
 
 如果是 `for` 中嵌 `switch` 或 `switch` 中嵌 `for`，可以使用 `break xxx` 来跳出。
 
@@ -353,15 +413,17 @@ switch (ch) {
         break;
     default: println(i);
 }
-```
+``` -->
 
 ### 跳出代码块 `leave`
 
 `leave` 用于跳出代码块。<br>
 <span style="color:purple">必须是使用 `{}` 包裹的代码块。下面的示例语句不算是代码块。</span>
 
+`leave` 也可以跳出 `if` `switch` 的代码块。
+
 ```lumos
-if(表达式) leave;
+if (表达式) leave;
 ```
 
 使用示例：
@@ -383,6 +445,15 @@ let a = val {
     b; // 不会执行到此处
 }
 println(a); // 0
+```
+
+作为函数体的代码块只能 `return` 而不能 `leave`。
+
+```lumos
+fn my_func(int a) {
+    if (a == 1) leave; // 会报错，请使用 return
+    println("Hello, World!");
+}
 ```
 
 ## 跳出后
@@ -449,7 +520,7 @@ for (int i = 0; i < 10; i++) {
 `goto` 用于跳转到指定标签。
 
 ```lumos
-loop:
+  loop:
     println("Hello world!");
     goto loop;
 ```
@@ -460,7 +531,7 @@ loop:
     if (某些条件) goto label; // 这是不行的，因为跳转到 label 后无法确定 my_var 的值。
     size_t my_var = 10;
     println(my_var);
-label:
+  label:
     println("Hello world!");
 ```
 
@@ -475,7 +546,7 @@ goto 0x12345678;
 对标签取地址后为其后一行代码地址，类型为 `void*`。
 
 ```lumos
-loop:
+  loop:
     println("Hello world!");
     let addr = &loop;
     goto addr;

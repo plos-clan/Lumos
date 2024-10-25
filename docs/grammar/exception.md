@@ -6,6 +6,8 @@
 Lumos 默认不允许抛出异常，但可以用 `@throwable` 声明函数可以抛出异常。<br>
 也可以使用 `@throwable` 声明命名空间或类中的所有函数都可以抛出异常。
 
+<span style="color:purple">注意：`@throwable` 会改变函数的重整名，也就是说可抛出异常的和不可抛出异常的版本互为重载。</span>
+
 ```lumos
 @throwable
 fn my_func() {

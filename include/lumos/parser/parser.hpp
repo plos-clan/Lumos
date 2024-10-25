@@ -47,7 +47,9 @@ public:
     return container->find(name);
   }
 
-  explicit Parser(lexer::Lexer &lex) : lex(lex) {}
+  explicit Parser(lexer::Lexer &lex) : lex(lex) {
+    new ast::Root();
+  }
 
   auto parse_fmtstr(); // 最阴间的玩意，格式化字符串
 

@@ -104,4 +104,5 @@ int* d = &a, e = &b;
 ```lumos
 int* restrict a = malloc(4);
 int* restrict b = a; // 这是不可以的
+int*          c = a; // 这也是不可以的
 ```

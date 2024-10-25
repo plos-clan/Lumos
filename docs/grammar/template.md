@@ -1,11 +1,11 @@
 
 # 模板
 
-我们使用 `@<xxx>` 来定义一个模板。
+我们使用 `</xxx/>` 来定义一个模板。
 
 ```lumos
-fn my_func<typename T>(T arg1) {
-    println(arg1);
+fn my_func</typename T/>(T arg1) {
+    println(`${typenameof T}: $arg1`);
 }
 ```
 
@@ -22,11 +22,11 @@ fn main() {
 <span style="color:green">注意特化必须在模板声明后</span>
 
 ```lumos
-fn my_func<typename T>(T arg1) {
+fn my_func</typename T/>(T arg1) {
     println(arg1);
 }
 
-fn my_func<int>(T arg1) {
+fn my_func</int/>(T arg1) {
     println(`整数：$arg1`);
 }
 ```
@@ -35,7 +35,7 @@ fn my_func<int>(T arg1) {
 因此我们建议对模板进行完整的单元测试。
 
 ```lumos
-fn my_func<typename T>(T arg1) {
+fn my_func</typename T/>(T arg1) {
     println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
 }
 
@@ -46,8 +46,17 @@ fn main {
 }
 ```
 
+也可以手动对其类型进行限制：
+
+```lumos
+@staticassert(T !is floattype)
+fn my_func</typename T/>(T arg1) {
+    println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
+}
+```
+
 对模板进行显式的实例化。
 
 ```lumos
-fn my_func<int>;
+fn my_func</int/>;
 ```
