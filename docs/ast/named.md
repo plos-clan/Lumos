@@ -2,9 +2,10 @@
 # 命名节点 `Named` : I `AST`
 
 ```lumos
-Root      根节点
-Container 父节点
-str       节点的名称
+Root       根节点
+Container  父节点
+str        节点的名称
+mangling() 生成节点的重整名称
 ```
 
 ## 具名函数 `NamedFunc` : `Named`

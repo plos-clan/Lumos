@@ -1,6 +1,30 @@
 
 # 类
 
+## 声明
+
+```lumos
+class MyClass; // 声明一个类
+```
+
+## 定义
+
+具名类
+
+```lumos
+class MyClass {
+  省略实现
+} // class MyClass
+```
+
+匿名类（必须同时声明变量）
+
+```lumos
+class {
+  省略实现
+} my_var; // 定义一个匿名类并同时声明变量
+```
+
 ## 初始化
 
 ### 构造函数初始化

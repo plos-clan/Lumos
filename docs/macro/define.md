@@ -30,6 +30,14 @@
   #redef XXX  2
   ```
 
+也可以使用多行定义，由 `#begin` 和 `#end` 包裹。
+
+```lumos
+#begin define XXX(arg1)
+    arg1
+#end
+```
+
 > 编译器内置宏定义以 `#%` 开头
 
 ```lumos
