@@ -65,12 +65,27 @@ println(a);    // 由于编译器的优化策略，可能输出 1 或 2
 
 ## 初始化
 
-所有变量都会被初始化，即使没有给定初始化表达式。
+Lumos 允许的初始化方式有：
+
+- 赋值初始化 `int my_var = 1;`
+- 构造函数初始化 `int my_var(1);`<br>
+  <span style="color:green">对于基本数据类型有伪构造函数</span>
+- 结构体元素赋值初始化 `MyStructure my_var = {1, 2, .third = 3};`
+- 数组元素赋值初始化 `int my_var[] = {1, 2, [2] = 3};`
+- 默认初始化 `int my_var;`<br>
+  <span style="color:green">默认初始化会将基本数据类型变量初始化为二进制 0，对于其它数据类型则调用默认构造函数</span>
+  <span style="color:green">我们推荐显式初始化</span>
+
+<span style="color:purple">注意 `MyStructure my_var{1, 2, 3};` 这样的 C++ 风格是不允许的</span>（见 getter setter）
+
+默认初始化使得所有变量都会被初始化，即使没有给定初始化表达式。
 
 ```lumos
-int   a; // 这会被初始化为 0
-float b; // 这会被初始化为 0.0
-void* c; // 这会被初始化为 null
+int   a; // 初始化为 0
+float b; // 初始化为 0.0
+bool  c; // 初始化为 false
+char  d; // 初始化为 '\0'
+str   e; // 初始化为 ""
 ```
 
 变量类型与表达式类型不同时变量初始化被视为显式类型转换。但之后的赋值只允许隐式类型转换。
@@ -78,6 +93,38 @@ void* c; // 这会被初始化为 null
 ```lumos
 int* a = 0x123456;
 ```
+
+### 手动初始化
+
+使用 `lateinit` 属性来让变量不自动初始化。<br>
+<span style="color:green">注意访问未初始化的变量是未定义行为</span>
+
+```lumos
+@lateinit
+int a;         // 此时 a 未初始化
+initvar a = 1; // 手动初始化 a
+println(a);    // 1
+```
+
+对于不可变变量，使用 `lateinit` 时仅可以在 `initvar` 处赋值一次。
+
+```lumos
+@lateinit
+int val a;     // 此时 a 未初始化
+initvar a = 1; // 手动初始化 a
+println(a);    // 1
+a = 2;         // error: 无法重新赋值给不可变变量
+```
+
+对于任意的变量，我们都能不断地重新初始化它。
+
+```lumos
+int val a = 1;
+initvar a = 2;
+initvar a = 3;
+```
+
+> 这给了我们一种合法的强行更改不可变变量的方法。
 
 ## 全局不可变变量
 
@@ -95,7 +142,9 @@ int* d = &a, e = &b;
 // d 和 e 都是指针
 ```
 
-## `restrict` 限定符
+## 限定符
+
+### `restrict`
 
 <span style="color:green">注意 `restrict` 不是属性</span>
 
@@ -105,4 +154,62 @@ int* d = &a, e = &b;
 int* restrict a = malloc(4);
 int* restrict b = a; // 这是不可以的
 int*          c = a; // 这也是不可以的
+```
+
+### `volatile`
+
+<span style="color:green">注意 `volatile` 不是属性</span>
+
+`volatile` 限定符用于变量，表示变量可能会被其它线程或硬件改变，编译器不会对其访问（读写）进行优化。
+
+```lumos
+volatile int a = 1;
+```
+
+## 属性
+
+### `register`
+
+`@register(寄存器名)` 属性用于强制变量存储在寄存器中，而不是内存中。<br>
+<span style="color:green">这会导致相应寄存器无法被其它变量使用</span><br>
+<span style="color:purple">无特殊需求不应该使用</span>
+
+```lumos
+@register("rax")
+int a = 1;
+```
+
+## `isrestrict` 运算符
+
+`isrestrict` 运算符用于判断两个指针是否独立。
+
+```lumos
+int* a = malloc(4);
+int* b = malloc(4);
+int* c = a;
+
+// 当编译器可以自动推断内存块大小时
+println(isrestrict(a, b)); // 输出 true
+println(isrestrict(a, c)); // 输出 false
+// 当编译器不能自动推断内存块大小时
+println(isrestrict(a, 4, b, 4)); // 输出 true
+println(isrestrict(a, 4, c, 4)); // 输出 false
+```
+
+## getter setter
+
+你可以使用 getter 和 setter 来访问变量。
+
+```lumos
+int a {
+  \get {
+    return 1;
+  }
+  \set {
+    println("set a to $value");
+  }
+}
+
+a = 2; // 输出 set a to 2
+println(a); // 输出 1
 ```

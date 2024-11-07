@@ -3,13 +3,15 @@
 
 ## 声明
 
+在 Lumos 中，我们可以使用以下方式声明一个名为 MyClass 的类：
+
 ```lumos
 class MyClass; // 声明一个类
 ```
 
 ## 定义
 
-具名类
+具名类（注意无需结尾的分号，也不能同时声明变量）
 
 ```lumos
 class MyClass {
@@ -77,9 +79,9 @@ class MyClass {
 
 ```lumos
 class MyClass {
-  @public int a;
+  @public    int a;
   @protected int b;
-  @private int c;
+  @private   int c;
 } // class MyClass
 ```
 

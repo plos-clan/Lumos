@@ -345,23 +345,6 @@ for (int i = 0; i < 10; i++) {
 end:
 ```
 
-<!-- ### 跳出多条件分支 `break`
-
-`break` 用于跳出多条件分支。
-
-```lumos
-switch (ch) {
-    case 'A':
-        println("A");
-        break;
-    case 'B':
-        println("B");
-        break;
-    default:
-        break;
-}
-``` -->
-
 ### 跳出多层循环
 
 利用 `break` 加循环标签可以快速跳出多层循环。
@@ -387,33 +370,6 @@ for (int i = 0; i < 10; i++) {
     }
 }
 ```
-
-<!-- 我们现在不需要这个特性，因为 switch 使用 leave -->
-
-<!-- ### 指定跳出 `for` 或 `switch`
-
-如果是 `for` 中嵌 `switch` 或 `switch` 中嵌 `for`，可以使用 `break xxx` 来跳出。
-
-```lumos
-for (int i = 0; i < 10; i++) {
-    switch (i) {
-        case 5: break for;
-        default: println(i);
-    }
-}
-```
-
-```lumos
-switch (ch) {
-    case 'A':
-        for (int i = 0; i < 10; i++) {
-            if (i == 5) break switch;
-            println(i);
-        }
-        break;
-    default: println(i);
-}
-``` -->
 
 ### 跳出代码块 `leave`
 
