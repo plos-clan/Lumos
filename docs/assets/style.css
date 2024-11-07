@@ -13,8 +13,24 @@
 }
 
 .md-typeset table th,
-.md-typeset table td { 
+.md-typeset table td {
   padding: .5em 1em !important;
+}
+
+.md-typeset thead tr {
+  background-color: #00000011;
+}
+
+.md-typeset tbody tr:nth-child(even) {
+  background-color: #00000006;
+}
+
+.md-typeset tbody tr:nth-child(odd) {
+  background-color: transparent;
+}
+
+.md-typeset tbody tr:hover {
+  background-color: #0088ff11 !important;
 }
 
 code,
@@ -32,23 +48,23 @@ pre>code {
   background: linear-gradient(90deg, #4051b5, #6a82fb);
 }
 
-.md-typeset h1,
-.md-typeset h2,
-.md-typeset h3,
-.md-typeset h4,
-.md-typeset h5,
-.md-typeset h6 {
+.md-content h1,
+.md-content h2,
+.md-content h3,
+.md-content h4,
+.md-content h5,
+.md-content h6 {
   position: relative;
 
   overflow: hidden;
 }
 
-.md-typeset h1::before,
-.md-typeset h2::before,
-.md-typeset h3::before,
-.md-typeset h4::before,
-.md-typeset h5::before,
-.md-typeset h6::before {
+.md-content h1::before,
+.md-content h2::before,
+.md-content h3::before,
+.md-content h4::before,
+.md-content h5::before,
+.md-content h6::before {
   position: absolute;
   z-index: -1;
   top: 0;
@@ -63,15 +79,17 @@ pre>code {
 
   border: 0;
   border-radius: 6px;
-  background: linear-gradient(45deg, #a0f3,#f0f2, #f0a0);
+  background: linear-gradient(45deg, #a0f2,#f0f1, #f0a0);
+
+  /* mask-image: linear-gradient(0deg, transparent, black, black, black, transparent); */
 }
 
-.md-typeset h1:hover::before,
-.md-typeset h2:hover::before,
-.md-typeset h3:hover::before,
-.md-typeset h4:hover::before,
-.md-typeset h5:hover::before,
-.md-typeset h6:hover::before {
+.md-content h1:hover::before,
+.md-content h2:hover::before,
+.md-content h3:hover::before,
+.md-content h4:hover::before,
+.md-content h5:hover::before,
+.md-content h6:hover::before {
   left: 0;
 }
 
