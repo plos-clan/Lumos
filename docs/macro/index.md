@@ -3,6 +3,8 @@
 
 <span style="color:green">能少用就少用宏</span>
 
+<span style="color:green">**目前纯瞎写（（（**</span>
+
 - `#include` 包含另一个文件的内容
 - `#import`
 - `#once` 该文件最多被包含一次

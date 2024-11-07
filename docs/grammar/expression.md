@@ -18,7 +18,7 @@ val c     = &expr3; // 错误
 以下两种写法在使用 `int b = expr * 2;` 时等效，均展开为 `int b = (a + 10) * 2;`。
 
 ```lumos
-#define \num> expr (a + 10)
+#define expr (a + 10)
 let expr = a + 10;
 ```
 
@@ -31,7 +31,7 @@ let expr = val {
 };
 ```
 
-表达式可以指定其类型：
+表达式可以指定其类型（对其进行强制转换）：
 
 ```lumos
 let float expr = a + 10;
@@ -48,9 +48,9 @@ let expr = float(a + 10);
 } // expr 超出作用域，不再可用
 
 {
-#define \num> expr (a + 10)
+#define expr (a + 10)
     int b = \num> expr * 2;
-#undef \num> expr // 宏需要手动取消定义
+#undef expr // 宏需要手动取消定义
 }
 ```
 
