@@ -2,10 +2,15 @@ import os
 from markdown.extensions import Extension
 from markdown.preprocessors import Preprocessor
 import re
+'''
+匹配 ```lang: filepath``` 的代码块，将 filepath 文件的内容插入到代码块中。
+如果文件路径不存在，则输出错误信息。
+注意 lang 只能是字母和数字，不能包含空格，lang 前也不能有空格。
+filepath 前后的空格是可选的且会被忽略。
+'''
 
 
 class IncludeFilePreprocessor(Preprocessor):
-  # 支持多种语言，修改正则表达式来匹配代码块的语言
   RE = re.compile(r'```(?P<lang>[A-Za-z0-9]+):\s*(?P<filepath>[^\s]+)\s*```')
 
   def __init__(self, md, base_path=None):
@@ -35,6 +40,7 @@ class IncludeFilePreprocessor(Preprocessor):
               file_content = self.read_file(full_path)
               break
         if file_content is None:
+          lang = 'log'
           file_content = f'Error: File not found - {file_path}'
 
         # 添加文件内容为指定语言的代码块

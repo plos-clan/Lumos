@@ -1,30 +1,39 @@
-code {
+:not(pre)>code {
   transition: box-shadow 0.3s ease;
 
   border-radius: 4px !important;
   background-color: #71bef122 !important;
-  box-shadow: 0 0 4px #0002 !important;
+  box-shadow: 0 0 4px #0002;
 }
 
-code:hover {
-  box-shadow: 0 0 6px #0003 !important;
+:not(pre)>code:hover {
+  box-shadow: 0 0 6px #0003;
 }
 
-pre code {
+pre>code {
+  border-radius: 0 !important;
+  background-color: transparent !important;
+}
+
+pre {
   position: relative;
 
   overflow: hidden;
 
-  border-radius: 8px !important;
-  background-color: transparent !important;
-  box-shadow: 2px 2px 8px #b0f3 !important;
+  transition: box-shadow 0.3s ease 0.2s;
+
+  border-radius: 8px;
+  background-color: transparent;
+  box-shadow: 2px 2px 8px #b0f3;
 }
 
-pre code:hover {
-  box-shadow: 2px 2px 10px #b0f5 !important;
+pre:hover {
+  transition: box-shadow 0.3s ease;
+
+  box-shadow: 2px 2px 10px #b0f5;
 }
 
-pre code::before {
+pre::before {
   position: absolute;
   top: 0;
   left: 0;
@@ -33,14 +42,16 @@ pre code::before {
   height: 100%;
 
   content: '';
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease 0.2s;
   pointer-events: none;
 
   opacity: 0.067;
   background: linear-gradient(135deg, #f6d365 0%, #fd85ac 100%) !important;
 }
 
-pre code:hover::before {
+pre:hover::before {
+  transition: opacity 0.3s ease;
+
   opacity: 0.2;
 }
 
@@ -51,19 +62,37 @@ pre code:hover::before {
   font-style: italic;
 }
 
-.highlight span.k {
+.highlight span.k,
+/* keyword */
+.highlight span.kd,
+/* keyword declaration */
+.highlight span.kn,
+/* keyword namespace */
+.highlight span.kp,
+/* keyword preprocessor */
+.highlight span.kr,
+/* keyword reserved */
+.highlight span.kt
+/* keyword type */
+  {
   color: #c678dd;
 }
 
-.highlight span.n  {
+.highlight span.n,
+.highlight span.nx {
   color: #ef596b;
 }
 
-.highlight span.nf {
+.highlight span.nf,
+.highlight span.fm {
   color: #61afef;
 }
 
-.highlight span.nc {
+.highlight span.nc,
+/* name class */
+.highlight span.nt
+/* name type */
+  {
   color: #e5c07b;
 }
 
@@ -77,11 +106,39 @@ pre code:hover::before {
   font-weight: bold;
 }
 
-.highlight span.s {
+.highlight span.s,
+/* string */
+.highlight span.s1,
+/* WTF */
+.highlight span.s2,
+/* WTF */
+.highlight span.sb,
+/* WTF */
+.highlight span.sc,
+/* string char */
+.highlight span.si,
+/* WTF */
+.highlight span.ss
+/* string */
+  {
   color: #98c379;
 }
 
-.highlight span.m {
+.highlight span.il,
+/* literal */
+.highlight span.m,
+/* number */
+.highlight span.mb,
+/* number binary */
+.highlight span.mf,
+/* number float */
+.highlight span.mh,
+/* number hex */
+.highlight span.mi,
+/* number integer */
+.highlight span.mo
+/* number octal */
+  {
   color: #d19a66;
 }
 
@@ -95,6 +152,7 @@ pre code:hover::before {
   font-style: italic;
 }
 
+.highlight span.cp,
 .highlight span.gp {
   color: #6361ef;
 }

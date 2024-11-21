@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-from lumos import LumosLexer
-from files import FilesLexer
+from scripts.lumos import LumosLexer
+from scripts.files import FilesLexer
 
 
 def get_lexer_by_name(_alias, **options):

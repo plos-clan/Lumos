@@ -3,20 +3,33 @@ from markdown.preprocessors import Preprocessor
 from markdown.inlinepatterns import InlineProcessor
 from xml.etree import ElementTree as etree
 import re
+'''
+
+markdown 隐藏内容扩展。语法如下：
+
+????
+这是隐藏的内容。
+????
+
+也可以使用行内版本：
+
+?? 这是隐藏的内容 ??
+
+'''
 
 
 class HiddenBlockPreprocessor(Preprocessor):
   HIDDEN_BLOCK_RE = re.compile(r'^\?\?\?\?\n(.*?)\n\?\?\?\?$', re.DOTALL | re.MULTILINE)
 
   def run(self, lines):
-    text = "\n".join(lines)
+    text = '\n'.join(lines)
     while True:
       match = self.HIDDEN_BLOCK_RE.search(text)
       if not match: break
       content = match.group(1)
       replacement = f'<div class="hidden-content">{self.md.convert(content)}</div>'
       text = text[:match.start()] + replacement + text[match.end():]
-    return text.split("\n")
+    return text.split('\n')
 
 
 class HiddenContentInlineProcessor(InlineProcessor):

@@ -46,7 +46,7 @@ plugins:
 
 markdown_extensions:
   - pymdownx.arithmatex # latex 支持
-  - include_file_extension: # 这玩意必须放这里
+  - scripts.include_file_extension: # 这玩意必须放这里
       base_path: ["example"]
   - abbr # 缩写
   - meta # 支持 meta 信息
@@ -72,10 +72,13 @@ markdown_extensions:
   - codehilite: # 代码高亮
       guess_lang: false # 不猜测语言
       use_pygments: true
-  - hidden_content_extension # ??隐藏内容??
+  - scripts.text_align_extension
+  - scripts.column_extension
+  - scripts.hidden_content_extension # ??隐藏内容??
 
 extra_javascript:
-  - "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"
+  - assets/MathJax.js
+  - assets/script.js
 
 extra_css:
   - assets/style.css
