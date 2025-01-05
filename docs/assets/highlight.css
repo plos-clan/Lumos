@@ -165,3 +165,26 @@ pre:hover::before {
 .highlight span.p {
   color: #468092
 }
+
+/* 变量名下划线 */
+
+.highlight span.n {
+  position: relative;
+
+  overflow: visible;
+}
+
+.highlight span.n::after {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+
+  width: 100%;
+  height: 1px;
+
+  content: '';
+  transition: width 0.3s ease;
+
+  opacity: 0.75;
+  background-color: #e478a5;
+}

@@ -1,6 +1,8 @@
 
 # 从 C 语言迁移
 
+:::column
+
 ```c
 #include <stdio.h>
 
@@ -9,3 +11,18 @@ int main() {
   return 0;
 }
 ```
+
+:::flex-0
+=>
+:::
+
+```lumos
+using "std";
+
+fn main() {
+  std.println("Hello world!");
+  return 0;
+}
+```
+
+:::endcolumn

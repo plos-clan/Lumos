@@ -93,21 +93,23 @@
 | c32  | complex float32 | 32 位浮点复数      |
 | c64  | complex float64 | 64 位浮点复数      |
 | vec2 | vector2 float32 | 2 维 32 位浮点向量 |
-|      | vector2     xxx | 可接所有数字类型   |
+|      | vector2 xxx     | 可接所有数字类型   |
 | vec3 | vector3 float32 | 3 维 32 位浮点向量 |
-|      | vector3     xxx | 可接所有数字类型   |
+|      | vector3 xxx     | 可接所有数字类型   |
 | vec4 | vector4 float32 | 4 维 32 位浮点向量 |
 |      | vector4 xxx     | 可接所有数字类型   |
 
 - `complex` 作为变量修饰符，用于表示复数。（单独存在时代表 `complex float32`）
 
-## 扩展类型
+## 高精度扩展
 
 | 简写 | 全称                                | 解释     |
 |------|-------------------------------------|----------|
 | mpz  | multiple precision integers         | 大整数   |
 | mpq  | multiple precision rational numbers | 大有理数 |
 | mpf  | multiple precision floating-point   | 大浮点数 |
+
+?? 用 GMP 用的 ??
 
 ## 指针类型
 
@@ -137,7 +139,7 @@ fn foo(int arg) -> IntOrVoid {
 
 fn main() {
     var value = foo(10);
-    switch value {
+    switch (value) {
     int:  println("返回值是 int: ", value);
     void: println("返回值是 void");
     }
@@ -156,7 +158,7 @@ fn foo(int arg) -> IntOrVoid {
 
 fn main() {
     ref value = foo(10);
-    switch value {
+    switch (value) {
     int:  println("返回值是 int: ", value);
     void: println("返回值是 void");
     }

@@ -35,7 +35,7 @@ using "std" -> ::;
 
 ## 构建模块
 
-Lumos 的模块是一个配置文件，一个简单的架构为
+Lumos 的模块由一个配置文件（`lumos.yaml`）定义，一个简单的结构为
 
 ```files
 my_model/
@@ -43,6 +43,17 @@ my_model/
   main.lm
   lumos.yaml
 ```
+
+```yaml
+name: my_model
+space: my_model
+dependencies: std
+using: "self -> ::"
+decl: "**.lh"
+impl: "**.lm"
+```
+
+### 源代码
 
 `main.lh` 和 `main.lm` 的基本形式为
 
@@ -56,32 +67,44 @@ fn my_func() {
 }
 ```
 
+### 配置文件
+
 `lumos.yaml` 的基本形式为
 
 ```yaml
 # 基本信息（可选）
-name: my_model # 模块名（默认为所在文件夹名）
-version: 1.0.0 # 模块版本号（默认为 1.0.0）
-std: 1.0.0     # 使用的语言标准版本（默认为最新）
-target: x86_64 # 目标平台（默认为当前平台）
+name: my_model  # 模块的显示名（默认为所在文件夹名）
+name_ascii: xxx # 模块显示名的 ASCII 版本（默认为 name 本身删除非 ASCII 字符）
+space: xxx      # 模块的命名空间（默认为根空间）
+version: 1.0.0  # 模块版本号（默认为 0.0.0）
+std: 1.0.0      # 使用的语言标准版本（默认为最新）
+target: x86_64  # 目标平台（默认为当前平台）
+type: xxx       # 模块类型
+subproj: false  # 是否为子模块
+
 # 附加信息（可选）
 author: xxx      # 作者
 email: xxx       # 联系邮箱
 license: xxx     # 许可证
 description: xxx # 描述
-url: xxx         # 项目地址
-type: xxx        # 模块类型
+repo: xxx        # 仓库地址
+url: xxx         # 项目官网
+doc: xxx         # 文档地址
 tags:            # 标签
   - xxx
   - xxx
-issues: xxx      # 问题地址
+issue: xxx       # 问题地址
 sponsor: xxx     # 赞助商
+fork: xxx        # 派生自
+icon: xxx        # 图标地址 (本地或远程)
+
 # 编译选项（可选）
 flags:
-  debug:
-    - -O0 -g
-  release:
-    - -O2
+  debug: >
+    -O0 -g
+  release: >
+    -O2
+
 # 模块依赖（可选）
 dependencies: # 不允许循环依赖
   - std       # 标准库
@@ -89,14 +112,16 @@ dependencies: # 不允许循环依赖
 using:             # 实现文件中默认导入的模块声明
   - "std  -> ::" # 标准库
   - "self -> ::" # 当前模块
+
 # 模块本体
-decl:    # 声明所在的文件
+decl:    # 声明所在的文件（默认为 **.lh）
   - main # 查找时忽略 .lm 文件，除非使用完整文件名
-impl:    # 实现所在的文件
+impl:    # 实现所在的文件（默认为 **.lm）
   - main # 查找时忽略 .lh 文件，除非使用完整文件名
 ```
 
-- `name` 模块名，不能包含特殊字符，不能为 self。
+- `name` 模块的显示名。
+- `name_ascii` 模块显示名的 ASCII 版本，不能包含特殊字符。
 - `version` 模块版本号，格式为 `x.y.z`。
 - `std` 使用的语言标准版本。
 - `target` 目标平台。
@@ -107,7 +132,7 @@ impl:    # 实现所在的文件
 - `url` 项目地址。*<span style="color:green">url 字符串</span>*
 - `type` 模块类型。*<span style="color:green">字符串</span>*
 - `tags` 标签。*<span style="color:green">字符串列表</span>*
-- `issues` 问题地址。*<span style="color:green">url 字符串</span>*
+- `issue` 问题地址。*<span style="color:green">url 字符串</span>*
 - `sponsor` 赞助商。*<span style="color:green">人员信息或人员信息列表*</span>
 - `flags` 编译选项。
 - `dependencies` 模块依赖。*<span style="color:green">字符串列表</span>*
@@ -147,6 +172,12 @@ my_model/
 using:
   - ".my_submodel -> submodel"
 ```
+
+#### type
+
+- `app` 应用模块，产生可执行文件。
+- `lib` 库模块，产生库文件。
+- `meta` 元模块，本身不产生库或可执行文件，但可以包含子模块。
 
 ## 模块宏
 

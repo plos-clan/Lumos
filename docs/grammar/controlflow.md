@@ -191,26 +191,6 @@ if (条件表达式1) {
 
 ## 循环
 
-`@limit(次数)` 属性可以限制循环的最大执行次数，防止出现无限循环，其实现为循环达到指定次数后自动调用 `break`。
-
-```lumos
-@limit(10)
-for (int i = 0; i < 100; i++) {
-    println(i);
-} breaked {
-    println("Limit reached.");
-}
-```
-
-`@unroll` 属性可以展开编译时已知次数的循环，减少循环的开销。
-
-```lumos
-@unroll
-for (int i = 0; i < 10; i++) {
-    println(i);
-}
-```
-
 ### 条件循环 `while`
 
 `while` 循环是一种条件循环，只要条件为真，循环就会一直执行。
@@ -305,6 +285,85 @@ for (int i = 0; i < 10; i++) {
 }
 ```
 
+### 关于死循环
+
+Lumos 中允许死循环的存在，如果你想用死循环实现一些奇怪的控制逻辑，那么是可以的。
+
+### 循环属性
+
+#### limit
+
+`@limit(次数)` 属性可以限制循环的最大执行次数，防止出现无限循环，其实现为循环达到指定次数后自动调用 `break`。
+
+```lumos
+@limit(10)
+for (int i = 0; i < 100; i++) {
+    println(i);
+} breaked {
+    println("Limit reached.");
+}
+```
+
+#### unroll
+
+`LMX` ::
+
+`@unroll(次数)` 属性可以展开循环，减少循环的开销。<br>
+`@unroll(0)` 或 `@unroll` 属性将循环完全展开，`@unroll(次数)` 属性将循环展开指定次数。<br>
+次数指展开后一次循环中循环体的执行次数。
+
+:::column
+
+```lumos
+@unroll
+for (int i = 0; i < 5; i++) {
+    println(i);
+}
+```
+
+:::flex-0
+
+=>
+
+:::
+
+```lumos
+println(0);
+println(1);
+println(2);
+println(3);
+println(4);
+```
+
+:::endcolumn
+
+:::column
+
+```lumos
+@unroll(3)
+for (int i = 0; i < 10; i++) {
+    println(i);
+}
+```
+
+:::flex-0
+
+=>
+
+:::
+
+```lumos
+for (int i = 0; i < 10; i += 3) {
+    println(i);
+    if (i + 1 >= 10) break;
+    println(i + 1);
+    if (i + 2 >= 10) break;
+    println(i + 2);
+}
+```
+
+:::endcolumn
+
 ## 跳转
 
 ### 跳过本次循环 `continue`
@@ -354,18 +413,6 @@ loop:
 for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 10; j++) {
         if (i == 5 && j == 5) break loop;
-        println(i, j);
-    }
-}
-```
-
-利用 `break` 加层数可以快速跳出多层循环。<br>
-<span style="color:green">默认的跳出一层就是 `break 1;`</span>
-
-```lumos
-for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 10; j++) {
-        if (i == 5 && j == 5) break 2;
         println(i, j);
     }
 }

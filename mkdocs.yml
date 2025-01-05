@@ -68,7 +68,8 @@ markdown_extensions:
   - mdx_truly_sane_lists
   - footnotes
   - pymdownx.snippets:
-      auto_append: []
+      auto_append:
+        - includes/abbreviations.md
   - codehilite: # 代码高亮
       guess_lang: false # 不猜测语言
       use_pygments: true
