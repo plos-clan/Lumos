@@ -26,7 +26,7 @@ let expr = a + 10;
 
 ```lumos
 let expr = val {
-    int x = a + 10;
+    var x as int = a + 10;
     x * 2;
 };
 ```
@@ -34,7 +34,7 @@ let expr = val {
 表达式可以指定其类型（对其进行强制转换）：
 
 ```lumos
-let float expr = a + 10;
+let expr as float = a + 10;
 // 等效于
 let expr = float(a + 10);
 ```
@@ -43,13 +43,13 @@ let expr = float(a + 10);
 
 ```lumos
 {
-    let expr = a + 10;
-    int b    = expr * 2;
+    let expr     = a + 10;
+    var b as int = expr * 2;
 } // expr 超出作用域，不再可用
 
 {
 #define expr (a + 10)
-    int b = \num> expr * 2;
+    var b as int = \num> expr * 2;
 #undef expr // 宏需要手动取消定义
 }
 ```
@@ -59,10 +59,10 @@ let expr = float(a + 10);
 ```lumos
 let expr = a + 10;
 {
-    let expr = a + 20;
-    int b    = expr * 2; // b = (a + 20) * 2
+    let expr     = a + 20;
+    var b as int = expr * 2; // b = (a + 20) * 2
 }
-int b = expr * 2;        // b = (a + 10) * 2
+var b as int = expr * 2;     // b = (a + 10) * 2
 ```
 
 ## 常量表达式定义 `lit`
@@ -80,7 +80,7 @@ int b[11];
 ### 返回常量表达式的函数
 
 ```lumos
-fn lit my_add(int a, int b) {
+fn lit my_add(a as int, b as int) {
     return a + b;
 }
 ```

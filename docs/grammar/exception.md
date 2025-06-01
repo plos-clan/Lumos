@@ -41,21 +41,6 @@ fn my_func() -> int { // 这个函数不能抛出异常
 }
 ```
 
-<!-- 已弃用 -->
-<!-- ## 编译时获取当前上下文是否允许抛出异常
-
-`noexcept` 字面量可以获取当前上下文是否不允许抛出异常。
-
-```lumos
-if (noexcept) {
-  // 当前上下文不允许抛出异常
-  return -1;
-} else {
-  // 当前上下文允许抛出异常
-  throw "测试异常";
-}
-```-->
-
 ## 禁止异常穿过
 
 使用 `@exception(allow)` 声明函数可以抛出异常后，Lumos 会同时允许异常穿过函数边界。<br>
@@ -69,6 +54,14 @@ fn my_func(a as int) -> int or Error {
   }
   return a * 2; // 返回正常值
 }
+
+fn main {
+  var result = my_func(-1) or {
+    println("发生异常，无法继续执行");
+    return -1; // 处理异常
+  };
+  println("结果是: " + result);
+}
 ```
 
 ## 处理异常
@@ -79,7 +72,7 @@ fn my_func(a as int) -> int or Error {
 try {
   my_func1();
   my_func2();
-} catch (Error &e) {
+} catch (e as Error) {
   处理逻辑
 }
 ```
@@ -89,7 +82,7 @@ try {
 
 ```lumos
 my_func();
-catch (Error &e) {
+catch (e as Error) {
   处理逻辑
 }
 ```
@@ -97,12 +90,13 @@ catch (Error &e) {
 上一个表达式末尾的分号可以不用添加。
 
 ```lumos
-my_func() catch (Error &e) {
+my_func() catch (e as Error) {
   处理逻辑
 }
 ```
 
-如果你不需要知道到底发生了什么异常，可以不在 `catch` 之后添加参数。
+如果你不需要知道到底发生了什么异常，可以不在 `catch` 之后添加参数。<br>
+`catch` 后的内容就是通用的异常处理逻辑。
 
 ```lumos
 my_func() catch {
@@ -148,10 +142,19 @@ fn return_when_throw() -> int {
 }
 ```
 
+```lumos
+@exception(return, 10)
+fn return_when_throw() -> int {
+  this_func_will_throw();
+  // 当 this_func_will_throw() 抛出异常时，程序会返回默认值 10
+}
+```
+
 ## 抛出异常
 
 发生异常时请 `throw` 异常，能 `throw` 的类型必须是继承 `Error` 类的类型。<br>
-<span style="color:green">能直接 `throw` 字符串是因为字符串能隐式转换成 `Error` 类型</span>
+<span style="color:green">能直接 `throw` 字符串是因为字符串能隐式转换成 `Error` 类型</span><br>
+<span style="color:green">`StrError` `I32Error`</span>
 
 ```lumos
 throw "遇到异常"; // 字符串会自动转换为 Error 类型
