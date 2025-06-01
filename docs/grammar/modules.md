@@ -126,7 +126,7 @@ impl:    # 实现所在的文件（默认为 **.lm）
 - `std` 使用的语言标准版本。
 - `target` 目标平台。
 - `author` 作者。*<span style="color:green">人员信息或人员信息列表</span>*
-- `email` 联系邮箱。*<span style="color:green">字符串或字符串列表</span>*
+- `email` 项目公共联系邮箱。*<span style="color:green">字符串或字符串列表</span>*
 - `license` 许可证。*<span style="color:green">字符串</span>*
 - `description` 描述。*<span style="color:green">字符串</span>*
 - `url` 项目地址。*<span style="color:green">url 字符串</span>*

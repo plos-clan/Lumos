@@ -3,13 +3,11 @@
 
 ## 允许抛出异常
 
-Lumos 默认不允许抛出异常，但可以用 `@throwable` 声明函数可以抛出异常。<br>
-也可以使用 `@throwable` 声明命名空间或类中的所有函数都可以抛出异常。
-
-<span style="color:purple">注意：`@throwable` 会改变函数的重整名，也就是说可抛出异常的和不可抛出异常的版本互为重载。</span>
+Lumos 默认不允许抛出异常，但可以用 `@exception(allow)` 声明函数可以抛出异常。<br>
+也可以使用 `@exception(allow)` 声明命名空间或类中的所有函数都可以抛出异常。
 
 ```lumos
-@throwable
+@exception(allow)
 fn my_func() {
   throw "测试异常"; // 正常抛出异常
 }
@@ -28,7 +26,7 @@ fn my_func() {
 Lumos 允许在不可抛出异常的函数中调用可抛出异常的函数，只要程序员在函数中手动处理所有异常。
 
 ```lumos
-@throwable
+@exception(allow)
 fn my_func1() { // 这个函数会抛出异常
   throw "假如出现异常";
 }
@@ -43,7 +41,8 @@ fn my_func() -> int { // 这个函数不能抛出异常
 }
 ```
 
-## 编译时获取当前上下文是否允许抛出异常
+<!-- 已弃用 -->
+<!-- ## 编译时获取当前上下文是否允许抛出异常
 
 `noexcept` 字面量可以获取当前上下文是否不允许抛出异常。
 
@@ -54,6 +53,21 @@ if (noexcept) {
 } else {
   // 当前上下文允许抛出异常
   throw "测试异常";
+}
+```-->
+
+## 禁止异常穿过
+
+使用 `@exception(allow)` 声明函数可以抛出异常后，Lumos 会同时允许异常穿过函数边界。<br>
+如果需要禁止异常穿过函数边界，应该使用 `Type or Error` 作为函数的返回类型。<br>
+<span style="color:green">注意 `Type or Error` 返回类型和 `@exception(allow)` 不能同时使用</span> ??既禁止又允许什么鬼嘛??
+
+```lumos
+fn my_func(a as int) -> int or Error {
+  if (a < 0) {
+    throw "参数不能小于 0"; // 抛出异常
+  }
+  return a * 2; // 返回正常值
 }
 ```
 
@@ -103,6 +117,37 @@ my_func() catch {
 my_func() catch;
 ```
 
+## 自动处理异常
+
+Lumos 支持在函数调用时自动处理异常。<br>
+通过在外层函数声明时附加 `@exception(panic)` 可以自动在内部出发异常时打印错误信息并终止程序。<br>
+通过在外层函数声明时附加 `@exception(bypass)` 可以自动在内部出发异常时忽略异常并继续执行。（若函数有返回值则使用其类型的默认值）<br>
+通过在外层函数声明时附加 `@exception(return)` 可以自动在内部出发异常时使当前函数返回默认值。
+
+```lumos
+fn this_func_will_throw() {
+  throw "测试异常";
+}
+
+@exception(panic)
+fn panic_when_throw() {
+  this_func_will_throw();
+  // 当 this_func_will_throw() 抛出异常时，程序会打印错误信息并终止
+}
+
+@exception(bypass)
+fn bypass_when_throw() {
+  this_func_will_throw();
+  // 当 this_func_will_throw() 抛出异常时，程序会忽略异常并继续执行
+}
+
+@exception(return)
+fn return_when_throw() -> int {
+  this_func_will_throw();
+  // 当 this_func_will_throw() 抛出异常时，程序会返回默认值 0
+}
+```
+
 ## 抛出异常
 
 发生异常时请 `throw` 异常，能 `throw` 的类型必须是继承 `Error` 类的类型。<br>
@@ -118,4 +163,19 @@ throw Error("遇到异常");
 ```lumos
 throw 1, 2, 3; // 会被打包成一个 Error 对象
 throw Error(1, 2, 3);
+```
+
+`Error` 类型会自动将传入参数全部打包到一个字符串内。
+
+## 异常导致的 panic
+
+程序由自动异常处理触发 panic 时，Lumos 会打印错误信息：
+
+```text
+panic: function 'xxx' threw an exception.
+  Error: 测试异常
+
+stack trace:
+  at my_func() in test.lm:9
+  at main() in test.lm:15
 ```

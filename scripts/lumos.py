@@ -58,7 +58,7 @@ class LumosLexer(RegexLexer):
               ['as', 'from', 'to', 'using', 'in', 'of', 'with', 'by', 'where'],
               ['break', 'continue', 'leave', 'breaked', 'then', 'goto', 'return'],
               ['namespace', 'struct', 'class', 'enum', 'union', 'impl'],
-              ['typename', 'variant', 'initvar'],
+              ['typename', 'variant', 'lateinit', 'initvar'],
               ['assert'],
               ['inttype', 'floattype', 'numtype'],
           ]), Keyword),

@@ -4,7 +4,7 @@
 我们使用 `</xxx/>` 来定义一个模板。
 
 ```lumos
-fn my_func</typename T/>(T arg1) {
+fn</T/> my_func(arg1 as T) {
     println(`${typenameof T}: $arg1`);
 }
 ```
@@ -13,8 +13,9 @@ fn my_func</typename T/>(T arg1) {
 
 ```lumos
 fn main() {
-    my_func(123);
-    my_func("abc");
+    my_func(123); // i32: 123
+    my_func(123.456); // f64: 123.456
+    my_func("abc"); // str: abc
 }
 ```
 
@@ -22,11 +23,11 @@ fn main() {
 <span style="color:green">注意特化必须在模板声明后</span>
 
 ```lumos
-fn my_func</typename T/>(T arg1) {
+fn</T/> my_func(arg1 as T) {
     println(arg1);
 }
 
-fn my_func</int/>(T arg1) {
+fn my_func</int/>(arg1 as T) {
     println(`整数：$arg1`);
 }
 ```
@@ -35,7 +36,7 @@ fn my_func</int/>(T arg1) {
 因此我们建议对模板进行完整的单元测试。
 
 ```lumos
-fn my_func</typename T/>(T arg1) {
+fn</T/> my_func(T arg1) {
     println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
 }
 

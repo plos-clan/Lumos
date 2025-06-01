@@ -66,15 +66,17 @@ STRING_ESCAPE:
 STRING: '"' ('\\' STRING_ESCAPE | ~["\\])*? '"';
 CHAR: '\'' ( '\\' STRING_ESCAPE | ~['\\])*? '\'';
 
+raw_string: '\'\'\'' .*? '\'\'\'';
+
 REGEX: '/' ~[/\\]* ( '\\' . | ~[/\\])*? '/';
 
 literal: num | STRING | CHAR;
 
-op_prefix: OP_ADD | OP_SUB | OP_INC | OP_DEC;
+prefix_op: OP_ADD | OP_SUB | OP_INC | OP_DEC;
 
-op_suffix: OP_INC | OP_DEC | '[' expr ']' | '(' expr ')';
+suffix_op: OP_INC | OP_DEC | '[' expr ']' | '(' expr ')';
 
-op_binary: OP_ADD | OP_SUB | OP_MUL | OP_DIV | OP_MOD | OP_XOR;
+binary_op: OP_ADD | OP_SUB | OP_MUL | OP_DIV | OP_MOD | OP_XOR;
 
 // 1, 2, 3
 val_list: expr (',' expr)* ','?;
@@ -93,9 +95,9 @@ list: '[' val_list? ']';
 tuple: '(' val_list? ')';
 
 expr:
-	expr op_binary expr
-	| op_prefix expr
-	| expr op_suffix
+	expr binary_op expr
+	| prefix_op expr
+	| expr suffix_op
 	| list
 	| tuple
 	| literal;
@@ -122,9 +124,6 @@ for_stat: 'for' '(' ')' (stat | codeblock);
 using_module: USING STRING '->' sym ';';
 using_type: USING SYM '=' sym ';';
 using_namespace: USING sym ';';
-
-// KWD: 'if' | 'else' | 'while' | 'for' | 'def' | 'class' | 'import' | 'from' | 'as' | 'in' | 'is' |
-// 'not' | 'and' | 'or' | 'True' | 'False' | 'None';
 
 codeblock: '{' stat* '}';
 

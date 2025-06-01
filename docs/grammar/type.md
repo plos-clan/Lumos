@@ -44,9 +44,13 @@
 | f32  | float32 | 32 位浮点数     |
 | f64  | float64 | 64 位浮点数     |
 
+:: <span style="color:green">这边以 64 位系统为例，在 32 位系统中 i64 f64 等类型应当是字长扩展类型</span> ::
+
 !!! Note
     非字长扩展的基本数据类型变量的读取和写入都应是原子的。<br>
     只有<span style="color:green">读取</span>和<span style="color:green">写入</span>。
+
+    在 64 位系统下：
 
     ```lumos
     f64 my_var = 1.1; // 写入是原子的
@@ -54,7 +58,9 @@
     my_var += 1;      // 自增不是原子的，因为它是读取后运算再写入
     ```
 
-> 有符号整数使用补码表示，无符号整数使用原码表示。不支持其它表示方式。
+> 有符号整数使用补码表示，无符号整数使用原码表示。不支持其它表示方式。<br>
+> 现代硬件应该均满足此条件，若有特殊硬件不满足此条件，应当用模拟的方式实现。<br>
+> 也可以编写自己的魔改标准，但并不推荐这么做。
 
 ### 别名
 
@@ -65,6 +71,8 @@
 - `char` 为 `char8` 的别名
 - `wchar` 为 `char32` 的别名
 - `byte` 为 `uint8` 的别名
+
+> 在某些情况下，程序员可能希望 `wchar` 为 `char16` 的别名，编译器应当提供一个选项来选择。
 
 ### 类型通配
 
@@ -86,6 +94,8 @@
 | f16  | float16  | 16 位浮点数      |
 | f128 | float128 | 128 位浮点数     |
 
+> 作为扩展，编译器可以提供 `int1` 到 `int1024` 的整数类型。
+
 ## 扩展类型
 
 | 简写 | 全称            | 解释               |
@@ -105,6 +115,7 @@
 
 | 简写 | 全称                                | 解释     |
 |------|-------------------------------------|----------|
+| mpn  | multiple precision natural numbers  | 大自然数 |
 | mpz  | multiple precision integers         | 大整数   |
 | mpq  | multiple precision rational numbers | 大有理数 |
 | mpf  | multiple precision floating-point   | 大浮点数 |
