@@ -1,4 +1,4 @@
-# 词法与语法
+# 语法
 
 批注
 
@@ -24,7 +24,8 @@ lit d = 4; // 常量表达式
 
 ```lumos
 // 函数
-fn main(int argc, char* argv[argc]) -> int {
+fn main(i32 argc, *[argc, *byte] argv) -> i32 {
+    println("Hello, world!");
     return 0;
 }
 ```
@@ -48,4 +49,18 @@ fn main {
 
 ```lumos
 using "std";
+```
+
+```lumos
+fn main {
+    var a = 1;
+    var b = 2;
+    var c = a pow b;
+    println(`$a ^ $b = $c`); // 格式化字符串
+    return 0;
+}
+```
+
+```lumos
+&[10, i32]
 ```

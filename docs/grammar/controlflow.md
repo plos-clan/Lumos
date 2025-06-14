@@ -520,7 +520,8 @@ for (int i = 0; i < 10; i++) {
 
 ### 标签跳转 `goto`
 
-`goto` 用于跳转到指定标签。
+`goto` 用于跳转到指定标签。<br>
+<span style="color:green">所有标签反向缩进两格</span>
 
 ```lumos
   loop:
@@ -532,7 +533,7 @@ for (int i = 0; i < 10; i++) {
 
 ```lumos
     if (某些条件) goto label; // 这是不行的，因为跳转到 label 后无法确定 my_var 的值。
-    size_t my_var = 10;
+    val my_var as usize = 10;
     println(my_var);
   label:
     println("Hello world!");

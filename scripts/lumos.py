@@ -41,7 +41,7 @@ class LumosLexer(RegexLexer):
           # (r'# *(define|undef|if|fidef|ifndef|end|set|clear|once|include)', Generic.Prompt),
           (r'# *[a-zA-Z0-9_\-]*', Generic.Prompt),
           (kwds([
-              ['void', 'bool', 'char', 'int', 'uint', 'float'],
+              ['void', 'bool', 'char', 'int', 'uint', 'float', 'byte'],
               ['i8', 'i16', 'i32', 'i64', 'u8', 'u16', 'u32', 'u64'],
               ['f16', 'f32', 'f64', 'f128'],
               ['b8', 'b16', 'b32', 'b64'],
@@ -57,7 +57,7 @@ class LumosLexer(RegexLexer):
               ['switch', 'match'],
               ['as', 'from', 'to', 'using', 'in', 'of', 'with', 'by', 'where'],
               ['break', 'continue', 'leave', 'breaked', 'then', 'goto', 'return'],
-              ['namespace', 'struct', 'class', 'enum', 'union', 'impl'],
+              ['namespace', 'struct', 'class', 'enum', 'union', 'impl', 'template'],
               ['typename', 'variant', 'lateinit', 'initvar'],
               ['assert'],
               ['inttype', 'floattype', 'numtype'],

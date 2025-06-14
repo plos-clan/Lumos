@@ -1,6 +1,8 @@
 
 # 模板
 
+## 带类型
+
 我们使用 `</xxx/>` 来定义一个模板。
 
 ```lumos
@@ -36,7 +38,7 @@ fn my_func</int/>(arg1 as T) {
 因此我们建议对模板进行完整的单元测试。
 
 ```lumos
-fn</T/> my_func(T arg1) {
+fn</T/> my_func(arg1 as T) {
     println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
 }
 
@@ -51,7 +53,7 @@ fn main {
 
 ```lumos
 @staticassert(T !is floattype)
-fn my_func</typename T/>(T arg1) {
+fn my_func</typename T/>(arg1 as T) {
     println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
 }
 ```
@@ -60,4 +62,44 @@ fn my_func</typename T/>(T arg1) {
 
 ```lumos
 fn my_func</int/>;
+```
+
+## 不带类型
+
+使用以下语法定义一个模板：
+
+```lumos
+template my_add(a, b) {
+    return a + b;
+}
+```
+
+这种写法只在“调用”处进行展开并执行类型检查，模板本身并不会被执行任何检查，只要它的语法正确即可。
+
+```lumos
+val x = add(1, 2);               // 推导为 int + int
+val y = add(1.0, 2.5);           // 推导为 float + float
+val z = add("Hello, ", "world"); // 推导为字符串拼接
+```
+
+`template` 的参数建议默认执行懒拷贝策略，即必须拷贝时则拷贝，不过也可以提前拷贝所有参数。
+
+在参数名前加 `*` 执行强制拷贝，加 `&` 执行强制引用。
+
+```lumos
+template my_template_copy(*a) {
+    a = 2;
+}
+template my_template_ref(&a) {
+    a = 2;
+}
+fn main {
+    var x = 1;
+    my_template_copy(x); // x 被拷贝，内部 x 变为 2
+    println(x);          // 输出 1
+
+    var y = 1;
+    my_template_ref(y);  // y 被引用，内外 y 变为 2
+    println(y);          // 输出 2
+}
 ```

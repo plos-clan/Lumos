@@ -20,7 +20,7 @@ my_func:
 
 ```lumos
 @asm
-fn syscall($rax size_t a, $rbx size_t b) {
+fn syscall(a as usize @asm("rax"), b as usize @asm("rax")) {
     return a + b;
 }
 ```
