@@ -21,8 +21,8 @@
   #undef XXX(1) // XXX(N) 表示有 N 个参数
   ```
 
-  重复的 `#define` 会导致警告，而 `#redef` 不会。<br>
-  `#redef` 前没有 `#define` 会导致警告。<br>
+  重复的 `#define` 会导致警告，而 `#redef` 不会。<br />
+  `#redef` 前没有 `#define` 会导致警告。<br />
   请合理使用宏定义。
 
   ```lumos

@@ -21,7 +21,7 @@ fn main() {
 }
 ```
 
-我们可以对模板进行特化。<br>
+我们可以对模板进行特化。<br />
 <span style="color:green">注意特化必须在模板声明后</span>
 
 ```lumos
@@ -34,7 +34,7 @@ fn my_func</int/>(arg1 as T) {
 }
 ```
 
-<span style="color:green">注意模板在实例化时才会检查，也就是模板如果不使用程序员可能不会发现其中的语法错误。</span><br>
+<span style="color:green">注意模板在实例化时才会检查，也就是模板如果不使用程序员可能不会发现其中的语法错误。</span><br />
 因此我们建议对模板进行完整的单元测试。
 
 ```lumos

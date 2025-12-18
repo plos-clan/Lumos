@@ -1,6 +1,9 @@
 # 表达式
 
-<span style="color:purple">与 C++ 中不一样的是，在 Lumos 中如果表达式是一个右值，则不能取地址。<br>常量表达式必为右值，故不能取地址。</span>
+<span style="color:purple">
+与 C++ 中不一样的是，在 Lumos 中如果表达式是一个右值，则不能取地址。<br />
+常量表达式必为右值，故不能取地址。
+</span>
 
 ```lumos
 var myvar = 10;     // 变量
@@ -14,7 +17,7 @@ val c     = &expr3; // 错误
 
 ## 表达式定义 `let`
 
-`let` 用于声明一个表达式，其值在运行时确定，可以作为宏的替代。<br>
+`let` 用于声明一个表达式，其值在运行时确定，可以作为宏的替代。<br />
 以下两种写法在使用 `int b = expr * 2;` 时等效，均展开为 `int b = (a + 10) * 2;`。
 
 ```lumos
@@ -27,24 +30,24 @@ let expr = a + 10;
 ```lumos
 let expr = val {
     var x as int = a + 10;
-    x * 2;
+    x * 2
 };
 ```
 
 表达式可以指定其类型（对其进行强制转换）：
 
 ```lumos
-let expr as float = a + 10;
+f32 expr = a + 10;
 // 等效于
-let expr = float(a + 10);
+let expr = f32(a + 10);
 ```
 
 表达式拥有作用域，无需像宏那样担心重复定义的问题。
 
 ```lumos
 {
-    let expr     = a + 10;
-    var b as int = expr * 2;
+    let expr = a + 10;
+    i32 b    = expr * 2;
 } // expr 超出作用域，不再可用
 
 {

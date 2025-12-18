@@ -112,7 +112,7 @@ while (a > 0) {
 
 对于一个变量，取到的值可以是：
 
-- 编译时能够确定的值（非 `volatile`）<br>
+- 编译时能够确定的值（非 `volatile`）<br />
   *<span style="color:orange">warning</span>: <span style="color:darkcyan">对于编译期可确定的值使用 `lit`</span>*
 - 上次修改后缓存的值（非 `volatile`）
 - 对应内存地址当前的值
@@ -143,7 +143,7 @@ println(a);    // 由于编译器的优化策略，可能输出 1 或 2
 
 对于一个常量，取到的值可以是：
 
-- 编译时能够确定的值（非 `volatile`）<br>
+- 编译时能够确定的值（非 `volatile`）<br />
   *<span style="color:orange">warning</span>: <span style="color:darkcyan">对于编译期可确定的值使用 `lit`</span>*
 - 作用域内任意位置缓存的值（非 `volatile`）
 - 对应内存地址当前的值
@@ -153,11 +153,11 @@ println(a);    // 由于编译器的优化策略，可能输出 1 或 2
 Lumos 允许的初始化方式有：
 
 - 赋值初始化 `int my_var = 1;`
-- 构造函数初始化 `int my_var(1);`<br>
+- 构造函数初始化 `int my_var(1);`<br />
   <span style="color:green">对于基本数据类型有伪构造函数</span>
 - 结构体元素赋值初始化 `var my_var as MyStructure = {1, 2, .third = 3};`
 - 数组元素赋值初始化 `var my_var[] as int = {1, 2, [2] = 3};`
-- 默认初始化 `var my_var as int;`<br>
+- 默认初始化 `var my_var as int;`<br />
   <span style="color:green">默认初始化会将基本数据类型变量初始化为二进制 0，对于其它数据类型则调用默认构造函数</span>
   <span style="color:green">我们推荐显式初始化</span>
 
@@ -181,7 +181,7 @@ int* a = 0x123456;
 
 ### 延迟初始化
 
-使用 `lateinit` 作为初始值来让变量不自动初始化。<br>
+使用 `lateinit` 作为初始值来让变量不自动初始化。<br />
 <span style="color:green">注意访问未初始化的变量是未定义行为</span>
 
 ```lumos
@@ -214,8 +214,8 @@ if (xxx) {
 
 ### 懒初始化
 
-使用 `lateinit` 接代码块作为初始值来让变量在第一次访问时自动初始化。<br>
-代码块将延迟到第一次访问时执行，且只会执行一次。<br>
+使用 `lateinit` 接代码块作为初始值来让变量在第一次访问时自动初始化。<br />
+代码块将延迟到第一次访问时执行，且只会执行一次。<br />
 <span style="color:green">注意这种情况下不能连续声明多个变量</span>
 
 ```lumos
@@ -303,8 +303,8 @@ val a as volatile int = 1;
 
 ### `register`
 
-`@register(寄存器名)` 属性用于强制变量存储在寄存器中，而不是内存中。<br>
-<span style="color:green">这会导致相应寄存器无法被其它变量使用</span><br>
+`@register(寄存器名)` 属性用于强制变量存储在寄存器中，而不是内存中。<br />
+<span style="color:green">这会导致相应寄存器无法被其它变量使用</span><br />
 <span style="color:purple">无特殊需求不应该使用</span>
 
 ```lumos

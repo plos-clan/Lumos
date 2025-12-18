@@ -36,7 +36,7 @@ class {
 在 Lumos 中，我们可以使用以下方式初始化一个类：
 
 ```lumos
-MyClass my_var1 = {1, 2, 3};
+var MyClass my_var1 = {1, 2, 3};
 var my_var2 = MyClass{1, 2, 3};
 ```
 
@@ -57,7 +57,7 @@ class MyClass {
 fn initvar @default;
 ```
 
-默认情况下，如果一个类没有任何构造函数，那么它将允许变量列表初始化。<br>
+默认情况下，如果一个类没有任何构造函数，那么它将允许变量列表初始化。<br />
 如果有构造函数，则需要手动启用。
 
 ## 访问控制
