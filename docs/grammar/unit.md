@@ -28,7 +28,7 @@ enum unit by void {
 
 ```lumos
 val one_kilometer = 1.0 as kilometer;
-float distance = one_kilometer in meter;
+f64 distance = one_kilometer in meter;
 ```
 
 ```lumos

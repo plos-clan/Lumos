@@ -1,0 +1,284 @@
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+COMMENT    = _{ block_comment | line_comment }
+
+block_comment = _{ "/*" ~ (!"*/" ~ ANY)* ~ "*/" }
+line_comment  = _{ "//" ~ (!"\n" ~ ANY)* }
+
+// Keywords
+USING     = { "using" }
+RETURN    = { "return" }
+BREAK     = { "break" }
+CONTINUE  = { "continue" }
+ASSUME    = { "assume" }
+WHERE     = { "where" }
+AS        = { "as" }
+IS        = { "is" }
+VAR       = { "var" }
+VAL       = { "val" }
+IMV       = { "imv" }
+LIT       = { "lit" }
+FIN       = { "fin" }
+LET       = { "let" }
+OBJ       = { "obj" }
+MUT       = { "mut" }
+IMM       = { "imm" }
+RO        = { "ro" }
+WO        = { "wo" }
+RW        = { "rw" }
+RX        = { "rx" }
+IF        = { "if" }
+ELSE      = { "else" }
+ELIF      = { "elif" }
+THEN      = { "then" }
+SWITCH    = { "switch" }
+MATCH     = { "match" }
+FOR       = { "for" }
+WHILE     = { "while" }
+DO        = { "do" }
+GOTO      = { "goto" }
+NAMESPACE = { "namespace" }
+STRUCT    = { "struct" }
+CLASS     = { "class" }
+ENUM      = { "enum" }
+UNION     = { "union" }
+IMPL      = { "impl" }
+TEMPLATE  = { "template" }
+BY        = { "by" }
+VARIANT   = { "variant" }
+LEAVE     = { "leave" }
+
+// Symbols and Identifiers
+SYM  = @{ (ASCII_ALPHA | "_") ~ (ASCII_ALPHANUMERIC | "_")* }
+sym  =  { "::"? ~ SYM ~ ("." ~ SYM)* }
+ATTR =  { "@" ~ SYM }
+
+// Operators
+OP_ADD        = { "+" }
+OP_SUB        = { "-" }
+OP_MUL        = { "*" }
+OP_DIV        = { "/" }
+OP_MOD        = { "%" }
+OP_XOR        = { "^" }
+OP_INC        = { "++" }
+OP_DEC        = { "--" }
+OP_EQ         = { "==" }
+OP_NE         = { "!=" }
+OP_GT         = { ">" }
+OP_GE         = { ">=" }
+OP_LT         = { "<" }
+OP_LE         = { "<=" }
+OP_AND        = { "&&" }
+OP_OR         = { "||" }
+OP_NOT        = { "!" }
+OP_BAND       = { "&" }
+OP_BOR        = { "|" }
+OP_BXOR       = { "^" }
+OP_SHL        = { "<<" }
+OP_SHR        = { ">>" }
+OP_USHL       = { "<<<" }
+OP_USHR       = { ">>>" }
+OP_ROL        = { "<<>" }
+OP_ROR        = { ">><" }
+OP_ADD_ASSIGN = { "+=" }
+OP_SUB_ASSIGN = { "-=" }
+OP_MUL_ASSIGN = { "*=" }
+OP_DIV_ASSIGN = { "/=" }
+OP_MOD_ASSIGN = { "%=" }
+OP_XOR_ASSIGN = { "^=" }
+OP_AND_ASSIGN = { "&=" }
+OP_OR_ASSIGN  = { "|=" }
+OP_SHL_ASSIGN = { "<<=" }
+OP_SHR_ASSIGN = { ">>=" }
+OP_RANGE      = { ".." }
+OP_ARROW      = { "->" }
+OP_DCOLON     = { "::" }
+OP_BACKSLASH  = { "\\" }
+
+// Numbers
+INT     = @{ int_bin | int_oct | int_hex | int_dec }
+int_bin =  { "0b" ~ ('0'..'1')+ }
+int_oct =  { "0" ~ ('0'..'7')+ }
+int_dec =  { "0" | ('1'..'9' ~ ASCII_DIGIT*) }
+int_hex =  { ("0x" | "0X") ~ ASCII_HEX_DIGIT+ }
+
+FLOAT      = @{ num_base ~ float_exp | float_base ~ float_exp? }
+num_base   =  { ASCII_DIGIT+ }
+float_base =  { ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT* | "." ~ ASCII_DIGIT+ }
+float_exp  =  { ("E" | "e") ~ ("+" | "-")? ~ ASCII_DIGIT+ }
+
+IMAG   = @{ (num_base | float_base) ~ "i" ~ float_exp? }
+QUAT_J = @{ (num_base | float_base) ~ "j" ~ float_exp? }
+QUAT_K = @{ (num_base | float_base) ~ "k" ~ float_exp? }
+
+num = { IMAG | QUAT_J | QUAT_K | FLOAT | INT }
+
+// Strings and Literals
+STRING        = ${ "\"" ~ string_inner ~ "\"" }
+string_inner  = @{ (string_escape | !("\"" | "\\") ~ ANY)* }
+string_escape = @{ "\\" ~ ("u" ~ ASCII_HEX_DIGIT{4} | "U" ~ ASCII_HEX_DIGIT{8} | "x" ~ ASCII_HEX_DIGIT{2} | ANY) }
+
+CHAR       = ${ "'" ~ char_inner ~ "'" }
+char_inner = @{ (string_escape | !("'" | "\\") ~ ANY)* }
+
+literal = { num | STRING | CHAR }
+
+// Expressions
+expr     =  { term ~ (infix_op ~ term | as_is_op)* }
+as_is_op = _{ (AS | IS) ~ type_rule }
+infix_op = _{ binary_op }
+term     =  { prefix_op* ~ primary ~ suffix_op* }
+
+primary = {
+    lambda
+  | list
+  | tuple
+  | map
+  | struct_init
+  | literal
+  | sym
+  | "(" ~ expr ~ ")"
+}
+
+prefix_op = { OP_ADD | OP_SUB | OP_INC | OP_DEC | OP_NOT }
+suffix_op = { OP_INC | OP_DEC | "[" ~ expr ~ "]" | "(" ~ val_list? ~ ")" }
+
+binary_op = {
+    OP_ADD
+  | OP_SUB
+  | OP_MUL
+  | OP_DIV
+  | OP_MOD
+  | OP_XOR
+  | OP_EQ
+  | OP_NE
+  | OP_GT
+  | OP_GE
+  | OP_LT
+  | OP_LE
+  | OP_AND
+  | OP_OR
+  | OP_BAND
+  | OP_BOR
+  | OP_BXOR
+  | OP_SHL
+  | OP_SHR
+  | OP_USHL
+  | OP_USHR
+  | OP_ROL
+  | OP_ROR
+  | OP_RANGE
+  | assign_op
+}
+
+assign_op = {
+    "="
+  | OP_ADD_ASSIGN
+  | OP_SUB_ASSIGN
+  | OP_MUL_ASSIGN
+  | OP_DIV_ASSIGN
+  | OP_MOD_ASSIGN
+  | OP_XOR_ASSIGN
+  | OP_AND_ASSIGN
+  | OP_OR_ASSIGN
+  | OP_SHL_ASSIGN
+  | OP_SHR_ASSIGN
+}
+
+val_list     = { expr ~ ("," ~ expr)* ~ ","? }
+var_decl     = { type_rule ~ SYM ~ (WHERE ~ expr)? ~ ("=" ~ expr)? }
+var_list     = { var_decl ~ ("," ~ var_decl)* ~ ","? }
+elm_list     = { ("." ~ SYM ~ "=")? ~ expr ~ ("," ~ ("." ~ SYM ~ "=")? ~ expr)* ~ ","? }
+enum_list    = { SYM ~ ("=" ~ expr)? ~ ("," ~ SYM ~ ("=" ~ expr)?)* ~ ","? }
+capture_list = { (OP_BAND? ~ expr | "*") ~ ("," ~ (OP_BAND? ~ expr | "*"))* ~ ","? }
+
+map         = { "{" ~ val_list? ~ "}" }
+struct_init = { type_rule? ~ "{" ~ elm_list? ~ "}" }
+list        = { "[" ~ val_list? ~ "]" }
+tuple       = { "(" ~ val_list? ~ ")" }
+
+lambda = { "fn" ~ ("[" ~ capture_list? ~ "]")? ~ "(" ~ var_list? ~ ")" ~ ("->" ~ type_rule)? ~ (codeblock | "=" ~ expr) }
+
+enum_rule = { ENUM ~ SYM ~ (BY ~ type_rule)? ~ (AS ~ (SYM | "table" | "container"))? ~ "{" ~ enum_list? ~ "}" ~ ";" }
+
+label = { SYM ~ ":" }
+
+vardef_one = { SYM ~ (WHERE ~ expr)? ~ ("=" ~ expr)? }
+vardef     = { (VAR | VAL | IMV | LIT | FIN | LET | OBJ) ~ vardef_one ~ ("," ~ vardef_one)* ~ ";" }
+
+if_stat   = { IF ~ "(" ~ val_list ~ ")" ~ (stat | codeblock) ~ (ELIF ~ "(" ~ val_list ~ ")" ~ (stat | codeblock))* ~ (ELSE ~ (stat | codeblock))? }
+then_stat = { expr ~ THEN ~ stat }
+
+switch_case = { (expr | ATTR) ~ ":" ~ (stat | codeblock) }
+switch_stat = { SWITCH ~ "(" ~ expr ~ ")" ~ "{" ~ switch_case* ~ "}" }
+
+match_case = { (expr | ATTR) ~ ":" ~ (stat | codeblock) }
+match_stat = { MATCH ~ ("(" ~ expr ~ ")")? ~ "{" ~ match_case* ~ "}" }
+
+return_stat   = { RETURN ~ expr? ~ ";" }
+break_stat    = { BREAK ~ ";" }
+continue_stat = { CONTINUE ~ ";" }
+assume_stat   = { ASSUME ~ expr ~ ";" }
+leave_stat    = { LEAVE ~ ";" }
+goto_stat     = { GOTO ~ SYM ~ ";" }
+
+while_stat    = { WHILE ~ "(" ~ expr ~ ")" ~ (stat | codeblock) }
+do_while_stat = { DO ~ (stat | codeblock) ~ WHILE ~ "(" ~ expr ~ ")" ~ ";" }
+for_stat      = { FOR ~ "(" ~ (vardef | expr? ~ ";") ~ expr? ~ ";" ~ expr? ~ ")" ~ (stat | codeblock) }
+
+using_module    = { USING ~ STRING ~ (OP_ARROW ~ sym)? ~ ";" }
+using_type      = { USING ~ SYM ~ "=" ~ type_rule ~ ";" }
+using_namespace = { USING ~ sym ~ ";" }
+using_attr      = { USING ~ ATTR ~ "=" ~ ATTR+ ~ ";" }
+
+codeblock = { "{" ~ stat* ~ "}" }
+
+type_mod  = { MUT | IMM | RO | WO | RW | RX }
+type_rule = { type_mod? ~ (sym | "[" ~ type_rule ~ "]" ~ "?"? | OP_BAND ~ type_rule | "[" ~ expr ~ "]" ~ type_rule | "[]" ~ type_rule) ~ (OP_LT ~ type_list ~ OP_GT)? }
+type_list = { type_rule ~ ("," ~ type_rule)* }
+
+func_decl = { ATTR* ~ "fn" ~ (OP_BACKSLASH ~ (SYM | OP_ANY))? ~ SYM ~ (OP_LT ~ type_list ~ OP_GT)? ~ ("[" ~ capture_list? ~ "]")? ~ ("(" ~ var_list? ~ ")")? ~ ("->" ~ type_rule)? ~ ";" }
+func_impl = { ATTR* ~ "fn" ~ (OP_BACKSLASH ~ (SYM | OP_ANY))? ~ sym ~ (OP_LT ~ type_list ~ OP_GT)? ~ ("[" ~ capture_list? ~ "]")? ~ ("(" ~ var_list? ~ ")")? ~ ("->" ~ type_rule)? ~ (codeblock | "=" ~ expr ~ ";") }
+
+OP_ANY = { OP_ADD | OP_SUB | OP_MUL | OP_DIV | OP_MOD | OP_XOR | OP_BAND | OP_BOR | OP_BXOR | OP_NOT | OP_LT | OP_GT | OP_EQ | OP_NE | OP_GE | OP_LE }
+
+class_def  = { ATTR* ~ (CLASS | STRUCT | UNION) ~ SYM ~ (OP_LT ~ type_list ~ OP_GT)? ~ (":" ~ type_list)? ~ ("{" ~ (stat | access_mod)* ~ "}" | ";") }
+access_mod = { ATTR ~ ":" }
+
+template_def = { TEMPLATE ~ SYM ~ "(" ~ SYM ~ ("," ~ SYM)* ~ ")" ~ codeblock }
+impl_def     = { IMPL ~ (OP_LT ~ type_list ~ OP_GT)? ~ type_rule ~ (FOR ~ type_rule)? ~ codeblock }
+
+stat = {
+    base_stat ~ (IF ~ expr ~ ";")*
+}
+
+base_stat = {
+    vardef
+  | func_decl
+  | func_impl
+  | class_def
+  | enum_rule
+  | using_module
+  | using_type
+  | using_namespace
+  | using_attr
+  | if_stat
+  | then_stat
+  | switch_stat
+  | match_stat
+  | while_stat
+  | do_while_stat
+  | for_stat
+  | return_stat
+  | break_stat
+  | continue_stat
+  | leave_stat
+  | assume_stat
+  | goto_stat
+  | template_def
+  | impl_def
+  | expr ~ ";"
+  | label
+  | ";"
+}
+
+prog = { SOI ~ stat* ~ EOI }

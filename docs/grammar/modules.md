@@ -58,11 +58,11 @@ impl: "**.lm"
 `main.lh` 和 `main.lm` 的基本形式为
 
 ```lumos
-fn my_func();
+fn my_func() -> void;
 ```
 
 ```lumos
-fn my_func() {
+fn my_func() -> void {
     println("Hello, world!");
 }
 ```

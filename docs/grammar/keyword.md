@@ -3,15 +3,28 @@
 
 ## 1
 
-| 关键字 | 全称                       | 用法                   |
-|--------|----------------------------|------------------------|
-| var    | variable                   | 声明或定义变量         |
-| val    | immutable variable         | 声明或定义不可变变量   |
-| let    | expression                 | 定义表达式             |
-| lit    | constant expression        | 定义常量表达式         |
-| obj    | dynamically typed variable | 声明或定义动态类型变量 |
+| 关键字 | 全称                       | 用法                             |
+|--------|----------------------------|----------------------------------|
+| var    | variable                   | 声明完全可变变量（隐含 `mut`）   |
+| val    | value                      | 声明逻辑不可变变量               |
+| imv    | immutable variable         | 声明物理不可变变量（隐含 `imm`） |
+| lit    | literal                    | 声明编译期常量                   |
+| fin    | final variable             | 声明禁止重新绑定的变量           |
+| let    | expression                 | 定义表达式                       |
+| obj    | dynamically typed variable | 声明或定义动态类型变量           |
 
-## 流程控制
+## 类型与访问修饰符
+
+| 关键字 | 全称          | 用法               |
+|--------|---------------|--------------------|
+| mut    | mutable       | 类型修饰：完全可变 |
+| imm    | immutable     | 类型修饰：物理不可变 |
+| ro     | read-only     | 访问修饰：只读     |
+| wo     | write-only    | 访问修饰：只写     |
+| rw     | read-write    | 访问修饰：读写     |
+| rx     | read-execute  | 访问修饰：读执行   |
+
+> **注意**：`var` 隐含了 `mut`，`imv` 隐含了 `imm`。在声明变量时重复使用这些修饰符（如 `var mut`）会导致编译错误。
 
 | 关键字 | 全称          | 用法 |
 |--------|---------------|------|
@@ -47,7 +60,7 @@
 `is` 关键字用于判断一个值是否为某个类型。
 
 ```lumos
-if (a is int) {
+if (a is i32) {
     println("a is an integer");
 }
 ```

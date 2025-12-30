@@ -62,14 +62,37 @@ fn [捕获列表](参数列表) -> 返回类型 {函数体}
 - 可以省略参数列表，表示函数没有参数。
 - 当函数没有参数时，参数列表可以是 `()`，但不能像 C 语言那样写作 `(void)`。
 
+## 8. 成员函数修饰符
+
+在成员函数中，可以使用 `@` 符号标记函数对对象成员的访问权限：
+
+- `@ro` (Read-Only)：只能读成员变量，不能写。
+- `@wo` (Write-Only)：只能写成员变量，不能读。
+- `@rw` (Read-Write)：可读可写成员变量（默认）。
+- `@rx` (Read-Execute)：可读可执行成员变量，不能写。
+
+```lumos
+class MyClass {
+    i32 value;
+
+    fn@ro get_value() -> i32 {
+        return value; // 允许读
+    }
+
+    fn@wo set_value(i32 v) -> void {
+        value = v; // 允许写
+    }
+}
+```
+
 ## 示例
 
 ```lumos
-fn add(int a, int b) {
+fn add(i32 a, i32 b) -> i32 {
   return a + b;
 }
 
-fn main {
+fn main() -> i32 {
   return add(1, -1);
 }
 ```
@@ -81,9 +104,9 @@ fn main {
 如果有以下函数：
 
 ```lumos
-fn rand() {
+fn rand() -> i32 {
     @static
-    int seed = 1;
+    var i32 seed = 1;
     seed = seed * 114514 + 1919810;
     return seed;
 }

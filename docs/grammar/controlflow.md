@@ -196,7 +196,7 @@ if (条件表达式1) {
 `while` 循环是一种条件循环，只要条件为真，循环就会一直执行。
 
 ```lumos
-int i = 0;
+var i32 i = 0;
 while (i < 10) {
     println(i);
     i++;
@@ -214,7 +214,7 @@ while (条件表达式) {
 `do while` 循环是一种条件循环，先执行循环体，再判断条件。
 
 ```lumos
-int i = 0;
+var i32 i = 0;
 do {
     println(i);
     i++;
@@ -232,7 +232,7 @@ do {
 `for` 循环是一种计数循环，可以在循环体内使用计数器。
 
 ```lumos
-for (int i = 0; i < 10; i++) {
+for (var i32 i = 0; i < 10; i++) {
     println(i);
 }
 ```
@@ -277,8 +277,8 @@ for (变量 : 容器) {
 
 ```lumos
 loop:
-for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 10; j++) {
+for (var i32 i = 0; i < 10; i++) {
+    for (var i32 j = 0; j < 10; j++) {
         if (j == 5) break loop;
         println(j);
     }
@@ -297,7 +297,7 @@ Lumos 中允许死循环的存在，如果你想用死循环实现一些奇怪�
 
 ```lumos
 @limit(10)
-for (int i = 0; i < 100; i++) {
+for (var i32 i = 0; i < 100; i++) {
     println(i);
 } breaked {
     println("Limit reached.");
@@ -316,7 +316,7 @@ for (int i = 0; i < 100; i++) {
 
 ```lumos
 @unroll
-for (int i = 0; i < 5; i++) {
+for (var i32 i = 0; i < 5; i++) {
     println(i);
 }
 ```
@@ -341,7 +341,7 @@ println(4);
 
 ```lumos
 @unroll(3)
-for (int i = 0; i < 10; i++) {
+for (var i32 i = 0; i < 10; i++) {
     println(i);
 }
 ```
@@ -353,7 +353,7 @@ for (int i = 0; i < 10; i++) {
 :::
 
 ```lumos
-for (int i = 0; i < 10; i += 3) {
+for (var i32 i = 0; i < 10; i += 3) {
     println(i);
     if (i + 1 >= 10) break;
     println(i + 1);
@@ -373,12 +373,12 @@ for (int i = 0; i < 10; i += 3) {
 有等效的 `goto` 语句：
 
 ```lumos
-for (int i = 0; i < 10; i++) {
+for (var i32 i = 0; i < 10; i++) {
     if (i % 2 == 0) continue;
     println(i);
 }
 
-for (int i = 0; i < 10; i++) {
+for (var i32 i = 0; i < 10; i++) {
     if (i % 2 == 0) goto next;
     println(i);
   next:
@@ -392,12 +392,12 @@ for (int i = 0; i < 10; i++) {
 有等效的 `goto` 语句：
 
 ```lumos
-for (int i = 0; i < 10; i++) {
+for (var i32 i = 0; i < 10; i++) {
     if (i == 5) break;
     println(i);
 }
 
-for (int i = 0; i < 10; i++) {
+for (var i32 i = 0; i < 10; i++) {
     if (i == 5) goto end;
     println(i);
 }
@@ -410,8 +410,8 @@ end:
 
 ```lumos
 loop:
-for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 10; j++) {
+for (var i32 i = 0; i < 10; i++) {
+    for (var i32 j = 0; j < 10; j++) {
         if (i == 5 && j == 5) break loop;
         println(i, j);
     }
@@ -433,7 +433,7 @@ if (表达式) leave;
 
 ```lumos
 {
-    int a = 1;
+    i32 a = 1;
     if (a == 1) leave;
     println("Hello, World!");
 }   // 不会打印文本
@@ -453,7 +453,7 @@ println(a); // 0
 作为函数体的代码块只能 `return` 而不能 `leave`。
 
 ```lumos
-fn my_func(int a) {
+fn my_func(i32 a) -> void {
     if (a == 1) leave; // 会报错，请使用 return
     println("Hello, World!");
 }
@@ -470,7 +470,7 @@ fn my_func(int a) {
 <span style="color:green">减少逆天的嵌套</span>
 
 ```lumos
-for (int i = 0; i < 10; i++) {
+for (var i32 i = 0; i < 10; i++) {
     if (i == 5) break;
     println(i);
 } breaked {
@@ -482,7 +482,7 @@ for (int i = 0; i < 10; i++) {
 <span style="color:green">本次循环会被跳过</span>
 
 ```lumos
-for (int i = 0; i < 10; i++) {
+for (var i32 i = 0; i < 10; i++) {
     if (i == 5) break;
     println(i);
 } breaked {
@@ -496,7 +496,7 @@ for (int i = 0; i < 10; i++) {
 `then` 用于在循环正常结束时执行代码。
 
 ```lumos
-for (int i = 0; i < 10; i++) {
+for (var i32 i = 0; i < 10; i++) {
     println(i);
 } then { // 会执行
     println(`Loop finished with i = $i.`);
@@ -504,7 +504,7 @@ for (int i = 0; i < 10; i++) {
 ```
 
 ```lumos
-for (int i = 0; i < 10; i++) {
+for (var i32 i = 0; i < 10; i++) {
     if (i == 5) break;
     println(i);
 } then { // 不会执行
@@ -547,11 +547,11 @@ for (int i = 0; i < 10; i++) {
 goto 0x12345678;
 ```
 
-对标签取地址后为其后一行代码地址，类型为 `void*`。
+对标签取地址后为其后一行代码地址，类型为 `[void]`。
 
 ```lumos
   loop:
     println("Hello world!");
-    let addr = &loop;
+    val [void] addr = &loop;
     goto addr;
 ```

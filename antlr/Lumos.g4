@@ -24,6 +24,40 @@ CONTINUE: 'continue';
 ASSUME: 'assume';
 WHERE: 'where';
 AS: 'as';
+IS: 'is';
+VAR: 'var';
+VAL: 'val';
+IMV: 'imv';
+LIT: 'lit';
+FIN: 'fin';
+LET: 'let';
+OBJ: 'obj';
+MUT: 'mut';
+IMM: 'imm';
+RO: 'ro';
+WO: 'wo';
+RW: 'rw';
+RX: 'rx';
+IF: 'if';
+ELSE: 'else';
+ELIF: 'elif';
+THEN: 'then';
+SWITCH: 'switch';
+MATCH: 'match';
+FOR: 'for';
+WHILE: 'while';
+DO: 'do';
+GOTO: 'goto';
+NAMESPACE: 'namespace';
+STRUCT: 'struct';
+CLASS: 'class';
+ENUM: 'enum';
+UNION: 'union';
+IMPL: 'impl';
+TEMPLATE: 'template';
+BY: 'by';
+VARIANT: 'variant';
+LEAVE: 'leave';
 
 fragment KWD: '#$' [0-9a-zA-Z_]*;
 
@@ -46,6 +80,29 @@ OP_LE: '<=';
 OP_AND: '&&';
 OP_OR: '||';
 OP_NOT: '!';
+OP_BAND: '&';
+OP_BOR: '|';
+OP_BXOR: '^';
+OP_SHL: '<<';
+OP_SHR: '>>';
+OP_USHL: '<<<';
+OP_USHR: '>>>';
+OP_ROL: '<<>';
+OP_ROR: '>><';
+OP_ADD_ASSIGN: '+=';
+OP_SUB_ASSIGN: '-=';
+OP_MUL_ASSIGN: '*=';
+OP_DIV_ASSIGN: '/=';
+OP_MOD_ASSIGN: '%=';
+OP_XOR_ASSIGN: '^=';
+OP_AND_ASSIGN: '&=';
+OP_OR_ASSIGN: '|=';
+OP_SHL_ASSIGN: '<<=';
+OP_SHR_ASSIGN: '>>=';
+OP_RANGE: '..';
+OP_ARROW: '->';
+OP_DCOLON: '::';
+OP_BACKSLASH: '\\';
 
 // numbers
 
@@ -104,7 +161,30 @@ binary_op:
 	| OP_LT
 	| OP_LE
 	| OP_AND
-	| OP_OR;
+	| OP_OR
+	| OP_BAND
+	| OP_BOR
+	| OP_BXOR
+	| OP_SHL
+	| OP_SHR
+	| OP_USHL
+	| OP_USHR
+	| OP_ROL
+	| OP_ROR
+	| OP_RANGE;
+
+assign_op:
+	'='
+	| OP_ADD_ASSIGN
+	| OP_SUB_ASSIGN
+	| OP_MUL_ASSIGN
+	| OP_DIV_ASSIGN
+	| OP_MOD_ASSIGN
+	| OP_XOR_ASSIGN
+	| OP_AND_ASSIGN
+	| OP_OR_ASSIGN
+	| OP_SHL_ASSIGN
+	| OP_SHR_ASSIGN;
 
 // 1, 2, 3
 val_list: expr (',' expr)* ','?;
@@ -116,54 +196,96 @@ elm_list: ('.' SYM '=')? expr (',' ('.' SYM '=')? expr)* ','?;
 // xxx = 1, yyy, zzz
 enum_list: SYM ('=' expr)? (',' SYM ('=' expr)?)* ','?;
 
-capture_list: '&'? expr (',' '&'? expr)* ','? | '*' | '&';
+capture_list: (OP_BAND? expr | '*') (',' (OP_BAND? expr | '*'))* ','?;
 
 map: '{' val_list? '}';
-struct_init: '{' ('.' SYM '=')? val_list? '}';
+struct_init: type? '{' elm_list? '}';
 list: '[' val_list? ']';
 tuple: '(' val_list? ')';
 
 expr:
 	expr binary_op expr
+	| expr assign_op expr
 	| expr AS type
+	| expr IS type
 	| prefix_op expr
 	| expr suffix_op
 	| list
 	| tuple
+	| map
+	| struct_init
 	| literal
-	| SYM;
+	| sym
+	| lambda;
 
-enum: 'enum' SYM '{' enum_list? '}' ';';
+lambda:
+	'fn' ('[' capture_list? ']')? '(' var_list? ')' ('->' type)? (
+		codeblock
+		| '=' expr
+	);
+
+enum:
+	ENUM SYM (BY type)? (AS (SYM | 'table' | 'container'))? '{' enum_list? '}' ';';
 
 label: SYM ':';
 
-vardef_one: SYM ('=' expr)?;
+vardef_one: SYM (WHERE expr)? ('=' expr)?;
 
-vardef: ('var' | 'val') vardef_one (',' vardef_one)* ';';
+vardef: (VAR | VAL | IMV | LIT | FIN | LET | OBJ) vardef_one (
+		',' vardef_one
+	)* ';';
 
 if_stat:
-	'if' '(' expr ')' (stat | codeblock) (
-		'else' (stat | codeblock)
-	)?;
+	IF '(' val_list ')' (stat | codeblock) (
+		ELIF '(' val_list ')' (stat | codeblock)
+	)* (ELSE (stat | codeblock))?;
+
+post_if_stat: stat IF expr ';';
+then_stat: expr THEN stat;
+
+switch_case: (expr | ATTR) ':' (stat | codeblock);
+switch_stat: SWITCH '(' expr ')' '{' switch_case* '}';
+
+match_case: (expr | ATTR) ':' (stat | codeblock);
+match_stat: MATCH ('(' expr ')')? '{' match_case* '}';
 
 return_stat: RETURN expr? ';';
 break_stat: BREAK ';';
 continue_stat: CONTINUE ';';
 assume_stat: ASSUME expr ';';
+leave_stat: LEAVE ';';
+goto_stat: GOTO SYM ';';
 
-for_stat: 'for' '(' ')' (stat | codeblock);
+while_stat: WHILE '(' expr ')' (stat | codeblock);
+do_while_stat: DO (stat | codeblock) WHILE '(' expr ')' ';';
+for_stat:
+	FOR '(' (vardef | expr? ';') expr? ';' expr? ')' (
+		stat
+		| codeblock
+	);
 
-using_module: USING STRING '->' sym ';';
-using_type: USING SYM '=' sym ';';
+using_module: USING STRING (OP_ARROW sym)? ';';
+using_type: USING SYM '=' type ';';
 using_namespace: USING sym ';';
+using_attr: USING ATTR '=' ATTR+ ';';
 
 codeblock: '{' stat* '}';
 
-type: SYM '*'* '&'?;
+type_mod: MUT | IMM | RO | WO | RW | RX;
+type:
+	type_mod? (
+		sym
+		| '[' type ']' '?'?
+		| OP_BAND type
+		| '[' expr ']' type
+		| '[]' type
+	) (OP_LT type_list OP_GT)?;
+type_list: type (',' type)*;
 
 // 函数声明
 func_decl:
-	'fn' SYM // function name
+	ATTR* 'fn' (OP_BACKSLASH (SYM | OP))? SYM // function name
+	(OP_LT type_list OP_GT)? // template params
 	('[' capture_list? ']')? // capture list
 	('(' var_list? ')')? // function arguments
 	('->' type)? // return type
@@ -171,24 +293,53 @@ func_decl:
 
 // 函数实现
 func_impl:
-	'fn' sym // function name
+	ATTR* 'fn' (OP_BACKSLASH (SYM | OP))? sym // function name
+	(OP_LT type_list OP_GT)? // template params
 	('[' capture_list? ']')? // capture list
 	('(' var_list? ')')? // function arguments
 	('->' type)? // return type
 	(codeblock | '=' expr ';');
 
+class_def:
+	ATTR* (CLASS | STRUCT | UNION) SYM (OP_LT type_list OP_GT)? (
+		':' type_list
+	)? ('{' (stat | access_mod)* '}' | ';');
+
+access_mod: ATTR ':';
+
+template_def: TEMPLATE SYM '(' SYM (',' SYM)* ')' codeblock;
+
+impl_def:
+	IMPL (OP_LT type_list OP_GT)? type (FOR type)? codeblock;
+
 stat:
 	vardef
 	| func_decl
 	| func_impl
+	| class_def
+	| enum
 	| using_module
 	| using_type
 	| using_namespace
+	| using_attr
 	| if_stat
+	| post_if_stat
+	| then_stat
+	| switch_stat
+	| match_stat
+	| while_stat
+	| do_while_stat
+	| for_stat
 	| return_stat
 	| break_stat
 	| continue_stat
+	| leave_stat
 	| assume_stat
+	| goto_stat
+	| template_def
+	| impl_def
+	| expr ';'
+	| label
 	| ';';
 
 prog: stat*;

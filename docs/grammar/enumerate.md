@@ -15,7 +15,7 @@ enum 枚举类型名 by 值的类型 as type { // as type 可以省略
 - `值的类型` 可以是任何基本类型或用户自定义类型，此类型就是枚举实际存储时使用的类型。
 - 若需要根据类型自动生成默认值，其必须实现 `\default` 和 `\next` 运算符。
 
-也可以不写值的类型，此时默认为 `int`。
+也可以不写值的类型，此时默认为 `i32`。
 
 ```lumos
 enum 枚举类型名 {
@@ -28,7 +28,7 @@ enum 枚举类型名 {
 如果省略值，则第一个枚举元素的值为类型的默认值，之后每个元素的默认值为上一个元素 `\next` 运算的结果。
 
 ```lumos
-enum 枚举类型名 by int {
+enum 枚举类型名 by i32 {
     枚举元素1, // 默认为 0
     枚举元素2, // 默认为 1
     枚举元素3, // 默认为 2
@@ -65,14 +65,14 @@ enum 枚举类型名 by 类型 as table {
 使用示例：
 
 ```lumos
-enum ReturnCode by int as table {
-    [enum,     int, string                 ],
+enum ReturnCode by i32 as table {
+    [enum,     i32, string                 ],
     [OK,       200, "OK"                   ],
     [NotFound, 404, "Not Found"            ],
     [Error,    500, "Internal Server Error"],
 }
 
-println(ReturnCode::NotFound as int);    // 输出 404
+println(ReturnCode::NotFound as i32);    // 输出 404
 println(ReturnCode::NotFound as string); // 输出 "Not Found"
 ```
 

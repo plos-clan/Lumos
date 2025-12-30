@@ -11,8 +11,8 @@ Lumos 中可以使用动态类型，变量的类型在运行时确定，就像 j
 
 ```lumos
 obj a = 10;  // 现在 a 为 i32 类型
-a     = 0.1; // 现在 a 为 f32 类型
-a     = "1"; // 现在 a 为 str 类型
+a     = 0.1; // 现在 a 为 f64 类型
+a     = "1"; // 现在 a 为 string 类型
 ```
 
 对动态类型成员的访问都会被封装为对哈希表的访问。
@@ -40,8 +40,8 @@ typeof(a);      // void
 锁定动态类型对象的类型
 
 ```lumos
-fn my_func(obj arg1 @lock-type) {
-  arg1 = 1; // 此时 arg1 的类型并不会变为 `int`
+fn my_func(obj arg1 @lock-type) -> void {
+  arg1 = 1; // 此时 arg1 的类型并不会变为 `i32`
             // 而是会调用 `arg1` 原类型的构造函数
 }
 ```
@@ -50,7 +50,7 @@ fn my_func(obj arg1 @lock-type) {
 
     ```lumos
     @<typename T>
-    fn my_func(T arg1) {
+    fn my_func(var T arg1) -> void {
       arg1 = 1;
     }
     ```

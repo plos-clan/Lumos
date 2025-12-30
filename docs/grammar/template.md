@@ -6,7 +6,7 @@
 我们使用 `</xxx/>` 来定义一个模板。
 
 ```lumos
-fn</T/> my_func(arg1 as T) {
+fn</T/> my_func(T arg1) -> void {
     println(`${typenameof T}: $arg1`);
 }
 ```
@@ -14,10 +14,11 @@ fn</T/> my_func(arg1 as T) {
 我们可以这样使用上述函数
 
 ```lumos
-fn main() {
+fn main() -> i32 {
     my_func(123); // i32: 123
     my_func(123.456); // f64: 123.456
-    my_func("abc"); // str: abc
+    my_func("abc"); // string: abc
+    return 0;
 }
 ```
 
@@ -25,11 +26,11 @@ fn main() {
 <span style="color:green">注意特化必须在模板声明后</span>
 
 ```lumos
-fn</T/> my_func(arg1 as T) {
+fn</T/> my_func(T arg1) -> void {
     println(arg1);
 }
 
-fn my_func</int/>(arg1 as T) {
+fn my_func</i32/>(i32 arg1) -> void {
     println(`整数：$arg1`);
 }
 ```
@@ -38,11 +39,11 @@ fn my_func</int/>(arg1 as T) {
 因此我们建议对模板进行完整的单元测试。
 
 ```lumos
-act</T/> my_func(arg1 as T) {
+fn</T/> my_func(T arg1) -> void {
     println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
 }
 
-act main {
+fn main() -> i32 {
     my_func(123);     // 整数可以左移，通过编译
     my_func(123.456); // 浮点数不能左移，这里会报错
     return 0;
@@ -53,7 +54,7 @@ act main {
 
 ```lumos
 @staticassert(T !is floattype)
-act my_func</typename T/>(arg1 as T) {
+fn my_func</typename T/>(T arg1) -> void {
     println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
 }
 ```
@@ -61,7 +62,7 @@ act my_func</typename T/>(arg1 as T) {
 对模板进行显式的实例化。
 
 ```lumos
-act my_func</int/>;
+fn my_func</i32/>;
 ```
 
 ## 不带类型
@@ -77,8 +78,8 @@ template my_add(a, b) {
 这种写法只在“调用”处进行展开并执行类型检查，模板本身并不会被执行任何检查，只要它的语法正确即可。
 
 ```lumos
-val x = add(1, 2);               // 推导为 int + int
-val y = add(1.0, 2.5);           // 推导为 float + float
+val x = add(1, 2);               // 推导为 i32 + i32
+val y = add(1.0, 2.5);           // 推导为 f64 + f64
 val z = add("Hello, ", "world"); // 推导为字符串拼接
 ```
 
@@ -93,8 +94,8 @@ template my_template_copy(*a) {
 template my_template_ref(&a) {
     a = 2;
 }
-act main {
-    var x = 1;
+fn main() -> i32 {
+    var i32 x = 1;
     my_template_copy(x); // x 被拷贝，内部 x 变为 2
     println(x);          // 输出 1
 

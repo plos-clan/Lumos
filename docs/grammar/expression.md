@@ -6,7 +6,7 @@
 </span>
 
 ```lumos
-var myvar = 10;     // 变量
+var i32 myvar = 10; // 变量
 let expr1 = myvar;  // 左值
 val a     = &expr1; // 通过编译
 let expr2 = 10;     // 右值
@@ -18,7 +18,7 @@ val c     = &expr3; // 错误
 ## 表达式定义 `let`
 
 `let` 用于声明一个表达式，其值在运行时确定，可以作为宏的替代。<br />
-以下两种写法在使用 `int b = expr * 2;` 时等效，均展开为 `int b = (a + 10) * 2;`。
+以下两种写法在使用 `i32 b = expr * 2;` 时等效，均展开为 `i32 b = (a + 10) * 2;`。
 
 ```lumos
 #define expr (a + 10)
@@ -29,7 +29,7 @@ let expr = a + 10;
 
 ```lumos
 let expr = val {
-    var x as int = a + 10;
+    var i32 x = a + 10;
     x * 2
 };
 ```
@@ -39,7 +39,7 @@ let expr = val {
 ```lumos
 f32 expr = a + 10;
 // 等效于
-let expr = f32(a + 10);
+let expr = (a + 10) as f32;
 ```
 
 表达式拥有作用域，无需像宏那样担心重复定义的问题。
@@ -52,7 +52,7 @@ let expr = f32(a + 10);
 
 {
 #define expr (a + 10)
-    var b as int = \num> expr * 2;
+    var i32 b = \num> expr * 2;
 #undef expr // 宏需要手动取消定义
 }
 ```
@@ -63,9 +63,9 @@ let expr = f32(a + 10);
 let expr = a + 10;
 {
     let expr     = a + 20;
-    var b as int = expr * 2; // b = (a + 20) * 2
+    i32 b = expr * 2; // b = (a + 20) * 2
 }
-var b as int = expr * 2;     // b = (a + 10) * 2
+i32 b = expr * 2;     // b = (a + 10) * 2
 ```
 
 ## 常量表达式定义 `lit`
@@ -75,15 +75,15 @@ var b as int = expr * 2;     // b = (a + 10) * 2
 ```lumos
 lit expr = 10 + 1;
 // 之后使用 expr 与使用字面量 11 等效
-int a[expr];
-int b[11];
+[expr]i32 a;
+[11]i32 b;
 // a 与 b 的大小完全相同
 ```
 
 ### 返回常量表达式的函数
 
 ```lumos
-fn lit my_add(a as int, b as int) {
+fn lit my_add(i32 a, i32 b) -> i32 {
     return a + b;
 }
 ```

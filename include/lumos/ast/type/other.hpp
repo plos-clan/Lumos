@@ -10,10 +10,21 @@ namespace lumos::ast {
 
 class PtrType : public Type {
 public:
-  size_t level = 0; // 0 引用, > 0 指针
+  Type *type;
+  bool  nullable = false;
 
-  explicit PtrType(Type *type);
-  PtrType(Type *type, size_t level);
+  explicit PtrType(Type *type, bool nullable = false) : type(type), nullable(nullable) {}
+
+  auto tostr() const -> str override;
+
+  // void check() const override;
+};
+
+class RefType : public Type {
+public:
+  Type *type;
+
+  explicit RefType(Type *type) : type(type) {}
 
   auto tostr() const -> str override;
 

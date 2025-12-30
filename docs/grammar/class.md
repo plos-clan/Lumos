@@ -24,7 +24,7 @@ class MyClass {
 ```lumos
 class {
   省略实现
-} my_var; // 定义一个匿名类并同时声明变量
+} var my_var; // 定义一个匿名类并同时声明变量
 ```
 
 ## 初始化
@@ -36,8 +36,8 @@ class {
 在 Lumos 中，我们可以使用以下方式初始化一个类：
 
 ```lumos
-var MyClass my_var1 = {1, 2, 3};
-var my_var2 = MyClass{1, 2, 3};
+MyClass my_var1 = {1, 2, 3};
+val my_var2 = MyClass{1, 2, 3};
 ```
 
 需要类有以下定义：
@@ -45,16 +45,16 @@ var my_var2 = MyClass{1, 2, 3};
 ```lumos
 class MyClass {
   @public:
-    int a, b, c;
-    fn initvar @default;
+    i32 a, b, c;
+    fn initvar -> void @default;
 } // class MyClass
 ```
 
 当然这边属性修饰 `@default` 加在前后都是可以的：
 
 ```lumos
-@default fn initvar;
-fn initvar @default;
+@default fn initvar -> void;
+fn initvar -> void @default;
 ```
 
 默认情况下，如果一个类没有任何构造函数，那么它将允许变量列表初始化。<br />
@@ -67,11 +67,11 @@ fn initvar @default;
 ```lumos
 class MyClass {
   @public:
-    int a;
+    i32 a;
   @protected:
-    int b;
+    i32 b;
   @private:
-    int c;
+    i32 c;
 } // class MyClass
 ```
 
@@ -79,9 +79,9 @@ class MyClass {
 
 ```lumos
 class MyClass {
-  @public    int a;
-  @protected int b;
-  @private   int c;
+  @public    i32 a;
+  @protected i32 b;
+  @private   i32 c;
 } // class MyClass
 ```
 
@@ -89,14 +89,14 @@ class MyClass {
 
 ```lumos
 class MyClass {
-    int a; // 这会导致一个报错
+    i32 a; // 这会导致一个报错
 } // class MyClass
 ```
 
 ```lumos
 class MyClass {
-    @private int a;
-    int b; // 这会导致一个报错
+    @private i32 a;
+    i32 b; // 这会导致一个报错
 } // class MyClass
 ```
 
@@ -114,12 +114,12 @@ fn as 类型 {
 ```lumos
 class MyInt {
   @private:
-    int value;
+    i32 value;
 
   @public:
-    fn MyInt(int value) : \var> value(value) {}
+    fn MyInt(i32 value) : \var> value(value) {}
 
-    fn as int {
+    fn as i32 -> i32 {
         return value;
     }
 } // class MyInt
@@ -128,7 +128,7 @@ class MyInt {
 也可以在类外定义：
 
 ```lumos
-fn MyInt.as int {
+fn MyInt.as i32 -> i32 {
     return value;
 }
 ```
@@ -138,7 +138,7 @@ fn MyInt.as int {
 ```lumos
 impl MyInt {
 
-fn as int {
+fn as i32 -> i32 {
     return value;
 }
 

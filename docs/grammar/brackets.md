@@ -8,10 +8,10 @@
 小括号用于表示参数列表。
 
 ```lumos
-fn my_func1() {
+fn my_func1() -> void {
     println("Hello, world!");
 }
-fn my_func2(i32 a, i32 b) {
+fn my_func2(i32 a, i32 b) -> void {
     println(a + b);
 }
 ```
@@ -19,7 +19,7 @@ fn my_func2(i32 a, i32 b) {
 在不会引起歧义的情况下，可以省去小括号。
 
 ```lumos
-fn my_func1 {
+fn my_func1 -> void {
     println "Hello, world!";
 }
 ```
@@ -29,7 +29,7 @@ fn my_func1 {
 小括号用于表示函数调用。
 
 ```lumos
-fn my_func() {
+fn my_func() -> void {
     println("Hello, world!");
 }
 
@@ -39,7 +39,7 @@ my_func();
 在不会引起歧义的情况下，可以省去小括号。
 
 ```lumos
-fn my_func {
+fn my_func -> void {
     println "Hello, world!";
 }
 
@@ -83,7 +83,7 @@ val [1, 2, 3, 4, 5] // 不可变列表
 val a = [1, 2, 3, 4, 5];
 // 不可以省去的情况
 class MyClass {
-  fn \call(List</int/> list) {
+  fn \call(List</i32/> list) -> List</i32/> {
     return list;
   }
 }

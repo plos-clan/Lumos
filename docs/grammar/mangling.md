@@ -3,8 +3,8 @@
 ***仍不完善***
 
 ```lumos
-fn foo(int);
-fn bar(int, int);
+fn foo(i32) -> void;
+fn bar(i32, i32) -> void;
 ```
 
 重整分为几种类型，以上面的函数为例：
@@ -14,7 +14,7 @@ fn bar(int, int);
 2. 函数名后添加参数数量<br />
    `foo$1` `bar$2`
 3. 函数名后添加参数类型<br />
-   `foo$int` `bar$int$int`
+   `foo$i32` `bar$i32$i32`
 
 ## 基本规则
 
@@ -59,7 +59,7 @@ fn bar(int, int);
     ```lumos
     namespace foo {
       class bar {}
-      fn my_func(bar a);
+      fn my_func(bar a) -> void;
     }
     ```
 
@@ -75,16 +75,16 @@ fn bar(int, int);
 
     ```lumos
     namespace foo {
-      fn my_func(int32 a);
+      fn my_func(i32 a) -> void;
     }
     ```
 
-    - `my_func` 重整为 `$$N3fooF7my_func1T5int321aT4void`
+    - `my_func` 重整为 `$$N3fooF7my_func1T3i321aT4void`
 
     解释：  
     - `N3foo` 表示命名空间 `foo`
     - `F7my_func` 表示函数 `my_func`（名称长度为 7）
-    - `1T5int321a` 表示一个参数，类型为 `int32`，参数名为 `a`
+    - `1T3i321a` 表示一个参数，类型为 `i32`，参数名为 `a`
     - `T4void` 表示函数没有返回值
 
 3. **有返回值的函数**
@@ -100,8 +100,8 @@ fn bar(int, int);
     解释：  
     - `N3foo` 表示命名空间 `foo`
     - `F7my_func` 表示函数 `my_func`（名称长度为 7）
-    - `1T5int321a` 表示一个参数，类型为 `int32`，参数名为 `a`
-    - `T5int64` 表示返回值类型为 `int64`
+    - `1T3i321a` 表示一个参数，类型为 `i32`，参数名为 `a`
+    - `T3i64` 表示返回值类型为 `i64`
 
 ## 其他示例
 
@@ -124,7 +124,7 @@ namespace math {
 ```lumos
 namespace app {
   enum color { red, green, blue }
-  fn set_color(color c);
+  fn set_color(color c) -> void;
 }
 ```
 

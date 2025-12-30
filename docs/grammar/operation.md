@@ -31,7 +31,7 @@
 | !a   | not   | 逻辑取反 |                          |
 | ++a  | linc  | 前缀自增 |                          |
 | --a  | ldec  | 前缀自减 |                          |
-| *a   | deref | 解引用   | ??你没办法重载指针类型?? |
+| a[]  | deref | 解引用   | ??你没办法重载指针类型?? |
 | &a   | addr  | 取地址   | 不可重载                 |
 
 ## 后缀运算
@@ -40,6 +40,7 @@
 |------|-------|----------|
 | a++  | rinc  | 后缀自增 |
 | a--  | rdec  | 后缀自减 |
+| a[]  | deref | 解引用   |
 | a[b] | index | 数组索引 |
 
 对于整数索引，应当是 `isize` 或 `usize` 类型。  
@@ -49,8 +50,8 @@
 如果重载索引：
 
 ```lumos
-fn \index(usize i) -> int {
-    return *(array + i);
+fn \index(usize i) -> i32 {
+    return (array + i)[];
 }
 ```
 
@@ -84,11 +85,11 @@ fn \index(usize i) -> int {
 
 ```lumos
 // 可以使用
-f32 value = 123.456 as b32 << 1;
+f32 value = (123.456 as b32 << 1) as f32;
 // 而不是
-f32  value = 123.456;
-u32* ptr   = &value;
-*ptr     <<= 1;
+var f32 value = 123.456;
+[u32] ptr = &value;
+ptr[] <<= 1;
 ```
 
 ### 复合赋值运算符
@@ -139,14 +140,14 @@ u32* ptr   = &value;
 
   ```lumos
   struct MyInt {
-      int value;
+      i32 value;
       fn \eq(MyInt rhs) -> bool {
           return value == rhs.value;
       }
       fn \seq(MyInt rhs) -> bool {
           return value === rhs.value;
       }
-      fn \seq(float rhs) -> bool; // 这是不行的，不同类型间的严格相等不可重载
+      fn \seq(f64 rhs) -> bool; // 这是不行的，不同类型间的严格相等不可重载
   }
   ```
 
@@ -160,9 +161,9 @@ u32* ptr   = &value;
   `&==` 与 `&!=` 是唯一可以比较引用的运算符。
 
   ```lumos
-  int  a = 1;
-  int& b = a;
-  int  c = a;
+  i32 a = 1;
+  ref i32 b = a;
+  i32 c = a;
   assert(a &== b); // true
   assert(a &== c); // false
   ```
@@ -193,8 +194,8 @@ u32* ptr   = &value;
 - `typeof` 是唯一运算结果为类型的运算符，它可以直接当作类型使用。
 
   ```lumos
-  int a = 1;
-  typeof(a) b = 2; // 相当于 int b = 2;
+  i32 a = 1;
+  typeof(a) b = 2; // 相当于 i32 b = 2;
   ```
 
 - `typenameof` 的运算结果为字符串。
@@ -256,7 +257,7 @@ a 运算符= b;
 | `a`     | get  | `a < b`  | lt   | `a <= b`   | le    |
 | `a = b` | set  | `a > b`  | gt   | `a >= b`   | ge    |
 | `a++`   | rinc | `a--`    | rdec | `a <=> b`  | cmp   |
-| `++a`   | linc | `--a`    | ldec | `*a`       | deref |
+| `++a`   | linc | `--a`    | ldec | `a[]`      | deref |
 
 所有类似 `a += b` 的运算名称都是 `i` 加上对应的运算符名称，例如 `add` 的增量运算符是 `iadd`。
 

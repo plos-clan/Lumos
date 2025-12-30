@@ -8,13 +8,13 @@ Lumos 默认不允许抛出异常，但可以用 `@exception(allow)` 声明函�
 
 ```lumos
 @exception(allow)
-fn my_func() {
+fn my_func() -> void {
     throw "测试异常"; // 正常抛出异常
 }
 ```
 
 ```lumos
-fn my_func() {
+fn my_func() -> void {
     throw "测试异常"; // 编译错误：函数默认不允许抛出异常
 }
 ```
@@ -27,11 +27,11 @@ Lumos 允许在不可抛出异常的函数中调用可抛出异常的函数，�
 
 ```lumos
 @exception(allow)
-fn my_func1() { // 这个函数会抛出异常
+fn my_func1() -> void { // 这个函数会抛出异常
     throw "假如出现异常";
 }
 
-fn my_func() -> int { // 这个函数不能抛出异常
+fn my_func() -> i32 { // 这个函数不能抛出异常
     my_func1() catch {
         // 必须处理异常且不能再次抛出
         println("Error!");
@@ -48,19 +48,20 @@ fn my_func() -> int { // 这个函数不能抛出异常
 <span style="color:green">注意 `Type or Error` 返回类型和 `@exception(allow)` 不能同时使用</span> ??既禁止又允许什么鬼嘛??
 
 ```lumos
-fn my_func(a as int) -> int or Error {
+fn my_func(i32 a) -> i32 or Error {
     if (a < 0) {
         throw "参数不能小于 0"; // 抛出异常
     }
     return a * 2; // 返回正常值
 }
 
-fn main {
-    var result = my_func(-1) or {
+fn main() -> i32 {
+    val result = my_func(-1) or {
         println("发生异常，无法继续执行");
         return -1; // 处理异常
     };
     println("结果是: " + result);
+    return 0;
 }
 ```
 

@@ -35,14 +35,12 @@ Pclass(ArrayAccess);  //. Expr -> 函数
 //; Type
 
 Pclass(PtrType);    //. Type ->
+Pclass(RefType);    //. Type ->
 Pclass(ArrayType);  //. Type ->
 Pclass(RefCntType); //. Type ->
 Pclass(InnerType);  //. Type ->
 
 Pclass(IntType); //. InnerType ->
-Pclass(PtrType); //. InnerType ->
-Pclass(PtrType); //. InnerType ->
-Pclass(PtrType); //. InnerType ->
 
 Pclass(Struct); //. Type ->
 Pclass(Class);  //. Type ->

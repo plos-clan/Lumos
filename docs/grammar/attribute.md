@@ -63,17 +63,17 @@ var? my_var3; // protected
 
 ```lumos
 @assert(arg >= 0)
-fn my_func(int arg) { // 在函数开始处检查
-    println(arg);     // 检查，值未改变
-    arg = -1;         // 再次检查，打印错误信息并终止
+fn my_func(var i32 arg) -> void { // 在函数开始处检查
+    println(arg);                 // 检查，值未改变
+    arg = -1;                     // 再次检查，打印错误信息并终止
 }
 ```
 
 ```lumos
-fn my_func(int arg) {
+fn my_func(i32 arg) -> void {
     assert(arg >= 0); // 只在此处检查
     println(arg);     // 不会再次检查
-    arg = -1;         // 不会再次检查
+    // arg = -1;      // 错误：arg 是不可变的
 }
 ```
 
@@ -91,8 +91,8 @@ fn my_func(int arg) {
 
   ```lumos
   @generator
-  fn my_func(int n) -> int {
-    for (int i = 0; i < n; i++) {
+  fn my_func(i32 n) -> i32 {
+    for (var i32 i = 0; i < n; i++) {
       return i;
     }
     return; // 空的 return，函数终止
@@ -108,10 +108,10 @@ fn my_func(int arg) {
   对类加锁使其同一时间只能有一个成员函数被调用。
 
   ```lumos
-  var count = 0;
+  var i32 count = 0;
 
   @mt-lock
-  fn call_count() {
+  fn call_count() -> void {
     count++;
   }
   ```
@@ -122,7 +122,7 @@ fn my_func(int arg) {
 
   ```lumos
   @cache
-  fn fib(int n) -> int {
+  fn fib(i32 n) -> i32 {
     if (n <= 1) {
       return n;
     }

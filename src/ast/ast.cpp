@@ -71,7 +71,17 @@ void Named::print_to(ostream &os) const {
 //;
 //* ----------------------------------------------------------------------------------------------------
 
-auto Type::tostr() const -> str {}
+auto Type::tostr() const -> str {
+  return "";
+}
+
+auto PtrType::tostr() const -> str {
+  return "[" + type->tostr() + "]" + (nullable ? "?" : "");
+}
+
+auto RefType::tostr() const -> str {
+  return "&" + type->tostr();
+}
 
 RefCntType::RefCntType(Type *type) : type(type) {}
 
