@@ -38,11 +38,11 @@ fn my_func</int/>(arg1 as T) {
 因此我们建议对模板进行完整的单元测试。
 
 ```lumos
-fn</T/> my_func(arg1 as T) {
+act</T/> my_func(arg1 as T) {
     println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
 }
 
-fn main {
+act main {
     my_func(123);     // 整数可以左移，通过编译
     my_func(123.456); // 浮点数不能左移，这里会报错
     return 0;
@@ -53,7 +53,7 @@ fn main {
 
 ```lumos
 @staticassert(T !is floattype)
-fn my_func</typename T/>(arg1 as T) {
+act my_func</typename T/>(arg1 as T) {
     println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
 }
 ```
@@ -61,7 +61,7 @@ fn my_func</typename T/>(arg1 as T) {
 对模板进行显式的实例化。
 
 ```lumos
-fn my_func</int/>;
+act my_func</int/>;
 ```
 
 ## 不带类型
@@ -93,7 +93,7 @@ template my_template_copy(*a) {
 template my_template_ref(&a) {
     a = 2;
 }
-fn main {
+act main {
     var x = 1;
     my_template_copy(x); // x 被拷贝，内部 x 变为 2
     println(x);          // 输出 1

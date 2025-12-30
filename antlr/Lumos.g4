@@ -21,6 +21,9 @@ USING: 'using';
 RETURN: 'return';
 BREAK: 'break';
 CONTINUE: 'continue';
+ASSUME: 'assume';
+WHERE: 'where';
+AS: 'as';
 
 fragment KWD: '#$' [0-9a-zA-Z_]*;
 
@@ -32,6 +35,17 @@ LF: '\n' -> channel(HIDDEN);
 
 BlockComment: '/*' .*? '*/' -> channel(HIDDEN);
 LineComment: '//' ~[\n]* -> channel(HIDDEN);
+
+// operators
+OP_EQ: '==';
+OP_NE: '!=';
+OP_GT: '>';
+OP_GE: '>=';
+OP_LT: '<';
+OP_LE: '<=';
+OP_AND: '&&';
+OP_OR: '||';
+OP_NOT: '!';
 
 // numbers
 
@@ -72,16 +86,31 @@ REGEX: '/' ~[/\\]* ( '\\' . | ~[/\\])*? '/';
 
 literal: num | STRING | CHAR;
 
-prefix_op: OP_ADD | OP_SUB | OP_INC | OP_DEC;
+prefix_op: OP_ADD | OP_SUB | OP_INC | OP_DEC | OP_NOT;
 
 suffix_op: OP_INC | OP_DEC | '[' expr ']' | '(' expr ')';
 
-binary_op: OP_ADD | OP_SUB | OP_MUL | OP_DIV | OP_MOD | OP_XOR;
+binary_op:
+	OP_ADD
+	| OP_SUB
+	| OP_MUL
+	| OP_DIV
+	| OP_MOD
+	| OP_XOR
+	| OP_EQ
+	| OP_NE
+	| OP_GT
+	| OP_GE
+	| OP_LT
+	| OP_LE
+	| OP_AND
+	| OP_OR;
 
 // 1, 2, 3
 val_list: expr (',' expr)* ','?;
-// int a = 1, int b, int c
-var_list: SYM SYM ('=' expr)? (',' SYM SYM ('=' expr)?)* ','?;
+// int a where a > 0 = 1, int b, int c
+var_decl: type SYM (WHERE expr)? ('=' expr)?;
+var_list: var_decl (',' var_decl)* ','?;
 // .xxx = 1, 2, .zzz = 3
 elm_list: ('.' SYM '=')? expr (',' ('.' SYM '=')? expr)* ','?;
 // xxx = 1, yyy, zzz
@@ -96,11 +125,13 @@ tuple: '(' val_list? ')';
 
 expr:
 	expr binary_op expr
+	| expr AS type
 	| prefix_op expr
 	| expr suffix_op
 	| list
 	| tuple
-	| literal;
+	| literal
+	| SYM;
 
 enum: 'enum' SYM '{' enum_list? '}' ';';
 
@@ -118,6 +149,7 @@ if_stat:
 return_stat: RETURN expr? ';';
 break_stat: BREAK ';';
 continue_stat: CONTINUE ';';
+assume_stat: ASSUME expr ';';
 
 for_stat: 'for' '(' ')' (stat | codeblock);
 
@@ -154,6 +186,9 @@ stat:
 	| using_namespace
 	| if_stat
 	| return_stat
+	| break_stat
+	| continue_stat
+	| assume_stat
 	| ';';
 
 prog: stat*;
