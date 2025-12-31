@@ -126,7 +126,7 @@ switch (表达式) {
 ```lumos
 switch (num) {
     1: {
-        for (var i in [2, 3, 5, 7, 11]) {
+        for (var i in $[2, 3, 5, 7, 11]) {
             println(i);
         }
     } // 代码块结束，自动跳出
@@ -278,7 +278,7 @@ for (迭代次数) {
 `for` 循环是一种遍历循环，可以在循环体内遍历容器。
 
 ```lumos
-for (val i : [1, 2, 3, 4, 5]) {
+for (val i : .[1, 2, 3, 4, 5]) {
     println(i);
 }
 

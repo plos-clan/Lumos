@@ -265,8 +265,8 @@ Lumos 允许的初始化方式有：
 * 赋值初始化 `i32 my_var = 1;`
 * 构造函数初始化 `i32 my_var(1);`  
   <span style="color:green">对于基本数据类型有伪构造函数</span>
-* 结构体元素赋值初始化 `MyStructure my_var = {1, 2, .third = 3};`
-* 数组元素赋值初始化 `[3]i32 my_var = [1, 2, 3];`
+* 结构体元素赋值初始化 `MyStructure my_var = ${1, 2, .third = 3};`
+* 数组元素赋值初始化 `[3]i32 my_var = $[1, 2, 3];`
 * 默认初始化 `i32 my_var;`  
   <span style="color:green">默认初始化会将基本数据类型变量初始化为二进制 0，对于其它数据类型则调用默认构造函数</span>
   <span style="color:green">我们推荐显式初始化</span>
@@ -291,26 +291,26 @@ string e; // 初始化为 ""
 
 ### 延迟初始化
 
-使用 `lateinit` 作为初始值来让变量不自动初始化。  
+使用 `late` 作为初始值来让变量不自动初始化。  
 <span style="color:green">注意访问未初始化的变量是未定义行为</span>
 
 ```lumos
-i32 a = lateinit; // 此时 a 未初始化
+i32 a = late; // 此时 a 未初始化
 a = 1;            // 手动初始化 a
 println(a);       // 1
 ```
 
-对于不可变变量，使用 `lateinit` 时仅可以赋值一次。
+对于不可变变量，使用 `late` 时仅可以赋值一次。
 
 ```lumos
-i32 a = lateinit; // 此时 a 未初始化
+i32 a = late; // 此时 a 未初始化
 a = 1;            // 手动初始化 a
 println(a);       // 1
 // a = 2;         // error: 无法重新赋值给不可变变量
 ```
 
 ```lumos
-i32 a, b, c = lateinit;
+i32 a, b, c = late;
 if (xxx) {
   a = 1;
   b = 2;
@@ -324,12 +324,12 @@ if (xxx) {
 
 ### 懒初始化
 
-使用 `lateinit` 接代码块作为初始值来让变量在第一次访问时自动初始化。  
+使用 `lazy` 接代码块作为初始值来让变量在第一次访问时自动初始化。  
 代码块将延迟到第一次访问时执行，且只会执行一次。  
 <span style="color:green">注意这种情况下不能连续声明多个变量</span>
 
 ```lumos
-var i32 a = lateinit {
+var i32 a = lazy {
   return 1;
 }; /* 此处语句已结束，不能接着声明变量 */
 println(a); // 此时 a 被初始化为 1

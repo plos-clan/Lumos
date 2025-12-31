@@ -46,9 +46,11 @@ val e = Empty{};
 在 Lumos 中，我们可以使用以下方式初始化一个类：
 
 ```lumos
-MyClass my_var1 = {1, 2, 3};
-val my_var2 = MyClass{1, 2, 3};
+MyClass my_var1 = ${.a=1, .b=2, .c=3};
+val my_var2 = MyClass${.a=1, .b=2, .c=3};
 ```
+
+支持尾随逗号：`${.a=1, .b=2,}`。
 
 需要类有以下定义：
 

@@ -64,6 +64,7 @@
 | 关键字 | 全称 | 用法 |
 |--------|------|------|
 | as     | as | 类型转换 |
+| in     | in | 单位换算 |
 | is     | is | 类型或状态判断 |
 
 ## 模块与结构
@@ -77,6 +78,8 @@
 | union  | union | 联合体 |
 | impl   | implement | 实现接口或方法 |
 | using  | using | 导入模块或定义别名 |
+| measure| measure | 定义量纲 |
+| unit   | unit | 空类型 |
 
 ### is
 

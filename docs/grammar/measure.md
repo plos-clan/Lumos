@@ -1,47 +1,88 @@
 
 # 计量单位 (Measure)
 
-**暂时未确定**
+Lumos 引入了原生计量单位支持，通过编译期的量纲分析（Dimensional Analysis）确保物理计算的安全性，同时保持零运行时开销。
 
-为了避免与 `unit` 类型混淆，计量单位使用 `measure` 关键字定义。
+## 量纲与单位定义
+
+使用 `measure` 关键字定义一个量纲，并在其内部定义具体的单位。每个量纲必须指定一个基准单位（通常不设比例），其他单位则相对于基准单位进行定义。
 
 ```lumos
-enum Distance as measure {
-    meter,
-    kilometer,
-    centimeter,
-    millimeter,
-    inch,
-    // ...
+// 定义长度量纲
+measure Length {
+    m;                      // 基准单位：米
+    km = 1000 * m;          // 千米
+    cm = 0.01 * m;          // 厘米
+    mm = 0.001 * m;         // 毫米
 }
-enum Weight by measure {
-    gram,
-    kilogram,
-    milligram,
-    // ...
+
+// 定义时间量纲
+measure Time {
+    s;                      // 基准单位：秒
+    ms = 0.001 * s;         // 毫秒
+    min = 60 * s;           // 分
+    h = 60 * min;           // 小时
 }
 ```
 
-我们可以按照如下方式进行类型转换：
+## 变量声明与字面量
+
+单位可以作为类型修饰符附加在数值类型之后，也可以直接作为字面量后缀使用。
 
 ```lumos
-val one_kilometer = 1.0 as kilometer;
-f64 distance = one_kilometer in meter;
+val distance: f64[m] = 100.0; // 显式类型标注
+val time = 9.58[s];           // 自动推导为 f64[s]
+val speed = 10.0[m/s];        // 复合单位
 ```
 
+## 量纲分析
+
+编译器会自动检查量纲的一致性。只有相同量纲的数值才能进行加减和比较运算。
+
 ```lumos
-Measure
-    | "cm" | "mm" | "m" | "km"
-    | "g" | "mg" | "kg"
-    | "s" | "ms" | "us" | "ns"
-    | "Hz" | "kHz" | "MHz" | "GHz"
-    | "N" | "Pa" | "J" | "W" | "C" | "V" | "F" | "Ω" | "S" | "H" | "T" | "Wb" | "lm" | "lx" | "Bq" | "Gy" | "Sv" | "kat"
-    | "mol" | "cd" | "rad" | "sr"
-    | "L" | "mL" | "m³" | "L/s" | "mL/s"
-    | "°C" | "K"
-    | "°" | "′" | "″"
-    | "m/s" | "m/s²" | "m²" | "m³" | "m/s³" | "m/s⁴" | "m/s⁵" | "m/s⁶" | "m/s⁷" | "m/s⁸" | "m/s⁹" | "m/s¹⁰"
-    | "m²/s" | "m²/s²" | "m²/s³" | "m²/s⁴" | "m²/s⁵" | "m²/s⁶" | "m²/s⁷" | "m²/s⁸" | "m²/s⁹" | "m²/s¹⁰"
-    | "m³/s" | "m³/s²" | "m³/s³" | "m³/s⁴" | "m³/s⁵" | "m³/s⁶" | "m³/s⁷" | "m³/s⁸" | "m³/s⁹" | "m³/s¹⁰"
-    | "m/s²" | "m/s³" | "m/s⁴" | "m/s⁵" | "m/s⁶" | "m/s⁷" | "m/s⁸" | "m/s⁹"
+val len1 = 10[m];
+val len2 = 50[cm];
+val total = len1 + len2;    // 自动换算为基准单位进行运算，结果为 10.5[m]
+
+val weight = 5[kg];
+// val error = len1 + weight; // 编译错误：量纲不匹配 (Length vs Mass)
 ```
+
+乘除运算会产生新的复合量纲：
+
+```lumos
+val dist = 100[m];
+val t = 10[s];
+val v = dist / t;           // v 的类型为 f64[m/s]
+```
+
+## 单位换算 `in`
+
+使用 `in` 表达式可以将一个数值显式转换为另一个单位。
+
+```lumos
+val d = 1.5[km];
+val d_m = d in m;           // 1500.0[m]
+
+val speed_kmh = 120[km/h];
+val speed_ms = speed_kmh in m/s; // 自动处理复合单位换算
+```
+
+## 复合量纲别名
+
+可以为复杂的量纲组合定义别名，提高代码可读性。
+
+```lumos
+measure Velocity = Length / Time;
+measure Acceleration = Velocity / Time;
+measure Force = Mass * Acceleration;
+
+val f: f64[Force] = 9.8[kg] * 1.0[m/s²];
+```
+
+## 零成本抽象
+
+计量单位是纯编译期特性：
+
+- **无内存开销**：`f64[m]` 在内存中与 `f64` 占用完全相同的空间。
+- **无运行开销**：所有的量纲校验都在编译期完成。单位换算的乘除法在编译期进行常量折叠，不会产生额外的运行时指令。

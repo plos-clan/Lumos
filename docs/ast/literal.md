@@ -27,10 +27,10 @@ pub enum Literal {
     /// 带有单位的数值 (10.5m, 100kg)
     Measured(f64, String),
 
-    /// 数组字面量 [1, 2, 3]
+    /// 数组字面量 $[1, 2, 3]
     Array(Vec<Expr>),
 
-    /// 结构体/对象初始化列表 {a: 1, b: 2}
+    /// 结构体/对象初始化列表 ${.a=1, .b=2}
     Object(Vec<(String, Expr)>),
 
     /// 原始字节字面量 b"hello"
