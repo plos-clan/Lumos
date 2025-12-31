@@ -36,6 +36,6 @@ fun randf() -> float {
 }
 
 fun randn() -> float {
-    return sqrt(-2 * \fn> log \fn> randf) * cos(2 * PI * \fn> randf);
+    return sqrt(-2 * \def> log \fun> randf) * cos(2 * PI * \fun> randf);
 }
 ```

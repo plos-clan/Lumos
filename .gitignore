@@ -1,7 +1,7 @@
 .vscode
-bin
-build
-lib
-antlr/.antlr
+/bin
+/build
+/lib
+/antlr/.antlr
 __pycache__
 .cache

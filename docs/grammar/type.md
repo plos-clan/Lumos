@@ -260,7 +260,7 @@ val result_f64 = half() as f64; // 显式转换为 f64
 
 `Num` 数字标准实现：
 
-- fns
+- 方法 (Functions)
   - `zero` 返回数字类型的零值
   - `one` 返回数字类型的单位值
 - ops

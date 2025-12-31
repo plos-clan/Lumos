@@ -4,10 +4,10 @@
 `std` 中的默认 `using`：
 
 ```lumos
-using \type> io.\fn> print;
-using \type> io.\fn> println;
-using \type> io.\fn> scan;
-using \type> io.\fn> scanln;
+using \type> io.\act> print;
+using \type> io.\act> println;
+using \type> io.\act> scan;
+using \type> io.\act> scanln;
 ```
 
 ```lumos

@@ -13,6 +13,6 @@
 
 ## [命名节点 `Named`](named.md)
 
-## [语句节点 `Stat`](statment.md)
+## [语句节点 `Stat`](statement.md)
 
 ## [表达式节点 `Expr`](expr.md)

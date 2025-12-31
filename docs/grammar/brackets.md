@@ -83,7 +83,7 @@ val [1, 2, 3, 4, 5] // 不可变列表
 val a = [1, 2, 3, 4, 5];
 // 不可以省去的情况
 class MyClass {
-  fn \call(List</i32/> list) -> List</i32/> {
+  def \call(List</i32/> list) -> List</i32/> {
     return list;
   }
 }

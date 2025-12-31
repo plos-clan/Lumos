@@ -1,0 +1,26 @@
+nav:
+  - 概览: index.md
+  - 基础语法:
+      - 关键字: keyword.md
+      - 变量与初始化: variable.md
+      - 表达式: expression.md
+      - 运算符: operation.md
+      - 括号与作用域: brackets.md
+      - 单位系统: unit.md
+  - 函数系统:
+      - 函数与纯度: function.md
+      - 重载: overload.md
+      - 名字修饰: mangling.md
+  - 控制流程:
+      - 控制流: controlflow.md
+      - 异常处理: exception.md
+  - 类型与对象:
+      - 类型系统: type.md
+      - 类与对象: class.md
+      - 数组: array.md
+      - 枚举: enumerate.md
+      - 对象: object.md
+  - 高级特性:
+      - 模板与泛型: template.md
+      - 特性/属性: attribute.md
+      - 模块系统: modules.md

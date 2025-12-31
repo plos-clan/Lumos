@@ -12,7 +12,7 @@
 ```lumos
 function(argument1, argument2)
 function(argument1)
-\fn> function argument1
+\def> function argument1
 ```
 
 ```lumos

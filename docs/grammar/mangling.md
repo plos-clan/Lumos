@@ -59,7 +59,7 @@ fun bar(i32, i32) -> void;
     ```lumos
     namespace foo {
       class bar {}
-      fn my_func(bar a) -> void;
+      def my_func(bar a) -> void;
     }
     ```
 
@@ -75,7 +75,7 @@ fun bar(i32, i32) -> void;
 
     ```lumos
     namespace foo {
-      fn my_func(i32 a) -> void;
+      def my_func(i32 a) -> void;
     }
     ```
 
@@ -91,7 +91,7 @@ fun bar(i32, i32) -> void;
 
     ```lumos
     namespace foo {
-      fn my_func(int32 a) -> int64;
+      def my_func(int32 a) -> int64;
     }
     ```
 
@@ -108,7 +108,7 @@ fun bar(i32, i32) -> void;
 ```lumos
 namespace math {
   struct vector {}
-  fn add(vector a, vector b) -> vector;
+  def add(vector a, vector b) -> vector;
 }
 ```
 
@@ -124,7 +124,7 @@ namespace math {
 ```lumos
 namespace app {
   enum color { red, green, blue }
-  fn set_color(color c) -> void;
+  act set_color(color c) -> void;
 }
 ```
 
