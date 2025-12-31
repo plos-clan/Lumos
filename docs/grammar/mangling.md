@@ -3,8 +3,8 @@
 ***仍不完善***
 
 ```lumos
-fn foo(i32) -> void;
-fn bar(i32, i32) -> void;
+fun foo(i32) -> void;
+fun bar(i32, i32) -> void;
 ```
 
 重整分为几种类型，以上面的函数为例：

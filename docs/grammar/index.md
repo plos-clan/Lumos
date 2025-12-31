@@ -26,7 +26,7 @@ lit f = 6;     // 常量表达式
 
 ```lumos
 // 函数
-fn main(i32 argc, [[]string] argv) -> i32 {
+act main(i32 argc, [[]string] argv) -> i32 {
     println("Hello, world!");
     return 0;
 }
@@ -34,13 +34,13 @@ fn main(i32 argc, [[]string] argv) -> i32 {
 
 ```lumos
 // lambda 表达式
-val squre = fn (f32 a) -> f32 {
+val squre = def (f32 a) -> f32 {
     return a * a;
 };
 ```
 
 ```lumos
-fn main() -> i32 {
+act main() -> i32 {
     var i32 a = 1;
     var i32 b = 2;
     i32 c = a + b;
@@ -54,7 +54,7 @@ using "std";
 ```
 
 ```lumos
-fn main() -> i32 {
+act main() -> i32 {
     i32 a = 1;
     i32 b = 2;
     i32 c = a pow b;

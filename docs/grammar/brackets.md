@@ -8,10 +8,10 @@
 小括号用于表示参数列表。
 
 ```lumos
-fn my_func1() -> void {
+act my_func1() -> void {
     println("Hello, world!");
 }
-fn my_func2(i32 a, i32 b) -> void {
+act my_func2(i32 a, i32 b) -> void {
     println(a + b);
 }
 ```
@@ -19,7 +19,7 @@ fn my_func2(i32 a, i32 b) -> void {
 在不会引起歧义的情况下，可以省去小括号。
 
 ```lumos
-fn my_func1 -> void {
+act my_func1 -> void {
     println "Hello, world!";
 }
 ```
@@ -29,7 +29,7 @@ fn my_func1 -> void {
 小括号用于表示函数调用。
 
 ```lumos
-fn my_func() -> void {
+act my_func() -> void {
     println("Hello, world!");
 }
 
@@ -39,7 +39,7 @@ my_func();
 在不会引起歧义的情况下，可以省去小括号。
 
 ```lumos
-fn my_func -> void {
+act my_func -> void {
     println "Hello, world!";
 }
 

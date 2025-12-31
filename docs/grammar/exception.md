@@ -8,13 +8,13 @@ Lumos 默认不允许抛出异常，但可以用 `@exception(allow)` 声明函�
 
 ```lumos
 @exception(allow)
-fn my_func() -> void {
+act my_func() -> void {
     throw "测试异常"; // 正常抛出异常
 }
 ```
 
 ```lumos
-fn my_func() -> void {
+act my_func() -> void {
     throw "测试异常"; // 编译错误：函数默认不允许抛出异常
 }
 ```
@@ -27,11 +27,11 @@ Lumos 允许在不可抛出异常的函数中调用可抛出异常的函数，�
 
 ```lumos
 @exception(allow)
-fn my_func1() -> void { // 这个函数会抛出异常
+act my_func1() -> void { // 这个函数会抛出异常
     throw "假如出现异常";
 }
 
-fn my_func() -> i32 { // 这个函数不能抛出异常
+act my_func() -> i32 { // 这个函数不能抛出异常
     my_func1() catch {
         // 必须处理异常且不能再次抛出
         println("Error!");
@@ -48,14 +48,14 @@ fn my_func() -> i32 { // 这个函数不能抛出异常
 <span style="color:green">注意 `Type or Error` 返回类型和 `@exception(allow)` 不能同时使用</span> ??既禁止又允许什么鬼嘛??
 
 ```lumos
-fn my_func(i32 a) -> i32 or Error {
+act my_func(i32 a) -> i32 or Error {
     if (a < 0) {
         throw "参数不能小于 0"; // 抛出异常
     }
     return a * 2; // 返回正常值
 }
 
-fn main() -> i32 {
+act main() -> i32 {
     val result = my_func(-1) or {
         println("发生异常，无法继续执行");
         return -1; // 处理异常
@@ -117,24 +117,24 @@ Lumos 支持在函数调用时自动处理异常。<br />
 通过在外层函数声明时附加 `@exception(return)` 可以自动在内部出发异常时使当前函数返回默认值。
 
 ```lumos
-fn this_func_will_throw() {
+act this_func_will_throw() {
     throw "测试异常";
 }
 
 @exception(panic)
-fn panic_when_throw() {
+act panic_when_throw() {
     this_func_will_throw();
     // 当 this_func_will_throw() 抛出异常时，程序会打印错误信息并终止
 }
 
 @exception(bypass)
-fn bypass_when_throw() {
+act bypass_when_throw() {
     this_func_will_throw();
     // 当 this_func_will_throw() 抛出异常时，程序会忽略异常并继续执行
 }
 
 @exception(return)
-fn return_when_throw() -> int {
+act return_when_throw() -> int {
     this_func_will_throw();
     // 当 this_func_will_throw() 抛出异常时，程序会返回默认值 0
 }
@@ -142,7 +142,7 @@ fn return_when_throw() -> int {
 
 ```lumos
 @exception(return, 10)
-fn return_when_throw() -> int {
+act return_when_throw() -> int {
     this_func_will_throw();
     // 当 this_func_will_throw() 抛出异常时，程序会返回默认值 10
 }

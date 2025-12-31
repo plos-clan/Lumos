@@ -370,14 +370,14 @@ i32 a = 1;
 ```lumos
 variant IntOrVoid = i32 | void;
 
-fn foo(i32 arg) -> IntOrVoid {
+def foo(i32 arg) -> IntOrVoid {
     if (arg < 0) {
         return void;
     }
     return arg;
 }
 
-fn main() -> i32 {
+act main() -> i32 {
     val value = foo(10); // 使用 val 进行类型推导
     switch (value) {
     i32:  println("返回值是 i32: ", value);

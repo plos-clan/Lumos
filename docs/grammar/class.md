@@ -46,15 +46,15 @@ val my_var2 = MyClass{1, 2, 3};
 class MyClass {
   @public:
     i32 a, b, c;
-    fn initvar -> void @default;
+    act initvar -> void @default;
 } // class MyClass
 ```
 
 当然这边属性修饰 `@default` 加在前后都是可以的：
 
 ```lumos
-@default fn initvar -> void;
-fn initvar -> void @default;
+@default act initvar -> void;
+act initvar -> void @default;
 ```
 
 默认情况下，如果一个类没有任何构造函数，那么它将允许变量列表初始化。<br />
@@ -102,11 +102,11 @@ class MyClass {
 
 ## 重载类型转换
 
-在 Lumos 中，我们可以使用 `fn as 类型` 来重载类型转换。
+在 Lumos 中，我们可以使用 `def as 类型` 来重载类型转换。
 
 ```lumos
-fn as 类型;
-fn as 类型 {
+def as 类型;
+def as 类型 {
   函数体
 }
 ```
@@ -117,9 +117,9 @@ class MyInt {
     i32 value;
 
   @public:
-    fn MyInt(i32 value) : \var> value(value) {}
+    act MyInt(i32 value) : \var> value(value) {}
 
-    fn as i32 -> i32 {
+    def as i32 -> i32 {
         return value;
     }
 } // class MyInt
@@ -128,7 +128,7 @@ class MyInt {
 也可以在类外定义：
 
 ```lumos
-fn MyInt.as i32 -> i32 {
+def MyInt.as i32 -> i32 {
     return value;
 }
 ```
@@ -138,7 +138,7 @@ fn MyInt.as i32 -> i32 {
 ```lumos
 impl MyInt {
 
-fn as i32 -> i32 {
+def as i32 -> i32 {
     return value;
 }
 

@@ -40,7 +40,7 @@ typeof(a);      // void
 锁定动态类型对象的类型
 
 ```lumos
-fn my_func(obj arg1 @lock-type) -> void {
+fun my_func(obj arg1 @lock-type) -> void {
   arg1 = 1; // 此时 arg1 的类型并不会变为 `i32`
             // 而是会调用 `arg1` 原类型的构造函数
 }
@@ -50,7 +50,7 @@ fn my_func(obj arg1 @lock-type) -> void {
 
     ```lumos
     @<typename T>
-    fn my_func(var T arg1) -> void {
+    fun my_func(var T arg1) -> void {
       arg1 = 1;
     }
     ```

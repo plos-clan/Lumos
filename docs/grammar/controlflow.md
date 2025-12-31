@@ -189,6 +189,28 @@ if (条件表达式1) {
 }
 ```
 
+---
+
+## 静态断言与假设
+
+### 假设条件成立 `assume`
+
+`assume` 用于向编译器提供额外的静态分析信息。如果能证明某个条件成立，编译器可以移除相关的运行时检查或进行更激进的优化。
+
+```lumos
+val a = get_input();
+assume a != 0;            // 假设 a 不为零
+val b = 100.0 / a as f32; // 编译器将不再生成除零检查代码
+```
+
+**注意**：
+
+- 如果 `assume` 的条件在运行时不成立，将导致**未定义行为 (UB)**。
+- 在 `Debug` 模式下，`assume` 通常被视为 `assert` 进行校验。
+- 如果编译器发现 `assume` 下的代码路径不可达，将产生编译错误。
+
+---
+
 ## 循环
 
 ### 条件循环 `while`
@@ -453,7 +475,7 @@ println(a); // 0
 作为函数体的代码块只能 `return` 而不能 `leave`。
 
 ```lumos
-fn my_func(i32 a) -> void {
+act my_func(i32 a) -> void {
     if (a == 1) leave; // 会报错，请使用 return
     println("Hello, World!");
 }

@@ -22,7 +22,7 @@ using @属性(xxx) = @属性1 @属性2(xxx) @属性3;
 // 设置所有对象的通用属性
 using @default = @属性1 @属性2 @属性3;
 // 设置每种对象的属性
-using @default fn = @属性1 @属性2 @属性3;
+using @default fun = @属性1 @属性2 @属性3;
 using @default var = @属性1 @属性2 @属性3;
 // 重设默认属性
 using @default = @reset;
@@ -63,14 +63,14 @@ var? my_var3; // protected
 
 ```lumos
 @assert(arg >= 0)
-fn my_func(var i32 arg) -> void { // 在函数开始处检查
+act my_func(var i32 arg) -> void { // 在函数开始处检查
     println(arg);                 // 检查，值未改变
     arg = -1;                     // 再次检查，打印错误信息并终止
 }
 ```
 
 ```lumos
-fn my_func(i32 arg) -> void {
+act my_func(i32 arg) -> void {
     assert(arg >= 0); // 只在此处检查
     println(arg);     // 不会再次检查
     // arg = -1;      // 错误：arg 是不可变的
@@ -91,19 +91,22 @@ fn my_func(i32 arg) -> void {
 
   ```lumos
   @generator
-  fn my_func(i32 n) -> i32 {
+  fun my_func(i32 n) -> i32 {
     for (var i32 i = 0; i < n; i++) {
       return i;
     }
     return; // 空的 return，函数终止
   }
+  ```
 
   for (val i : my_func(10)) {
     println(i);
   }
+
   ```
 
 - `@mt-lock`：<br />
+
   对函数的调用加锁使其同一时间只能被一个线程调用。<br />
   对类加锁使其同一时间只能有一个成员函数被调用。
 
@@ -111,7 +114,7 @@ fn my_func(i32 arg) -> void {
   var i32 count = 0;
 
   @mt-lock
-  fn call_count() -> void {
+  act call_count() -> void {
     count++;
   }
   ```
@@ -122,7 +125,7 @@ fn my_func(i32 arg) -> void {
 
   ```lumos
   @cache
-  fn fib(i32 n) -> i32 {
+  def fib(i32 n) -> i32 {
     if (n <= 1) {
       return n;
     }
@@ -141,7 +144,7 @@ fn my_func(i32 arg) -> void {
 
   ```lumos
   @thiscall
-  fn my_func(MyClass, int value) {
+  act my_func(MyClass, int value) {
     member = value;
   }
   ```
@@ -187,7 +190,7 @@ fn my_func(i32 arg) -> void {
 
   ```lumos
   @restrict(1, 2)
-  fn memcpy(void* dst, void* src, usize n) {
+  act memcpy(void* dst, void* src, usize n) {
     实现
   }
   ```
@@ -225,15 +228,15 @@ fn my_func(i32 arg) -> void {
 
 ```lumos
 @const // 输入相同得到相同输出
-fn square(int x) -> int {
+def square(int x) -> int {
   return x * x;
 }
 
 @inline // 强制内联
-fn add(int a, int b) = a + b;
+def add(int a, int b) = a + b;
 
 @hidden
-fn helper(int x) -> int {
+def helper(int x) -> int {
   实现
 }
 ```

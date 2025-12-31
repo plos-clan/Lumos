@@ -56,6 +56,41 @@ lit i32 e = 1;
 
 ---
 
+## 延迟初始化
+
+如果一个变量无法在声明时立即初始化，Lumos 提供了 `late` 和 `lazy` 关键字。
+
+### 1. 手动延迟初始化 `late`
+
+使用 `late` 标记一个变量将在稍后手动初始化。在初始化之前访问该变量会导致运行时错误。
+
+```lumos
+val GLOBAL = late i32;
+
+act init() {
+    GLOBAL = 42; // 手动初始化
+}
+```
+
+### 2. 懒加载初始化 `lazy`
+
+使用 `lazy` 标记一个变量在第一次被访问时才进行初始化。初始化过程是线程安全的。
+
+```lumos
+// 自动推断类型
+val GLOBAL = lazy {
+    println("Initializing...");
+    42
+};
+
+// 显式指定类型
+val GLOBAL_TYPE = lazy i32 {
+    42
+};
+```
+
+---
+
 ## 访问修饰符
 
 对于逻辑的读写操作，Lumos 增加了四种类型修饰符：
@@ -70,7 +105,7 @@ lit i32 e = 1;
 ### 在类型中使用
 
 ```lumos
-fn my_func([wo i32] data) -> void {
+act my_func([wo i32] data) -> void {
     data[] = 123; // 允许写
     i32 value = data[]; // error: 不允许读
 }
@@ -81,7 +116,7 @@ fn my_func([wo i32] data) -> void {
 在成员函数中，可以使用 `@` 符号标记函数对对象成员的访问权限：
 
 ```lumos
-fn@ro my_func() -> i32 {
+fun@ro my_func() -> i32 {
     // 只能读成员变量，不能写
 }
 ```

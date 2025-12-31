@@ -58,6 +58,11 @@ TEMPLATE: 'template';
 BY: 'by';
 VARIANT: 'variant';
 LEAVE: 'leave';
+DEF: 'def';
+FUN: 'fun';
+ACT: 'act';
+ONCE: 'once' [!?]?;
+UNSAFE: 'unsafe';
 
 fragment KWD: '#$' [0-9a-zA-Z_]*;
 
@@ -219,10 +224,9 @@ expr:
 	| lambda;
 
 lambda:
-	'fn' ('[' capture_list? ']')? '(' var_list? ')' ('->' type)? (
-		codeblock
-		| '=' expr
-	);
+	(DEF | FUN | ACT) ('[' capture_list? ']')? '(' var_list? ')' (
+		'->' type
+	)? (codeblock | '=' expr);
 
 enum:
 	ENUM SYM (BY type)? (AS (SYM | 'table' | 'container'))? '{' enum_list? '}' ';';
@@ -284,7 +288,9 @@ type_list: type (',' type)*;
 
 // 函数声明
 func_decl:
-	ATTR* 'fn' (OP_BACKSLASH (SYM | OP))? SYM // function name
+	ATTR* (DEF | UNSAFE? FUN | ONCE? ACT) (
+		OP_BACKSLASH (SYM | OP)
+	)? SYM // function name
 	(OP_LT type_list OP_GT)? // template params
 	('[' capture_list? ']')? // capture list
 	('(' var_list? ')')? // function arguments
@@ -293,7 +299,9 @@ func_decl:
 
 // 函数实现
 func_impl:
-	ATTR* 'fn' (OP_BACKSLASH (SYM | OP))? sym // function name
+	ATTR* (DEF | UNSAFE? FUN | ONCE? ACT) (
+		OP_BACKSLASH (SYM | OP)
+	)? sym // function name
 	(OP_LT type_list OP_GT)? // template params
 	('[' capture_list? ']')? // capture list
 	('(' var_list? ')')? // function arguments

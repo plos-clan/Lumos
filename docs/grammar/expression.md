@@ -83,7 +83,8 @@ lit expr = 10 + 1;
 ### 返回常量表达式的函数
 
 ```lumos
-fn lit my_add(i32 a, i32 b) -> i32 {
+@lit
+def my_add(i32 a, i32 b) -> i32 {
     return a + b;
 }
 ```

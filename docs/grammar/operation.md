@@ -2,7 +2,7 @@
 # 运算、运算符
 
 !!! question "为什么不使用 `operator` 这样的关键字？"  
-    我认为 `fn \add(MyInt rhs) -> MyInt` 这样的写法与 `auto operator+(MyInt rhs) -> MyInt` 这样的写法相比更加简洁，也容易理解。
+    我认为 `def \add(MyInt rhs) -> MyInt` 这样的写法与 `auto operator+(MyInt rhs) -> MyInt` 这样的写法相比更加简洁，也容易理解。
 
 优先顺序：
 
@@ -50,7 +50,7 @@
 如果重载索引：
 
 ```lumos
-fn \index(usize i) -> i32 {
+def \index(usize i) -> i32 {
     return (array + i)[];
 }
 ```
@@ -141,13 +141,13 @@ ptr[] <<= 1;
   ```lumos
   struct MyInt {
       i32 value;
-      fn \eq(MyInt rhs) -> bool {
+      def \eq(MyInt rhs) -> bool {
           return value == rhs.value;
       }
-      fn \seq(MyInt rhs) -> bool {
+      def \seq(MyInt rhs) -> bool {
           return value === rhs.value;
       }
-      fn \seq(f64 rhs) -> bool; // 这是不行的，不同类型间的严格相等不可重载
+      def \seq(f64 rhs) -> bool; // 这是不行的，不同类型间的严格相等不可重载
   }
   ```
 
