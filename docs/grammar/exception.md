@@ -8,13 +8,13 @@ Lumos 默认不允许抛出异常，但可以用 `@exception(allow)` 声明函�
 
 ```lumos
 @exception(allow)
-act my_func() -> unit {
+act my_func() -> u32 {
     throw "测试异常"; // 正常抛出异常
 }
 ```
 
 ```lumos
-act my_func() -> unit {
+act my_func() -> u32 {
     throw "测试异常"; // 编译错误：函数默认不允许抛出异常
 }
 ```
@@ -27,7 +27,7 @@ Lumos 允许在不可抛出异常的函数中调用可抛出异常的函数，�
 
 ```lumos
 @exception(allow)
-act my_func1() -> unit { // 这个函数会抛出异常
+act my_func1() -> u32 { // 这个函数会抛出异常
     throw "假如出现异常";
 }
 
@@ -134,7 +134,7 @@ act bypass_when_throw() {
 }
 
 @exception(return)
-act return_when_throw() -> int {
+act return_when_throw() -> i32 {
     this_func_will_throw();
     // 当 this_func_will_throw() 抛出异常时，程序会返回默认值 0
 }
@@ -142,7 +142,7 @@ act return_when_throw() -> int {
 
 ```lumos
 @exception(return, 10)
-act return_when_throw() -> int {
+act return_when_throw() -> i32 {
     this_func_will_throw();
     // 当 this_func_will_throw() 抛出异常时，程序会返回默认值 10
 }

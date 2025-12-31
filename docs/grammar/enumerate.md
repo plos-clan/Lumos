@@ -49,20 +49,28 @@ val b = 枚举元素1 as inner;
 
 ### 枚举表格
 
-有时候我们需要将一个枚举类型与多个不同类型的值关联，可以使用枚举表格。
+枚举表格允许将一个枚举类型与多个不同类型的值关联。这在需要对每个枚举变体维护多维数据（如多种表示形式、本地化字符串、HTTP 状态码和错误消息）时非常有用。
+
+#### 基本语法
 
 ```lumos
-enum 枚举类型名 by 类型 as table {
-    [enum,      类型1, 类型2],
-    [枚举元素1, 值1_1, 值1_2],
-    [枚举元素2, 值2_1, 值2_2],
+enum 枚举类型名 by 值的类型 as table {
+    [enum,      类型1, 类型2, ... , 类型N],
+    [枚举元素1, 值1_1, 值1_2, ... , 值1_N],
+    [枚举元素2, 值2_1, 值2_2, ... , 值2_N],
     // ...
 }
 ```
 
-此时可以通过 `as 类型` 将枚举元素转换成对应类型的值。
+**结构说明**：
 
-使用示例：
+- **第一行**：必须是 `[enum, ...]`，定义每列的类型。
+- **后续行**：枚举元素及其对应的值，必须与第一行的类型一一对应。
+- **类型一致性**：编译器会严格检查每列的类型，类型不匹配会导致编译错误。
+
+#### 基本用法
+
+通过 `as 类型名` 将枚举元素转换成对应列的值：
 
 ```lumos
 enum ReturnCode by i32 as table {
@@ -75,6 +83,99 @@ enum ReturnCode by i32 as table {
 println(ReturnCode::NotFound as i32);    // 输出 404
 println(ReturnCode::NotFound as string); // 输出 "Not Found"
 ```
+
+#### 复杂数据结构关联
+
+表格列可以是任意类型，包括结构体、枚举、甚至函数指针：
+
+```lumos
+struct ErrorInfo {
+    message: string,
+    severity: i32,
+}
+
+enum HttpStatus by i32 as table {
+    [enum,        i32, string,       ErrorInfo,
+     act[io.out]],
+    [OK,          200, "OK",         ${ "Success", 0 },
+     act[io.out] { println("200 OK"); }],
+    [BadRequest,  400, "Bad Request", ${ "Invalid input", 1 },
+     act[io.out] { println("400 Bad Request"); }],
+    [Unauthorized, 401, "Unauthorized", ${ "Auth required", 2 },
+     act[io.out] { println("401 Unauthorized"); }],
+}
+
+act[io.out] main() {
+    val status = HttpStatus::BadRequest;
+    val code = status as i32;           // 400
+    val msg = status as string;         // "Bad Request"
+    val info = status as ErrorInfo;     // { "Invalid input", 1 }
+    val handler = status as act[io.out];// 对应的日志处理函数
+    handler();                          // 执行处理函数
+}
+```
+
+#### 边界与错误处理
+
+**缺失值的处理**：
+
+如果枚举元素在表格中缺失某列的值，编译器会报错。必须为表格中的每个枚举元素的每一列提供值：
+
+```lumos
+enum Status by i32 as table {
+    [enum,    i32, string],
+    [Running, 1,   "Running"],
+    [Stopped, 2],  // 编译错误：缺少 string 列的值
+}
+```
+
+**类型转换失败**：
+
+如果尝试转换为未在表格中定义的列类型，编译器会报错：
+
+```lumos
+enum Color by i32 as table {
+    [enum,  i32, string],
+    [Red,   255, "Red"],
+    [Green, 0,   "Green"],
+}
+
+val hex = Color::Red as f64; // 编译错误：f64 不在表格的列类型中
+```
+
+#### 与枚举内函数结合
+
+枚举表格与枚举方法可以结合使用，方法可以访问当前枚举元素的所有表格值：
+
+```lumos
+enum Operation by i32 as table {
+    [enum,   i32, string, (i32, i32)->i32],
+    [Add,    1,   "加法", def (a, b) -> i32 { return a + b; }],
+    [Sub,    2,   "减法", def (a, b) -> i32 { return a - b; }],
+    [Mul,    3,   "乘法", def (a, b) -> i32 { return a * b; }];
+
+    fun describe() -> string {
+        val op_name = this as string;  // 获取当前元素的名称
+        return `Operation: $op_name`;
+    }
+
+    fun apply(i32 a, i32 b) -> i32 {
+        val f = this as (i32, i32)->i32;  // 获取对应的函数
+        return f(a, b);
+    }
+}
+
+act[io.out] main() {
+    println(Operation::Add.describe());  // 输出 "Operation: 加法"
+    println(Operation::Add.apply(3, 5)); // 输出 8
+}
+```
+
+#### 性能特性
+
+- **零运行时开销**：表格转换在编译期完全展开，无运行时查表操作。
+- **内存布局**：通过 `as 类型` 的转换不会产生额外的内存占用，直接返回对应的值。
+- **类型安全**：所有表格访问都在编译期类型检查，不存在无效转换的风险。
 
 ## 枚举作为容器
 

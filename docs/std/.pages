@@ -6,5 +6,5 @@ nav:
       - container.md
   - 系统交互:
       - io.md
-      - therad.md
+      - thread.md
       - random.md

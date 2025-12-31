@@ -79,16 +79,178 @@ act[fs.open] main() {
 }
 ```
 
-### 效应多态 (%)
+### 闭包与权限继承
 
-使用 `%` 占位符处理高阶函数，实现权限透明转发：
+闭包必须使用 `act` 关键字声明，但可以省略权限声明。当权限省略时，闭包**自动继承其定义所在作用域的所有权限**。这遵循作用域继承原理，大幅简化常见用法。
+
+#### 默认权限继承
 
 ```lumos
-act[io.out, %] logger_wrap(act[%] f) -> unit {
-    println("Log: before call");
-    f(); // 调用闭包，消耗 % 权限
+act[io.out, fs.write] process() {
+    // 闭包 handler：act 必须，权限省略则默认继承 [io.out, fs.write]
+    val handler = act (x: i32) -> i32 {
+        println(`Processing $x`);  // 可使用 io.out
+        return x * 2;
+    };
+    handler(42); // OK
 }
 ```
+
+#### 显式权限控制
+
+可以在闭包定义时显式指定权限，覆盖继承的权限：
+
+```lumos
+act[io.out, fs.read, fs.write] main() {
+    // 闭包 1: act[io.out]，显式指定权限，移除 fs.read 和 fs.write
+    val logger = act[io.out] (msg: string) -> unit {
+        println(msg);
+        // fs.read();  // 编译错误：权限不足
+    };
+    
+    // 闭包 2: act[]，表示没有任何权限（纯函数）
+    val pure_fn = act[] (x: i32) -> i32 {
+        return x * 2;
+        // println(x);  // 编译错误：没有 io.out 权限
+    };
+    
+    // 闭包 3: act，权限省略则继承所有父权限
+    val writer = act (path: string) -> unit {
+        // 自动拥有 io.out, fs.read, fs.write
+    };
+}
+```
+
+### 效应多态 (%)
+
+使用 `%` 占位符处理高阶函数，实现权限透明转发。编译器会自动追踪通过闭包参数传入的权限需求，无需在高阶函数签名中显式列举所有可能的权限。
+
+#### 核心机制
+
+`%` 是一个权限占位符，其含义为："此闭包所需的任意权限"。编译器会自动追踪调用点闭包的权限，验证调用方是否拥有。
+
+**关键点**：
+
+- 闭包参数 `act[%]` 表示接收任意权限的闭包
+- 高阶函数可不显式声明权限，直接接收闭包权限
+- 编译器在调用点自动验证权限充足性
+
+```lumos
+// 日志包装器：无需显式列举权限
+act[io.out, %] logger_wrap(act[%] f) -> unit {
+    println("Log: calling closure");
+    f(); // 闭包权限由调用方提供
+    println("Log: closure completed");
+}
+
+// 调用示例：简化的权限语法
+act[io.out, fs.write] main() {
+    // 闭包：act 必须，权限省略则继承 main 的 [io.out, fs.write]
+    val handler = act (path: string) -> unit {
+        println("Writing to: " + path);
+        // write_file(path);
+    };
+    logger_wrap(handler); // OK：handler 的权限被 logger_wrap 接受
+}
+```
+
+#### 通用高阶函数模式
+
+```lumos
+// 通用 map：闭包自动继承调用方权限
+act[io.out, %] array_map</typename T, typename U/>(
+    []T arr,
+    act[%] (T) -> U transformer
+) -> [100]U {
+    var [100]U result = $[];
+    for (i in arr) {
+        result[i] = transformer(arr[i]); // 闭包权限由调用方提供
+    }
+    return result;
+}
+
+// 使用示例：无需重复声明权限
+act[io.out] main() {
+    val nums = $[1, 2, 3, 4, 5];
+    
+    // 闭包：act 必须，权限省略则自动继承 main 的 io.out 权限
+    val doubled = array_map(nums, act (x: i32) -> i32 {
+        println(`Processing $x`);
+        return x * 2;
+    });
+}
+```
+
+#### 权限限制的高阶函数
+
+即使调用方拥有更多权限，闭包仍可显式限制自身权限：
+
+```lumos
+// 高阶函数要求闭包是纯函数（无权限）
+act[io.out, fs.write, %] safe_map</typename T, typename U/>(
+    []T arr,
+    act[] (T) -> U pure_fn  // 仅接受纯闭包
+) -> [100]U {
+    // 函数体...
+}
+
+act[io.out, fs.write] main() {
+    val nums = $[1, 2, 3, 4, 5];
+    
+    // 闭包显式为 act[]，符合 safe_map 的要求
+    val result = safe_map(nums, act[] (x: i32) -> i32 {
+        return x * 2;  // 纯计算
+    });
+    
+    // 以下会编译错误：闭包权限省略则继承 [io.out, fs.write]，不符合 act[] 要求
+    // val bad = safe_map(nums, act (x: i32) -> i32 {
+    //     println(x);  // 尝试使用继承的 io.out
+    //     return x * 2;
+    // });
+}
+```
+
+#### 多闭包的权限追踪
+
+多个闭包各自追踪各自的权限。编译器会自动推断函数中有多少个 `act[%]` 参数，无需显式声明多个占位符：
+
+```lumos
+// 并行执行：只需声明一个 %，编译器自动推断有两个闭包
+act[%] parallel_execute(
+    act[%] task_a,
+    act[%] task_b
+) -> unit {
+    task_a();
+    task_b();
+}
+
+act[io.out, fs.read, fs.write] main() {
+    // task_a：act 权限省略，继承所有权限 [io.out, fs.read, fs.write]
+    val reader = act (path: string) -> unit {
+        // println(...); // 可用 io.out
+        // read_file(path); // 可用 fs.read
+    };
+    
+    // task_b：act[fs.write] 显式限制权限为仅 fs.write
+    val writer = act[fs.write] (path: string) -> unit {
+        // 只能使用 fs.write
+    };
+    
+    parallel_execute(reader, writer); // 权限自动追踪
+}
+```
+
+**自动推断规则**：
+
+- 只需在高阶函数签名中声明一个 `%`
+- 编译器自动统计函数中有多少个 `act[%]` 参数
+- 每个闭包的权限独立追踪，编译器在调用点验证每个闭包的权限充足性
+
+#### 零成本抽象
+
+- **编译期追踪**：闭包权限继承和 `%` 占位符完全在编译期处理
+- **无运行时开销**：所有权限验证都在编译时完成
+- **内联优化**：高阶函数可被优化器内联，闭包调用零开销
 
 ## 模块配额
 
