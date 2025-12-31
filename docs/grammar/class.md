@@ -27,6 +27,16 @@ class {
 } var my_var; // 定义一个匿名类并同时声明变量
 ```
 
+## 零大小类型 (ZST)
+
+在 Lumos 中，不包含任何成员变量的类或结构体是不占空间的（Zero-sized）。这对于泛型编程和元编程非常有用。
+
+```lumos
+class Empty {};
+val e = Empty{};
+// sizeof(e) 为 0
+```
+
 ## 初始化
 
 ### 构造函数初始化

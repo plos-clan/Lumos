@@ -2,18 +2,18 @@
 
 Lumos 采用静态效应系统，将副作用视为一种受控的“能力 (Capability)”。
 
-## 1. 核心原则
+## 核心原则
 
 - **零信任**：`act main` 默认没有任何权限。
 - **静态检查**：所有权限在编译期校验，无运行时开销。
 - **显式授权**：副作用必须在 `act` 函数签名或代码块上显式标注。
 - **纯度隔离**：`def` 和 `fun` 权限集恒为空（仅内置 `dbg`），只有 `act` 可以声明权限。
 
-## 2. 权限层级
+## 权限层级
 
 权限采用点号分隔的树状结构。完整的权限树定义请参考 [permissions.yaml](permissions.yaml)。
 
-### 2.1 常用内置权限
+### 常用内置权限
 
 | 权限路径 | 别名 (aka) | 描述 |
 | :--- | :--- | :--- |
@@ -27,7 +27,7 @@ Lumos 采用静态效应系统，将副作用视为一种受控的“能力 (Cap
 
 > **提示**：别名（如 `stdout`）在代码中与完整路径（如 `io.out`）完全等价。
 
-### 2.2 权限定义与别名
+### 权限定义与别名
 
 库或模块可以定义自己的权限，并使用 `aka` 关键字提供简写或兼容性名称：
 
@@ -40,7 +40,7 @@ permission my_lib.network.socket aka socket;
 支持组语法：
 `act[net.http{client, server}]` 等价于 `act[net.http.client, net.http.server]`。
 
-## 3. 权限操作
+## 权限操作
 
 权限控制是代码块级别的，子块默认继承父块权限。
 
@@ -51,9 +51,9 @@ permission my_lib.network.socket aka socket;
 - **`act[*, "reason"]` (逃生舱)**：强制获得所有权限。要求提供字符串理由，便于审计。
 - **`act[?]`**：编译器指令。在编译时打印当前代码块所拥有的完整权限树。
 
-## 4. 函数权限
+## 函数权限
 
-### 4.1 权限声明
+### 权限声明
 
 ```lumos
 act[net.http.client] fetch_data(string url) -> string { ... }
@@ -65,7 +65,7 @@ act[net.http.client] fetch_data(string url) -> string { ... }
 act main() { ... }
 ```
 
-### 4.2 权限传播 (Yielding)
+### 权限传播 (Yielding)
 
 函数成功返回后，可以将权限自动应用到调用方后续的代码块中：
 
@@ -79,7 +79,7 @@ act[fs.open] main() {
 }
 ```
 
-### 4.3 效应多态 (%)
+### 效应多态 (%)
 
 使用 `%` 占位符处理高阶函数，实现权限透明转发：
 
@@ -90,7 +90,7 @@ act[io.out, %] logger_wrap(act[%] f) -> unit {
 }
 ```
 
-## 5. 模块配额
+## 模块配额
 
 在导入依赖库时分配权限上限：
 
