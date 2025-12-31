@@ -46,18 +46,18 @@ val my_var2 = MyClass{1, 2, 3};
 class MyClass {
   @public:
     i32 a, b, c;
-    act initvar -> void @default;
+    act initvar -> unit @default;
 } // class MyClass
 ```
 
 当然这边属性修饰 `@default` 加在前后都是可以的：
 
 ```lumos
-@default act initvar -> void;
-act initvar -> void @default;
+@default act initvar -> unit;
+act initvar -> unit @default;
 ```
 
-默认情况下，如果一个类没有任何构造函数，那么它将允许变量列表初始化。<br />
+默认情况下，如果一个类没有任何构造函数，那么它将允许变量列表初始化。  
 如果有构造函数，则需要手动启用。
 
 ## 访问控制

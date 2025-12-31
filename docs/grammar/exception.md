@@ -3,31 +3,31 @@
 
 ## 允许抛出异常
 
-Lumos 默认不允许抛出异常，但可以用 `@exception(allow)` 声明函数可以抛出异常。<br />
+Lumos 默认不允许抛出异常，但可以用 `@exception(allow)` 声明函数可以抛出异常。  
 也可以使用 `@exception(allow)` 声明命名空间或类中的所有函数都可以抛出异常。
 
 ```lumos
 @exception(allow)
-act my_func() -> void {
+act my_func() -> unit {
     throw "测试异常"; // 正常抛出异常
 }
 ```
 
 ```lumos
-act my_func() -> void {
+act my_func() -> unit {
     throw "测试异常"; // 编译错误：函数默认不允许抛出异常
 }
 ```
 
 !!! note "为什么默认不开启异常"
-    为了避免异常被滥用，Lumos 默认不允许函数抛出异常。<br />
+    为了避免异常被滥用，Lumos 默认不允许函数抛出异常。  
     许多大型项目都会关闭异常，因为异常会导致代码难以理解和维护。
 
 Lumos 允许在不可抛出异常的函数中调用可抛出异常的函数，只要程序员在函数中手动处理所有异常。
 
 ```lumos
 @exception(allow)
-act my_func1() -> void { // 这个函数会抛出异常
+act my_func1() -> unit { // 这个函数会抛出异常
     throw "假如出现异常";
 }
 
@@ -43,8 +43,8 @@ act my_func() -> i32 { // 这个函数不能抛出异常
 
 ## 禁止异常穿过
 
-使用 `@exception(allow)` 声明函数可以抛出异常后，Lumos 会同时允许异常穿过函数边界。<br />
-如果需要禁止异常穿过函数边界，应该使用 `Type or Error` 作为函数的返回类型。<br />
+使用 `@exception(allow)` 声明函数可以抛出异常后，Lumos 会同时允许异常穿过函数边界。  
+如果需要禁止异常穿过函数边界，应该使用 `Type or Error` 作为函数的返回类型。  
 <span style="color:green">注意 `Type or Error` 返回类型和 `@exception(allow)` 不能同时使用</span> ??既禁止又允许什么鬼嘛??
 
 ```lumos
@@ -78,7 +78,7 @@ try {
 }
 ```
 
-与其他许多语言不同的是，`or` 块并不是必须的。<br />
+与其他许多语言不同的是，`or` 块并不是必须的。  
 此时 `or` 抓取左侧表达式的异常并处理。
 
 ```lumos
@@ -87,7 +87,7 @@ my_func() or (e as Error) {
 }
 ```
 
-如果你不需要知道到底发生了什么异常，可以不在 `or` 之后添加参数。<br />
+如果你不需要知道到底发生了什么异常，可以不在 `or` 之后添加参数。  
 `or` 后的内容就是通用的异常处理逻辑。
 
 ```lumos
@@ -102,7 +102,7 @@ my_func() or {
 my_func() or return -1;
 ```
 
-空的 `or` 块可以让程序忽略异常并继续执行。<br />
+空的 `or` 块可以让程序忽略异常并继续执行。  
 <span style="color:purple">不要随便这么做</span>
 
 ```lumos
@@ -111,9 +111,9 @@ my_func() or;
 
 ## 自动处理异常
 
-Lumos 支持在函数调用时自动处理异常。<br />
-通过在外层函数声明时附加 `@exception(panic)` 可以自动在内部出发异常时打印错误信息并终止程序。<br />
-通过在外层函数声明时附加 `@exception(bypass)` 可以自动在内部出发异常时忽略异常并继续执行。（若函数有返回值则使用其类型的默认值）<br />
+Lumos 支持在函数调用时自动处理异常。  
+通过在外层函数声明时附加 `@exception(panic)` 可以自动在内部出发异常时打印错误信息并终止程序。  
+通过在外层函数声明时附加 `@exception(bypass)` 可以自动在内部出发异常时忽略异常并继续执行。（若函数有返回值则使用其类型的默认值）  
 通过在外层函数声明时附加 `@exception(return)` 可以自动在内部出发异常时使当前函数返回默认值。
 
 ```lumos
@@ -150,8 +150,8 @@ act return_when_throw() -> int {
 
 ## 抛出异常
 
-发生异常时请 `throw` 异常，能 `throw` 的类型必须是继承 `Error` 类的类型。<br />
-<span style="color:green">能直接 `throw` 字符串是因为字符串能隐式转换成 `Error` 类型</span><br />
+发生异常时请 `throw` 异常，能 `throw` 的类型必须是继承 `Error` 类的类型。  
+<span style="color:green">能直接 `throw` 字符串是因为字符串能隐式转换成 `Error` 类型</span>  
 <span style="color:green">`StrError` `I32Error`</span>
 
 ```lumos

@@ -6,7 +6,7 @@
 我们使用 `</xxx/>` 来定义一个模板。
 
 ```lumos
-act</T/> my_func(T arg1) -> void {
+act</T/> my_func(T arg1) -> unit {
     println(`${typenameof T}: $arg1`);
 }
 ```
@@ -22,24 +22,24 @@ act main() -> i32 {
 }
 ```
 
-我们可以对模板进行特化。<br />
+我们可以对模板进行特化。  
 <span style="color:green">注意特化必须在模板声明后</span>
 
 ```lumos
-act</T/> my_func(T arg1) -> void {
+act</T/> my_func(T arg1) -> unit {
     println(arg1);
 }
 
-act my_func</i32/>(i32 arg1) -> void {
+act my_func</i32/>(i32 arg1) -> unit {
     println(`整数：$arg1`);
 }
 ```
 
-<span style="color:green">注意模板在实例化时才会检查，也就是模板如果不使用程序员可能不会发现其中的语法错误。</span><br />
+<span style="color:green">注意模板在实例化时才会检查，也就是模板如果不使用程序员可能不会发现其中的语法错误。</span>  
 因此我们建议对模板进行完整的单元测试。
 
 ```lumos
-act</T/> my_func(T arg1) -> void {
+act</T/> my_func(T arg1) -> unit {
     println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
 }
 
@@ -54,7 +54,7 @@ act main() -> i32 {
 
 ```lumos
 @staticassert(T !is floattype)
-act my_func</typename T/>(T arg1) -> void {
+act my_func</typename T/>(T arg1) -> unit {
     println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
 }
 ```

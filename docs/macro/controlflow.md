@@ -16,9 +16,9 @@
 
 ## 循环
 
-- `#while`<br />
+- `#while`  
   `#while 1 <= 10`
-- `#for`<br />
+- `#for`  
   `#for i from 1 to 10`
 
 ## 跳转

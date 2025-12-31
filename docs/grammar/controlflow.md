@@ -39,7 +39,7 @@ if (条件表达式) 代码;
 代码 if 条件表达式;
 ```
 
-可以在 `if` 中写多个表达式，用 `,` 隔开。条件表达式为最后一个表达式。<br />
+可以在 `if` 中写多个表达式，用 `,` 隔开。条件表达式为最后一个表达式。  
 <span style="color:green">表达式中可以定义变量，其作用域为 `if` 语句内</span>
 
 ```lumos
@@ -94,8 +94,8 @@ if (条件表达式1) {
 
 ### 多条件分支 `switch`
 
-`switch` 语句是一种多条件分支，根据条件执行不同的代码块。<br />
-实际上的实现就是 `if - elif - else` 序列，只是更加简洁。<br />
+`switch` 语句是一种多条件分支，根据条件执行不同的代码块。  
+实际上的实现就是 `if - elif - else` 序列，只是更加简洁。  
 <span style="color:green">由于现代编译器的优化，在编译时将 `switch` 展开为 `if` 并不会导致低性能</span>
 
 ```lumos
@@ -117,8 +117,8 @@ switch (表达式) {
 !!! question "为什么不使用 `case`？"
     Lumos 不会像 C 语言那样只把 `case` 处当作跳转的标签（要和普通标签区分开），需要在下一段代码前手动 `break`，所以不需要和普通标签区分，直接出现在 `switch` 内的必定是条件表达式。
 
-`leave` 语句用于跳出 `switch` 语句。<br />
-`@next` 语句用于跳到下一个条件的处理过程。<br />
+`leave` 语句用于跳出 `switch` 语句。  
+`@next` 语句用于跳到下一个条件的处理过程。  
 `@default` 是一个可选的标签，用于处理没有匹配的情况。
 
 > 不是？你属性咋跑这来了
@@ -143,7 +143,7 @@ switch (num) {
 
 ### 多条件分支 `match`
 
-与 `switch` 类似，`match` 语句是一种多条件分支，根据条件执行不同的代码块，但条件为匹配表达式而不是匹配值。<br />
+与 `switch` 类似，`match` 语句是一种多条件分支，根据条件执行不同的代码块，但条件为匹配表达式而不是匹配值。  
 <span style="color:green">`match` 语句是 `switch` 语句的增强版</span>
 
 ```lumos
@@ -160,7 +160,7 @@ match (表达式) {
 }
 ```
 
-无初始表达式的 `match` 语句。<br />
+无初始表达式的 `match` 语句。  
 可以当作另一种 `if - elif - else` 使用。
 
 ```lumos
@@ -330,8 +330,8 @@ for (var i32 i = 0; i < 100; i++) {
 
 `LMX` ::
 
-`@unroll(次数)` 属性可以展开循环，减少循环的开销。<br />
-`@unroll(0)` 或 `@unroll` 属性将循环完全展开，`@unroll(次数)` 属性将循环展开指定次数。<br />
+`@unroll(次数)` 属性可以展开循环，减少循环的开销。  
+`@unroll(0)` 或 `@unroll` 属性将循环完全展开，`@unroll(次数)` 属性将循环展开指定次数。  
 次数指展开后一次循环中循环体的执行次数。
 
 :::column
@@ -442,7 +442,7 @@ for (var i32 i = 0; i < 10; i++) {
 
 ### 跳出代码块 `leave`
 
-`leave` 用于跳出代码块。<br />
+`leave` 用于跳出代码块。  
 <span style="color:purple">必须是使用 `{}` 包裹的代码块。下面的示例语句不算是代码块。</span>
 
 `leave` 也可以跳出 `if` `switch` 的代码块。
@@ -475,7 +475,7 @@ println(a); // 0
 作为函数体的代码块只能 `return` 而不能 `leave`。
 
 ```lumos
-act my_func(i32 a) -> void {
+act my_func(i32 a) -> unit {
     if (a == 1) leave; // 会报错，请使用 return
     println("Hello, World!");
 }
@@ -488,7 +488,7 @@ act my_func(i32 a) -> void {
 !!! question ""
     不过有人提议使用 `terminated`
 
-`breaked` 用于在循环被 `break` 中断时执行代码。<br />
+`breaked` 用于在循环被 `break` 中断时执行代码。  
 <span style="color:green">减少逆天的嵌套</span>
 
 ```lumos
@@ -500,7 +500,7 @@ for (var i32 i = 0; i < 10; i++) {
 }
 ```
 
-可以在 `breaked` 中 `continue` 重新进入循环。<br />
+可以在 `breaked` 中 `continue` 重新进入循环。  
 <span style="color:green">本次循环会被跳过</span>
 
 ```lumos
@@ -542,7 +542,7 @@ for (var i32 i = 0; i < 10; i++) {
 
 ### 标签跳转 `goto`
 
-`goto` 用于跳转到指定标签。<br />
+`goto` 用于跳转到指定标签。  
 <span style="color:green">所有标签反向缩进两格</span>
 
 ```lumos
@@ -569,11 +569,11 @@ for (var i32 i = 0; i < 10; i++) {
 goto 0x12345678;
 ```
 
-对标签取地址后为其后一行代码地址，类型为 `[void]`。
+对标签取地址后为其后一行代码地址，类型为 `[unit]`。
 
 ```lumos
   loop:
     println("Hello world!");
-    val [void] addr = &loop;
+    val [unit] addr = &loop;
     goto addr;
 ```

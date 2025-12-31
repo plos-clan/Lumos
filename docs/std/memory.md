@@ -8,16 +8,16 @@
 ```lumos
 @returns(dst)
 @write(dst, n)
-act memset([void] dst, u8 val, usize n) -> [void];
+act memset([unit] dst, u8 val, usize n) -> [unit];
 ```
 
 同时具有 8 16 32 64 位版本，属性同上，声明如下。
 
 ```lumos
-act memset8([bits8] dst, u8 val, usize n) -> [void];
-act memset16([u16] dst, u16 val, usize n) -> [void];
-act memset32([u32] dst, u32 val, usize n) -> [void];
-act memset64([u64] dst, u64 val, usize n) -> [void];
+act memset8([bits8] dst, u8 val, usize n) -> [unit];
+act memset16([u16] dst, u16 val, usize n) -> [unit];
+act memset32([u32] dst, u32 val, usize n) -> [unit];
+act memset64([u64] dst, u64 val, usize n) -> [unit];
 ```
 
 ### memcpy
@@ -29,5 +29,5 @@ act memset64([u64] dst, u64 val, usize n) -> [void];
 @nonull(src, dst)
 @read(src, n)
 @write(dst, n)
-act memcpy([void] dst, [void] src, usize n) -> [void];
+act memcpy([unit] dst, [unit] src, usize n) -> [unit];
 ```

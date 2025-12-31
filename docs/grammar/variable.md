@@ -105,7 +105,7 @@ val GLOBAL_TYPE = lazy i32 {
 ### 在类型中使用
 
 ```lumos
-act my_func([wo i32] data) -> void {
+act my_func([wo i32] data) -> unit {
     data[] = 123; // 允许写
     i32 value = data[]; // error: 不允许读
 }
@@ -222,7 +222,7 @@ while (a > 0) {
 
 对于一个变量，取到的值可以是：
 
-* 编译时能够确定的值（非 `volatile`）<br />
+* 编译时能够确定的值（非 `volatile`）  
   *<span style="color:orange">warning</span>: <span style="color:darkcyan">对于编译期可确定的值使用 `lit`</span>*
 * 上次修改后缓存的值（非 `volatile`）
 * 对应内存地址当前的值
@@ -253,7 +253,7 @@ println(a);    // 由于编译器的优化策略，可能输出 1 或 2
 
 对于一个常量，取到的值可以是：
 
-* 编译时能够确定的值（非 `volatile`）<br />
+* 编译时能够确定的值（非 `volatile`）  
   *<span style="color:orange">warning</span>: <span style="color:darkcyan">对于编译期可确定的值使用 `lit`</span>*
 * 作用域内任意位置缓存的值（非 `volatile`）
 * 对应内存地址当前的值
@@ -263,11 +263,11 @@ println(a);    // 由于编译器的优化策略，可能输出 1 或 2
 Lumos 允许的初始化方式有：
 
 * 赋值初始化 `i32 my_var = 1;`
-* 构造函数初始化 `i32 my_var(1);`<br />
+* 构造函数初始化 `i32 my_var(1);`  
   <span style="color:green">对于基本数据类型有伪构造函数</span>
 * 结构体元素赋值初始化 `MyStructure my_var = {1, 2, .third = 3};`
 * 数组元素赋值初始化 `[3]i32 my_var = [1, 2, 3];`
-* 默认初始化 `i32 my_var;`<br />
+* 默认初始化 `i32 my_var;`  
   <span style="color:green">默认初始化会将基本数据类型变量初始化为二进制 0，对于其它数据类型则调用默认构造函数</span>
   <span style="color:green">我们推荐显式初始化</span>
 
@@ -291,7 +291,7 @@ string e; // 初始化为 ""
 
 ### 延迟初始化
 
-使用 `lateinit` 作为初始值来让变量不自动初始化。<br />
+使用 `lateinit` 作为初始值来让变量不自动初始化。  
 <span style="color:green">注意访问未初始化的变量是未定义行为</span>
 
 ```lumos
@@ -324,8 +324,8 @@ if (xxx) {
 
 ### 懒初始化
 
-使用 `lateinit` 接代码块作为初始值来让变量在第一次访问时自动初始化。<br />
-代码块将延迟到第一次访问时执行，且只会执行一次。<br />
+使用 `lateinit` 接代码块作为初始值来让变量在第一次访问时自动初始化。  
+代码块将延迟到第一次访问时执行，且只会执行一次。  
 <span style="color:green">注意这种情况下不能连续声明多个变量</span>
 
 ```lumos
@@ -413,8 +413,8 @@ volatile i32 a = 1;
 
 ### `register`
 
-`@register(寄存器名)` 属性用于强制变量存储在寄存器中，而不是内存中。<br />
-<span style="color:green">这会导致相应寄存器无法被其它变量使用</span><br />
+`@register(寄存器名)` 属性用于强制变量存储在寄存器中，而不是内存中。  
+<span style="color:green">这会导致相应寄存器无法被其它变量使用</span>  
 <span style="color:purple">无特殊需求不应该使用</span>
 
 ```lumos
@@ -450,7 +450,7 @@ var a by i32 {
   \get -> i32 { // 只能有一个 \get 但可以有多个 \set
     return 1;
   }
-  \set(value as i32) -> void { // 不写参数默认为 value
+  \set(value as i32) -> unit { // 不写参数默认为 value
     println(`set a to $value`);
   }
 }
@@ -466,7 +466,7 @@ var a by {
   \get -> i32 {
     return 1;
   }
-  \set(value as i32) -> void {
+  \set(value as i32) -> unit {
     println(`set a to $value`);
   }
 }
@@ -480,7 +480,7 @@ var a by i32 {
   \get -> i32 {
     return real_a;
   }
-  \set(value as i32) -> void {
+  \set(value as i32) -> unit {
     println(`set a to $value`);
     real_a = value;
   }

@@ -1,7 +1,7 @@
 # 动态类型
 
-Lumos 中可以使用动态类型，变量的类型在运行时确定，就像 js 那样。<br />
-即变量可以在不同的时间点存储不同类型的值。<br />
+Lumos 中可以使用动态类型，变量的类型在运行时确定，就像 js 那样。  
+即变量可以在不同的时间点存储不同类型的值。  
 <span style="color:purple">
 当然我们不建议你在 Lumos 中过多使用动态类型，因为这会导致代码难以理解和维护。
 </span>
@@ -18,10 +18,10 @@ a     = "1"; // 现在 a 为 string 类型
 对动态类型成员的访问都会被封装为对哈希表的访问。
 
 ```lumos
-a.xxx(); // ((void (*)())a.members["xxx"])();
+a.xxx(); // ((unit (*)())a.members["xxx"])();
 ```
 
-使用 `typeof` 运算符可以获取它的类型。<br />
+使用 `typeof` 运算符可以获取它的类型。  
 使用 `typenameof` 运算符可以以字符串形式获取它的类型。
 
 ```lumos
@@ -29,18 +29,18 @@ obj a = 10;
 println(typenameof(a)); // i32
 ```
 
-如果不初始化动态类型对象，那么它的类型为 `void`，值为 `undefined`。
+如果不初始化动态类型对象，那么它的类型为 `unit`，值为 `undefined`。
 
 ```lumos
 obj a;         // 不初始化
 a == undefined; // true
-typeof(a);      // void
+typeof(a);      // unit
 ```
 
 锁定动态类型对象的类型
 
 ```lumos
-fun my_func(obj arg1 @lock-type) -> void {
+fun my_func(obj arg1 @lock-type) -> unit {
   arg1 = 1; // 此时 arg1 的类型并不会变为 `i32`
             // 而是会调用 `arg1` 原类型的构造函数
 }
@@ -50,14 +50,14 @@ fun my_func(obj arg1 @lock-type) -> void {
 
     ```lumos
     @<typename T>
-    fun my_func(var T arg1) -> void {
+    fun my_func(var T arg1) -> unit {
       arg1 = 1;
     }
     ```
 
 ## 实现
 
-实际上就是将运算符进行封装。<br />
+实际上就是将运算符进行封装。  
 类似以下 C 代码。
 
 ```c

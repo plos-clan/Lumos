@@ -12,7 +12,7 @@ enum Distance as unit {
     inch,
     // ...
 }
-enum unit by void {
+enum unit by unit {
     meter,
     kilometer,
     centimeter,

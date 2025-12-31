@@ -8,10 +8,10 @@
 小括号用于表示参数列表。
 
 ```lumos
-act my_func1() -> void {
+act my_func1() -> unit {
     println("Hello, world!");
 }
-act my_func2(i32 a, i32 b) -> void {
+act my_func2(i32 a, i32 b) -> unit {
     println(a + b);
 }
 ```
@@ -19,7 +19,7 @@ act my_func2(i32 a, i32 b) -> void {
 在不会引起歧义的情况下，可以省去小括号。
 
 ```lumos
-act my_func1 -> void {
+act my_func1 -> unit {
     println "Hello, world!";
 }
 ```
@@ -29,7 +29,7 @@ act my_func1 -> void {
 小括号用于表示函数调用。
 
 ```lumos
-act my_func() -> void {
+act my_func() -> unit {
     println("Hello, world!");
 }
 
@@ -39,7 +39,7 @@ my_func();
 在不会引起歧义的情况下，可以省去小括号。
 
 ```lumos
-act my_func -> void {
+act my_func -> unit {
     println "Hello, world!";
 }
 
@@ -68,7 +68,7 @@ println(a[0, 0]); // 也可以使用逗号分隔
 
 ### 列表
 
-中括号用于表示列表。列表是一种有序的集合，其中的元素可以重复。<br />
+中括号用于表示列表。列表是一种有序的集合，其中的元素可以重复。  
 列表的可变与不可变由中括号前的 `var` `val` 关键字决定。
 
 ```lumos
@@ -113,7 +113,7 @@ println(a[2, 2]); // 9
 
 ### 代码块
 
-大括号用于表示代码块。<br />
+大括号用于表示代码块。  
 当大括号内直接存在 `;` 时，判定为代码块。
 
 ```lumos
@@ -124,7 +124,7 @@ if (true) {
 
 ### 映射
 
-大括号用于表示映射。映射中的元素由键值对组成。<br />
+大括号用于表示映射。映射中的元素由键值对组成。  
 映射的可变与不可变由大括号前的 `var` `val` 关键字决定。
 
 ```lumos

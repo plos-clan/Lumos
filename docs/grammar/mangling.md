@@ -3,17 +3,17 @@
 ***仍不完善***
 
 ```lumos
-fun foo(i32) -> void;
-fun bar(i32, i32) -> void;
+fun foo(i32) -> unit;
+fun bar(i32, i32) -> unit;
 ```
 
 重整分为几种类型，以上面的函数为例：
 
-1. 不重整，函数名直接作为导出名<br />
+1. 不重整，函数名直接作为导出名  
    `foo` `bar`
-2. 函数名后添加参数数量<br />
+2. 函数名后添加参数数量  
    `foo$1` `bar$2`
-3. 函数名后添加参数类型<br />
+3. 函数名后添加参数类型  
    `foo$i32` `bar$i32$i32`
 
 ## 基本规则
@@ -50,7 +50,7 @@ fun bar(i32, i32) -> void;
 
 ### 返回值
 
-在所有参数之后，拼接返回值类型。如果函数没有返回值，则使用 `T4void` 表示返回 `void` 类型。
+在所有参数之后，拼接返回值类型。如果函数没有返回值，则使用 `T4unit` 表示返回 `unit` 类型。
 
 ### 示例
 
@@ -59,33 +59,33 @@ fun bar(i32, i32) -> void;
     ```lumos
     namespace foo {
       class bar {}
-      def my_func(bar a) -> void;
+      def my_func(bar a) -> unit;
     }
     ```
 
-    - `my_func` 重整为 `$$N3fooF7my_func1N3fooC3bar1aT4void`
+    - `my_func` 重整为 `$$N3fooF7my_func1N3fooC3bar1aT4unit`
 
     解释：  
     - `N3foo` 表示命名空间 `foo`
     - `F7my_func` 表示函数 `my_func`（名称长度为 7）
     - `1N3fooC3bar1a` 表示一个参数，类型为 `N3fooC3bar`（命名空间 `foo` 下的类 `bar`），参数名为 `a`
-    - `T4void` 表示函数没有返回值
+    - `T4unit` 表示函数没有返回值
 
 2. **有基本类型参数的函数**
 
     ```lumos
     namespace foo {
-      def my_func(i32 a) -> void;
+      def my_func(i32 a) -> unit;
     }
     ```
 
-    - `my_func` 重整为 `$$N3fooF7my_func1T3i321aT4void`
+    - `my_func` 重整为 `$$N3fooF7my_func1T3i321aT4unit`
 
     解释：  
     - `N3foo` 表示命名空间 `foo`
     - `F7my_func` 表示函数 `my_func`（名称长度为 7）
     - `1T3i321a` 表示一个参数，类型为 `i32`，参数名为 `a`
-    - `T4void` 表示函数没有返回值
+    - `T4unit` 表示函数没有返回值
 
 3. **有返回值的函数**
 
@@ -124,15 +124,15 @@ namespace math {
 ```lumos
 namespace app {
   enum color { red, green, blue }
-  act set_color(color c) -> void;
+  act set_color(color c) -> unit;
 }
 ```
 
-- `set_color` 重整为 `$$N3appF9set_color1N3appE5color1cT4void`
+- `set_color` 重整为 `$$N3appF9set_color1N3appE5color1cT4unit`
 
 解释：  
 
 - `N3app` 表示命名空间 `app`
 - `F9set_color` 表示函数 `set_color`（名称长度为 9）
 - `1N3appE5color1c` 表示一个参数，类型为 `N3appE5color`（命名空间 `app` 下的枚举 `color`），参数名为 `c`
-- `T4void` 表示函数没有返回值
+- `T4unit` 表示函数没有返回值

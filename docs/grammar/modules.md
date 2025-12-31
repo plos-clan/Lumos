@@ -58,11 +58,11 @@ impl: "**.lm"
 `main.lh` 和 `main.lm` 的基本形式为
 
 ```lumos
-act my_func() -> void;
+act my_func() -> unit;
 ```
 
 ```lumos
-act my_func() -> void {
+act my_func() -> unit {
     println("Hello, world!");
 }
 ```
@@ -189,7 +189,7 @@ using:
 #endif
 ```
 
-`isfileimpl` 宏用于判断当前文件是否被对应的实现文件包含。<br />
+`isfileimpl` 宏用于判断当前文件是否被对应的实现文件包含。  
 *如 `xxx.lh` 和 `xxx.lm`*
 
 ```lumos
