@@ -377,7 +377,7 @@ def foo(i32 arg) -> IntOrUnit {
     return arg;
 }
 
-act main() -> i32 {
+act[io.out] main() -> i32 {
     val value = foo(10); // 使用 val 进行类型推导
     switch (value) {
     i32:  println("返回值是 i32: ", value);

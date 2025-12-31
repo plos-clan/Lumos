@@ -63,14 +63,14 @@ var? my_var3; // protected
 
 ```lumos
 @assert(arg >= 0)
-act my_func(var i32 arg) -> unit { // 在函数开始处检查
+act[io.out] my_func(var i32 arg) -> unit { // 在函数开始处检查
     println(arg);                 // 检查，值未改变
     arg = -1;                     // 再次检查，打印错误信息并终止
 }
 ```
 
 ```lumos
-act my_func(i32 arg) -> unit {
+act[io.out] my_func(i32 arg) -> unit {
     assert(arg >= 0); // 只在此处检查
     println(arg);     // 不会再次检查
     // arg = -1;      // 错误：arg 是不可变的
@@ -119,6 +119,7 @@ act my_func(i32 arg) -> unit {
   ```
 
 - `@cache`：允许运行时缓存函数返回值，以减少重复计算。  
+
   <span style="color:purple">`cache` 属性隐式地包含 `pure` 属性</span>  
   <span style="color:green">具体是否缓存取决于编译器实现</span>
 
@@ -143,8 +144,7 @@ act my_func(i32 arg) -> unit {
 
   ```lumos
   @thiscall
-  act my_func(MyClass, int value) {
-    member = value;
+  act[obj.write] my_func(MyClass, int value) {
   }
   ```
 
@@ -189,8 +189,7 @@ act my_func(i32 arg) -> unit {
 
   ```lumos
   @restrict(1, 2)
-  act memcpy([unit] dst, [unit] src, usize n) {
-    实现
+  act[sys.mem] memcpy([unit] dst, [unit] src, usize n) {
   }
   ```
 

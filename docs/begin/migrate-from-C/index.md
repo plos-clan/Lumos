@@ -19,7 +19,7 @@ int main() {
 ```lumos
 using "std";
 
-act main() {
+act[io.out] main() {
   std.println("Hello world!");
   return 0;
 }

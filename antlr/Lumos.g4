@@ -58,9 +58,16 @@ TEMPLATE: 'template';
 BY: 'by';
 VARIANT: 'variant';
 LEAVE: 'leave';
+MEASURE: 'measure';
+YIELDS: 'yields';
+WITH: 'with';
+PERMISSION: 'permission';
+AKA: 'aka';
 DEF: 'def';
 FUN: 'fun';
 ACT: 'act';
+ASYNC: 'async';
+AWAIT: 'await';
 ONCE: 'once' [!?]?;
 UNSAFE: 'unsafe';
 
@@ -224,9 +231,9 @@ expr:
 	| lambda;
 
 lambda:
-	(DEF | FUN | ACT) ('[' capture_list? ']')? '(' var_list? ')' (
+	(DEF | FUN | ACT) ('[' (permission_list | capture_list)? ']')? '(' var_list? ')' (
 		'->' type
-	)? (codeblock | '=' expr);
+	)? (YIELDS '[' permission_list ']')? (codeblock | '=' expr);
 
 enum:
 	ENUM SYM (BY type)? (AS (SYM | 'table' | 'container'))? '{' enum_list? '}' ';';
@@ -286,15 +293,19 @@ type:
 	) (OP_LT type_list OP_GT)?;
 type_list: type (',' type)*;
 
+permission: (sym | '%');
+permission_list: permission (',' permission)*;
+
 // 函数声明
 func_decl:
 	ATTR* (DEF | UNSAFE? FUN | ONCE? ACT) (
 		OP_BACKSLASH (SYM | OP)
 	)? SYM // function name
 	(OP_LT type_list OP_GT)? // template params
-	('[' capture_list? ']')? // capture list
+	('[' (permission_list | capture_list)? ']')? // permissions or capture list
 	('(' var_list? ')')? // function arguments
 	('->' type)? // return type
+	(YIELDS '[' permission_list ']')? // yielded permissions
 	';';
 
 // 函数实现
@@ -303,9 +314,10 @@ func_impl:
 		OP_BACKSLASH (SYM | OP)
 	)? sym // function name
 	(OP_LT type_list OP_GT)? // template params
-	('[' capture_list? ']')? // capture list
+	('[' (permission_list | capture_list)? ']')? // permissions or capture list
 	('(' var_list? ')')? // function arguments
 	('->' type)? // return type
+	(YIELDS '[' permission_list ']')? // yielded permissions
 	(codeblock | '=' expr ';');
 
 class_def:

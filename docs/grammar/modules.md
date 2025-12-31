@@ -62,7 +62,7 @@ act my_func() -> unit;
 ```
 
 ```lumos
-act my_func() -> unit {
+act[io.out] my_func() -> unit {
     println("Hello, world!");
 }
 ```

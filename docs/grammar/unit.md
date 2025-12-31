@@ -1,10 +1,12 @@
 
-# 计量单位
+# 计量单位 (Measure)
 
 **暂时未确定**
 
+为了避免与 `unit` 类型混淆，计量单位使用 `measure` 关键字定义。
+
 ```lumos
-enum Distance as unit {
+enum Distance as measure {
     meter,
     kilometer,
     centimeter,
@@ -12,11 +14,7 @@ enum Distance as unit {
     inch,
     // ...
 }
-enum unit by unit {
-    meter,
-    kilometer,
-    centimeter,
-    millimeter,
+enum Weight by measure {
     gram,
     kilogram,
     milligram,
@@ -32,7 +30,7 @@ f64 distance = one_kilometer in meter;
 ```
 
 ```lumos
-Unit
+Measure
     | "cm" | "mm" | "m" | "km"
     | "g" | "mg" | "kg"
     | "s" | "ms" | "us" | "ns"

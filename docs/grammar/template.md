@@ -14,7 +14,7 @@ act</T/> my_func(T arg1) -> unit {
 我们可以这样使用上述函数
 
 ```lumos
-act main() -> i32 {
+act[io.out] main() -> i32 {
     my_func(123); // i32: 123
     my_func(123.456); // f64: 123.456
     my_func("abc"); // string: abc
@@ -26,11 +26,11 @@ act main() -> i32 {
 <span style="color:green">注意特化必须在模板声明后</span>
 
 ```lumos
-act</T/> my_func(T arg1) -> unit {
+act[io.out]</T/> my_func(T arg1) -> unit {
     println(arg1);
 }
 
-act my_func</i32/>(i32 arg1) -> unit {
+act[io.out] my_func</i32/>(i32 arg1) -> unit {
     println(`整数：$arg1`);
 }
 ```
@@ -39,11 +39,11 @@ act my_func</i32/>(i32 arg1) -> unit {
 因此我们建议对模板进行完整的单元测试。
 
 ```lumos
-act</T/> my_func(T arg1) -> unit {
+act[io.out]</T/> my_func(T arg1) -> unit {
     println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
 }
 
-act main() -> i32 {
+act[io.out] main() -> i32 {
     my_func(123);     // 整数可以左移，通过编译
     my_func(123.456); // 浮点数不能左移，这里会报错
     return 0;
@@ -54,7 +54,7 @@ act main() -> i32 {
 
 ```lumos
 @staticassert(T !is floattype)
-act my_func</typename T/>(T arg1) -> unit {
+act[io.out]</typename T/>(T arg1) -> unit {
     println(arg1 << 1); // 由于不知道 T 的类型，无法检查是否能够左移
 }
 ```
@@ -62,7 +62,7 @@ act my_func</typename T/>(T arg1) -> unit {
 对模板进行显式的实例化。
 
 ```lumos
-act my_func</i32/>;
+act[io.out] my_func</i32/>;
 ```
 
 ## 不带类型
@@ -94,7 +94,7 @@ template my_template_copy(*a) {
 template my_template_ref(&a) {
     a = 2;
 }
-act main() -> i32 {
+act[io.out] main() -> i32 {
     var i32 x = 1;
     my_template_copy(x); // x 被拷贝，内部 x 变为 2
     println(x);          // 输出 1

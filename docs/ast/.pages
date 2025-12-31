@@ -1,7 +1,8 @@
 nav:
   - 概览: index.md
-  - 节点类型:
-      - named.md
-      - statement.md
-      - expr.md
-  - 解析流程: parse.md
+  - 基础元数据: common.md
+  - 类型系统: type.md
+  - 声明: decl.md
+  - 语句: stat.md
+  - 表达式: expr.md
+  - 字面量: literal.md

@@ -31,7 +31,7 @@ act my_func1() -> unit { // 这个函数会抛出异常
     throw "假如出现异常";
 }
 
-act my_func() -> i32 { // 这个函数不能抛出异常
+act[io.out] my_func() -> i32 { // 这个函数不能抛出异常
     my_func1() catch {
         // 必须处理异常且不能再次抛出
         println("Error!");
@@ -55,7 +55,7 @@ act my_func(i32 a) -> i32 or Error {
     return a * 2; // 返回正常值
 }
 
-act main() -> i32 {
+act[io.out] main() -> i32 {
     val result = my_func(-1) or {
         println("发生异常，无法继续执行");
         return -1; // 处理异常

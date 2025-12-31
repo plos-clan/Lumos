@@ -1,0 +1,153 @@
+# Lumos Full Permission Tree
+# This file defines the hierarchical structure of all built-in permissions.
+
+io:
+  +desc: "Basic Input/Output operations"
+  out:
+    +desc: "Standard output stream"
+    +aliases: ["stdout"]
+  err:
+    +desc: "Standard error stream"
+    +aliases: ["stderr"]
+  in:
+    +desc: "Standard input stream"
+    +aliases: ["stdin"]
+
+fs:
+  +desc: "File system operations"
+  read:
+    +desc: "Read files and directories"
+  write:
+    +desc: "Write or modify files and directories"
+  manage:
+    +desc: "Create, delete, or rename files and directories"
+  open:
+    +desc: "Open file handles"
+  stat:
+    +desc: "Get file or directory information"
+
+net:
+  +desc: "Network operations"
+  socket:
+    +desc: "Raw socket operations"
+  tcp:
+    listen:
+      +desc: "Listen for incoming TCP connections"
+    connect:
+      +desc: "Initiate outgoing TCP connections"
+  udp:
+    bind:
+      +desc: "Bind to a UDP port"
+    send:
+      +desc: "Send UDP packets"
+  http:
+    client:
+      +desc: "Make HTTP client requests"
+    server:
+      +desc: "Run an HTTP server"
+  dns:
+    +desc: "Domain name resolution"
+
+sys:
+  +desc: "System-level operations"
+  env:
+    +desc: "Access environment variables"
+  proc:
+    +desc: "Process management (spawn, kill)"
+  mem:
+    +desc: "Direct memory access or specialized allocation"
+  time:
+    +desc: "Access or modify system time"
+  info:
+    +desc: "Access system information (OS, CPU, etc.)"
+
+hw:
+  +desc: "Hardware access"
+  gpu:
+    +desc: "Direct GPU access"
+  usb:
+    +desc: "USB device communication"
+
+sync:
+  +desc: "Concurrency and synchronization"
+  spawn:
+    +desc: "Spawn new threads or tasks"
+  yield:
+    +desc: "Explicitly yield execution to the scheduler"
+  atomic:
+    +desc: "Atomic operations on shared memory"
+
+sec:
+  +desc: "Security and Cryptography"
+  entropy:
+    +desc: "Access to system entropy or hardware RNG"
+    +aliases: ["rng"]
+  key:
+    +desc: "Access to secure key storage (keyring, keychain)"
+  trust:
+    +desc: "Manage trusted certificates or roots"
+
+ipc:
+  +desc: "Inter-Process Communication"
+  pipe:
+    +desc: "Create or access named/unnamed pipes"
+  shm:
+    +desc: "Access shared memory segments"
+  signal:
+    +desc: "Send or handle system signals"
+  mqueue:
+    +desc: "Message queue operations"
+
+ffi:
+  +desc: "Foreign Function Interface"
+  load:
+    +desc: "Load dynamic libraries (.so, .dll, .dylib)"
+  call:
+    +desc: "Call unsafe foreign functions"
+
+ui:
+  +desc: "User Interface and Graphics"
+  window:
+    +desc: "Create and manage windows"
+  input:
+    +desc: "Capture global or window-specific input events"
+  clipboard:
+    +desc: "Read or write to the system clipboard"
+  render:
+    +desc: "High-level rendering operations (Canvas, 2D/3D)"
+
+log:
+  +desc: "Logging and Tracing"
+  emit:
+    +desc: "Emit log messages to system loggers"
+  trace:
+    +desc: "System-wide tracing or profiling"
+
+media:
+  +desc: "Multimedia access"
+  audio:
+    record:
+      +desc: "Record audio from input devices"
+    play:
+      +desc: "Play audio to output devices"
+  video:
+    capture:
+      +desc: "Capture video from cameras"
+  midi:
+    +desc: "MIDI device communication"
+
+pwr:
+  +desc: "Power management"
+  sleep:
+    +desc: "Put system to sleep or hibernate"
+  shutdown:
+    +desc: "Shutdown or reboot the system"
+  state:
+    +desc: "Access battery or power source information"
+
+loc:
+  +desc: "Location and Sensors"
+  gps:
+    +desc: "Access precise geographic location"
+  sensor:
+    +desc: "Access hardware sensors (accelerometer, gyro, etc.)"

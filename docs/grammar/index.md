@@ -26,7 +26,7 @@ lit f = 6;     // 常量表达式
 
 ```lumos
 // 函数
-act main(i32 argc, [[]string] argv) -> i32 {
+act[io.out] main(i32 argc, [[]string] argv) -> i32 {
     println("Hello, world!");
     return 0;
 }
@@ -40,7 +40,7 @@ val squre = def (f32 a) -> f32 {
 ```
 
 ```lumos
-act main() -> i32 {
+act[io.out] main() -> i32 {
     var i32 a = 1;
     var i32 b = 2;
     i32 c = a + b;
@@ -54,7 +54,7 @@ using "std";
 ```
 
 ```lumos
-act main() -> i32 {
+act[io.out] main() -> i32 {
     i32 a = 1;
     i32 b = 2;
     i32 c = a pow b;

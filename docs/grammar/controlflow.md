@@ -475,7 +475,7 @@ println(a); // 0
 作为函数体的代码块只能 `return` 而不能 `leave`。
 
 ```lumos
-act my_func(i32 a) -> unit {
+act[io.out] my_func(i32 a) -> unit {
     if (a == 1) leave; // 会报错，请使用 return
     println("Hello, World!");
 }
