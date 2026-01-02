@@ -2,7 +2,7 @@
 
 本页定义了 Lumos 的语句结构 `Stat`。
 
-## 1. 语句 `Stat`
+## 语句 `Stat`
 
 ```rust
 pub enum Stat {
@@ -65,9 +65,9 @@ pub enum Stat {
 }
 ```
 
-## 2. 辅助枚举
+## 辅助枚举
 
-### 2.1 循环类型 `LoopKind`
+### 循环类型 `LoopKind`
 
 ```rust
 pub enum LoopKind {
@@ -78,7 +78,7 @@ pub enum LoopKind {
 }
 ```
 
-### 2.2 跳转类型 `JumpKind`
+### 跳转类型 `JumpKind`
 
 ```rust
 pub enum JumpKind {
@@ -90,7 +90,7 @@ pub enum JumpKind {
 }
 ```
 
-### 2.3 权限操作 `PermissionOp`
+### 权限操作 `PermissionOp`
 
 ```rust
 pub enum PermissionOp {
@@ -101,7 +101,7 @@ pub enum PermissionOp {
 }
 ```
 
-### 2.4 异常捕获 `CatchBlock`
+### 异常捕获 `CatchBlock`
 
 ```rust
 pub struct CatchBlock {

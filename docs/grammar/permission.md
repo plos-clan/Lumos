@@ -15,15 +15,15 @@ Lumos 采用静态效应系统，将副作用视为一种受控的“能力 (Cap
 
 ### 常用内置权限
 
-| 权限路径 | 别名 (aka) | 描述 |
-| :--- | :--- | :--- |
-| `io.out` | `stdout` | 标准输出流 |
-| `io.err` | `stderr` | 标准错误流 |
-| `io.in` | `stdin` | 标准输入流 |
-| `fs.read` | - | 文件读取 |
-| `fs.write` | - | 文件写入 |
-| `net.http.client` | - | HTTP 客户端请求 |
-| `sys.env` | - | 访问环境变量 |
+| 权限路径          | 别名 (aka) | 描述            |
+|-------------------|------------|-----------------|
+| `io.out`          | `stdout`   | 标准输出流      |
+| `io.err`          | `stderr`   | 标准错误流      |
+| `io.in`           | `stdin`    | 标准输入流      |
+| `fs.read`         | -          | 文件读取        |
+| `fs.write`        | -          | 文件写入        |
+| `net.http.client` | -          | HTTP 客户端请求 |
+| `sys.env`         | -          | 访问环境变量    |
 
 > **提示**：别名（如 `stdout`）在代码中与完整路径（如 `io.out`）完全等价。
 
@@ -107,13 +107,13 @@ act[io.out, fs.read, fs.write] main() {
         println(msg);
         // fs.read();  // 编译错误：权限不足
     };
-    
+
     // 闭包 2: act[]，表示没有任何权限（纯函数）
     val pure_fn = act[] (x: i32) -> i32 {
         return x * 2;
         // println(x);  // 编译错误：没有 io.out 权限
     };
-    
+
     // 闭包 3: act，权限省略则继承所有父权限
     val writer = act (path: string) -> unit {
         // 自动拥有 io.out, fs.read, fs.write
@@ -172,7 +172,7 @@ act[io.out, %] array_map</typename T, typename U/>(
 // 使用示例：无需重复声明权限
 act[io.out] main() {
     val nums = $[1, 2, 3, 4, 5];
-    
+
     // 闭包：act 必须，权限省略则自动继承 main 的 io.out 权限
     val doubled = array_map(nums, act (x: i32) -> i32 {
         println(`Processing $x`);
@@ -196,12 +196,12 @@ act[io.out, fs.write, %] safe_map</typename T, typename U/>(
 
 act[io.out, fs.write] main() {
     val nums = $[1, 2, 3, 4, 5];
-    
+
     // 闭包显式为 act[]，符合 safe_map 的要求
     val result = safe_map(nums, act[] (x: i32) -> i32 {
         return x * 2;  // 纯计算
     });
-    
+
     // 以下会编译错误：闭包权限省略则继承 [io.out, fs.write]，不符合 act[] 要求
     // val bad = safe_map(nums, act (x: i32) -> i32 {
     //     println(x);  // 尝试使用继承的 io.out
@@ -230,12 +230,12 @@ act[io.out, fs.read, fs.write] main() {
         // println(...); // 可用 io.out
         // read_file(path); // 可用 fs.read
     };
-    
+
     // task_b：act[fs.write] 显式限制权限为仅 fs.write
     val writer = act[fs.write] (path: string) -> unit {
         // 只能使用 fs.write
     };
-    
+
     parallel_execute(reader, writer); // 权限自动追踪
 }
 ```

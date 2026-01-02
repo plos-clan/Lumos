@@ -2,7 +2,7 @@
 
 本页定义了顶层声明及各类定义结构。
 
-## 1. 顶层声明 `Decl`
+## 顶层声明 `Decl`
 
 ```rust
 pub enum Decl {
@@ -36,7 +36,7 @@ pub enum Decl {
 }
 ```
 
-## 2. 函数声明 `FunctionDecl`
+## 函数声明 `FunctionDecl`
 
 ```rust
 pub struct FunctionDecl {
@@ -55,7 +55,7 @@ pub struct FunctionDecl {
 }
 ```
 
-## 3. 变量声明 `VariableDecl`
+## 变量声明 `VariableDecl`
 
 ```rust
 pub struct VariableDecl {
@@ -67,7 +67,7 @@ pub struct VariableDecl {
 }
 ```
 
-## 4. 类与结构体声明
+## 类与结构体声明
 
 ```rust
 pub struct ClassDecl {
@@ -96,7 +96,7 @@ pub enum MemberKind {
 }
 ```
 
-## 5. 枚举声明 `EnumDecl`
+## 枚举声明 `EnumDecl`
 
 ```rust
 pub struct EnumDecl {
@@ -111,7 +111,7 @@ pub struct EnumVariant {
 }
 ```
 
-## 6. 模块声明 `ModuleDecl`
+## 模块声明 `ModuleDecl`
 
 ```rust
 pub struct ModuleDecl {

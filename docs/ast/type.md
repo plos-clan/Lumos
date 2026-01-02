@@ -2,7 +2,7 @@
 
 本页定义了 Lumos 的类型引用结构 `TypeRef`。
 
-## 1. 类型引用 `TypeRef`
+## 类型引用 `TypeRef`
 
 ```rust
 pub enum TypeRef {

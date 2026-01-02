@@ -2,7 +2,7 @@
 
 本页定义了 AST 中通用的基础结构、位置信息以及各类修饰符枚举。
 
-## 1. 源代码位置
+## 源代码位置
 
 ```rust
 /// 源代码中的具体位置
@@ -19,9 +19,9 @@ pub struct Span {
 }
 ```
 
-## 2. 函数相关枚举
+## 函数相关枚举
 
-### 2.1 纯度等级 (Purity)
+### 纯度等级 (Purity)
 
 ```rust
 pub enum Purity {
@@ -31,7 +31,7 @@ pub enum Purity {
 }
 ```
 
-### 2.2 函数修饰符 (Modifier)
+### 函数修饰符 (Modifier)
 
 ```rust
 pub enum Modifier {
@@ -42,7 +42,7 @@ pub enum Modifier {
 }
 ```
 
-### 2.3 成员访问权限修饰符 (MemberModifier)
+### 成员访问权限修饰符 (MemberModifier)
 
 用于类或结构体成员函数，标记对 `self` 的访问权限。
 
@@ -55,9 +55,9 @@ pub enum MemberModifier {
 }
 ```
 
-## 3. 变量与内存枚举
+## 变量与内存枚举
 
-### 3.1 变量修饰符 (VarModifier)
+### 变量修饰符 (VarModifier)
 
 ```rust
 pub enum VarModifier {
@@ -68,7 +68,7 @@ pub enum VarModifier {
 }
 ```
 
-### 3.2 初始化策略 (InitStrategy)
+### 初始化策略 (InitStrategy)
 
 ```rust
 pub enum InitStrategy {
@@ -78,7 +78,7 @@ pub enum InitStrategy {
 }
 ```
 
-## 4. 访问控制 (Access Control)
+## 访问控制 (Access Control)
 
 ```rust
 pub enum AccessModifier {
@@ -86,10 +86,11 @@ pub enum AccessModifier {
     Protected, // @protected
     Private,   // @private
 }
+```
 
-## 5. 辅助结构
+## 辅助结构
 
-### 5.1 代码块 `Block`
+### 代码块 `Block`
 
 ```rust
 pub struct Block {
@@ -98,7 +99,7 @@ pub struct Block {
 }
 ```
 
-### 5.2 参数与捕获
+### 参数与捕获
 
 ```rust
 pub struct Param {
@@ -111,6 +112,4 @@ pub struct Capture {
     pub name: String,
     pub is_by_value: bool,
 }
-```
-
 ```

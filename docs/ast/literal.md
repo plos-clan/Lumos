@@ -2,7 +2,7 @@
 
 本页定义了 Lumos 支持的各类字面量结构。
 
-## 1. 字面量 `Literal`
+## 字面量 `Literal`
 
 ```rust
 pub enum Literal {

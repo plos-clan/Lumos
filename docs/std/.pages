@@ -6,5 +6,8 @@ nav:
       - container.md
   - 系统交互:
       - io.md
+      - file.md
       - thread.md
       - random.md
+  - 算法:
+      - algorithm.md

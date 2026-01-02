@@ -2,7 +2,7 @@
 
 本页定义了 Lumos 的表达式结构 `Expr`。
 
-## 1. 表达式 `Expr`
+## 表达式 `Expr`
 
 ```rust
 pub enum Expr {
@@ -95,9 +95,9 @@ pub enum Expr {
 }
 ```
 
-## 2. 运算符枚举
+## 运算符枚举
 
-### 2.1 二元运算符 `BinaryOp`
+### 二元运算符 `BinaryOp`
 
 ```rust
 pub enum BinaryOp {
@@ -111,7 +111,7 @@ pub enum BinaryOp {
 }
 ```
 
-### 2.2 一元运算符 `UnaryOp`
+### 一元运算符 `UnaryOp`
 
 ```rust
 pub enum UnaryOp {
@@ -123,7 +123,7 @@ pub enum UnaryOp {
 }
 ```
 
-### 2.3 类型判断目标 `IsTarget`
+### 类型判断目标 `IsTarget`
 
 ```rust
 pub enum IsTarget {
