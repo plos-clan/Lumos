@@ -25,6 +25,7 @@
 | once?  | once (soft)   | 修饰 `act`，再次调用时忽略               |
 | once!  | once (strict) | 修饰 `act`，再次调用时报错               |
 | unsafe | unsafe        | 修饰 `fun`，允许在逻辑纯函数中执行副作用 |
+| ovl    | overload      | 标记函数允许重载（所有重载变体均需标记） |
 | where  | where         | 对函数参数或泛型进行范围限定             |
 
 ## 类型与访问修饰符

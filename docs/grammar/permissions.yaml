@@ -1,5 +1,8 @@
 # Lumos Full Permission Tree
 # This file defines the hierarchical structure of all built-in permissions.
+#
+# Lumos 完整权限树
+# 此文件定义了所有内置权限的层级结构。
 
 io:
   +desc: "Basic Input/Output operations"
@@ -13,6 +16,8 @@ io:
     +desc: "Standard input stream"
     +aliases: ["stdin"]
 
+# File System Permissions
+# 文件系统权限
 fs:
   +desc: "File system operations"
   read:

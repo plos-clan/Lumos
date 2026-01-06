@@ -46,9 +46,12 @@ permission my_lib.network.socket aka socket;
 
 - **`act[+xxx];` (提升当前块)**：在当前代码块后续部分增加权限。
 - **`act[+xxx] { ... }` (提升子块)**：仅在指定的子块中增加权限。
-- **`act[-xxx]` (屏蔽)**：在当前块及其子块中屏蔽特定权限。
-- **`act[xxx]` (重置)**：当前块仅保留指定的权限，其余继承来的权限全部丢弃。
+- **`act[-xxx]` (屏蔽当前块)**：在当前块及其子块中屏蔽特定权限。
+- **`act[-xxx] { ... }` (屏蔽子块)**：仅在指定的子块中屏蔽特定权限。
+- **`act[xxx]` (重置当前块)**：当前块仅保留指定的权限，其余继承来的权限全部丢弃。
+- **`act[xxx] { ... }` (重置子块)**：仅在指定的子块中重置权限。
 - **`act[*, "reason"]` (逃生舱)**：强制获得所有权限。要求提供字符串理由，便于审计。
+- **`act[*, "reason"] { ... }` (子块逃生舱)**：仅在指定子块中强制获得所有权限。要求提供字符串理由，便于审计。
 - **`act[?]`**：编译器指令。在编译时打印当前代码块所拥有的完整权限树。
 
 ## 函数权限
@@ -70,11 +73,11 @@ act main() { ... }
 函数成功返回后，可以将权限自动应用到调用方后续的代码块中：
 
 ```lumos
-act[fs.open] open_secure_file(string path) -> File yields [file_io] { ... }
+act[fs.open] open_secure_file(string path) -> File yields [fs.read, fs.write] { ... }
 
 act[fs.open] main() {
     val f = open_secure_file("/etc/config");
-    // 此时 yields 的 [file_io] 自动生效
+    // 此时 yields 的 [fs.read, fs.write] 自动生效
     f.write("data"); // OK
 }
 ```
