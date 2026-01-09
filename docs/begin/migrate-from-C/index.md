@@ -17,7 +17,7 @@ int main() {
 :::
 
 ```lumos
-using "std";
+use "std";
 
 act[io.out] main() {
   std.println("Hello world!");

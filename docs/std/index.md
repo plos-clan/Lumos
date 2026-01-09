@@ -53,7 +53,7 @@
 
 - 基础输出：`print`, `println`
 - 格式化输出：`printf`, `format`
-- 基础输入：`scan`, `scan_line`, `scan_str`
+- 基础输入：`scan`, `scanln`, `scan_str`
 - 格式化输入：`scanf`
 - 流对象：stdin, stdout, stderr
 - 缓冲化控制
@@ -112,25 +112,25 @@
 ### 导入整个模块
 
 ```lumos
-using std.container.*;
-using std.algorithm.*;
-using std.string.*;
+use std.container.*;
+use std.algorithm.*;
+use std.string.*;
 ```
 
 ### 导入特定函数
 
 ```lumos
-using std.io.println;
-using std.io.print;
-using std.random.rand;
-using std.file.open_read;
+use std.io.println;
+use std.io.print;
+use std.random.rand;
+use std.file.open_read;
 ```
 
 ### 有限导入
 
 ```lumos
 // 导入容器模块，但不导入内部的私有实现
-using std.container.{List, HashMap, Set};
+use std.container.{List, HashMap, Set};
 ```
 
 ## 快速参考
@@ -140,7 +140,7 @@ using std.container.{List, HashMap, Set};
 ```lumos
 println("Hello, {}!", name);                  // 带格式化输出
 i32 x = scan<i32>();                         // 读整数
-str line = scan_line();                       // 读一行
+ str line = scanln();                          // 读一行
 ```
 
 ### 容器操作

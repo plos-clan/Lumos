@@ -81,7 +81,7 @@ fun num_cpus() -> usize;
 ### 使用互斥锁
 
 ```lumos
-using std.thread.*;
+use std.thread.*;
 
 act main() {
     val counter = Mutex::new(0);
@@ -233,7 +233,7 @@ fun channel<typename T>() -> (Sender<T>, Receiver<T>);
 ### 通道使用示例
 
 ```lumos
-using std.thread.*;
+use std.thread.*;
 
 act main() {
     val (tx, rx) = channel<i32>();

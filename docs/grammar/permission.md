@@ -260,7 +260,7 @@ act[io.out, fs.read, fs.write] main() {
 在导入依赖库时分配权限上限：
 
 ```lumos
-using http with [net]; 
+use http with [net]; 
 ```
 
 任何违反配额的 `act[+xxx]` 都会导致编译错误。

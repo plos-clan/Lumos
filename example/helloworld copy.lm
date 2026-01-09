@@ -1,11 +1,9 @@
-using "std" -> std;
-
-fn main([int argc, char** argv, [char** envp]]) -> int;
+use "std" -> std;
 
 @assert(argc >= 1)
-fn main(int argc, char* argv[argc]) -> int {
+act[io.out] main(i32 argc, [[]string] argv) -> i32 {
   std.println("Argc is 1.") if argc == 1;
-  for (var a from 1 to argc) {
+  for (var i32 a = 1; a < argc; a++) {
     std.println("Hello, world!");
   }
   return 0;

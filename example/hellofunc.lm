@@ -1,14 +1,14 @@
-using "std" -> std;
+use "std" -> std;
 
-fn foo() {
+act[io.out] foo() -> unit {
   std.println("Hello, foo!");
 }
 
-fn bar() {
+act[io.out] bar() -> unit {
   std.println("Hello, bar!");
 }
 
-fn main() -> int {
+act[io.out] main() -> i32 {
   std.println("Hello, main!");
   foo();
   bar();

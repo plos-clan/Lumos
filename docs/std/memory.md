@@ -268,7 +268,7 @@ fun mem_stats() -> \type> MemStats;
 ### 内存操作
 
 ```lumos
-using std.memory.*;
+use std.memory.*;
 
 act main() {
     // 填充内存
@@ -285,7 +285,7 @@ act main() {
 ### 指针操作
 
 ```lumos
-using std.memory.*;
+use std.memory.*;
 
 act main() {
     i32 x = 42;
@@ -302,7 +302,7 @@ act main() {
 ### 引用计数
 
 ```lumos
-using std.memory.*;
+use std.memory.*;
 
 act main() {
     var shared = Rc::new([1, 2, 3]);
@@ -316,7 +316,7 @@ act main() {
 ### 内存统计
 
 ```lumos
-using std.memory.*;
+use std.memory.*;
 
 act main() {
     enable_leak_detection();

@@ -4,7 +4,7 @@ nav:
   - 控制流宏: controlflow.md
   - 文件操作:
       - file.md
-      - fileserch.md
+      - filesearch.md
   - 正则表达式: regex.md
   - 编译器提示: hint.md
   - 配置与环境: config.md

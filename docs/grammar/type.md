@@ -441,7 +441,7 @@ b = 3.0;          // 隐式转换
 ## 类型别名
 
 ```lumos
-using MyInt = i32;
+use MyInt = i32;
 ```
 
 ## 比较类型

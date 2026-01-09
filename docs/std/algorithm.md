@@ -273,7 +273,7 @@ fun dot_product<typename T>([T] a, [T] b) -> T;
 ### 排序与搜索
 
 ```lumos
-using std.algorithm.*;
+use std.algorithm.*;
 
 act main() {
     var numbers = [5, 2, 8, 1, 9, 3];
@@ -297,7 +297,7 @@ act main() {
 ### 变换和映射
 
 ```lumos
-using std.algorithm.*;
+use std.algorithm.*;
 
 act main() {
     [i32] data = [1, 2, 3, 4, 5];
@@ -320,7 +320,7 @@ act main() {
 ### 数值计算
 
 ```lumos
-using std.algorithm.*;
+use std.algorithm.*;
 
 act main() {
     [f32] values = [1.5, 2.5, 3.5, 4.5];
@@ -343,7 +343,7 @@ act main() {
 ### 集合操作
 
 ```lumos
-using std.algorithm.*;
+use std.algorithm.*;
 
 act main() {
     [i32] a = [1, 2, 3, 4];

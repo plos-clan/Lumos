@@ -140,7 +140,7 @@ fun iter_rev() -> Iterator<T>;
 ### 迭代器使用示例
 
 ```lumos
-using std.container.*;
+use std.container.*;
 
 act main() {
     val numbers = [1, 2, 3, 4, 5];
@@ -487,7 +487,7 @@ map.set("bob", 30);
 ## 使用示例
 
 ```lumos
-using std.container.*;
+use std.container.*;
 
 act main() {
     // 列表操作

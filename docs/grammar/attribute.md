@@ -12,20 +12,20 @@ Lumos 的属性以 `@` 符号开头，后面跟着属性的名称和可选的参
 可以为常用属性设置新的名字，如
 
 ```lumos
-using @属性 = @属性1 @属性2 @属性3;
-using @属性(xxx) = @属性1 @属性2(xxx) @属性3;
+use @属性 = @属性1 @属性2 @属性3;
+use @属性(xxx) = @属性1 @属性2(xxx) @属性3;
 ```
 
 可以重设默认属性（`@default`），如：
 
 ```lumos
 // 设置所有对象的通用属性
-using @default = @属性1 @属性2 @属性3;
+use @default = @属性1 @属性2 @属性3;
 // 设置每种对象的属性
-using @default fun = @属性1 @属性2 @属性3;
-using @default var = @属性1 @属性2 @属性3;
+use @default fun = @属性1 @属性2 @属性3;
+use @default var = @属性1 @属性2 @属性3;
 // 重设默认属性
-using @default = @reset;
+use @default = @reset;
 ```
 
 不能重设 `@reset` 属性。

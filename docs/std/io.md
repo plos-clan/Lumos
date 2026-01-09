@@ -5,10 +5,10 @@
 标准库提供以下默认导入：
 
 ```lumos
-using \type> io.\act> print;
-using \type> io.\act> println;
-using \type> io.\act> scan;
-using \type> io.\act> scanln;
+use \type> io.\act> print;
+use \type> io.\act> println;
+use \type> io.\act> scan;
+use \type> io.\act> scanln;
 ```
 
 ## 基础输出
@@ -78,7 +78,7 @@ print("{:.2f}", 3.14159);  // 浮点精度2
 act[io.in] scan_char() -> u8;
 
 // 输入一行（去除末尾换行）
-act[io.in] scan_line() -> str;
+act[io.in] scanln() -> str;
 
 // 输入整数
 act[io.in] scan_i32() -> i32;
@@ -176,7 +176,7 @@ val \type> stdlog: OutputStream;
 ### 流输出示例
 
 ```lumos
-using std.io.*;
+use std.io.*;
 
 act main() {
     stdout.write_str("Hello, ");
@@ -283,7 +283,7 @@ table.print();
 ### 基础 I/O
 
 ```lumos
-using std.io.*;
+use std.io.*;
 
 act main() {
     // 输出
@@ -291,7 +291,7 @@ act main() {
 
     // 输入
     print("Enter your name: ");
-    str name = scan_line();
+    str name = scanln();
 
     print("Enter your age: ");
     i32 age = scan<i32>();
@@ -304,7 +304,7 @@ act main() {
 ### 格式化输出
 
 ```lumos
-using std.io.*;
+use std.io.*;
 
 act main() {
     i32 x = 42;
@@ -321,8 +321,8 @@ act main() {
 ### 文件路径表示
 
 ```lumos
-using std.io.*;
-using std.string.*;
+use std.io.*;
+use std.string.*;
 
 act main() {
     // 错误消息到 stderr

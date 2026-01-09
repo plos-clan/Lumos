@@ -50,7 +50,7 @@ act[io.out] main() -> i32 {
 ```
 
 ```lumos
-using "std";
+use "std";
 ```
 
 ```lumos

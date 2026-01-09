@@ -6,11 +6,11 @@ nav:
       - 表达式: expression.md
       - 运算符: operation.md
       - 括号与作用域: brackets.md
-      - 单位系统: unit.md
+      - 单位系统: measure.md
   - 函数系统:
       - 函数与纯度: function.md
       - 重载: overload.md
-      - 名字修饰: mangling.md
+      - 名字修饰: ../lexical/mangling.md
   - 控制流程:
       - 控制流: controlflow.md
       - 异常处理: exception.md

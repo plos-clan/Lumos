@@ -23,7 +23,7 @@ pub enum Decl {
         path: Vec<String>,
         alias: String,
     },
-    /// 模块配额声明 (using mod with [perm])
+    /// 模块配额声明 (use mod with [perm])
     Using {
         module: String,
         permissions: Vec<String>,

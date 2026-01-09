@@ -193,7 +193,7 @@ fun sphere_surface(usize n) -> [f32];
 ### 全局随机函数
 
 ```lumos
-using std.random.*;
+use std.random.*;
 
 act main() {
     // 初始化种子
@@ -225,7 +225,7 @@ act main() {
 ### 使用 RNG 对象
 
 ```lumos
-using std.random.*;
+use std.random.*;
 
 act main() {
     // 创建独立的随机数生成器
@@ -251,7 +251,7 @@ act main() {
 ### 蒙特卡洛方法估算 π
 
 ```lumos
-using std.random.*;
+use std.random.*;
 
 act main() {
     // 使用蒙特卡洛方法估算 π
@@ -277,8 +277,8 @@ act main() {
 ### 加权随机选择
 
 ```lumos
-using std.random.*;
-using std.container.*;
+use std.random.*;
+use std.container.*;
 
 act main() {
     // 权重数组

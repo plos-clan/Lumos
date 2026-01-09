@@ -1,6 +1,6 @@
-using "std" -> std;
+use "std" -> std;
 
-fn main() -> int {
+act[io.out] main() -> i32 {
   std.println("Hello, world!");
   return 0;
 }

@@ -4,7 +4,7 @@
 
 ```lumos
 // 不可变字符串（栈分配）
-str = "hello";
+str s = "hello";
 
 // 可变字符串（堆分配）
 var str s = "hello";
@@ -142,7 +142,7 @@ fun shrink() -> unit;
 ## 使用示例
 
 ```lumos
-using std.string.*;
+use std.string.*;
 
 act main() {
     // 创建不可变字符串

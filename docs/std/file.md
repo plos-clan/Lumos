@@ -285,8 +285,8 @@ act[fs.read] temp_dir_path() -> str;
 ### 读文件
 
 ```lumos
-using std.file.*;
-using std.io.*;
+use std.file.*;
+use std.io.*;
 
 act main() {
     // 打开并读取整个文件
@@ -306,8 +306,8 @@ act main() {
 ### 逐行读取
 
 ```lumos
-using std.file.*;
-using std.io.*;
+use std.file.*;
+use std.io.*;
 
 act main() {
     match open_read("lines.txt") {
@@ -328,8 +328,8 @@ act main() {
 ### 写文件
 
 ```lumos
-using std.file.*;
-using std.io.*;
+use std.file.*;
+use std.io.*;
 
 act main() {
     match open_write("output.txt") {
@@ -350,8 +350,8 @@ act main() {
 ### 追加写入
 
 ```lumos
-using std.file.*;
-using std.io.*;
+use std.file.*;
+use std.io.*;
 
 act main() {
     match open_append("log.txt") {
@@ -370,8 +370,8 @@ act main() {
 ### 列出目录
 
 ```lumos
-using std.file.*;
-using std.io.*;
+use std.file.*;
+use std.io.*;
 
 act main() {
     match read_dir(".") {
@@ -395,8 +395,8 @@ act main() {
 ### 文件复制
 
 ```lumos
-using std.file.*;
-using std.io.*;
+use std.file.*;
+use std.io.*;
 
 act main() {
     str src = "source.txt";
@@ -416,8 +416,8 @@ act main() {
 ### 路径操作
 
 ```lumos
-using std.file.*;
-using std.io.*;
+use std.file.*;
+use std.io.*;
 
 act main() {
     var path = Path::new("./data/file.txt");
@@ -437,12 +437,12 @@ act main() {
 ### 文件监视
 
 ```lumos
-using std.file.*;
+use std.file.*;
 
 act main() {
     // 监视文件修改
-    if let Ok(time) = file_modified_time("config.txt") {
-        println("Last modified: {}", time);
+    if let Ok(meta) = metadata("config.txt") {
+        println("Last modified: {}", meta.modified_time());
     }
 
     if is_readable("data.txt") && is_writable("data.txt") {

@@ -3,10 +3,10 @@
 
 ## 导入模块
 
-使用 `using` 来导入模块，模块中的内容将会被导入到对应的命名空间中。
+使用 `use` 来导入模块，模块中的内容将会被导入到对应的命名空间中。
 
 ```lumos
-using "std";
+use "std";
 ```
 
 *对应的命名空间* 指配置文件中指定的模块名，如果没有指定则为模块所在的文件夹名。
@@ -14,21 +14,21 @@ using "std";
 Lumos 提供了一种写法，可以导入模块内容到指定的命名空间中。
 
 ```lumos
-using "std" -> abc; // 导入 std 模块到 abc 命名空间
+use "std" -> abc; // 导入 std 模块到 abc 命名空间
                     // abc 命名空间可以不存在
 ```
 
-导入模块后可以 using 需要的内容。
+导入模块后可以 use 需要的内容。
 
 ```lumos
-using "std";
-using std.println;
+use "std";
+use std.println;
 ```
 
 当然也可以导入到根命名空间：
 
 ```lumos
-using "std" -> ::;
+use "std" -> ::;
 ```
 
 但这样会导致一些问题，比如向当前命名空间导入了一些不需要或不应该导入的内容。
@@ -49,8 +49,10 @@ my_model/
 ```yaml
 name: my_model
 space: my_model
-dependencies: std
-using: "self -> ::"
+dependencies:
+  - std
+use:
+  - "self -> ::"
 decl: "**.lh"
 impl: "**.lm"
 ```
@@ -111,7 +113,7 @@ flags:
 dependencies: # 不允许循环依赖
   - std       # 标准库
   - xxx       # 其他模块
-using:             # 实现文件中默认导入的模块声明
+use:             # 实现文件中默认导入的模块声明
   - "std  -> ::" # 标准库
   - "self -> ::" # 当前模块
 
@@ -138,7 +140,7 @@ impl:    # 实现所在的文件（默认为 **.lm）
 - `sponsor` 赞助商。*<span style="color:green">人员信息或人员信息列表*</span>
 - `flags` 编译选项。
 - `dependencies` 模块依赖。*<span style="color:green">字符串列表</span>*
-- `using` 实现文件中默认导入的模块声明。*<span style="color:green">字符串列表</span>*
+- `use` 实现文件中默认导入的模块声明。*<span style="color:green">字符串列表</span>*
 - `decl` 声明所在的文件。*<span style="color:green">字符串列表</span>*
 - `impl` 实现所在的文件。*<span style="color:green">字符串列表</span>*
 
@@ -171,7 +173,7 @@ my_model/
 此时你可以在配置文件中
 
 ```yaml
-using:
+use:
   - ".my_submodel -> submodel"
 ```
 
