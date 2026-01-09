@@ -1,13 +1,16 @@
 nav:
-  - 主页: index.md
+  - 主页: home
   - 入门指南:
-      - begin
-      - examples
+      - 概览: overview.md
+      - 示例: examples
+      - 入门: begin
   - 语言参考:
-      - lexical
-      - grammar
-      - macro
+      - 概览: language.md
+      - 词法: lexical
+      - 语法: grammar
+      - 宏: macro
   - 标准库: std
   - 编译器实现:
-      - ast
-      - ir
+      - 语法树: ast
+      - 中间表示: ir
+  - 文档构建测试: mkdocs-test.md

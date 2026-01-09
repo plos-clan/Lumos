@@ -1,6 +1,8 @@
 
 # 测试
 
+这是对本文档构建的测试，无需关注其内容。
+
 ```lumos
 val a = sizeof(i32);
 val b = 2 pow 3;
