@@ -1,7 +1,7 @@
 
 # 模块 {#modules}
 
-## 导入模块 {#modules-2}
+## 导入模块 {#module-imports}
 
 使用 `use` 来导入模块，模块中的内容将会被导入到对应的命名空间中。
 
@@ -33,7 +33,7 @@ use "std" -> ::;
 
 但这样会导致一些问题，比如向当前命名空间导入了一些不需要或不应该导入的内容。
 
-## 构建模块 {#modules-3}
+## 构建模块 {#module-build}
 
 Lumos 的模块由一个配置文件（`lumos.yaml`/`lumos.json`/`lumos.toml`，三选一）定义，一个简单的结构为
 
@@ -183,7 +183,7 @@ use:
 - `lib` 库模块，产生库文件。
 - `meta` 元模块，本身不产生库或可执行文件，但可以包含子模块。
 
-## 模块宏 {#modules-6}
+## 模块宏 {#module-macros}
 
 `ismodelimpl` 宏用于判断当前文件是否被当前模块实现文件包含或导入。
 
@@ -204,4 +204,4 @@ use:
 
 ---
 
-相关内容：权限系统见 [副作用权限系统](permission.md)。
+相关内容：权限系统见 [副作用权限系统](permission.md#permission-system-side-effect-permission-system)。

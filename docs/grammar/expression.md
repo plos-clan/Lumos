@@ -1,6 +1,6 @@
 # 表达式 {#expressions}
 
-关键字列表与用法速查请参阅 [语法/关键字](keyword.md)。
+关键字列表与用法速查请参阅 [语法/关键字](keyword.md#keywords)。
 
 <span style="color:purple">
 与 C++ 中不一样的是，在 Lumos 中如果表达式是一个右值，则不能取地址。  
@@ -82,7 +82,7 @@ lit expr = 10 + 1;
 // a 与 b 的大小完全相同
 ```
 
-### 返回常量表达式的函数 {#expressions-functions}
+### 返回常量表达式的函数 {#const-expression-functions}
 
 ```lumos
 @lit
@@ -99,4 +99,4 @@ def my_add(i32 a, i32 b) -> i32 {
 
 ---
 
-相关内容：类型转换规则见 [类型系统](type.md)。
+相关内容：类型转换规则见 [类型系统](type.md#types)。

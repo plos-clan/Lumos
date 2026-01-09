@@ -134,4 +134,4 @@ pub enum IsTarget {
 
 ---
 
-相关内容：表达式语法见 [语法/表达式](../grammar/expression.md)。
+相关内容：表达式语法见 [语法/表达式](../grammar/expression.md#expressions)。

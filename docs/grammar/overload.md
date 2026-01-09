@@ -5,7 +5,7 @@
 
 如果一个函数未标记 `ovl`，它将独占该函数名，任何后续尝试使用相同名称（无论是否标记 `ovl`）的操作都会导致编译错误。
 
-标记为 `ovl` 的函数在进行 [名称重整](../lexical/mangling.md) 时会使用特殊的实体标识 `O`（而非普通的 `F`），以便链接器和解析工具识别其重载身份。
+标记为 `ovl` 的函数在进行 [名称重整](../lexical/mangling.md#name-mangling) 时会使用特殊的实体标识 `O`（而非普通的 `F`），以便链接器和解析工具识别其重载身份。
 
 ```lumos
 ovl def foo(i32 a) -> unit;
@@ -25,4 +25,4 @@ def bar(i32 a) -> unit;
 
 ---
 
-相关内容：函数与纯度见 [函数与纯度](function.md)。
+相关内容：函数与纯度见 [函数与纯度](function.md#functions)。

@@ -18,4 +18,4 @@
 
 ---
 
-相关内容：字符串字面量见 [词法/字符串](../lexical/string.md)。
+相关内容：字符串字面量见 [词法/字符串](../lexical/string.md#string-and-char-literals)。

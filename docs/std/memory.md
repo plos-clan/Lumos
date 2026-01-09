@@ -359,4 +359,4 @@ act main() {
 
 ---
 
-相关内容：变量修饰见 [变量与初始化](../grammar/variable.md)。
+相关内容：变量修饰见 [变量与初始化](../grammar/variable.md#variables)。

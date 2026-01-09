@@ -40,4 +40,4 @@ pub enum Literal {
 
 ---
 
-相关内容：字面量规则见 [词法](../lexical/index.md)。
+相关内容：字面量规则见 [词法](../lexical/index.md#lexical)。

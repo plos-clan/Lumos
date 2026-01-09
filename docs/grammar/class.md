@@ -39,9 +39,9 @@ val e = Empty{};
 
 ## 初始化 {#initialization}
 
-### 构造函数初始化 {#functionsinitialization}
+### 构造函数初始化 {#constructor-initialization}
 
-### 变量列表初始化 {#variableslist-initialization}
+### 变量列表初始化 {#field-list-initialization}
 
 在 Lumos 中，我们可以使用以下方式初始化一个类：
 
@@ -112,7 +112,7 @@ class MyClass {
 } // class MyClass
 ```
 
-## 重载类型转换 {#class-2}
+## 重载类型转换 {#overloaded-casts}
 
 在 Lumos 中，我们可以使用 `def as 类型` 来重载类型转换。
 
@@ -157,7 +157,7 @@ def as i32 -> i32 {
 } // impl MyInt
 ```
 
-## 弱化的类：结构体 {#class-struct}
+## 弱化的类：结构体 {#struct-as-class}
 
 在 Lumos 中，结构体是一个有功能限制的类，它没有一些高级特性。
 
@@ -178,7 +178,7 @@ def as i32 -> i32 {
 
 结构体可以被类继承，但类无法被结构体继承。
 
-### 如何选择使用结构体还是类 {#struct-class}
+### 如何选择使用结构体还是类 {#struct-vs-class}
 
 当你需要组织一个简单的数据时（比如红黑树中的节点），你应该使用结构体。
 
@@ -206,4 +206,4 @@ class RBTree {
 
 ---
 
-相关内容：对象模型见 [对象](object.md)。
+相关内容：对象模型见 [对象](object.md#dynamic-types)。

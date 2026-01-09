@@ -336,4 +336,4 @@ act main() {
 
 ---
 
-相关内容：权限系统见 [副作用权限系统](../grammar/permission.md)。
+相关内容：权限系统见 [副作用权限系统](../grammar/permission.md#permission-system-side-effect-permission-system)。

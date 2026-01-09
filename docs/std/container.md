@@ -522,4 +522,4 @@ act main() {
 
 ---
 
-相关内容：类型系统见 [类型系统](../grammar/type.md)。
+相关内容：类型系统见 [类型系统](../grammar/type.md#types)。

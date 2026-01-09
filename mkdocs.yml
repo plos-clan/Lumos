@@ -39,12 +39,16 @@ extra:
 plugins:
   - search
   - awesome-pages
-  - markdownextradata
+  - markdownextradata:
+      jinja_options:
+        comment_start_string: "/**"
+        comment_end_string: "**/"
   - exclude:
       glob:
         - README.md
 
 markdown_extensions:
+  - attr_list
   - pymdownx.arithmatex # latex 支持
   - scripts.include_file_extension: # 这玩意必须放这里
       base_path: ["example"]

@@ -111,4 +111,4 @@ id.var {
 
 ---
 
-相关内容：语法入口见 [语法](../grammar/index.md)。
+相关内容：语法入口见 [语法](../grammar/index.md#grammar)。

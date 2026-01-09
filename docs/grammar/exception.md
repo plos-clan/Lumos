@@ -109,7 +109,7 @@ my_func() or return -1;
 my_func() or;
 ```
 
-## 自动处理异常 {#handle-exceptions-2}
+## 自动处理异常 {#auto-handle}
 
 Lumos 支持在函数调用时自动处理异常。  
 通过在外层函数声明时附加 `@exception(panic)` 可以自动在内部出发异常时打印错误信息并终止程序。  
@@ -183,4 +183,4 @@ stack trace:
 
 ---
 
-相关内容：控制流见 [控制流](controlflow.md)。
+相关内容：控制流见 [控制流](controlflow.md#control-flow)。

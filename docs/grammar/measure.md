@@ -3,7 +3,7 @@
 
 Lumos 引入了原生计量单位支持，通过编译期的量纲分析（Dimensional Analysis）确保物理计算的安全性，同时保持零运行时开销。
 
-## 量纲与单位定义 {#definition}
+## 量纲与单位定义 {#dimensions-and-units}
 
 使用 `measure` 关键字定义一个量纲，并在其内部定义具体的单位。每个量纲必须指定一个基准单位（通常不设比例），其他单位则相对于基准单位进行定义。
 
@@ -25,7 +25,7 @@ measure Time {
 }
 ```
 
-## 变量声明与字面量 {#variablesdeclaration}
+## 变量声明与字面量 {#declaration-and-literals}
 
 单位可以作为类型修饰符附加在数值类型之后，也可以直接作为字面量后缀使用。
 
@@ -89,4 +89,4 @@ val f: f64[Force] = 9.8[kg] * 1.0[m/s²];
 
 ---
 
-相关内容：类型系统见 [类型系统](type.md)。
+相关内容：类型系统见 [类型系统](type.md#types)。

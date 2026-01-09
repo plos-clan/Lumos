@@ -30,7 +30,7 @@ use @default = @reset;
 
 不能重设 `@reset` 属性。
 
-## 通用属性 {#attributes-2}
+## 通用属性 {#common-attributes}
 
 ### 可见性 {#visibility}
 
@@ -83,7 +83,7 @@ act[io.out] my_func(i32 arg) -> unit {
 - `@deleted("消息")`: 标记变量、函数或类为已删除的，提供一个可选的提示消息说明替代方案或原因。
 - `@replaced-by(函数或变量名)`: 标记某个函数已被其它函数替代，同时标记其已被废弃。
 
-## 函数属性 {#functionsattributes}
+## 函数属性 {#function-attributes}
 
 - `@generator`: 声明函数是一个生成器，可以多次返回直到 `return` 后为空。
 
@@ -193,7 +193,7 @@ act[io.out] my_func(i32 arg) -> unit {
   }
   ```
 
-## 变量属性 {#variablesattributes}
+## 变量属性 {#variable-attributes}
 
 - `@align(对齐数)`: 声明变量按照指定的对齐数对齐。  
   对齐数必须为 2 的幂，0 表示使用默认对齐数，1 表示不对齐。
@@ -241,4 +241,4 @@ def helper(int x) -> int {
 
 ---
 
-相关内容：变量修饰见 [变量与初始化](variable.md)。
+相关内容：变量修饰见 [变量与初始化](variable.md#variables)。

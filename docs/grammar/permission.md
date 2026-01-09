@@ -27,7 +27,7 @@ Lumos 采用静态效应系统，将副作用视为一种受控的“能力 (Cap
 
 > **提示**：别名（如 `stdout`）在代码中与完整路径（如 `io.out`）完全等价。
 
-### 权限定义与别名 {#definition}
+### 权限定义与别名 {#permission-aliases}
 
 库或模块可以定义自己的权限，并使用 `aka` 关键字提供简写或兼容性名称：
 
@@ -54,9 +54,9 @@ permission my_lib.network.socket aka socket;
 - **`act[*, "reason"] { ... }` (子块逃生舱)**：仅在指定子块中强制获得所有权限。要求提供字符串理由，便于审计。
 - **`act[?]`**：编译器指令。在编译时打印当前代码块所拥有的完整权限树。
 
-## 函数权限 {#functions}
+## 函数权限 {#function-permissions}
 
-### 权限声明 {#declaration}
+### 权限声明 {#permission-declaration}
 
 ```lumos
 act[net.http.client] fetch_data(string url) -> string { ... }
@@ -157,7 +157,7 @@ act[io.out, fs.write] main() {
 }
 ```
 
-#### 通用高阶函数模式 {#functions-2}
+#### 通用高阶函数模式 {#generic-hof-patterns}
 
 ```lumos
 // 通用 map：闭包自动继承调用方权限
@@ -184,7 +184,7 @@ act[io.out] main() {
 }
 ```
 
-#### 权限限制的高阶函数 {#functions-3}
+#### 权限限制的高阶函数 {#restricted-hof}
 
 即使调用方拥有更多权限，闭包仍可显式限制自身权限：
 
@@ -255,7 +255,7 @@ act[io.out, fs.read, fs.write] main() {
 - **无运行时开销**：所有权限验证都在编译时完成
 - **内联优化**：高阶函数可被优化器内联，闭包调用零开销
 
-## 模块配额 {#modules}
+## 模块配额 {#module-quota}
 
 在导入依赖库时分配权限上限：
 
@@ -267,4 +267,4 @@ use http with [net];
 
 ---
 
-相关内容：函数纯度见 [函数与纯度](function.md)。
+相关内容：函数纯度见 [函数与纯度](function.md#functions)。

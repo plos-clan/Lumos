@@ -6,4 +6,4 @@
 
 ---
 
-相关内容：模块配置见 [模块系统](../grammar/modules.md)。
+相关内容：模块配置见 [模块系统](../grammar/modules.md#modules)。

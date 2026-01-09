@@ -1,7 +1,7 @@
 
 # 括号 {#brackets}
 
-## 小括号 {#brackets-2}
+## 小括号 {#parentheses}
 
 ### 参数列表 {#parameter-list}
 
@@ -46,7 +46,7 @@ act[io.out] my_func -> unit {
 my_func;
 ```
 
-## 中括号 {#brackets-3}
+## 中括号 {#square-brackets}
 
 ### 索引 {#indexing}
 
@@ -82,7 +82,7 @@ val $[1, 2, 3, 4, 5] // 不可变列表
 val a = $[1, 2, 3, 4, 5];
 ```
 
-## 大括号 {#brackets-4}
+## 大括号 {#braces}
 
 ### 代码块 {#code-block}
 
@@ -112,9 +112,9 @@ println(a[1, 1]); // 5
 println(a[2, 2]); // 9
 ```
 
-## 大括号 {#brackets-5}
+## 大括号 {#brackets-braces}
 
-### 代码块 {#code-block-2}
+### 代码块 {#brackets-braces-code-block}
 
 大括号用于表示代码块。  
 当大括号内直接存在 `;` 时，判定为代码块。
@@ -160,4 +160,4 @@ val p = ${.x = 1, 2 }; // 这样是错误的，因为没指定所有字段的名
 
 ---
 
-相关内容：表达式语法见 [表达式](expression.md)。
+相关内容：表达式语法见 [表达式](expression.md#expressions)。

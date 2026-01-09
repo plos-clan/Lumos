@@ -1,7 +1,7 @@
 
 # 控制流程 {#control-flow}
 
-关键字列表与用法速查请参阅 [语法/关键字](keyword.md)。
+关键字列表与用法速查请参阅 [语法/关键字](keyword.md#keywords)。
 
 分支包含：
 
@@ -193,9 +193,9 @@ if (条件表达式1) {
 
 ---
 
-## 静态断言与假设 {#assertions}
+## 静态断言与假设 {#static-assertions-and-assumptions}
 
-### 假设条件成立 `assume` {#assume-condition-assume}
+### 假设条件成立 `assume` {#assume-assume}
 
 `assume` 用于向编译器提供额外的静态分析信息。如果能证明某个条件成立，编译器可以移除相关的运行时检查或进行更激进的优化。
 
@@ -275,7 +275,7 @@ for (迭代次数) {
 }
 ```
 
-### 遍历循环 `for` {#loops-for-2}
+### 遍历循环 `for` {#loops-loops-for}
 
 `for` 循环是一种遍历循环，可以在循环体内遍历容器。
 
@@ -295,7 +295,7 @@ for (变量 : 容器) {
 }
 ```
 
-### 循环标签 {#loops-2}
+### 循环标签 {#loop-labels}
 
 给循环添加标签可以用于快速跳出多层循环。*见 `break`*
 
@@ -309,11 +309,11 @@ for (var i32 i = 0; i < 10; i++) {
 }
 ```
 
-### 关于死循环 {#loops-3}
+### 关于死循环 {#infinite-loops}
 
 Lumos 中允许死循环的存在，如果你想用死循环实现一些奇怪的控制逻辑，那么是可以的。
 
-### 循环属性 {#loopsattributes}
+### 循环属性 {#loop-attributes}
 
 #### limit {#limit}
 
@@ -428,7 +428,7 @@ for (var i32 i = 0; i < 10; i++) {
 end:
 ```
 
-### 跳出多层循环 {#loops-4}
+### 跳出多层循环 {#break-multiple-loops}
 
 利用 `break` 加循环标签可以快速跳出多层循环。
 
@@ -540,7 +540,7 @@ for (var i32 i = 0; i < 10; i++) {
 
 <span style="color:green">`breaked` 和 `then` 中都可以使用迭代变量</span>
 
-## 跳转 {#jumps-2}
+## 跳转 {#control-flow-jumps}
 
 ### 标签跳转 `goto` {#jumps-goto}
 
@@ -563,7 +563,7 @@ for (var i32 i = 0; i < 10; i++) {
     println("Hello world!");
 ```
 
-### 任意地址跳转 `goto` {#jumps-goto-2}
+### 任意地址跳转 `goto` {#control-flow-jumps-jumps-goto}
 
 `goto` 用于跳转到任意地址，对应汇编中的 jmp 指令。
 
@@ -582,4 +582,4 @@ goto 0x12345678;
 
 ---
 
-相关内容：异常处理见 [异常处理](exception.md)。
+相关内容：异常处理见 [异常处理](exception.md#exceptions)。

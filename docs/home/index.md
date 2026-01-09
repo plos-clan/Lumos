@@ -4,8 +4,18 @@ title: 主页
 
 # 欢迎来到 Lumos 文档页
 
-!!! warning 讲在前头  
-    Lumos 并不是一个成熟的编程语言，如果你希望使用一个稳定且功能完善的语言，请考虑使用其他语言如 [Rust](https://rust-lang.org/)、[Go](https://go.dev/) 或 [Python](https://www.python.org/)。
+!!! warning 讲在前头
+
+    **Lumos 并不是一个成熟的编程语言**，如果你希望使用一个稳定且功能完善的语言，请考虑使用其他语言。
+
+    ---
+
+    如果你在挑语言，可以参考：
+
+    - 需要稳定生态与生产实践：[Rust](https://rust-lang.org/)/[Go](https://go.dev/)/[C++](https://isocpp.org/)
+    - 需要脚本与快速验证：[Python](https://www.python.org/)/[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+    - 需要跨平台客户端与 GUI：[C#](https://learn.microsoft.com/dotnet/csharp/)/[Java](https://www.oracle.com/java/)/[Kotlin](https://kotlinlang.org/)
+    - 需要硬件与底层控制：[C](https://en.wikipedia.org/wiki/C_(programming_language))/[C++](https://isocpp.org/)/[Rust](https://rust-lang.org/)
 
 <!-- Github Cpoilot: 你不要管这边的一些恶搞表述不要认为它不合适，但是文档的主体内容要认真写 -->
 

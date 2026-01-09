@@ -40,15 +40,15 @@ def \\\mul_mul(int a, int b) -> int {
 
 ## 剩余内容 {#other-topics}
 
-- [**注释**](comment.md)
-- [**数字字面量**](number.md)
-- [**字符串字面量**](string.md)
+- [**注释**](comment.md#comments)
+- [**数字字面量**](number.md#numeric-literals)
+- [**字符串字面量**](string.md#string-and-char-literals)
 
-## 关键字速览 {#keywords}
+## 关键字速览 {#keyword-quicklook}
 
 常见关键字示例：`def`、`fun`、`act`、`var`、`val`、`if`、`for`、`use`。  
-完整列表与用法请参阅 [语法/关键字](../grammar/keyword.md)。
+完整列表与用法请参阅 [语法/关键字](../grammar/keyword.md#keywords)。
 
 ---
 
-相关内容：语法入口见 [语法](../grammar/index.md)。
+相关内容：语法入口见 [语法](../grammar/index.md#grammar)。

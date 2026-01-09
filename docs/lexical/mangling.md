@@ -1,4 +1,4 @@
-# 名称重整 (Name Mangling) {#name-mangling-name-mangling}
+# 名称重整 (Name Mangling) {#name-mangling}
 
 为了与 C++ 及其他语言区分，并支持 Lumos 特有的 `ovl` 功能，Lumos 采用以 `$$` 开头的名称重整规则。
 
@@ -7,7 +7,7 @@
 所有重整后的名称均遵循以下格式：
 `$$` + `[作用域路径]` + `[实体标识]` + `[长度]名称` + `[参数信息]` + `[返回值信息]`
 
-### 实体标识 (Entity Tags) {#entity-tags-entity-tags}
+### 实体标识 (Entity Tags) {#entity-tags}
 
 表示当前重整对象的类型：
 
@@ -20,7 +20,7 @@
 - `E` : 枚举
 - `T` : 内部类型或别名
 
-### 基础类型缩写 (Type Abbreviations) {#class-type-abbreviations}
+### 基础类型缩写 (Type Abbreviations) {#type-abbreviations}
 
 为了缩短符号长度，内置基础类型使用单字母表示：
 
@@ -33,7 +33,7 @@
 | `f32`  | `f`  | `f64`  | `d`  |
 | `bool` | `k`  | `unit` | `v`  |
 
-## 函数重整规则 {#functions}
+## 函数重整规则 {#function-mangling}
 
 函数签名包含参数类型列表（不含参数名）和返回值。
 
@@ -93,4 +93,4 @@ act[io.out] log(string msg) -> unit;
 
 ---
 
-相关内容：模块系统见 [模块系统](../grammar/modules.md)。
+相关内容：模块系统见 [模块系统](../grammar/modules.md#modules)。

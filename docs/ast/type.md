@@ -59,4 +59,4 @@ pub enum TypeRef {
 
 ---
 
-相关内容：类型系统见 [语法/类型](../grammar/type.md)。
+相关内容：类型系统见 [语法/类型](../grammar/type.md#types)。

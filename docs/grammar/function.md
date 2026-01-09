@@ -1,15 +1,15 @@
 
 # 函数 {#functions}
 
-## 函数分类与纯度 {#functions-class}
+## 函数分类与纯度 {#function-purity}
 
 Lumos 根据副作用和纯度将函数分为三类，分别使用不同的关键字定义：
 
 - `def`：**纯函数**。输入相同则输出必相同，无任何副作用。只能调用其他 `def` 函数。
 - `fun`：**逻辑纯函数**。内部可以有局部副作用（如局部变量修改、内存分配），但对外部环境无影响。可以调用 `fun` 和 `def`。
-- `act`：**副作用函数**。可以执行 IO、修改全局状态等。可以调用 `act`、`fun` 和 `def`。必须声明所需的[权限](permission.md)。
+- `act`：**副作用函数**。可以执行 IO、修改全局状态等。可以调用 `act`、`fun` 和 `def`。必须声明所需的[权限](permission.md#permission-system-side-effect-permission-system)。
 
-### 纯度检查示例 {#examples}
+### 纯度检查示例 {#purity-example}
 
 ```lumos
 def add(int a, int b) -> int = a + b;
@@ -50,7 +50,7 @@ def add(i32 a, i32 b) -> i32 {
 }
 ```
 
-## 函数声明 {#functionsdeclaration}
+## 函数声明 {#function-declaration}
 
 ```lumos
 // 声明一个函数
@@ -65,7 +65,7 @@ def add(i32 a, i32 b) -> i32 {
 - 参数列表：可选项，包含函数的输入参数列表。
 - 返回类型：可选项，指定函数返回值的类型。
 
-## 函数定义 {#functionsdefinition}
+## 函数定义 {#function-definition}
 
 ```lumos
 // 定义一个函数
@@ -75,7 +75,7 @@ def 函数名[捕获列表](参数列表) -> 返回类型 {函数体}
 - 函数名、捕获列表、参数列表和返回类型的含义同函数声明。
 - 函数体：包含了函数的实际实现代码。
 
-## 单语句函数定义 {#functionsdefinition-2}
+## 单语句函数定义 {#single-expression-function}
 
 ```lumos
 // 定义一个单语句的函数
@@ -85,7 +85,7 @@ def 函数名[捕获列表](参数列表) = 表达式;
 - 适用于只包含一条语句的函数，可以将函数体直接定义为一个表达式。
 - 表达式的计算结果将作为函数的返回值。
 
-## Lambda 表达式 {#lambda-expressions}
+## Lambda 表达式 {#lambda}
 
 ```lumos
 // 定义一个 lambda 表达式
@@ -97,12 +97,12 @@ act [捕获列表](参数列表) -> 返回类型 {函数体}
 - Lambda 表达式同样需要指定纯度关键字。
 - 不需要指定函数名，直接使用捕获列表、参数列表、返回类型和函数体定义 Lambda 函数。
 
-## 返回类型推断 {#class}
+## 返回类型推断 {#return-type-inference}
 
 - 当函数体中所有 `return` 处的类型一致时，可以省略返回类型。
 - 若函数体中没有 `return` 语句，则返回类型推断为 `unit`。
 
-## 不返回函数 {#functions-2}
+## 不返回函数 {#no-return-functions}
 
 对于永远不会返回的函数（如调用了 `exit` 或无限循环），使用 `-` 标记：
 
@@ -139,7 +139,7 @@ def sqrt(f32 x where x >= 0.0) -> f32 {
 
 `where` 后的表达式必须为纯表达式，且只能使用参数变量和常量。
 
-## 成员函数修饰符 {#functions-3}
+## 成员函数修饰符 {#member-access-modifiers}
 
 在成员函数中，可以使用 `@` 符号标记函数对对象成员的访问权限：
 
@@ -162,7 +162,7 @@ class MyClass {
 }
 ```
 
-## 示例 {#examples-2}
+## 示例 {#examples}
 
 ```lumos
 def add(i32 a, i32 b) -> i32 {
@@ -240,4 +240,4 @@ println "Hello world!";
 
 ---
 
-相关内容：权限系统见 [副作用权限系统](permission.md)。
+相关内容：权限系统见 [副作用权限系统](permission.md#permission-system-side-effect-permission-system)。

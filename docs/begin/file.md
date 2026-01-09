@@ -35,4 +35,4 @@ Lumos 要求所有数据都以 UTF-8 编码，文件名区分大小写。
 
 ---
 
-相关内容：模块配置见 [模块系统](../grammar/modules.md)。
+相关内容：模块配置见 [模块系统](../grammar/modules.md#modules)。

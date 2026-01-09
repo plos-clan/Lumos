@@ -122,4 +122,4 @@ pub struct ModuleDecl {
 
 ---
 
-相关内容：声明语法见 [语法/函数](../grammar/function.md)。
+相关内容：声明语法见 [语法/函数](../grammar/function.md#functions)。
