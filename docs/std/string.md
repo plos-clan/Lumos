@@ -78,7 +78,7 @@ fun replace(str old, str new) -> str;
 fun split(str delimiter) -> [str];
 
 // 连接
-act[io] join([str] parts, str delimiter) -> str;
+fun join([str] parts, str delimiter) -> str;
 ```
 
 ### 类型转换
@@ -108,7 +108,7 @@ fun \type> from_f32(f32 value) -> str;
 fun \type> from_f64(f64 value) -> str;
 
 // 格式化字符串
-act[io] format(str fmt, ...) -> str;
+fun format(str fmt, ...) -> str;
 ```
 
 ### 可变字符串操作

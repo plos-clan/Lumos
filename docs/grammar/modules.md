@@ -35,7 +35,7 @@ using "std" -> ::;
 
 ## 构建模块
 
-Lumos 的模块由一个配置文件（`lumos.yaml`）定义，一个简单的结构为
+Lumos 的模块由一个配置文件（`lumos.yaml`/`lumos.json`/`lumos.toml`，三选一）定义，一个简单的结构为
 
 ```files
 my_model/
@@ -43,6 +43,8 @@ my_model/
   main.lm
   lumos.yaml
 ```
+
+同一目录下只允许存在一个配置文件；若同时存在 `lumos.yaml`/`lumos.json`/`lumos.toml`，将直接报错。三种格式共享同一配置树和键名。示例统一以 `lumos.yaml` 展示。
 
 ```yaml
 name: my_model
@@ -69,7 +71,7 @@ act[io.out] my_func() -> unit {
 
 ### 配置文件
 
-`lumos.yaml` 的基本形式为
+配置文件的基本形式为
 
 ```yaml
 # 基本信息（可选）
@@ -166,7 +168,7 @@ my_model/
   lumos.yaml
 ```
 
-此时你可以在 `lumos.yaml` 中
+此时你可以在配置文件中
 
 ```yaml
 using:

@@ -8,6 +8,7 @@ Lumos 要求所有数据都以 UTF-8 编码，文件名区分大小写。
 
 - Lumos 源代码文件：`.lm`
 - Lumos 头文件：`.lh`
+- Lumos 项目配置文件：`lumos.yaml` / `lumos.json` / `lumos.toml`（三选一，且只能存在一个）
 
 ## 工具链
 
@@ -24,7 +25,7 @@ Lumos 要求所有数据都以 UTF-8 编码，文件名区分大小写。
 
 ### 项目构建器
 
-可以根据单个 lumos 源代码文件(`.lm`)或 lumos 项目配置文件(`lumos.yaml`)自动配置项目并生成可执行文件或库。
+可以根据单个 lumos 源代码文件(`.lm`)或 lumos 项目配置文件(`lumos.yaml`/`lumos.json`/`lumos.toml`，三选一)自动配置项目并生成可执行文件或库。
 
 ### 语言服务器
 

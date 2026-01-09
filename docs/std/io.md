@@ -75,33 +75,33 @@ print("{:.2f}", 3.14159);  // 浮点精度2
 
 ```lumos
 // 输入一个字符
-fun scan_char() -> u8;
+act[io.in] scan_char() -> u8;
 
 // 输入一行（去除末尾换行）
-fun scan_line() -> str;
+act[io.in] scan_line() -> str;
 
 // 输入整数
-fun scan_i32() -> i32;
-fun scan_i64() -> i64;
-fun scan_u32() -> u32;
-fun scan_u64() -> u64;
+act[io.in] scan_i32() -> i32;
+act[io.in] scan_i64() -> i64;
+act[io.in] scan_u32() -> u32;
+act[io.in] scan_u64() -> u64;
 
 // 输入浮点数
-fun scan_f32() -> f32;
-fun scan_f64() -> f64;
+act[io.in] scan_f32() -> f32;
+act[io.in] scan_f64() -> f64;
 
 // 输入字符串
-fun scan_str() -> str;
+act[io.in] scan_str() -> str;
 ```
 
 ### 格式化输入
 
 ```lumos
 // 格式化扫描
-fun scanf(str fmt, ...) -> usize;  // 返回成功读入的项数
+act[io.in] scanf(str fmt, ...) -> usize;  // 返回成功读入的项数
 
 // 带缓冲的格式化输入
-fun vscanf(str fmt, [unit] args) -> usize;
+act[io.in] vscanf(str fmt, [unit] args) -> usize;
 ```
 
 **格式化符号**：
@@ -118,13 +118,13 @@ scanf("%c", ch);         // 读字符
 
 ```lumos
 // 通用扫描（类型推导）
-fun scan<typename T>() -> T;
+act[io.in] scan<typename T>() -> T;
 
 // 扫描带默认值
-fun scan_or<typename T>(T default) -> T;
+act[io.in] scan_or<typename T>(T default) -> T;
 
 // 扫描多个值
-fun scan_tuple<typename ...T>() -> (...T);
+act[io.in] scan_tuple<typename ...T>() -> (...T);
 ```
 
 使用示例：
@@ -193,22 +193,22 @@ act main() {
 ```lumos
 \type> InputStream {
     // 读字符
-    fun read_char() -> Option<u8>;
+    act[io.in] read_char() -> Option<u8>;
 
     // 读指定字节数
-    fun read_bytes(usize n) -> [u8];
+    act[io.in] read_bytes(usize n) -> [u8];
 
     // 读一行
-    fun read_line() -> Option<str>;
+    act[io.in] read_line() -> Option<str>;
 
     // 读全部内容
-    fun read_all() -> str;
+    act[io.in] read_all() -> str;
 
     // 关闭流
     act[io.in] close() -> unit;
 
     // 检查是否达到文件结尾
-    fun is_eof() -> bool;
+    act[io.in] is_eof() -> bool;
 }
 ```
 

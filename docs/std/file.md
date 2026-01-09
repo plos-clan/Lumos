@@ -14,7 +14,7 @@
 }
 
 // 打开文件
-act[fs.read | fs.write] open(str path, FileMode mode) -> Result<File, Error>;
+act[fs{read,write}] open(str path, FileMode mode) -> Result<File, Error>;
 
 // 以读模式打开
 act[fs.read] open_read(str path) -> Result<File, Error>;
@@ -45,19 +45,19 @@ act[fs.write] open_append(str path) -> Result<File, Error>;
 ```lumos
 \type> File {
     // 读取指定字节数
-    fun read_bytes(usize n) -> Result<[u8], Error>;
+    act[fs.read] read_bytes(usize n) -> Result<[u8], Error>;
 
     // 读取一行（包含换行符）
-    fun read_line() -> Result<str, Error>;
+    act[fs.read] read_line() -> Result<str, Error>;
 
     // 读取整个文件
-    fun read_all() -> Result<str, Error>;
+    act[fs.read] read_all() -> Result<str, Error>;
 
     // 读取直到指定字符
-    fun read_until(u8 delimiter) -> Result<str, Error>;
+    act[fs.read] read_until(u8 delimiter) -> Result<str, Error>;
 
     // 按行迭代读取
-    fun lines() -> Iterator<Result<str, Error>>;
+    act[fs.read] lines() -> Iterator<Result<str, Error>>;
 }
 ```
 
@@ -66,20 +66,20 @@ act[fs.write] open_append(str path) -> Result<File, Error>;
 ```lumos
 \type> File {
     // 获取当前文件指针位置（字节）
-    fun position() -> u64;
+    act[fs.read] position() -> u64;
 
     // 设置文件指针位置
     // whence: 0=开始, 1=当前, 2=末尾
-    act[fs.read | fs.write] seek(i64 offset, i32 whence) -> Result<u64, Error>;
+    act[fs{read,write}] seek(i64 offset, i32 whence) -> Result<u64, Error>;
 
     // 跳到文件开始
-    act[fs.read | fs.write] rewind() -> unit;
+    act[fs{read,write}] rewind() -> unit;
 
     // 跳到文件末尾
-    act[fs.read | fs.write] seek_end() -> Result<u64, Error>;
+    act[fs{read,write}] seek_end() -> Result<u64, Error>;
 
     // 检查是否到达文件末尾
-    fun is_eof() -> bool;
+    act[fs.read] is_eof() -> bool;
 }
 ```
 
@@ -145,19 +145,19 @@ act[fs.read] metadata(str path) -> Result<Metadata, Error>;
 
 ```lumos
 // 检查文件是否存在
-fun exists(str path) -> bool;
+act[fs.read] exists(str path) -> bool;
 
 // 获取文件大小
 act[fs.read] file_size(str path) -> Result<u64, Error>;
 
 // 检查文件可读性
-fun is_readable(str path) -> bool;
+act[fs.read] is_readable(str path) -> bool;
 
 // 检查文件可写性
-fun is_writable(str path) -> bool;
+act[fs.read] is_writable(str path) -> bool;
 
 // 检查是否为目录
-fun is_directory(str path) -> bool;
+act[fs.read] is_directory(str path) -> bool;
 ```
 
 ## 文件系统操作
@@ -166,7 +166,7 @@ fun is_directory(str path) -> bool;
 
 ```lumos
 // 复制文件
-act[fs.read | fs.write] copy(str src, str dst) -> Result<unit, Error>;
+act[fs{read,write}] copy(str src, str dst) -> Result<unit, Error>;
 
 // 移动或重命名文件
 act[fs.write] rename(str old_path, str new_path) -> Result<unit, Error>;
@@ -194,7 +194,7 @@ act[fs.write] remove_dir_all(str path) -> Result<unit, Error>;
 act[fs.read] read_dir(str path) -> Result<Iterator<DirEntry>, Error>;
 
 // 获取当前工作目录
-fun current_dir() -> Result<str, Error>;
+act[fs.read] current_dir() -> Result<str, Error>;
 
 // 改变当前工作目录
 act[fs.write] set_current_dir(str path) -> Result<unit, Error>;
@@ -214,13 +214,13 @@ act[fs.write] set_current_dir(str path) -> Result<unit, Error>;
     act[fs.read] metadata() -> Result<Metadata, Error>;
 
     // 检查是否是文件
-    fun is_file() -> bool;
+    act[fs.read] is_file() -> bool;
 
     // 检查是否是目录
-    fun is_dir() -> bool;
+    act[fs.read] is_dir() -> bool;
 
     // 检查是否是符号链接
-    fun is_symlink() -> bool;
+    act[fs.read] is_symlink() -> bool;
 }
 ```
 
@@ -255,7 +255,7 @@ act[fs.write] set_current_dir(str path) -> Result<unit, Error>;
     fun join(str segment) -> \type> Path;
 
     // 规范化路径（移除 .. 和 .）
-    fun canonicalize() -> Result<\type> Path, Error>;
+    act[fs.read] canonicalize() -> Result<\type> Path, Error>;
 
     // 获取相对路径
     fun relative_to(str base) -> Result<str, Error>;
@@ -277,7 +277,7 @@ act[fs.write] temp_file_with_prefix(str prefix) -> Result<File, Error>;
 act[fs.write] temp_dir() -> Result<str, Error>;
 
 // 获取系统临时目录
-fun temp_dir_path() -> str;
+act[fs.read] temp_dir_path() -> str;
 ```
 
 ## 使用示例
