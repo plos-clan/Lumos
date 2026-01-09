@@ -1,7 +1,7 @@
 
-# 类
+# 类 {#class}
 
-## 声明
+## 声明 {#declaration}
 
 在 Lumos 中，我们可以使用以下方式声明一个名为 MyClass 的类：
 
@@ -9,7 +9,7 @@
 class MyClass; // 声明一个类
 ```
 
-## 定义
+## 定义 {#definition}
 
 具名类（注意无需结尾的分号，也不能同时声明变量）
 
@@ -27,7 +27,7 @@ class {
 } var my_var; // 定义一个匿名类并同时声明变量
 ```
 
-## 零大小类型 (ZST)
+## 零大小类型 (ZST) {#class-zst}
 
 在 Lumos 中，不包含任何成员变量的类或结构体是不占空间的（Zero-sized）。这对于泛型编程和元编程非常有用。
 
@@ -37,11 +37,11 @@ val e = Empty{};
 // sizeof(e) 为 0
 ```
 
-## 初始化
+## 初始化 {#initialization}
 
-### 构造函数初始化
+### 构造函数初始化 {#functionsinitialization}
 
-### 变量列表初始化
+### 变量列表初始化 {#variableslist-initialization}
 
 在 Lumos 中，我们可以使用以下方式初始化一个类：
 
@@ -72,7 +72,7 @@ act initvar -> unit @default;
 默认情况下，如果一个类没有任何构造函数，那么它将允许变量列表初始化。  
 如果有构造函数，则需要手动启用。
 
-## 访问控制
+## 访问控制 {#access-control}
 
 在 Lumos 中，我们可以使用 `@public`、`@protected` 和 `@private` 修饰符来控制类的访问权限。
 
@@ -112,7 +112,7 @@ class MyClass {
 } // class MyClass
 ```
 
-## 重载类型转换
+## 重载类型转换 {#class-2}
 
 在 Lumos 中，我们可以使用 `def as 类型` 来重载类型转换。
 
@@ -157,7 +157,7 @@ def as i32 -> i32 {
 } // impl MyInt
 ```
 
-## 弱化的类：结构体
+## 弱化的类：结构体 {#class-struct}
 
 在 Lumos 中，结构体是一个有功能限制的类，它没有一些高级特性。
 
@@ -178,7 +178,7 @@ def as i32 -> i32 {
 
 结构体可以被类继承，但类无法被结构体继承。
 
-### 如何选择使用结构体还是类
+### 如何选择使用结构体还是类 {#struct-class}
 
 当你需要组织一个简单的数据时（比如红黑树中的节点），你应该使用结构体。
 
@@ -203,3 +203,7 @@ class RBTree {
   省略实现
 }
 ```
+
+---
+
+相关内容：对象模型见 [对象](object.md)。

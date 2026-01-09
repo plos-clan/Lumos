@@ -333,3 +333,7 @@ act main() {
     stdlog.flush();
 }
 ```
+
+---
+
+相关内容：权限系统见 [副作用权限系统](../grammar/permission.md)。

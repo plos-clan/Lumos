@@ -1,19 +1,19 @@
-# 副作用权限系统 (Side-Effect Permission System)
+# 副作用权限系统 (Side-Effect Permission System) {#permission-system-side-effect-permission-system}
 
 Lumos 采用静态效应系统，将副作用视为一种受控的“能力 (Capability)”。
 
-## 核心原则
+## 核心原则 {#core-principles}
 
 - **零信任**：`act main` 默认没有任何权限。
 - **静态检查**：所有权限在编译期校验，无运行时开销。
 - **显式授权**：副作用必须在 `act` 函数签名或代码块上显式标注。
 - **纯度隔离**：`def` 和 `fun` 权限集恒为空（仅内置 `dbg`），只有 `act` 可以声明权限。
 
-## 权限层级
+## 权限层级 {#permission-hierarchy}
 
 权限采用点号分隔的树状结构。完整的权限树定义请参考 [permissions.yaml](permissions.yaml)。
 
-### 常用内置权限
+### 常用内置权限 {#built-in-permissions}
 
 | 权限路径          | 别名 (aka) | 描述            |
 |-------------------|------------|-----------------|
@@ -27,7 +27,7 @@ Lumos 采用静态效应系统，将副作用视为一种受控的“能力 (Cap
 
 > **提示**：别名（如 `stdout`）在代码中与完整路径（如 `io.out`）完全等价。
 
-### 权限定义与别名
+### 权限定义与别名 {#definition}
 
 库或模块可以定义自己的权限，并使用 `aka` 关键字提供简写或兼容性名称：
 
@@ -40,7 +40,7 @@ permission my_lib.network.socket aka socket;
 支持组语法：
 `act[net.http{client, server}]` 等价于 `act[net.http.client, net.http.server]`。
 
-## 权限操作
+## 权限操作 {#permission-operations}
 
 权限控制是代码块级别的，子块默认继承父块权限。
 
@@ -54,9 +54,9 @@ permission my_lib.network.socket aka socket;
 - **`act[*, "reason"] { ... }` (子块逃生舱)**：仅在指定子块中强制获得所有权限。要求提供字符串理由，便于审计。
 - **`act[?]`**：编译器指令。在编译时打印当前代码块所拥有的完整权限树。
 
-## 函数权限
+## 函数权限 {#functions}
 
-### 权限声明
+### 权限声明 {#declaration}
 
 ```lumos
 act[net.http.client] fetch_data(string url) -> string { ... }
@@ -68,7 +68,7 @@ act[net.http.client] fetch_data(string url) -> string { ... }
 act main() { ... }
 ```
 
-### 权限传播 (Yielding)
+### 权限传播 (Yielding) {#permission-yielding-yielding}
 
 函数成功返回后，可以将权限自动应用到调用方后续的代码块中：
 
@@ -82,11 +82,11 @@ act[fs.open] main() {
 }
 ```
 
-### 闭包与权限继承
+### 闭包与权限继承 {#closure-inheritance}
 
 闭包必须使用 `act` 关键字声明，但可以省略权限声明。当权限省略时，闭包**自动继承其定义所在作用域的所有权限**。这遵循作用域继承原理，大幅简化常见用法。
 
-#### 默认权限继承
+#### 默认权限继承 {#default-inheritance}
 
 ```lumos
 act[io.out, fs.write] process() {
@@ -99,7 +99,7 @@ act[io.out, fs.write] process() {
 }
 ```
 
-#### 显式权限控制
+#### 显式权限控制 {#explicit-permission-control}
 
 可以在闭包定义时显式指定权限，覆盖继承的权限：
 
@@ -124,11 +124,11 @@ act[io.out, fs.read, fs.write] main() {
 }
 ```
 
-### 效应多态 (%)
+### 效应多态 (%) {#polymorphism}
 
 使用 `%` 占位符处理高阶函数，实现权限透明转发。编译器会自动追踪通过闭包参数传入的权限需求，无需在高阶函数签名中显式列举所有可能的权限。
 
-#### 核心机制
+#### 核心机制 {#core-mechanism}
 
 `%` 是一个权限占位符，其含义为："此闭包所需的任意权限"。编译器会自动追踪调用点闭包的权限，验证调用方是否拥有。
 
@@ -157,7 +157,7 @@ act[io.out, fs.write] main() {
 }
 ```
 
-#### 通用高阶函数模式
+#### 通用高阶函数模式 {#functions-2}
 
 ```lumos
 // 通用 map：闭包自动继承调用方权限
@@ -184,7 +184,7 @@ act[io.out] main() {
 }
 ```
 
-#### 权限限制的高阶函数
+#### 权限限制的高阶函数 {#functions-3}
 
 即使调用方拥有更多权限，闭包仍可显式限制自身权限：
 
@@ -213,7 +213,7 @@ act[io.out, fs.write] main() {
 }
 ```
 
-#### 多闭包的权限追踪
+#### 多闭包的权限追踪 {#multi-closure-tracking}
 
 多个闭包各自追踪各自的权限。编译器会自动推断函数中有多少个 `act[%]` 参数，无需显式声明多个占位符：
 
@@ -249,13 +249,13 @@ act[io.out, fs.read, fs.write] main() {
 - 编译器自动统计函数中有多少个 `act[%]` 参数
 - 每个闭包的权限独立追踪，编译器在调用点验证每个闭包的权限充足性
 
-#### 零成本抽象
+#### 零成本抽象 {#zero-cost-abstraction}
 
 - **编译期追踪**：闭包权限继承和 `%` 占位符完全在编译期处理
 - **无运行时开销**：所有权限验证都在编译时完成
 - **内联优化**：高阶函数可被优化器内联，闭包调用零开销
 
-## 模块配额
+## 模块配额 {#modules}
 
 在导入依赖库时分配权限上限：
 
@@ -264,3 +264,7 @@ use http with [net];
 ```
 
 任何违反配额的 `act[+xxx]` 都会导致编译错误。
+
+---
+
+相关内容：函数纯度见 [函数与纯度](function.md)。

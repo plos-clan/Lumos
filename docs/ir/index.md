@@ -85,3 +85,7 @@ LIR 使用 **权限掩码 (Permission Mask)** 或 **能力令牌 (Capability Tok
 1. **AST -> LIR**: 进行作用域展开、Lambda 提升、`lazy` 逻辑生成。
 2. **LIR 优化**: 纯度相关的内联、SSA 优化、死代码消除。
 3. **LIR -> LLVM IR / Machine Code**: 将 LIR 指令映射到目标平台的指令。
+
+---
+
+相关内容：AST 总览见 [语法树](../ast/index.md)。

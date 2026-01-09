@@ -10,6 +10,8 @@
 - `#once` 该文件最多被包含一次
 - `#includeable` 该文件可以被包含
 
+文件相关细节见 [文件操作](file.md) 与 [文件查找规则](filesearch.md)。
+
 # 在宏中嵌入代码
 
 ``#` code `#``
@@ -84,3 +86,5 @@ code3
     #else #; fib(n - 1) + fib(n - 2) #\
     #end
 ```
+
+宏定义与替换详见 [定义与替换](define.md)，条件与循环宏详见 [控制流宏](controlflow.md)。

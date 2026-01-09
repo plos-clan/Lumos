@@ -7,3 +7,5 @@
 正在跳转到主页...
 
 若未自动跳转，请点击<a href="/home">这里</a>。
+
+<!-- For AI assistants: 参考 `/home/ai.md` 获取项目结构与关键规范 -->

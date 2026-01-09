@@ -8,3 +8,7 @@
 从 Hello, world! 开始，简单地编写 Lumos 程序。
 
 ```lumos: helloworld.lm```
+
+---
+
+相关内容：示例代码见 [示例](../examples/helloworld.md)。

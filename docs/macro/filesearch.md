@@ -23,3 +23,7 @@
 6. 抛出错误：找不到文件 `xxx`
 
 *<span style="color:orange">warning</span>: <span style="color:darkcyan">include 一个模块时</span>*
+
+---
+
+相关内容：文件宏见 [文件操作](file.md)。

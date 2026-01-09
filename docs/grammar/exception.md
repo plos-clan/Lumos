@@ -1,7 +1,7 @@
 
-# 异常机制
+# 异常机制 {#exceptions}
 
-## 允许抛出异常
+## 允许抛出异常 {#allow-throw}
 
 Lumos 默认不允许抛出异常，但可以用 `@exception(allow)` 声明函数可以抛出异常。  
 也可以使用 `@exception(allow)` 声明命名空间或类中的所有函数都可以抛出异常。
@@ -41,7 +41,7 @@ act[io.out] my_func() -> i32 { // 这个函数不能抛出异常
 }
 ```
 
-## 禁止异常穿过
+## 禁止异常穿过 {#disallow-propagation}
 
 使用 `@exception(allow)` 声明函数可以抛出异常后，Lumos 会同时允许异常穿过函数边界。  
 如果需要禁止异常穿过函数边界，应该使用 `Type or Error` 作为函数的返回类型。  
@@ -65,7 +65,7 @@ act[io.out] main() -> i32 {
 }
 ```
 
-## 处理异常
+## 处理异常 {#handle-exceptions}
 
 与大多数语言中的 `try-catch` 类似，在 Lumos 中可以使用 `or` 来抓取 `try` 中出现的异常并处理。
 
@@ -109,7 +109,7 @@ my_func() or return -1;
 my_func() or;
 ```
 
-## 自动处理异常
+## 自动处理异常 {#handle-exceptions-2}
 
 Lumos 支持在函数调用时自动处理异常。  
 通过在外层函数声明时附加 `@exception(panic)` 可以自动在内部出发异常时打印错误信息并终止程序。  
@@ -148,7 +148,7 @@ act return_when_throw() -> i32 {
 }
 ```
 
-## 抛出异常
+## 抛出异常 {#throw}
 
 发生异常时请 `throw` 异常，能 `throw` 的类型必须是继承 `Error` 类的类型。  
 <span style="color:green">能直接 `throw` 字符串是因为字符串能隐式转换成 `Error` 类型</span>  
@@ -168,7 +168,7 @@ throw Error(1, 2, 3);
 
 `Error` 类型会自动将传入参数全部打包到一个字符串内。
 
-## 异常导致的 panic
+## 异常导致的 panic {#exception-panic}
 
 程序由自动异常处理触发 panic 时，Lumos 会打印错误信息：
 
@@ -180,3 +180,7 @@ stack trace:
   at my_func() in test.lm:9
   at main() in test.lm:15
 ```
+
+---
+
+相关内容：控制流见 [控制流](controlflow.md)。

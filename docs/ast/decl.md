@@ -119,3 +119,7 @@ pub struct ModuleDecl {
     pub decls: Vec<Decl>,
 }
 ```
+
+---
+
+相关内容：声明语法见 [语法/函数](../grammar/function.md)。

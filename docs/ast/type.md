@@ -56,3 +56,7 @@ pub enum TypeRef {
     Inferred,
 }
 ```
+
+---
+
+相关内容：类型系统见 [语法/类型](../grammar/type.md)。

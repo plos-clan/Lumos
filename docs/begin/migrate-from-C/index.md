@@ -26,3 +26,7 @@ act[io.out] main() {
 ```
 
 :::endcolumn
+
+---
+
+相关内容：语法入口见 [语言参考](../language.md)。

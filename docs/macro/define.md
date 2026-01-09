@@ -43,3 +43,7 @@
 ```lumos
 #define linux #%config.os.linux
 ```
+
+---
+
+相关内容：宏控制流见 [控制流宏](controlflow.md)。

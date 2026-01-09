@@ -1,5 +1,5 @@
 
-# 属性
+# 属性 {#attributes}
 
 Lumos 属性是用于修饰变量、函数和类的特殊语法，用于指定它们的特定行为或属性。  
 Lumos 的属性以 `@` 符号开头，后面跟着属性的名称和可选的参数。  
@@ -30,9 +30,9 @@ use @default = @reset;
 
 不能重设 `@reset` 属性。
 
-## 通用属性
+## 通用属性 {#attributes-2}
 
-### 可见性
+### 可见性 {#visibility}
 
 类与命名空间可见性
 
@@ -55,7 +55,7 @@ var- my_var2; // private
 var? my_var3; // protected
 ```
 
-### 断言
+### 断言 {#assertions}
 
 断言属性和普通断言的区别是，断言属性会在每次读写时检查，而普通断言只在断言处检查一次。
 
@@ -77,13 +77,13 @@ act[io.out] my_func(i32 arg) -> unit {
 }
 ```
 
-### 可用性
+### 可用性 {#availability}
 
 - `@deprecated("消息")`: 标记变量、函数或类为已废弃的，提供一个可选的提示消息说明替代方案或原因。
 - `@deleted("消息")`: 标记变量、函数或类为已删除的，提供一个可选的提示消息说明替代方案或原因。
 - `@replaced-by(函数或变量名)`: 标记某个函数已被其它函数替代，同时标记其已被废弃。
 
-## 函数属性
+## 函数属性 {#functionsattributes}
 
 - `@generator`: 声明函数是一个生成器，可以多次返回直到 `return` 后为空。
 
@@ -133,7 +133,7 @@ act[io.out] my_func(i32 arg) -> unit {
   }
   ```
 
-### 调用约定
+### 调用约定 {#calling-convention}
 
 - `@cdecl`: 调用约定
 - `@stdcall`: 调用约定
@@ -153,7 +153,7 @@ act[io.out] my_func(i32 arg) -> unit {
   编译器不会为函数创建栈帧，这样可以减少函数调用的开销。  
   如果函数中变量过多，寄存器不足，会导致编译错误。
 
-### 多态
+### 多态 {#polymorphism}
 
 - `@vitural`: 声明函数为虚函数，用于实现多态。  
   也可以标记类为虚类，其中的虚函数均不可被定义而应该被其派生类定义。
@@ -193,7 +193,7 @@ act[io.out] my_func(i32 arg) -> unit {
   }
   ```
 
-## 变量属性
+## 变量属性 {#variablesattributes}
 
 - `@align(对齐数)`: 声明变量按照指定的对齐数对齐。  
   对齐数必须为 2 的幂，0 表示使用默认对齐数，1 表示不对齐。
@@ -203,7 +203,7 @@ act[io.out] my_func(i32 arg) -> unit {
   <span style="color:purple">无特殊需求不应该使用</span>
 - `@volatile`：声明变量会被其它线程或硬件改变，编译器不会对其访问（读写）进行优化。
 
-## 并行
+## 并行 {#parallel}
 
 - `@parallel`  
   循环可以并行执行，编译器会自动将其拆分为多个任务并分配给多个线程执行。
@@ -222,7 +222,7 @@ act[io.out] my_func(i32 arg) -> unit {
 
   函数可以并行执行，编译器会自动将其拆分为多个任务并分配给多个线程执行。
 
-### 示例
+### 示例 {#examples}
 
 ```lumos
 @const // 输入相同得到相同输出
@@ -238,3 +238,7 @@ def helper(int x) -> int {
   实现
 }
 ```
+
+---
+
+相关内容：变量修饰见 [变量与初始化](variable.md)。

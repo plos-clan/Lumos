@@ -1,4 +1,4 @@
-# 语法
+# 语法 {#grammar}
 
 批注
 
@@ -7,7 +7,9 @@
 - <span style="color:green">普通提示</span>
 - <span style="color:purple">重要提示</span>
 
-## 语法列举
+关键字列表与分类见 [关键字](keyword.md)，变量与初始化规则见 [变量与初始化](variable.md)，函数语法见 [函数与纯度](function.md)。
+
+## 语法列举 {#grammar-2}
 
 ```lumos
 function(argument1, argument2)
@@ -66,3 +68,9 @@ act[io.out] main() -> i32 {
 ```lumos
 &[10]i32
 ```
+
+类型系统细节见 [类型系统](type.md)，控制流语法见 [控制流](controlflow.md)。
+
+---
+
+相关内容：词法入口见 [词法](../lexical/index.md)。

@@ -1,11 +1,11 @@
 
-# 变量
+# 变量 {#variables}
 
-## 变量声明
+## 变量声明 {#variablesdeclaration}
 
 Lumos 提供了四种不同的变量修饰符，用于精确控制变量的可变性和内存行为。
 
-### 变量声明 `var` (Variable - 完全可变)
+### 变量声明 `var` (Variable - 完全可变) {#variablesdeclaration-var-variable--}
 
 * **语义**：变量名可以重新绑定（除非有 `fin`），内存内容可以随意修改。
 * **隐含修饰**：`var` 隐含了类型修饰符 `mut`，手动重复书写 `var mut` 会导致编译错误。
@@ -17,7 +17,7 @@ a = 2;    // 允许重新绑定
 a[] = 3;  // 允许修改内存内容
 ```
 
-### 变量声明 `val` 类型修饰默认 (Value - 逻辑不可变)
+### 变量声明 `val` 类型修饰默认 (Value - 逻辑不可变) {#variablesdeclaration-val-class-value--}
 
 * **语义**：变量名绑定后不可更改。对外表现的“值”是稳定的，但允许**内部可变性**（Internal Mutability）。
 * **内存**：底层内存可能会变（例如：懒加载初始化、引用计数增减、内部缓存更新）。
@@ -29,7 +29,7 @@ i32 c = 2;     // 等同于 val i32 c = 2
 b = 2;         // error: 变量名绑定后不可更改
 ```
 
-### 变量声明 `imv` (Immutable - 物理不可变)
+### 变量声明 `imv` (Immutable - 物理不可变) {#variablesdeclaration-imv-immutable--}
 
 * **语义**：变量名不可更改，且**内存表示（Bit Pattern）**在初始化后绝对锁定。
 * **隐含修饰**：`imv` 隐含了类型修饰符 `imm`，手动重复书写 `imv imm` 会导致编译错误。
@@ -41,7 +41,7 @@ d = 2;    // error
 d[] = 2;  // error: 物理内存不可修改
 ```
 
-### 变量声明 `lit` 不能修饰类型 (Literal - 编译期常量)
+### 变量声明 `lit` 不能修饰类型 (Literal - 编译期常量) {#variablesdeclaration-lit-class-literal--}
 
 * **语义**：仅存在于编译阶段。
 * **内存**：不占用运行时内存地址，在所有使用处进行常量折叠或内联替换。
@@ -56,11 +56,11 @@ lit i32 e = 1;
 
 ---
 
-## 延迟初始化
+## 延迟初始化 {#initialization}
 
 如果一个变量无法在声明时立即初始化，Lumos 提供了 `late` 和 `lazy` 关键字。
 
-### 手动延迟初始化 `late`
+### 手动延迟初始化 `late` {#initialization-late}
 
 使用 `late` 标记一个变量将在稍后手动初始化。在初始化之前访问该变量会导致运行时错误。
 
@@ -72,7 +72,7 @@ act init() {
 }
 ```
 
-### 懒加载初始化 `lazy`
+### 懒加载初始化 `lazy` {#initialization-lazy}
 
 使用 `lazy` 标记一个变量在第一次被访问时才进行初始化。初始化过程是线程安全的。
 
@@ -91,7 +91,7 @@ val GLOBAL_TYPE = lazy i32 {
 
 ---
 
-## 访问修饰符
+## 访问修饰符 {#access-modifiers}
 
 对于逻辑的读写操作，Lumos 增加了四种类型修饰符：
 
@@ -102,7 +102,7 @@ val GLOBAL_TYPE = lazy i32 {
 
 `var` 默认为 `rw` 但可以手动标记为别的属性。
 
-### 在类型中使用
+### 在类型中使用 {#class}
 
 ```lumos
 act my_func([wo i32] data) -> unit {
@@ -111,7 +111,7 @@ act my_func([wo i32] data) -> unit {
 }
 ```
 
-### 在成员函数中使用
+### 在成员函数中使用 {#functions}
 
 在成员函数中，可以使用 `@` 符号标记函数对对象成员的访问权限：
 
@@ -123,7 +123,7 @@ fun@ro my_func() -> i32 {
 
 ---
 
-### 禁止重新绑定 `fin`
+### 禁止重新绑定 `fin` {#no-shadowing-fin}
 
 使用 `fin` 关键字声明的变量禁止在同一作用域内被重新绑定（Shadowing）。
 
@@ -134,7 +134,7 @@ val a = a + 1; // error: 变量名 `a` 已被 `fin` 锁定，不能重新绑定
 
 ---
 
-### 声明多个变量
+### 声明多个变量 {#declaration-variables}
 
 声明多个同类型变量：
 
@@ -153,7 +153,7 @@ i32 a = 1; f32 b = 2.0;
 
 ---
 
-### 指针与引用声明
+### 指针与引用声明 {#declaration}
 
 声明指向逻辑不可变内存的逻辑不可变指针：
 
@@ -173,7 +173,7 @@ b[] = 1;     // success
 
 ---
 
-### 非空指针与引用
+### 非空指针与引用 {#non-null-reference}
 
 非空指针使用 `&` 修饰：
 
@@ -190,7 +190,7 @@ b[] = 1;     // success
 
 ---
 
-### 类型断言
+### 类型断言 {#class-assertions}
 
 可以在类型后添加断言条件：
 
@@ -227,7 +227,7 @@ while (a > 0) {
 * 上次修改后缓存的值（非 `volatile`）
 * 对应内存地址当前的值
 
-## 不可变变量声明 `val`
+## 不可变变量声明 `val` {#variablesdeclaration-val}
 
 使用 `val` 关键字声明不可变变量，使用方法与 `var` 相同。
 
@@ -258,7 +258,7 @@ println(a);    // 由于编译器的优化策略，可能输出 1 或 2
 * 作用域内任意位置缓存的值（非 `volatile`）
 * 对应内存地址当前的值
 
-## 初始化
+## 初始化 {#initialization-2}
 
 Lumos 允许的初始化方式有：
 
@@ -289,7 +289,7 @@ string e; // 初始化为 ""
 [i32] a = 0x123456;
 ```
 
-### 延迟初始化
+### 延迟初始化 {#initialization-3}
 
 使用 `late` 作为初始值来让变量不自动初始化。  
 <span style="color:green">注意访问未初始化的变量是未定义行为</span>
@@ -322,7 +322,7 @@ if (xxx) {
 }
 ```
 
-### 懒初始化
+### 懒初始化 {#initialization-4}
 
 使用 `lazy` 接代码块作为初始值来让变量在第一次访问时自动初始化。  
 代码块将延迟到第一次访问时执行，且只会执行一次。  
@@ -348,13 +348,13 @@ a = 3;
 println(b); // 输出 2
 ```
 
-## 全局不可变变量
+## 全局不可变变量 {#variables-2}
 
 你不应该声明一个全局的不可变变量，应该用 `let`(表达式) 或 `lit`(常量表达式) 代替。
 
 见 [表达式](expression.md)。
 
-## 临时变量 `with`
+## 临时变量 `with` {#variables-with}
 
 使用 `with` 关键字声明临时变量。
 
@@ -386,9 +386,9 @@ with var a = 1; {
 }
 ```
 
-## 限定符
+## 限定符 {#qualifiers}
 
-### `restrict`
+### `restrict` {#restrict}
 
 <span style="color:green">注意 `restrict` 不是属性</span>
 
@@ -400,7 +400,7 @@ with var a = 1; {
 [i32]          c = a; // 这也是不可以的
 ```
 
-### `volatile`
+### `volatile` {#volatile}
 
 <span style="color:green">注意 `volatile` 不是属性</span>
 
@@ -410,9 +410,9 @@ with var a = 1; {
 volatile i32 a = 1;
 ```
 
-## 属性
+## 属性 {#attributes}
 
-### `register`
+### `register` {#register}
 
 `@register(寄存器名)` 属性用于强制变量存储在寄存器中，而不是内存中。  
 <span style="color:green">这会导致相应寄存器无法被其它变量使用</span>  
@@ -425,7 +425,7 @@ var i32 a = 1;
 
 注意此处的 `rax` 填写 `eax` `ax` `al` 都是可以的，实际宽度由类型决定。
 
-## `isrestrict` 运算符
+## `isrestrict` 运算符 {#isrestrict-operators}
 
 `isrestrict` 运算符用于判断两个指针是否独立。
 
@@ -442,7 +442,7 @@ println(isrestrict(a, 4, b, 4)); // 输出 true
 println(isrestrict(a, 4, c, 4)); // 输出 false
 ```
 
-## getter/setter
+## getter/setter {#getter-setter}
 
 你可以使用 getter 和 setter 来访问变量。
 
@@ -492,3 +492,7 @@ println(a); // 输出 2
 ```
 
 外部无法访问到 `real_a` 变量。
+
+---
+
+相关内容：类型系统见 [类型系统](type.md)，函数参数规则见 [函数与纯度](function.md)。

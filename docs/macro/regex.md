@@ -15,3 +15,7 @@
 ```lumos
 #match /[A-Z]+/ -> #system echo $0
 ```
+
+---
+
+相关内容：字符串字面量见 [词法/字符串](../lexical/string.md)。

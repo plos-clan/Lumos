@@ -1,4 +1,4 @@
-# 动态类型
+# 动态类型 {#class}
 
 Lumos 中可以使用动态类型，变量的类型在运行时确定，就像 js 那样。  
 即变量可以在不同的时间点存储不同类型的值。  
@@ -55,7 +55,7 @@ fun my_func(obj arg1 @lock-type) -> unit {
     }
     ```
 
-## 实现
+## 实现 {#implementation}
 
 实际上就是将运算符进行封装。  
 类似以下 C 代码。
@@ -78,3 +78,7 @@ struct object {
 ```c
 a = a.cbs->add(a, b);
 ```
+
+---
+
+相关内容：类与对象见 [类与对象](class.md)。

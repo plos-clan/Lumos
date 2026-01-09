@@ -37,3 +37,7 @@ pub enum Literal {
     Bytes(Vec<u8>),
 }
 ```
+
+---
+
+相关内容：字面量规则见 [词法](../lexical/index.md)。

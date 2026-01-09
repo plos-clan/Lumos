@@ -1,5 +1,5 @@
 
-# 控制流程
+# 控制流程 {#control-flow}
 
 关键字列表与用法速查请参阅 [语法/关键字](keyword.md)。
 
@@ -21,9 +21,9 @@ if (条件表达式) {
 
 <span style="color:green">与 C 类似的部分，不会过多赘述</span>
 
-## 分支
+## 分支 {#branches}
 
-### 条件分支 `if`
+### 条件分支 `if` {#branches-if}
 
 `if` 语句是一种条件分支，根据条件执行不同的代码块。
 
@@ -56,7 +56,7 @@ if (var a = my_func(), a != null) return a;
 if (var a = my_func()) return a;
 ```
 
-### 条件分支 `else`
+### 条件分支 `else` {#branches-else}
 
 `else` 语句是一个可选的标签，用于处理没有匹配的情况。
 
@@ -68,7 +68,7 @@ if (条件表达式) {
 }
 ```
 
-### 条件分支 `then`
+### 条件分支 `then` {#branches-then}
 
 `then` 用于表达式和语句之间，在表达式为真时执行语句。
 
@@ -80,7 +80,7 @@ if (条件表达式) {
 a > 0 then println("a is positive.");
 ```
 
-### 多条件分支 `elif`
+### 多条件分支 `elif` {#branches-elif}
 
 `elif` 语句是一个可选的标签，用于处理多个条件的情况。
 
@@ -94,7 +94,7 @@ if (条件表达式1) {
 }
 ```
 
-### 多条件分支 `switch`
+### 多条件分支 `switch` {#branches-switch}
 
 `switch` 语句是一种多条件分支，根据条件执行不同的代码块。  
 实际上的实现就是 `if - elif - else` 序列，只是更加简洁。  
@@ -143,7 +143,7 @@ switch (num) {
 
 任何数据类型，只要重载 `==` 运算符就能支持 `switch`，只要重载 `\hash` 运算符就能进行匹配优化。
 
-### 多条件分支 `match`
+### 多条件分支 `match` {#branches-match}
 
 与 `switch` 类似，`match` 语句是一种多条件分支，根据条件执行不同的代码块，但条件为匹配表达式而不是匹配值。  
 <span style="color:green">`match` 语句是 `switch` 语句的增强版</span>
@@ -193,9 +193,9 @@ if (条件表达式1) {
 
 ---
 
-## 静态断言与假设
+## 静态断言与假设 {#assertions}
 
-### 假设条件成立 `assume`
+### 假设条件成立 `assume` {#assume-condition-assume}
 
 `assume` 用于向编译器提供额外的静态分析信息。如果能证明某个条件成立，编译器可以移除相关的运行时检查或进行更激进的优化。
 
@@ -213,9 +213,9 @@ val b = 100.0 / a as f32; // 编译器将不再生成除零检查代码
 
 ---
 
-## 循环
+## 循环 {#loops}
 
-### 条件循环 `while`
+### 条件循环 `while` {#loops-while}
 
 `while` 循环是一种条件循环，只要条件为真，循环就会一直执行。
 
@@ -233,7 +233,7 @@ while (条件表达式) {
 }
 ```
 
-### 条件循环 `do while`
+### 条件循环 `do while` {#loops-do-while}
 
 `do while` 循环是一种条件循环，先执行循环体，再判断条件。
 
@@ -251,7 +251,7 @@ do {
 } while (条件表达式);
 ```
 
-### 计数循环 `for`
+### 计数循环 `for` {#loops-for}
 
 `for` 循环是一种计数循环，可以在循环体内使用计数器。
 
@@ -275,7 +275,7 @@ for (迭代次数) {
 }
 ```
 
-### 遍历循环 `for`
+### 遍历循环 `for` {#loops-for-2}
 
 `for` 循环是一种遍历循环，可以在循环体内遍历容器。
 
@@ -295,7 +295,7 @@ for (变量 : 容器) {
 }
 ```
 
-### 循环标签
+### 循环标签 {#loops-2}
 
 给循环添加标签可以用于快速跳出多层循环。*见 `break`*
 
@@ -309,13 +309,13 @@ for (var i32 i = 0; i < 10; i++) {
 }
 ```
 
-### 关于死循环
+### 关于死循环 {#loops-3}
 
 Lumos 中允许死循环的存在，如果你想用死循环实现一些奇怪的控制逻辑，那么是可以的。
 
-### 循环属性
+### 循环属性 {#loopsattributes}
 
-#### limit
+#### limit {#limit}
 
 `@limit(次数)` 属性可以限制循环的最大执行次数，防止出现无限循环，其实现为循环达到指定次数后自动调用 `break`。
 
@@ -328,7 +328,7 @@ for (var i32 i = 0; i < 100; i++) {
 }
 ```
 
-#### unroll
+#### unroll {#unroll}
 
 `LMX` ::
 
@@ -388,9 +388,9 @@ for (var i32 i = 0; i < 10; i += 3) {
 
 :::endcolumn
 
-## 跳转
+## 跳转 {#jumps}
 
-### 跳过本次循环 `continue`
+### 跳过本次循环 `continue` {#loops-continue}
 
 `continue` 用于跳过本次循环，跳到下一次循环。
 
@@ -409,7 +409,7 @@ for (var i32 i = 0; i < 10; i++) {
 }
 ```
 
-### 跳出循环 `break`
+### 跳出循环 `break` {#loops-break}
 
 `break` 用于跳出循环。
 
@@ -428,7 +428,7 @@ for (var i32 i = 0; i < 10; i++) {
 end:
 ```
 
-### 跳出多层循环
+### 跳出多层循环 {#loops-4}
 
 利用 `break` 加循环标签可以快速跳出多层循环。
 
@@ -442,7 +442,7 @@ for (var i32 i = 0; i < 10; i++) {
 }
 ```
 
-### 跳出代码块 `leave`
+### 跳出代码块 `leave` {#code-block-leave}
 
 `leave` 用于跳出代码块。  
 <span style="color:purple">必须是使用 `{}` 包裹的代码块。下面的示例语句不算是代码块。</span>
@@ -483,9 +483,9 @@ act[io.out] my_func(i32 a) -> unit {
 }
 ```
 
-## 跳出后
+## 跳出后 {#after-exit}
 
-### 当循环被中断时 `breaked`
+### 当循环被中断时 `breaked` {#loops-breaked}
 
 !!! question ""
     不过有人提议使用 `terminated`
@@ -515,7 +515,7 @@ for (var i32 i = 0; i < 10; i++) {
 }
 ```
 
-### 当循环正常结束时 `then`
+### 当循环正常结束时 `then` {#loops-then}
 
 `then` 用于在循环正常结束时执行代码。
 
@@ -540,9 +540,9 @@ for (var i32 i = 0; i < 10; i++) {
 
 <span style="color:green">`breaked` 和 `then` 中都可以使用迭代变量</span>
 
-## 跳转
+## 跳转 {#jumps-2}
 
-### 标签跳转 `goto`
+### 标签跳转 `goto` {#jumps-goto}
 
 `goto` 用于跳转到指定标签。  
 <span style="color:green">所有标签反向缩进两格</span>
@@ -563,7 +563,7 @@ for (var i32 i = 0; i < 10; i++) {
     println("Hello world!");
 ```
 
-### 任意地址跳转 `goto`
+### 任意地址跳转 `goto` {#jumps-goto-2}
 
 `goto` 用于跳转到任意地址，对应汇编中的 jmp 指令。
 
@@ -579,3 +579,7 @@ goto 0x12345678;
     val [unit] addr = &loop;
     goto addr;
 ```
+
+---
+
+相关内容：异常处理见 [异常处理](exception.md)。

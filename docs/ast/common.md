@@ -113,3 +113,7 @@ pub struct Capture {
     pub is_by_value: bool,
 }
 ```
+
+---
+
+相关内容：AST 总览见 [语法树](index.md)。

@@ -11,3 +11,7 @@
 ## 你好，函数
 
 ```lumos: hellofunc.lm```
+
+---
+
+相关内容：入门指南见 [快速开始](../begin/index.md)。
