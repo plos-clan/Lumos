@@ -24,7 +24,7 @@
 | act    | action        | 定义副作用函数                           | [函数](function.md#function-purity) |
 | once?  | once (soft)   | 修饰 `act`，再次调用时忽略               | [函数](function.md#function-purity) |
 | once!  | once (strict) | 修饰 `act`，再次调用时报错               | [函数](function.md#function-purity) |
-| unsafe | unsafe        | 修饰 `fun`，允许在逻辑纯函数中执行副作用 | [函数](function.md#function-purity) |
+| unsafe | unsafe        | 修饰 `fun`，声明可回滚副作用（需权限列表与回滚块） | [函数](function.md#function-purity) |
 | ovl    | overload      | 标记函数允许重载（所有重载变体均需标记） | [重载](overload.md#rules)           |
 | where  | where         | 对函数参数或泛型进行范围限定             | [函数](function.md#where)           |
 

@@ -98,7 +98,7 @@ if (条件表达式1) {
 
 `switch` 语句是一种多条件分支，根据条件执行不同的代码块。  
 实际上的实现就是 `if - elif - else` 序列，只是更加简洁。  
-<span style="color:green">由于现代编译器的优化，在编译时将 `switch` 展开为 `if` 并不会导致低性能</span>
+<span style="color:green">由于现代编译器的优化，在编译期将 `switch` 展开为 `if` 并不会导致低性能</span>
 
 ```lumos
 switch (表达式) {

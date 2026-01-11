@@ -180,7 +180,7 @@ act[io.out] my_func(i32 arg) -> unit {
 
 ---
 
-- `@constexpr`: 声明函数为编译时常量表达式，可以在编译时求值。
+- `@constexpr`: 声明函数为编译期常量表达式，可以在编译期求值。
 - `@inline`: 强制内联函数，使函数在调用处展开，而不是 C 那样的建议内联。  
   inline 的函数不能被导出。  
   <span style="color:purple">无特殊需求不应该使用</span>

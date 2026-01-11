@@ -43,7 +43,7 @@ d[] = 2;  // error: 物理内存不可修改
 
 ### 变量声明 `lit` 不能修饰类型 (Literal - 编译期常量) {#lit-literal}
 
-* **语义**：仅存在于编译阶段。
+* **语义**：仅存在于编译期。
 * **内存**：不占用运行时内存地址，在所有使用处进行常量折叠或内联替换。
 
 ```lumos
@@ -222,7 +222,7 @@ while (a > 0) {
 
 对于一个变量，取到的值可以是：
 
-* 编译时能够确定的值（非 `volatile`）  
+* 编译期能够确定的值（非 `volatile`）  
   *<span style="color:orange">warning</span>: <span style="color:darkcyan">对于编译期可确定的值使用 `lit`</span>*
 * 上次修改后缓存的值（非 `volatile`）
 * 对应内存地址当前的值
@@ -253,7 +253,7 @@ println(a);    // 由于编译器的优化策略，可能输出 1 或 2
 
 对于一个常量，取到的值可以是：
 
-* 编译时能够确定的值（非 `volatile`）  
+* 编译期能够确定的值（非 `volatile`）  
   *<span style="color:orange">warning</span>: <span style="color:darkcyan">对于编译期可确定的值使用 `lit`</span>*
 * 作用域内任意位置缓存的值（非 `volatile`）
 * 对应内存地址当前的值
