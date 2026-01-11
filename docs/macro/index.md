@@ -12,7 +12,7 @@
 
 文件相关细节见 [文件操作](file.md) 与 [文件查找规则](filesearch.md)。
 
-# 在宏中嵌入代码 {#title-detail}
+## 在宏中嵌入代码 {#embed-code}
 
 ``#` code `#``
 
@@ -24,7 +24,7 @@ code3
 ```#
 ```
 
-#
+## 预处理指令 {#directives}
 
 - `#bof` 将此处设为文件头 (忽略文件上方部分)
 - `#eof` 将此处设为文件尾并结束预处理
@@ -37,7 +37,7 @@ code3
 - `#`
 - `#`
 
-# 自定义宏
+## 自定义宏 {#custom-macros}
 
 ```lumos
 // #macro 宏不能出现在单行多个宏中
@@ -66,7 +66,7 @@ code3
 #set xxx = 3
 
 #if xxx != 0
-# eof {#title-extra}
+# eof
 #end
 ```
 

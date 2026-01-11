@@ -99,10 +99,10 @@ act[io.out] my_func(i32 arg) -> unit {
   }
   ```
 
+  ```lumos
   for (val i : my_func(10)) {
     println(i);
   }
-
   ```
 
 - `@mt-lock`：
@@ -211,7 +211,8 @@ act[io.out] my_func(i32 arg) -> unit {
   对于循环的并行，循环体中不能修改外部变量，否则会导致数据竞争。
 
   ```lumos
-  for (var i in .[1, 2, 3, 4, 5]) {
+  @parallel
+  for (var i in $[1, 2, 3, 4, 5]) {
     // 并行执行
     // 不能修改外部状态
     barrier then {

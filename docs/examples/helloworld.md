@@ -4,7 +4,7 @@
 
 ```lumos: helloworld.lm```
 
-## 你好，循环
+## 你好，循环 {#hello-loop}
 
 ```lumos: helloloop.lm```
 
