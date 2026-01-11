@@ -6,13 +6,13 @@ act[io.out] main() -> i32 {
   switch (n) {
     1: { std.println("one"); }
     2: { std.println("two"); }
-    @default: { std.println("other"); }
+    else: { std.println("other"); }
   }
 
   match (n) {
     1: { std.println("match one"); }
     2: { std.println("match two"); }
-    @default: { std.println("match other"); }
+    else: { std.println("match other"); }
   }
 
   return 0;

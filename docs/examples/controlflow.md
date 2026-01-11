@@ -6,7 +6,7 @@
 ```lumos: controlflow.lm```
 
 `switch`/`match` 示例：
-展示基于值的 `switch` 与基于匹配的 `match`，二者都支持 `@default` 兜底分支，语法结构相近便于替换。
+展示基于值的 `switch` 与基于匹配的 `match`，二者都支持 `else` 兜底分支，语法结构相近便于替换。
 > 相关语法： [`switch`](../grammar/controlflow.md#switch)，[`match`](../grammar/controlflow.md#match)。
 
 ```lumos: switch_match.lm```
