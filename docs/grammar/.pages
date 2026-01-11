@@ -10,7 +10,6 @@ nav:
   - 函数系统:
       - 函数与纯度: function.md
       - 重载: overload.md
-      - 名字修饰: ../lexical/mangling.md
   - 控制流程:
       - 控制流: controlflow.md
       - 异常处理: exception.md
@@ -24,3 +23,6 @@ nav:
       - 模板与泛型: template.md
       - 特性/属性: attribute.md
       - 模块系统: modules.md
+  - 权限系统:
+      - 副作用权限系统: permission.md
+      - 权限清单: permissions.md

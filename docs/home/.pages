@@ -2,4 +2,5 @@ nav:
   - 主页: index.md
   - 项目概览: about.md
   - 当前状态: status.md
+  - 语法速览: syntax.md
   - 阅读路线: guide.md

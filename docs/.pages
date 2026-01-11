@@ -1,4 +1,5 @@
 nav:
+  # 首页不要显示，会自动跳转到 home 页面
   - 主页: home
   - 入门指南:
       - 概览: overview.md

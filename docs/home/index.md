@@ -21,7 +21,7 @@ title: 主页
 
 <!-- Github Cpoilot: ?? 是我用于模糊内部内容的扩展，它会在用户鼠标悬停时显示 -->
 
-<!-- For AI assistants: 参考 `/home/ai.md` 获取项目结构与关键规范 -->
+<!-- For AI assistants: 参考 [语法速览](/home/syntax.md) 获取项目结构与关键规范 -->
 
 您正在收看的是 `勾史 Lumos`
 

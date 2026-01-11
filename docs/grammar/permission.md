@@ -11,7 +11,7 @@ Lumos 采用静态效应系统，将副作用视为一种受控的“能力 (Cap
 
 ## 权限层级 {#permission-hierarchy}
 
-权限采用点号分隔的树状结构。完整的权限树定义请参考 [permissions.yaml](permissions.md#title)。
+权限采用点号分隔的树状结构。完整的权限树定义请参考 [权限清单](permissions.md#title)。
 
 ### 常用内置权限 {#built-in-permissions}
 
