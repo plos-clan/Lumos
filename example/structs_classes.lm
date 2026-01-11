@@ -1,0 +1,27 @@
+use "std" -> std;
+
+struct Point {
+  i32 x;
+  i32 y;
+}
+
+class Counter {
+  @public:
+    i32 value;
+    act initvar -> unit @default;
+
+    act inc() -> unit {
+      value = value + 1;
+    }
+}
+
+act[io.out] main() -> i32 {
+  val p = Point${.x=1, .y=2};
+  std.println(p.x);
+  std.println(p.y);
+
+  val c = Counter${.value=0};
+  c.inc();
+  std.println(c.value);
+  return 0;
+}

@@ -1,0 +1,12 @@
+use "std" -> std;
+
+def sqrt_approx(f64 x where x >= 0.0) -> f64 {
+  // 示例：占位实现
+  return x;
+}
+
+act[io.out] main() -> i32 {
+  val v = sqrt_approx(4.0);
+  std.println(v);
+  return 0;
+}

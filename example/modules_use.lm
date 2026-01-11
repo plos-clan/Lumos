@@ -1,0 +1,12 @@
+// 推荐使用 use 导入模块与命名空间
+use "std";          // 导入到默认命名空间
+use "std" -> std;   // 显式导入到 std 命名空间
+use "std" -> ::;    // 导入到根命名空间（不推荐）
+
+use std.println;     // 导入某个函数
+
+act[io.out] main() -> i32 {
+  println("Hello from root namespace");
+  std.println("Hello from std namespace");
+  return 0;
+}

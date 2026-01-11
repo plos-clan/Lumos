@@ -1,13 +1,6 @@
-// 直接将文件插入
+// 直接将文件插入（特殊用途，推荐优先使用 use）
 #include <xxxx.lh>
 #include "xxxx.lh"
-
-// 定义关键字
-#keyword bool value.bool.true
-#keyword bool type.bool
-#keyword u32 type.intsize
-#keyword u32 type.int32
-#keyword u32 type.uint32
 
 use "路径"; // 导入到根空间
 use "路径" -> ::; // 导入到根空间

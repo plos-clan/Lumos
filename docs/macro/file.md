@@ -6,6 +6,9 @@
 - `#include` 包含另一个文件的内容
 - `#import` 导入另一个文件的语法树
 
+`#include` 的尖括号/引号用法与 C 类似（用于区分搜索路径与当前文件）。  
+推荐优先使用 `use` 导入模块；`#include`/`#import` 仅用于特殊场景。
+
 ## 控制导入 {#include-control}
 
 ```lumos

@@ -1,0 +1,13 @@
+use "std" -> std;
+
+def add(i32 a, i32 b) -> i32 = a + b;
+
+fun compute(i32 x) -> i32 {
+  return add(x, 1);
+}
+
+act[io.out] main() -> i32 {
+  val value = compute(41);
+  std.println(value);
+  return 0;
+}

@@ -1,6 +1,6 @@
 # AI 速览 {#title}
 
-此页用于快速定位项目结构与关键规范。
+此页用于让 AI 快速掌握 Lumos 的语法与风格，能够直接写出正确示例。
 
 ## 关键入口 {#key-entries}
 
@@ -17,6 +17,7 @@
 
 - 函数纯度：`def`/`fun`/`act`（见 `docs/grammar/function.md`）。
 - 权限声明：`act[...]` 必须显式列出副作用权限（见 `docs/grammar/permission.md`）。
+- `unsafe fun` 必须写权限列表并提供尾随 `rollback`，仅 `unsafe fun[]` 可被 `fun` 调用（见 `docs/grammar/function.md`）。
 - 变量不可变层级：`val`/`imv`/`lit`（见 `docs/grammar/variable.md`）。
 - 模块导入关键字为 `use`（见 `docs/grammar/modules.md`）。
 
@@ -36,12 +37,90 @@
 - `\x` 插入 byte，`\u` 插入字符；普通字符串禁止 `\0`（字节串允许）。
 - `use "mod" -> ns` 导入模块到命名空间（见 `docs/grammar/modules.md`）。
 - `act[perm]` 权限树使用点号分层，支持组语法 `{}`（见 `docs/grammar/permission.md`）。
+- 数组用 `$[...]` 初始化，切片类型为 `[]T`，指针类型为 `[T]`（见 `docs/grammar/array.md`、`docs/grammar/type.md`）。
+- `where` 用于参数约束，必须是纯表达式（见 `docs/grammar/function.md`）。
+- 后置 `if` 与 `then` 可写成表达式式控制流（见 `docs/grammar/controlflow.md`）。
 
 ## 文档一致性约定 {#doc-conventions}
 
 - 例子默认使用 `i32`/`u32` 等类型，不使用 `int/long`。
 - 控制流与遍历语法以 `docs/grammar/controlflow.md` 为准。
 - 标准库接口以 `docs/std/*.md` 为准，示例需与接口表一致。
+
+## 快速模板 {#quick-templates}
+
+最小可运行程序：
+
+```lumos
+use "std" -> std;
+
+act[io.out] main() -> i32 {
+  std.println("Hello, Lumos!");
+  return 0;
+}
+```
+
+函数纯度与权限边界：
+
+```lumos
+def add(i32 a, i32 b) -> i32 = a + b;
+
+fun compute(i32 x) -> i32 {
+  return add(x, 1);
+}
+
+act[io.out] main() -> i32 {
+  std.println(compute(41));
+  return 0;
+}
+```
+
+`unsafe fun` 回滚语法（尾随 `rollback`，可访问函数体内变量）：
+
+```lumos
+unsafe fun[] next_id() -> i32 {
+  @static
+  var i32 counter = 0;
+  counter = counter + 1;
+  return counter;
+} rollback {
+  counter = counter - 1;
+}
+```
+
+闭包纯度与权限继承：
+
+```lumos
+def helper(i32 x) -> i32 {
+  val add_one = def (i32 y) -> i32 { return y + 1; };
+  return add_one(x);
+}
+
+act[io.out] main() -> i32 {
+  val logger = act (msg: string) -> unit { std.println(msg); };
+  logger("ok");
+  return 0;
+}
+```
+
+数组与切片：
+
+```lumos
+val arr = $[1, 2, 3, 4, 5];
+[]i32 s = arr[1..3];
+```
+
+异常处理：
+
+```lumos
+@exception(allow)
+act might_fail(i32 v) -> i32 { if (v < 0) throw "err"; return v; }
+
+act[io.out] main() -> i32 {
+  val v = might_fail(-1) or { return -1; };
+  return 0;
+}
+```
 
 ## 关键词指引 {#keyword-guide}
 

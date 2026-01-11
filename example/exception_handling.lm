@@ -1,0 +1,18 @@
+use "std" -> std;
+
+@exception(allow)
+act might_fail(i32 v) -> i32 {
+  if (v < 0) {
+    throw "negative";
+  }
+  return v;
+}
+
+act[io.out] main() -> i32 {
+  val value = might_fail(-1) or {
+    std.println("failed");
+    return -1;
+  };
+  std.println(value);
+  return 0;
+}

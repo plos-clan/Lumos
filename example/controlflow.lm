@@ -1,0 +1,30 @@
+use "std" -> std;
+
+act[io.out] main() -> i32 {
+  var i32 i = 0;
+  while (i < 3) {
+    std.println("while loop");
+    i++;
+  }
+
+  for (var i32 j = 0; j < 3; j++) {
+    std.println(j);
+  }
+
+  std.println("even") if 2 % 2 == 0;
+  1 < 2 then std.println("then branch");
+
+  if (i == 3) {
+    std.println("i == 3");
+  } elif (i == 4) {
+    std.println("i == 4");
+  } else {
+    std.println("other");
+  }
+
+  for (val v : 1 .. 3) {
+    std.println(v);
+  }
+
+  return 0;
+}

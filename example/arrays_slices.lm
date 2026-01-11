@@ -1,0 +1,12 @@
+use "std" -> std;
+
+act[io.out] main() -> i32 {
+  val arr = $[1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  []i32 s = arr[2..5]; // 切片：元素 3..5
+
+  std.println(s.len);
+  for (val v : s) {
+    std.println(v);
+  }
+  return 0;
+}

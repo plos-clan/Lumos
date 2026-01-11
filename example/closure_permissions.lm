@@ -1,0 +1,21 @@
+use "std" -> std;
+
+// def 作用域内只能定义 def 闭包
+def helper(i32 x) -> i32 {
+  val add_one = def (i32 y) -> i32 {
+    return y + 1;
+  };
+  return add_one(x);
+}
+
+act[io.out, fs.read] main() -> i32 {
+  // act 闭包省略权限时自动继承当前作用域
+  val logger = act (msg: string) -> unit {
+    std.println(msg);
+  };
+
+  val result = helper(41);
+  logger("result ready");
+  std.println(result);
+  return 0;
+}

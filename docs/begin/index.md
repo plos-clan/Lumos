@@ -11,4 +11,4 @@
 
 ---
 
-相关内容：示例代码见 [示例](../examples/helloworld.md)。
+相关内容：示例代码见 [示例](../examples/index.md)。
