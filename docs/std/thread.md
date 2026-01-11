@@ -63,7 +63,7 @@ fun num_cpus() -> usize;
 ### 互斥锁基础 {#mutex-basics}
 
 ```lumos
-\type> Mutex<typename T> {
+\type> Mutex</typename T/> {
     // 创建新互斥锁
     fun new(T value) -> \type> Mutex<T>;
 
@@ -98,7 +98,7 @@ act main() {
 读写锁允许多个读者或单个写者访问资源。
 
 ```lumos
-\type> RWLock<typename T> {
+\type> RWLock</typename T/> {
     // 创建读写锁
     fun new(T value) -> \type> RWLock<T>;
 
@@ -158,7 +158,7 @@ act main() {
 轻量级锁，线程在获取不到锁时持续自旋而不是阻塞。
 
 ```lumos
-\type> Spin<typename T> {
+\type> Spin</typename T/> {
     // 创建自旋锁
     fun new(T value) -> \type> Spin<T>;
 
@@ -175,7 +175,7 @@ act main() {
 提供原子操作，用于无锁同步。
 
 ```lumos
-\type> Atomic<typename T> {
+\type> Atomic</typename T/> {
     // 创建原子类型
     fun new(T value) -> \type> Atomic<T>;
 
@@ -204,7 +204,7 @@ act main() {
 用于线程间发送消息。
 
 ```lumos
-\type> Sender<typename T> {
+\type> Sender</typename T/> {
     // 发送消息（阻塞）
     act[sys.thread] send(T value) -> unit;
 
@@ -215,7 +215,7 @@ act main() {
     fun clone() -> \type> Sender<T>;
 }
 
-\type> Receiver<typename T> {
+\type> Receiver</typename T/> {
     // 接收消息（阻塞）
     act[sys.thread] recv() -> T;
 
@@ -227,7 +227,7 @@ act main() {
 }
 
 // 创建通道
-fun channel<typename T>() -> (Sender<T>, Receiver<T>);
+fun channel</typename T/>() -> (Sender<T>, Receiver<T>);
 ```
 
 ### 通道使用示例 {#examples}

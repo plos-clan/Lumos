@@ -6,35 +6,35 @@
 
 ```lumos
 // 查找元素首次出现的位置
-fun find<typename T>([T] data, T value) -> Option<usize>;
+fun find</typename T/>([T] data, T value) -> Option<usize>;
 
 // 查找最后一个匹配元素
-fun find_last<typename T>([T] data, T value) -> Option<usize>;
+fun find_last</typename T/>([T] data, T value) -> Option<usize>;
 
 // 使用谓词查找
-fun find_if<typename T>([T] data, fun[T -> bool] predicate) -> Option<usize>;
+fun find_if</typename T/>([T] data, fun[T -> bool] predicate) -> Option<usize>;
 
 // 统计元素出现次数
-fun count<typename T>([T] data, T value) -> usize;
+fun count</typename T/>([T] data, T value) -> usize;
 
 // 使用谓词统计
-fun count_if<typename T>([T] data, fun[T -> bool] predicate) -> usize;
+fun count_if</typename T/>([T] data, fun[T -> bool] predicate) -> usize;
 ```
 
 ### 二分搜索 {#search-algorithms-search}
 
 ```lumos
 // 二分查找（前提：数据已排序）
-fun binary_search<typename T>([T] data, T value) -> Option<usize>;
+fun binary_search</typename T/>([T] data, T value) -> Option<usize>;
 
 // 查找下界（第一个 >= value 的位置）
-fun lower_bound<typename T>([T] data, T value) -> usize;
+fun lower_bound</typename T/>([T] data, T value) -> usize;
 
 // 查找上界（第一个 > value 的位置）
-fun upper_bound<typename T>([T] data, T value) -> usize;
+fun upper_bound</typename T/>([T] data, T value) -> usize;
 
 // 等于范围（返回所有等于 value 的位置范围）
-fun equal_range<typename T>([T] data, T value) -> (usize, usize);
+fun equal_range</typename T/>([T] data, T value) -> (usize, usize);
 ```
 
 ## 排序算法 {#sort-algorithms}
@@ -43,51 +43,51 @@ fun equal_range<typename T>([T] data, T value) -> (usize, usize);
 
 ```lumos
 // 快速排序
-fun quicksort<typename T>(var [T] data) -> unit;
+fun quicksort</typename T/>(var [T] data) -> unit;
 
 // 快速排序（范围）
-fun quicksort_range<typename T>(var [T] data, usize start, usize end) -> unit;
+fun quicksort_range</typename T/>(var [T] data, usize start, usize end) -> unit;
 
 // 快速排序（自定义比较）
-fun quicksort_cmp<typename T>(
+fun quicksort_cmp</typename T/>(
     var [T] data,
     fun[T, T -> i32] cmp,
 ) -> unit;
 
 // 合并排序
-fun mergesort<typename T>(var [T] data) -> unit;
+fun mergesort</typename T/>(var [T] data) -> unit;
 
 // 堆排序
-fun heapsort<typename T>(var [T] data) -> unit;
+fun heapsort</typename T/>(var [T] data) -> unit;
 
 // 插入排序（小数组优化）
-fun insertion_sort<typename T>(var [T] data, usize n) -> unit;
+fun insertion_sort</typename T/>(var [T] data, usize n) -> unit;
 
 // 标准排序（自动选择最优算法）
-fun sort<typename T>(var [T] data) -> unit;
+fun sort</typename T/>(var [T] data) -> unit;
 
 // 稳定排序
-fun stable_sort<typename T>(var [T] data) -> unit;
+fun stable_sort</typename T/>(var [T] data) -> unit;
 ```
 
 ### 部分排序 {#sort}
 
 ```lumos
 // 只排序前 n 个元素
-fun partial_sort<typename T>(var [T] data, usize n) -> unit;
+fun partial_sort</typename T/>(var [T] data, usize n) -> unit;
 
 // 排序并找出 n 个最小元素
-fun nth_element<typename T>(var [T] data, usize n) -> unit;
+fun nth_element</typename T/>(var [T] data, usize n) -> unit;
 ```
 
 ### 排序检查 {#sort-check}
 
 ```lumos
 // 检查是否已排序
-fun is_sorted<typename T>([T] data) -> bool;
+fun is_sorted</typename T/>([T] data) -> bool;
 
 // 检查是否已排序（自定义比较）
-fun is_sorted_cmp<typename T>([T] data, fun[T, T -> bool] cmp) -> bool;
+fun is_sorted_cmp</typename T/>([T] data, fun[T, T -> bool] cmp) -> bool;
 ```
 
 ## 变换算法 {#transform-algorithms}
@@ -96,54 +96,54 @@ fun is_sorted_cmp<typename T>([T] data, fun[T, T -> bool] cmp) -> bool;
 
 ```lumos
 // 对每个元素应用函数
-fun for_each<typename T>([T] data, act[T -> unit] f) -> unit;
+fun for_each</typename T/>([T] data, act[T -> unit] f) -> unit;
 
 // 变换元素
-fun \type> map<typename T, typename U>([T] data, fun[T -> U] f) -> [U];
+fun \type> map</typename T, typename U/>([T] data, fun[T -> U] f) -> [U];
 
 // 原地变换
-fun transform<typename T>([T] data, fun[T -> T] f) -> unit;
+fun transform</typename T/>([T] data, fun[T -> T] f) -> unit;
 
 // 复制并变换
-fun \type> copy_if<typename T>([T] data, fun[T -> bool] predicate) -> [T];
+fun \type> copy_if</typename T/>([T] data, fun[T -> bool] predicate) -> [T];
 ```
 
 ### 填充与赋值 {#fill-assign}
 
 ```lumos
 // 用值填充容器
-fun fill<typename T>(var [T] data, T value) -> unit;
+fun fill</typename T/>(var [T] data, T value) -> unit;
 
 // 用函数结果填充
-fun generate<typename T>(var [T] data, fun[-> T] f) -> unit;
+fun generate</typename T/>(var [T] data, fun[-> T] f) -> unit;
 
 // 复制
-fun \type> copy<typename T>([T] src) -> [T];
+fun \type> copy</typename T/>([T] src) -> [T];
 
 // 反向复制
-fun \type> copy_backward<typename T>([T] src) -> [T];
+fun \type> copy_backward</typename T/>([T] src) -> [T];
 
 // 移动
-fun move<typename T>(var [T] src, var [T] dst, usize count) -> unit;
+fun move</typename T/>(var [T] src, var [T] dst, usize count) -> unit;
 ```
 
 ### 反转和旋转 {#reverse-rotate}
 
 ```lumos
 // 反转元素顺序
-fun reverse<typename T>(var [T] data) -> unit;
+fun reverse</typename T/>(var [T] data) -> unit;
 
 // 旋转元素
-fun rotate<typename T>(var [T] data, usize pivot) -> unit;
+fun rotate</typename T/>(var [T] data, usize pivot) -> unit;
 
 // 随机打乱
-fun shuffle<typename T>(var [T] data) -> unit;
+fun shuffle</typename T/>(var [T] data) -> unit;
 
 // 下一个排列
-fun next_permutation<typename T>(var [T] data) -> bool;
+fun next_permutation</typename T/>(var [T] data) -> bool;
 
 // 前一个排列
-fun prev_permutation<typename T>(var [T] data) -> bool;
+fun prev_permutation</typename T/>(var [T] data) -> bool;
 ```
 
 ## 比较与合并 {#comparison-merge}
@@ -152,64 +152,64 @@ fun prev_permutation<typename T>(var [T] data) -> bool;
 
 ```lumos
 // 比较两个序列
-fun compare<typename T>([T] a, [T] b) -> i32;  // 返回 -1, 0, 1
+fun compare</typename T/>([T] a, [T] b) -> i32;  // 返回 -1, 0, 1
 
 // 检查相等
-fun equal<typename T>([T] a, [T] b) -> bool;
+fun equal</typename T/>([T] a, [T] b) -> bool;
 
 // 字典序比较
-fun lexicographical_compare<typename T>([T] a, [T] b) -> bool;
+fun lexicographical_compare</typename T/>([T] a, [T] b) -> bool;
 
 // 找出第一个不同的位置
-fun mismatch<typename T>([T] a, [T] b) -> Option<usize>;
+fun mismatch</typename T/>([T] a, [T] b) -> Option<usize>;
 ```
 
 ### 集合操作 {#set-ops}
 
 ```lumos
 // 集合并集
-fun set_union<typename T>([T] a, [T] b) -> [T];
+fun set_union</typename T/>([T] a, [T] b) -> [T];
 
 // 集合交集
-fun set_intersection<typename T>([T] a, [T] b) -> [T];
+fun set_intersection</typename T/>([T] a, [T] b) -> [T];
 
 // 集合差
-fun set_difference<typename T>([T] a, [T] b) -> [T];
+fun set_difference</typename T/>([T] a, [T] b) -> [T];
 
 // 对称差
-fun set_symmetric_difference<typename T>([T] a, [T] b) -> [T];
+fun set_symmetric_difference</typename T/>([T] a, [T] b) -> [T];
 
 // 包含关系检查
-fun includes<typename T>([T] haystack, [T] needle) -> bool;
+fun includes</typename T/>([T] haystack, [T] needle) -> bool;
 ```
 
 ### 合并 {#merge}
 
 ```lumos
 // 合并两个已排序的序列
-fun merge<typename T>([T] a, [T] b) -> [T];
+fun merge</typename T/>([T] a, [T] b) -> [T];
 
 // 原地合并
-fun merge_inplace<typename T>(var [T] data, usize mid) -> unit;
+fun merge_inplace</typename T/>(var [T] data, usize mid) -> unit;
 
 // 连接
-fun concat<typename T>([T] a, [T] b) -> [T];
+fun concat</typename T/>([T] a, [T] b) -> [T];
 ```
 
 ## 分区 {#partition}
 
 ```lumos
 // 分区：将满足条件的元素移到前面
-fun partition<typename T>(var [T] data, fun[T -> bool] predicate) -> usize;
+fun partition</typename T/>(var [T] data, fun[T -> bool] predicate) -> usize;
 
 // 稳定分区
-fun stable_partition<typename T>(var [T] data, fun[T -> bool] predicate) -> usize;
+fun stable_partition</typename T/>(var [T] data, fun[T -> bool] predicate) -> usize;
 
 // 检查是否已分区
-fun is_partitioned<typename T>([T] data, fun[T -> bool] predicate) -> bool;
+fun is_partitioned</typename T/>([T] data, fun[T -> bool] predicate) -> bool;
 
 // 找到分区点
-fun partition_point<typename T>([T] data, fun[T -> bool] predicate) -> usize;
+fun partition_point</typename T/>([T] data, fun[T -> bool] predicate) -> usize;
 ```
 
 ## 数值算法 {#numeric-algorithms}
@@ -218,54 +218,54 @@ fun partition_point<typename T>([T] data, fun[T -> bool] predicate) -> usize;
 
 ```lumos
 // 累积求和
-fun accumulate<typename T>([T] data, T init) -> T;
+fun accumulate</typename T/>([T] data, T init) -> T;
 
 // 前缀和
-fun partial_sum<typename T>([T] data) -> [T];
+fun partial_sum</typename T/>([T] data) -> [T];
 
 // 相邻元素的差
-fun adjacent_difference<typename T>([T] data) -> [T];
+fun adjacent_difference</typename T/>([T] data) -> [T];
 
 // 规约/折叠
-fun reduce<typename T>([T] data, T init, fun[T, T -> T] op) -> T;
+fun reduce</typename T/>([T] data, T init, fun[T, T -> T] op) -> T;
 ```
 
 ### 最大最小值 {#min-max}
 
 ```lumos
 // 查找最小值
-fun min<typename T>([T] data) -> T;
+fun min</typename T/>([T] data) -> T;
 
 // 查找最大值
-fun max<typename T>([T] data) -> T;
+fun max</typename T/>([T] data) -> T;
 
 // 查找最小最大值
-fun minmax<typename T>([T] data) -> (T, T);
+fun minmax</typename T/>([T] data) -> (T, T);
 
 // 查找最小值位置
-fun min_element<typename T>([T] data) -> usize;
+fun min_element</typename T/>([T] data) -> usize;
 
 // 查找最大值位置
-fun max_element<typename T>([T] data) -> usize;
+fun max_element</typename T/>([T] data) -> usize;
 
 // 带自定义比较的最大值
-fun max_element_cmp<typename T>([T] data, fun[T, T -> bool] cmp) -> usize;
+fun max_element_cmp</typename T/>([T] data, fun[T, T -> bool] cmp) -> usize;
 ```
 
 ### 求和与积 {#sum-product}
 
 ```lumos
 // 求和
-fun sum<typename T>([T] data) -> T;
+fun sum</typename T/>([T] data) -> T;
 
 // 乘积
-fun product<typename T>([T] data) -> T;
+fun product</typename T/>([T] data) -> T;
 
 // 加权和
-fun weighted_sum<typename T>([T] data, [T] weights) -> T;
+fun weighted_sum</typename T/>([T] data, [T] weights) -> T;
 
 // 点积
-fun dot_product<typename T>([T] a, [T] b) -> T;
+fun dot_product</typename T/>([T] a, [T] b) -> T;
 ```
 
 ## 使用示例 {#examples}

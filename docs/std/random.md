@@ -10,16 +10,16 @@ Lumos 提供高效的伪随机数生成（PRNG）支持，采用梅森旋转算�
 
 ```lumos
 // 使用整数种子初始化
-act[sys.random] srand(i32 seed) -> unit;
-act[sys.random] srand(i64 seed) -> unit;
-act[sys.random] srand(u32 seed) -> unit;
-act[sys.random] srand(u64 seed) -> unit;
+act[sys.rand] srand(i32 seed) -> unit;
+act[sys.rand] srand(i64 seed) -> unit;
+act[sys.rand] srand(u32 seed) -> unit;
+act[sys.rand] srand(u64 seed) -> unit;
 
 // 使用系统时间初始化（自动）
-act[sys.random] srand_auto() -> unit;
+act[sys.rand] srand_auto() -> unit;
 
 // 使用设备随机性初始化
-act[sys.random] srand_secure() -> unit;
+act[sys.rand] srand_secure() -> unit;
 ```
 
 ### 整数随机数 {#int-random}

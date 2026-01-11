@@ -72,33 +72,33 @@ fun memcmp_n([unit] a, [unit] b, usize n) -> i32;
 
 ```lumos
 // 获取地址
-fun address_of<typename T>(T value) -> [T];
+fun address_of</typename T/>(T value) -> [T];
 
 // 解引用指针
-fun deref<typename T>([T] ptr) -> T;
+fun deref</typename T/>([T] ptr) -> T;
 
 // 指针算术
-fun \type> ptr_add<typename T>([T] ptr, usize offset) -> [T];
-fun \type> ptr_sub<typename T>([T] ptr, usize offset) -> [T];
+fun \type> ptr_add</typename T/>([T] ptr, usize offset) -> [T];
+fun \type> ptr_sub</typename T/>([T] ptr, usize offset) -> [T];
 
 // 指针偏移量
-fun offset_of<typename T>(usize field_offset) -> usize;
+fun offset_of</typename T/>(usize field_offset) -> usize;
 
 // 对齐信息
-fun align_of<typename T>() -> usize;
+fun align_of</typename T/>() -> usize;
 ```
 
 ### 空指针检查 {#pointer}
 
 ```lumos
 // 检查指针是否为空
-fun is_null<typename T>([T] ptr) -> bool;
+fun is_null</typename T/>([T] ptr) -> bool;
 
 // 获取空指针
-fun null<typename T>() -> [T];
+fun null</typename T/>() -> [T];
 
 // 有效指针检查
-fun is_valid<typename T>([T] ptr) -> bool;
+fun is_valid</typename T/>([T] ptr) -> bool;
 ```
 
 ## 内存分配 {#memory-alloc}
@@ -129,7 +129,7 @@ act[sys.mem] aligned_alloc(usize alignment, usize size) -> [unit];
 fun alloca(usize size) -> [unit];
 
 // 可变长栈数组（VLA）
-fun vla<typename T>(usize count) -> [T];
+fun vla</typename T/>(usize count) -> [T];
 ```
 
 ## 内存布局和对齐 {#memory-layout-alignment}
@@ -138,10 +138,10 @@ fun vla<typename T>(usize count) -> [T];
 
 ```lumos
 // 获取类型大小（字节）
-fun sizeof<typename T>() -> usize;
+fun sizeof</typename T/>() -> usize;
 
 // 获取类型对齐要求
-fun alignof<typename T>() -> usize;
+fun alignof</typename T/>() -> usize;
 
 // 获取布局信息
 \type> Layout {
@@ -150,7 +150,7 @@ fun alignof<typename T>() -> usize;
     fun padding() -> usize;
 }
 
-fun layout_of<typename T>() -> \type> Layout;
+fun layout_of</typename T/>() -> \type> Layout;
 ```
 
 ### 字段偏移 {#field-offsets}
@@ -168,7 +168,7 @@ fun offset_of_field(str struct_name, str field_name) -> usize;
 ### 引用计数指针 Rc {#rc}
 
 ```lumos
-\type> Rc<typename T> {
+\type> Rc</typename T/> {
     // 创建
     fun new(T value) -> \type> Rc<T>;
 
@@ -189,7 +189,7 @@ fun offset_of_field(str struct_name, str field_name) -> usize;
 ### 可变引用计数指针 Arc（原子） {#arc}
 
 ```lumos
-\type> Arc<typename T> {
+\type> Arc</typename T/> {
     // 创建
     fun new(T value) -> \type> Arc<T>;
 
@@ -210,7 +210,7 @@ fun offset_of_field(str struct_name, str field_name) -> usize;
 ### 唯一指针 Box {#box}
 
 ```lumos
-\type> Box<typename T> {
+\type> Box</typename T/> {
     // 创建
     fun new(T value) -> \type> Box<T>;
 
@@ -231,7 +231,7 @@ fun offset_of_field(str struct_name, str field_name) -> usize;
 
 ```lumos
 // 检查悬垂指针
-fun is_dangling<typename T>([T] ptr) -> bool;
+fun is_dangling</typename T/>([T] ptr) -> bool;
 
 // 获取指针指向的对象生命周期状态
 \type> LifetimeInfo {
@@ -240,7 +240,7 @@ fun is_dangling<typename T>([T] ptr) -> bool;
     fun allocation_time() -> i64;
 }
 
-fun lifetime_info<typename T>([T] ptr) -> \type> LifetimeInfo;
+fun lifetime_info</typename T/>([T] ptr) -> \type> LifetimeInfo;
 ```
 
 ### 内存泄漏检测 {#memory-leak-detect}

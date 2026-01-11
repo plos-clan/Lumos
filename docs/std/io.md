@@ -118,13 +118,13 @@ scanf("%c", ch);         // 读字符
 
 ```lumos
 // 通用扫描（类型推导）
-act[io.in] scan<typename T>() -> T;
+act[io.in] scan</typename T/>() -> T;
 
 // 扫描带默认值
-act[io.in] scan_or<typename T>(T default) -> T;
+act[io.in] scan_or</typename T/>(T default) -> T;
 
 // 扫描多个值
-act[io.in] scan_tuple<typename ...T>() -> (...T);
+act[io.in] scan_tuple</typename ...T/>() -> (...T);
 ```
 
 使用示例：

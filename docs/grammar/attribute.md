@@ -144,7 +144,7 @@ act[io.out] my_func(i32 arg) -> unit {
 
   ```lumos
   @thiscall
-  act[obj.write] my_func(MyClass, int value) {
+  act my_func(MyClass, int value) {
   }
   ```
 

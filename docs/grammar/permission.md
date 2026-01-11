@@ -126,7 +126,7 @@ act[io.out, fs.read, fs.write] main() {
 
 ### 效应多态 (%) {#polymorphism}
 
-使用 `%` 占位符处理高阶函数，实现权限透明转发。编译器会自动追踪通过闭包参数传入的权限需求，无需在高阶函数签名中显式列举所有可能的权限。
+使用 `%` 占位符处理高阶函数，实现权限透明转发。编译器会自动追踪通过闭包参数传入的权限需求，无需在高阶函数自身的权限列表中显式列举所有可能的权限。
 
 #### 核心机制 {#core-mechanism}
 
@@ -135,12 +135,12 @@ act[io.out, fs.read, fs.write] main() {
 **关键点**：
 
 - 闭包参数 `act[%]` 表示接收任意权限的闭包
-- 高阶函数可不显式声明权限，直接接收闭包权限
+- 高阶函数只声明自身会用到的权限，不需要额外添加 `[%]`
 - 编译器在调用点自动验证权限充足性
 
 ```lumos
 // 日志包装器：无需显式列举权限
-act[io.out, %] logger_wrap(act[%] f) -> unit {
+act[io.out] logger_wrap(act[%] f) -> unit {
     println("Log: calling closure");
     f(); // 闭包权限由调用方提供
     println("Log: closure completed");
@@ -161,7 +161,7 @@ act[io.out, fs.write] main() {
 
 ```lumos
 // 通用 map：闭包自动继承调用方权限
-act[io.out, %] array_map</typename T, typename U/>(
+act array_map</typename T, typename U/>(
     []T arr,
     act[%] (T) -> U transformer
 ) -> [100]U {
@@ -190,7 +190,7 @@ act[io.out] main() {
 
 ```lumos
 // 高阶函数要求闭包是纯函数（无权限）
-act[io.out, fs.write, %] safe_map</typename T, typename U/>(
+act safe_map</typename T, typename U/>(
     []T arr,
     act[] (T) -> U pure_fn  // 仅接受纯闭包
 ) -> [100]U {
@@ -219,7 +219,7 @@ act[io.out, fs.write] main() {
 
 ```lumos
 // 并行执行：只需声明一个 %，编译器自动推断有两个闭包
-act[%] parallel_execute(
+act parallel_execute(
     act[%] task_a,
     act[%] task_b
 ) -> unit {
@@ -245,7 +245,7 @@ act[io.out, fs.read, fs.write] main() {
 
 **自动推断规则**：
 
-- 只需在高阶函数签名中声明一个 `%`
+- 只需在闭包参数中使用 `act[%]`
 - 编译器自动统计函数中有多少个 `act[%]` 参数
 - 每个闭包的权限独立追踪，编译器在调用点验证每个闭包的权限充足性
 

@@ -63,6 +63,10 @@ sys:
     +desc: "Direct memory access or specialized allocation"
   time:
     +desc: "Access or modify system time"
+  rand:
+    +desc: "Random number generation"
+  thread:
+    +desc: "Thread and concurrency operations"
   info:
     +desc: "Access system information (OS, CPU, etc.)"
 

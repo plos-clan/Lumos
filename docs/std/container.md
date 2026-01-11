@@ -67,7 +67,7 @@ fun contains(T value) -> bool;
 fun find(T value) -> Option<usize>;
 
 // 遍历容器
-fun for_each(act[sys.fn] f) -> unit;
+fun for_each(act[%] f) -> unit;
 
 // 克隆容器
 fun clone() -> T;
@@ -116,7 +116,7 @@ fun \type> to_string() -> str;
 所有容器都提供迭代器支持。
 
 ```lumos
-\type> Iterator<typename T> {
+\type> Iterator</typename T/> {
     // 检查是否有下一个元素
     fun has_next() -> bool;
 
@@ -165,7 +165,7 @@ act main() {
 ### 数组 Array {#array}
 
 ```lumos
-\type> Array<typename T, usize N> {
+\type> Array</typename T, usize N/> {
     fun new() -> \type> Array<T, N>;
     fun from([T] slice) -> \type> Array<T, N>;
 }
@@ -184,7 +184,7 @@ arr[0] = 10;
 ### 列表 List {#list}
 
 ```lumos
-\type> List<typename T> {
+\type> List</typename T/> {
     fun new() -> \type> List<T>;
     fun with_capacity(usize cap) -> \type> List<T>;
 }
@@ -206,7 +206,7 @@ list.push(3);
 ### 链表 LinkedList {#linked-list}
 
 ```lumos
-\type> LinkedList<typename T> {
+\type> LinkedList</typename T/> {
     fun new() -> \type> LinkedList<T>;
 }
 
@@ -224,7 +224,7 @@ list.push_front(0);
 ### 队列 Queue {#queue}
 
 ```lumos
-\type> Queue<typename T> {
+\type> Queue</typename T/> {
     fun new() -> \type> Queue<T>;
 
     // 入队
@@ -251,7 +251,7 @@ i32 x = q.pop(); // x = 1
 ### 栈 Stack {#stack}
 
 ```lumos
-\type> Stack<typename T> {
+\type> Stack</typename T/> {
     fun new() -> \type> Stack<T>;
 
     // 压栈
@@ -282,7 +282,7 @@ i32 x = stack.pop(); // x = 2
 ### 哈希集 HashSet {#hash-set}
 
 ```lumos
-\type> HashSet<typename T> {
+\type> HashSet</typename T/> {
     fun new() -> \type> HashSet<T>;
     fun with_capacity(usize cap) -> \type> HashSet<T>;
     fun insert(T x) -> bool;         // 返回是否插入成功
@@ -309,7 +309,7 @@ bool found = set.contains(1);
 ### 集合 Set {#set}
 
 ```lumos
-\type> Set<typename T> {
+\type> Set</typename T/> {
     fun new() -> \type> Set<T>;
     fun insert(T x) -> bool;
     fun remove(T x) -> bool;
@@ -333,14 +333,14 @@ set.insert(2);  // 自动排序：1, 2, 3
 ### 优先队列 PriorityQueue {#priority-queue}
 
 ```lumos
-\type> MinPQ<typename T> {  // 最小堆
+\type> MinPQ</typename T/> {  // 最小堆
     fun new() -> \type> MinPQ<T>;
     fun push(T x) -> unit;
     fun pop() -> T;
     fun top() -> T;
 }
 
-\type> MaxPQ<typename T> {  // 最大堆
+\type> MaxPQ</typename T/> {  // 最大堆
     fun new() -> \type> MaxPQ<T>;
     fun push(T x) -> unit;
     fun pop() -> T;
@@ -367,7 +367,7 @@ i32 min = pq.pop();  // min = 1
 ### 数组映射 ArrayMap {#array-map}
 
 ```lumos
-\type> ArrayMap<typename K, typename V, usize N> {
+\type> ArrayMap</typename K, typename V, usize N/> {
     fun new() -> \type> ArrayMap<K, V, N>;
     fun set(K key, V value) -> unit;
     fun get(K key) -> Option<V>;
@@ -382,7 +382,7 @@ i32 min = pq.pop();  // min = 1
 ### 列表映射 ListMap {#list-map}
 
 ```lumos
-\type> ListMap<typename K, typename V> {
+\type> ListMap</typename K, typename V/> {
     fun new() -> \type> ListMap<K, V>;
     fun set(K key, V value) -> unit;
     fun get(K key) -> Option<V>;
@@ -397,7 +397,7 @@ i32 min = pq.pop();  // min = 1
 ### 链表映射 LinkedListMap {#linked-list-map}
 
 ```lumos
-\type> LinkedListMap<typename K, typename V> {
+\type> LinkedListMap</typename K, typename V/> {
     fun new() -> \type> LinkedListMap<K, V>;
     fun set(K key, V value) -> unit;
     fun get(K key) -> Option<V>;
@@ -416,7 +416,7 @@ i32 min = pq.pop();  // min = 1
 ### 哈希映射 HashMap {#hash-map}
 
 ```lumos
-\type> HashMap<typename K, typename V> {
+\type> HashMap</typename K, typename V/> {
     fun new() -> \type> HashMap<K, V>;
     fun with_capacity(usize cap) -> \type> HashMap<K, V>;
     fun set(K key, V value) -> unit;
@@ -446,7 +446,7 @@ Option<i32> age = map.get("age");
 ### 映射 Map {#map}
 
 ```lumos
-\type> Map<typename K, typename V> {
+\type> Map</typename K, typename V/> {
     fun new() -> \type> Map<K, V>;
     fun set(K key, V value) -> unit;
     fun get(K key) -> Option<V>;

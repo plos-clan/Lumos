@@ -51,7 +51,7 @@ fun my_func(obj arg1 @lock-type) -> unit {
 !!! warning "优先考虑使用重载与模板"
 
     ```lumos
-    @<typename T>
+    @</typename T/>
     fun my_func(var T arg1) -> unit {
       arg1 = 1;
     }
