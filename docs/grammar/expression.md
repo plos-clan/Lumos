@@ -97,6 +97,28 @@ def my_add(i32 a, i32 b) -> i32 {
 
 *明显不能出现指向表达式的指针 `let*`*
 
+## 类型与状态判断 `is` {#is}
+
+`is` 用于判断一个值是否为某个类型，或对象是否处于某个状态。
+
+```lumos
+if (a is i32) {
+    println("a is an integer");
+}
+```
+
+状态判断通过对象中定义的 `is_状态名` 变量或函数实现。
+
+```lumos
+if (a is empty) {
+    println("a is empty");
+}
+
+if (a.is_empty) {
+    println("a is empty");
+}
+```
+
 ---
 
 相关内容：类型转换规则见 [类型系统](type.md#types)。
