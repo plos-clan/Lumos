@@ -1,8 +1,8 @@
-# 声明 (Declaration)
+# 声明 (Declaration) {#title}
 
 本页定义了顶层声明及各类定义结构。
 
-## 顶层声明 `Decl`
+## 顶层声明 `Decl` {#decl}
 
 ```rust
 pub enum Decl {
@@ -36,7 +36,7 @@ pub enum Decl {
 }
 ```
 
-## 函数声明 `FunctionDecl`
+## 函数声明 `FunctionDecl` {#function-decl}
 
 ```rust
 pub struct FunctionDecl {
@@ -55,7 +55,7 @@ pub struct FunctionDecl {
 }
 ```
 
-## 变量声明 `VariableDecl`
+## 变量声明 `VariableDecl` {#variable-decl}
 
 ```rust
 pub struct VariableDecl {
@@ -67,7 +67,7 @@ pub struct VariableDecl {
 }
 ```
 
-## 类与结构体声明
+## 类与结构体声明 {#struct-declaration}
 
 ```rust
 pub struct ClassDecl {
@@ -96,7 +96,7 @@ pub enum MemberKind {
 }
 ```
 
-## 枚举声明 `EnumDecl`
+## 枚举声明 `EnumDecl` {#enum-decl}
 
 ```rust
 pub struct EnumDecl {
@@ -111,7 +111,7 @@ pub struct EnumVariant {
 }
 ```
 
-## 模块声明 `ModuleDecl`
+## 模块声明 `ModuleDecl` {#module-decl}
 
 ```rust
 pub struct ModuleDecl {
@@ -122,4 +122,4 @@ pub struct ModuleDecl {
 
 ---
 
-相关内容：声明语法见 [语法/函数](../grammar/function.md#functions)。
+相关内容：声明语法见 [语法/函数](../grammar/function.md#title)。

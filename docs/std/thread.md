@@ -1,12 +1,12 @@
-# 线程库 `std.thread`
+# 线程库 `std.thread` {#title}
 
-## 基础概念
+## 基础概念 {#basics}
 
 线程是操作系统能够进行运算调度的最小单位。Lumos 提供了安全的并发编程接口，支持创建、同步和管理线程。
 
-## 线程创建与管理
+## 线程创建与管理 {#thread-create}
 
-### 创建线程
+### 创建线程 {#create-thread}
 
 ```lumos
 // 创建新线程
@@ -19,7 +19,7 @@ act[sys.thread] spawn(act[sys.thread] f, ...) -> \type> Thread;
 act[sys.thread] spawn_with_name(str name, act[sys.thread] f) -> \type> Thread;
 ```
 
-### 线程操作
+### 线程操作 {#thread-ops}
 
 ```lumos
 \type> Thread {
@@ -40,7 +40,7 @@ act[sys.thread] spawn_with_name(str name, act[sys.thread] f) -> \type> Thread;
 }
 ```
 
-### 当前线程操作
+### 当前线程操作 {#thread-create-thread-ops}
 
 ```lumos
 // 获取当前线程
@@ -56,11 +56,11 @@ act[sys.thread] yield() -> unit;
 fun num_cpus() -> usize;
 ```
 
-## 互斥锁（Mutex）
+## 互斥锁（Mutex） {#mutex}
 
 互斥锁用于保护共享资源，确保同一时间只有一个线程访问。
 
-### 互斥锁基础
+### 互斥锁基础 {#mutex-basics}
 
 ```lumos
 \type> Mutex<typename T> {
@@ -78,7 +78,7 @@ fun num_cpus() -> usize;
 }
 ```
 
-### 使用互斥锁
+### 使用互斥锁 {#usage-mutex}
 
 ```lumos
 use std.thread.*;
@@ -93,7 +93,7 @@ act main() {
 }
 ```
 
-## 读写锁（RWLock）
+## 读写锁（RWLock） {#rw-lock}
 
 读写锁允许多个读者或单个写者访问资源。
 
@@ -116,7 +116,7 @@ act main() {
 }
 ```
 
-## 条件变量（Condvar）
+## 条件变量（Condvar） {#condvar}
 
 条件变量用于线程间的通信和同步。
 
@@ -139,7 +139,7 @@ act main() {
 }
 ```
 
-## 屏障（Barrier）
+## 屏障（Barrier） {#barrier}
 
 屏障用于同步一组线程。
 
@@ -153,7 +153,7 @@ act main() {
 }
 ```
 
-## 自旋锁（Spin）
+## 自旋锁（Spin） {#spin}
 
 轻量级锁，线程在获取不到锁时持续自旋而不是阻塞。
 
@@ -170,7 +170,7 @@ act main() {
 }
 ```
 
-## 原子类型（Atomic）
+## 原子类型（Atomic） {#atomic}
 
 提供原子操作，用于无锁同步。
 
@@ -199,7 +199,7 @@ act main() {
 }
 ```
 
-## 通道（Channel）
+## 通道（Channel） {#channel}
 
 用于线程间发送消息。
 
@@ -230,7 +230,7 @@ act main() {
 fun channel<typename T>() -> (Sender<T>, Receiver<T>);
 ```
 
-### 通道使用示例
+### 通道使用示例 {#examples}
 
 ```lumos
 use std.thread.*;
@@ -247,7 +247,7 @@ act main() {
 }
 ```
 
-## 线程池
+## 线程池 {#thread}
 
 提供线程池用于高效处理异步任务。
 
@@ -267,7 +267,7 @@ act main() {
 }
 ```
 
-## 同步原语速查表
+## 同步原语速查表 {#sync-primitives-cheatsheet}
 
 | 类型 | 用途 | 读多写少 | 高竞争 | 无阻塞 |
 |------|------|---------|--------|--------|
@@ -277,7 +277,7 @@ act main() {
 | Atomic | 无锁同步 | ✓ | ✓ | ✓ |
 | Channel | 消息传递 | - | - | ✓ |
 
-## 最佳实践
+## 最佳实践 {#best-practices}
 
 1. **优先使用消息传递**而非共享内存
 2. **避免嵌套锁获取**以防死锁
@@ -287,4 +287,4 @@ act main() {
 
 ---
 
-相关内容：权限系统见 [副作用权限系统](../grammar/permission.md#permission-system-side-effect-permission-system)。
+相关内容：权限系统见 [副作用权限系统](../grammar/permission.md#title)。

@@ -1,6 +1,6 @@
-# 你好世界
+# 你好世界 {#title}
 
-## 你好，世界
+## 你好，世界 {#hello-world}
 
 ```lumos: helloworld.lm```
 
@@ -8,7 +8,7 @@
 
 ```lumos: helloloop.lm```
 
-## 你好，函数
+## 你好，函数 {#hello-function}
 
 ```lumos: hellofunc.lm```
 

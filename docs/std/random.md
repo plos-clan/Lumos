@@ -1,12 +1,12 @@
-# 随机数 `std.random`
+# 随机数 `std.random` {#title}
 
-## 基础概念
+## 基础概念 {#basics}
 
 Lumos 提供高效的伪随机数生成（PRNG）支持，采用梅森旋转算法实现，具有良好的统计特性和性能。
 
-## 全局随机数函数
+## 全局随机数函数 {#global-rng}
 
-### 初始化种子
+### 初始化种子 {#init-seed}
 
 ```lumos
 // 使用整数种子初始化
@@ -22,7 +22,7 @@ act[sys.random] srand_auto() -> unit;
 act[sys.random] srand_secure() -> unit;
 ```
 
-### 整数随机数
+### 整数随机数 {#int-random}
 
 ```lumos
 // 生成随机整数 [0, INT_MAX]
@@ -43,7 +43,7 @@ fun rand_range_u64(u64 min, u64 max) -> u64;
 fun randbits(usize n) -> u64;
 ```
 
-### 浮点随机数
+### 浮点随机数 {#floats-random}
 
 ```lumos
 // 生成 [0, 1) 范围的浮点数
@@ -63,7 +63,7 @@ fun randn_normal(f32 mean, f32 stddev) -> f32;
 fun randn_normal64(f64 mean, f64 stddev) -> f64;
 ```
 
-### 布尔随机数
+### 布尔随机数 {#bool-random}
 
 ```lumos
 // 生成随机布尔值
@@ -73,11 +73,11 @@ fun randb() -> bool;
 fun randb_prob(f32 p) -> bool;
 ```
 
-## 随机数生成器类
+## 随机数生成器类 {#random}
 
 对于需要维持独立随机数状态的场景，可以使用 RNG 类。
 
-### RNG 类定义
+### RNG 类定义 {#rng}
 
 ```lumos
 \type> RNG {
@@ -95,7 +95,7 @@ fun randb_prob(f32 p) -> bool;
 }
 ```
 
-### RNG 方法
+### RNG 方法 {#random-rng}
 
 ```lumos
 \type> RNG {
@@ -130,7 +130,7 @@ fun randb_prob(f32 p) -> bool;
 }
 ```
 
-### RNG 类型转换
+### RNG 类型转换 {#rng-detail}
 
 ```lumos
 \type> RNG {
@@ -145,9 +145,9 @@ fun randb_prob(f32 p) -> bool;
 }
 ```
 
-## 特殊分布
+## 特殊分布 {#dist}
 
-### 指数分布
+### 指数分布 {#exp-dist}
 
 ```lumos
 // 参数为 lambda 的指数分布
@@ -158,7 +158,7 @@ fun exponential64(f64 lambda) -> f64;
 fun \type> RNG::next_exponential(f32 lambda) -> f32;
 ```
 
-### 泊松分布
+### 泊松分布 {#dist-dist}
 
 ```lumos
 // 参数为 lambda 的泊松分布
@@ -168,7 +168,7 @@ fun poisson(f32 lambda) -> i32;
 fun \type> RNG::next_poisson(f32 lambda) -> i32;
 ```
 
-### 二项分布
+### 二项分布 {#binomial-dist}
 
 ```lumos
 // 参数为 n, p 的二项分布
@@ -178,7 +178,7 @@ fun binomial(i32 n, f32 p) -> i32;
 fun \type> RNG::next_binomial(i32 n, f32 p) -> i32;
 ```
 
-### 均匀分布（向量）
+### 均匀分布（向量） {#uniform-dist}
 
 ```lumos
 // 在 n 维单位球内的均匀分布
@@ -188,9 +188,9 @@ fun sphere(usize n) -> [f32];
 fun sphere_surface(usize n) -> [f32];
 ```
 
-## 使用示例
+## 使用示例 {#examples}
 
-### 全局随机函数
+### 全局随机函数 {#examples-global-rng}
 
 ```lumos
 use std.random.*;
@@ -222,7 +222,7 @@ act main() {
 }
 ```
 
-### 使用 RNG 对象
+### 使用 RNG 对象 {#examples-rng}
 
 ```lumos
 use std.random.*;
@@ -248,7 +248,7 @@ act main() {
 }
 ```
 
-### 蒙特卡洛方法估算 π
+### 蒙特卡洛方法估算 π {#monte-carlo-pi}
 
 ```lumos
 use std.random.*;
@@ -274,7 +274,7 @@ act main() {
 }
 ```
 
-### 加权随机选择
+### 加权随机选择 {#weighted-choice}
 
 ```lumos
 use std.random.*;
@@ -306,7 +306,7 @@ act main() {
 }
 ```
 
-## 性能建议
+## 性能建议 {#performance-tips}
 
 1. **单线程程序**：使用全局随机函数（自动管理状态）
 2. **多线程程序**：每个线程使用独立的 RNG 对象（避免同步开销）
@@ -314,7 +314,7 @@ act main() {
 4. **需要密码学安全**：使用 `srand_secure()` 或专门的密码学 RNG 库
 5. **性能敏感**：避免频繁调用正态分布或特殊分布，考虑缓存结果
 
-## 质量保证
+## 质量保证 {#quality-assurance}
 
 Lumos 的随机数生成器采用 MT19937 算法，具有以下特性：
 

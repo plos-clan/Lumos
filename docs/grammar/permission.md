@@ -1,4 +1,4 @@
-# 副作用权限系统 (Side-Effect Permission System) {#permission-system-side-effect-permission-system}
+# 副作用权限系统 (Side-Effect Permission System) {#title}
 
 Lumos 采用静态效应系统，将副作用视为一种受控的“能力 (Capability)”。
 
@@ -40,7 +40,7 @@ permission my_lib.network.socket aka socket;
 支持组语法：
 `act[net.http{client, server}]` 等价于 `act[net.http.client, net.http.server]`。
 
-## 权限操作 {#permission-operations}
+## 权限操作 {#permission-ops}
 
 权限控制是代码块级别的，子块默认继承父块权限。
 
@@ -56,7 +56,7 @@ permission my_lib.network.socket aka socket;
 
 ## 函数权限 {#function-permissions}
 
-### 权限声明 {#permission-declaration}
+### 权限声明 {#declaration}
 
 ```lumos
 act[net.http.client] fetch_data(string url) -> string { ... }
@@ -68,7 +68,7 @@ act[net.http.client] fetch_data(string url) -> string { ... }
 act main() { ... }
 ```
 
-### 权限传播 (Yielding) {#permission-yielding-yielding}
+### 权限传播 (Yielding) {#yielding}
 
 函数成功返回后，可以将权限自动应用到调用方后续的代码块中：
 
@@ -267,4 +267,4 @@ use http with [net];
 
 ---
 
-相关内容：函数纯度见 [函数与纯度](function.md#functions)。
+相关内容：函数纯度见 [函数与纯度](function.md#title)。

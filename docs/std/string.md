@@ -1,6 +1,6 @@
-# 字符串 `std.string`
+# 字符串 `std.string` {#title}
 
-## 字符串类型
+## 字符串类型 {#types}
 
 ```lumos
 // 不可变字符串（栈分配）
@@ -13,9 +13,9 @@ var str s = "hello";
 u8 c = 'a';
 ```
 
-## 字符串操作
+## 字符串操作 {#ops}
 
-### 基本操作
+### 基本操作 {#basic-ops}
 
 ```lumos
 // 字符串长度
@@ -31,7 +31,7 @@ u8 ch = s.at(0);
 str sub = s.substring(0, 5);
 ```
 
-### 搜索和匹配
+### 搜索和匹配 {#search}
 
 ```lumos
 // 查找子字符串
@@ -53,7 +53,7 @@ fun index_of(str substr) -> usize;
 fun last_index_of(str substr) -> usize;
 ```
 
-### 转换操作
+### 转换操作 {#ops-ops}
 
 ```lumos
 // 转换为大写
@@ -81,7 +81,7 @@ fun split(str delimiter) -> [str];
 fun join([str] parts, str delimiter) -> str;
 ```
 
-### 类型转换
+### 类型转换 {#type-cast}
 
 ```lumos
 // 字符串转整数
@@ -111,7 +111,7 @@ fun \type> from_f64(f64 value) -> str;
 fun format(str fmt, ...) -> str;
 ```
 
-### 可变字符串操作
+### 可变字符串操作 {#ops-detail}
 
 ```lumos
 // 追加字符
@@ -139,7 +139,7 @@ fun reserve(usize capacity) -> unit;
 fun shrink() -> unit;
 ```
 
-## 使用示例
+## 使用示例 {#examples}
 
 ```lumos
 use std.string.*;
@@ -173,4 +173,4 @@ act main() {
 
 ---
 
-相关内容：字符串字面量见 [词法/字符串](../lexical/string.md#string-and-char-literals)。
+相关内容：字符串字面量见 [词法/字符串](../lexical/string.md#title)。

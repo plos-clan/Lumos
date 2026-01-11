@@ -1,8 +1,8 @@
-# 内存 `std.memory`
+# 内存 `std.memory` {#title}
 
-## 内存操作
+## 内存操作 {#memory-ops}
 
-### 内存填充 memset
+### 内存填充 memset {#memset}
 
 将 n 个字节设置为指定值。
 
@@ -25,7 +25,7 @@ act[sys.mem] memset32([u32] dst, u32 val, usize n) -> [unit];
 act[sys.mem] memset64([u64] dst, u64 val, usize n) -> [unit];
 ```
 
-### 内存复制 memcpy
+### 内存复制 memcpy {#memcpy}
 
 将 n 个字节从源复制到目标。
 
@@ -42,7 +42,7 @@ act[sys.mem] memcpy([unit] dst, [unit] src, usize n) -> [unit];
 act[sys.mem] memcpy_safe([unit] dst, [unit] src, usize n) -> [unit];
 ```
 
-### 内存移动 memmove
+### 内存移动 memmove {#memmove}
 
 支持源目标区域重叠的内存复制。
 
@@ -53,7 +53,7 @@ act[sys.mem] memcpy_safe([unit] dst, [unit] src, usize n) -> [unit];
 act[sys.mem] memmove([unit] dst, [unit] src, usize n) -> [unit];
 ```
 
-### 内存比较 memcmp
+### 内存比较 memcmp {#memcmp}
 
 比较两个内存区域。
 
@@ -66,9 +66,9 @@ fun memcmp([unit] a, [unit] b, usize n) -> i32;  // 返回 -1, 0, 1
 fun memcmp_n([unit] a, [unit] b, usize n) -> i32;
 ```
 
-## 指针操作
+## 指针操作 {#pointer-ops}
 
-### 指针基础
+### 指针基础 {#pointer-basics}
 
 ```lumos
 // 获取地址
@@ -88,7 +88,7 @@ fun offset_of<typename T>(usize field_offset) -> usize;
 fun align_of<typename T>() -> usize;
 ```
 
-### 空指针检查
+### 空指针检查 {#pointer}
 
 ```lumos
 // 检查指针是否为空
@@ -101,9 +101,9 @@ fun null<typename T>() -> [T];
 fun is_valid<typename T>([T] ptr) -> bool;
 ```
 
-## 内存分配
+## 内存分配 {#memory-alloc}
 
-### 堆分配
+### 堆分配 {#heap-alloc}
 
 ```lumos
 // 分配未初始化内存
@@ -122,7 +122,7 @@ act[sys.mem] free([unit] ptr) -> unit;
 act[sys.mem] aligned_alloc(usize alignment, usize size) -> [unit];
 ```
 
-### 栈分配
+### 栈分配 {#stack-alloc}
 
 ```lumos
 // 栈上分配（仅编译期已知大小）
@@ -132,9 +132,9 @@ fun alloca(usize size) -> [unit];
 fun vla<typename T>(usize count) -> [T];
 ```
 
-## 内存布局和对齐
+## 内存布局和对齐 {#memory-layout-alignment}
 
-### 大小和对齐查询
+### 大小和对齐查询 {#size-alignment}
 
 ```lumos
 // 获取类型大小（字节）
@@ -153,7 +153,7 @@ fun alignof<typename T>() -> usize;
 fun layout_of<typename T>() -> \type> Layout;
 ```
 
-### 字段偏移
+### 字段偏移 {#field-offsets}
 
 ```lumos
 // 获取结构体字段的字节偏移量（编译期）
@@ -163,9 +163,9 @@ lit usize FIELD_OFFSET = offset_of!(struct, field);
 fun offset_of_field(str struct_name, str field_name) -> usize;
 ```
 
-## 智能指针
+## 智能指针 {#smart-pointer}
 
-### 引用计数指针 Rc
+### 引用计数指针 Rc {#rc}
 
 ```lumos
 \type> Rc<typename T> {
@@ -186,7 +186,7 @@ fun offset_of_field(str struct_name, str field_name) -> usize;
 }
 ```
 
-### 可变引用计数指针 Arc（原子）
+### 可变引用计数指针 Arc（原子） {#arc}
 
 ```lumos
 \type> Arc<typename T> {
@@ -207,7 +207,7 @@ fun offset_of_field(str struct_name, str field_name) -> usize;
 }
 ```
 
-### 唯一指针 Box
+### 唯一指针 Box {#box}
 
 ```lumos
 \type> Box<typename T> {
@@ -225,9 +225,9 @@ fun offset_of_field(str struct_name, str field_name) -> usize;
 }
 ```
 
-## 内存安全工具
+## 内存安全工具 {#memory-safety-tools}
 
-### 生命周期管理
+### 生命周期管理 {#lifecycle}
 
 ```lumos
 // 检查悬垂指针
@@ -243,7 +243,7 @@ fun is_dangling<typename T>([T] ptr) -> bool;
 fun lifetime_info<typename T>([T] ptr) -> \type> LifetimeInfo;
 ```
 
-### 内存泄漏检测
+### 内存泄漏检测 {#memory-leak-detect}
 
 ```lumos
 // 启用内存泄漏检测
@@ -263,9 +263,9 @@ act[sys.mem] disable_leak_detection() -> unit;
 fun mem_stats() -> \type> MemStats;
 ```
 
-## 使用示例
+## 使用示例 {#examples}
 
-### 内存操作
+### 内存操作 {#examples-memory-ops}
 
 ```lumos
 use std.memory.*;
@@ -282,7 +282,7 @@ act main() {
 }
 ```
 
-### 指针操作
+### 指针操作 {#examples-pointer-ops}
 
 ```lumos
 use std.memory.*;
@@ -299,7 +299,7 @@ act main() {
 }
 ```
 
-### 引用计数
+### 引用计数 {#reference-count}
 
 ```lumos
 use std.memory.*;
@@ -313,7 +313,7 @@ act main() {
 }
 ```
 
-### 内存统计
+### 内存统计 {#memory-stats}
 
 ```lumos
 use std.memory.*;
@@ -329,7 +329,7 @@ act main() {
 }
 ```
 
-## 指针标注
+## 指针标注 {#pointer-annotations}
 
 权限系统中的内存标注：
 
@@ -349,7 +349,7 @@ act main() {
 @noalias(a, b)  // a 和 b 不相交
 ```
 
-## 最佳实践
+## 最佳实践 {#best-practices}
 
 1. **使用智能指针**：优先 Box > Rc > Arc，避免手动管理
 2. **避免指针算术**：除非必要，使用切片或容器
@@ -359,4 +359,4 @@ act main() {
 
 ---
 
-相关内容：变量修饰见 [变量与初始化](../grammar/variable.md#variables)。
+相关内容：变量修饰见 [变量与初始化](../grammar/variable.md#title)。

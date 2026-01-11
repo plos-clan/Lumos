@@ -1,5 +1,5 @@
 
-# 异常机制 {#exceptions}
+# 异常机制 {#title}
 
 ## 允许抛出异常 {#allow-throw}
 
@@ -168,7 +168,7 @@ throw Error(1, 2, 3);
 
 `Error` 类型会自动将传入参数全部打包到一个字符串内。
 
-## 异常导致的 panic {#exception-panic}
+## 异常导致的 panic {#panic}
 
 程序由自动异常处理触发 panic 时，Lumos 会打印错误信息：
 
@@ -183,4 +183,4 @@ stack trace:
 
 ---
 
-相关内容：控制流见 [控制流](controlflow.md#control-flow)。
+相关内容：控制流见 [控制流](controlflow.md#title)。

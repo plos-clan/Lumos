@@ -1,9 +1,9 @@
 
-# 括号 {#brackets}
+# 括号 {#title}
 
 ## 小括号 {#parentheses}
 
-### 参数列表 {#parameter-list}
+### 参数列表 {#list}
 
 小括号用于表示参数列表。
 
@@ -66,7 +66,7 @@ println(a[0][0]); // 可以使用多个中括号
 println(a[0, 0]); // 也可以使用逗号分隔
 ```
 
-### 列表初始化 {#list-initialization}
+### 列表初始化 {#list-init}
 
 中括号配合前置美元符号 `$[]` 用于表示数组或列表的初始化。
 
@@ -84,11 +84,11 @@ val a = $[1, 2, 3, 4, 5];
 
 ## 大括号 {#braces}
 
-### 代码块 {#code-block}
+### 代码块 {#block}
 
 大括号用于表示代码块。
 
-### 结构体初始化 {#struct-initialization}
+### 结构体初始化 {#struct-init}
 
 大括号配合前置美元符号 `${}` 用于表示结构体或类的初始化。
 
@@ -112,9 +112,9 @@ println(a[1, 1]); // 5
 println(a[2, 2]); // 9
 ```
 
-## 大括号 {#brackets-braces}
+## 大括号 {#braces-detail}
 
-### 代码块 {#brackets-braces-code-block}
+### 代码块 {#braces-detail-block}
 
 大括号用于表示代码块。  
 当大括号内直接存在 `;` 时，判定为代码块。
@@ -160,4 +160,4 @@ val p = ${.x = 1, 2 }; // 这样是错误的，因为没指定所有字段的名
 
 ---
 
-相关内容：表达式语法见 [表达式](expression.md#expressions)。
+相关内容：表达式语法见 [表达式](expression.md#title)。

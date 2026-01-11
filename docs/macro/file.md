@@ -1,12 +1,12 @@
 
-# 文件
+# 文件 {#title}
 
-## 导入文件
+## 导入文件 {#file-include}
 
 - `#include` 包含另一个文件的内容
 - `#import` 导入另一个文件的语法树
 
-## 控制导入
+## 控制导入 {#include-control}
 
 ```lumos
 #once

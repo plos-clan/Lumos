@@ -1,5 +1,5 @@
 
-# 提示
+# 提示 {#title}
 
 - `#info`
 - `#error`
@@ -12,4 +12,4 @@
 
 ---
 
-相关内容：权限与副作用见 [副作用权限系统](../grammar/permission.md#permission-system-side-effect-permission-system)。
+相关内容：权限与副作用见 [副作用权限系统](../grammar/permission.md#title)。

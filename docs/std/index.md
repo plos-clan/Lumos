@@ -1,4 +1,4 @@
-# 标准库
+# 标准库 {#title}
 
 !!! tip "关于标准库对名称的规定"
     标准库规定了许多变量及函数的用法，你不仅应该在标准库中这样使用这些函数，也应该在自己的代码中这样使用。  
@@ -12,9 +12,9 @@
     标准库的每个函数都有开启异常和关闭异常的版本。因为 Lumos 默认是关闭异常的。  
     为了在全局开启异常，你可以编辑项目根目录的 `lumos.yaml`/`lumos.json`/`lumos.toml`（三选一）。
 
-## 核心功能
+## 核心功能 {#core-features}
 
-### [内存 `std.memory`](memory.md)
+### [内存 `std.memory`](memory.md) {#std-memory-memory}
 
 低级内存操作、指针管理和智能指针。
 
@@ -24,7 +24,7 @@
 - 引用计数和智能指针（Rc, Arc, Box）
 - 内存统计和泄漏检测
 
-### [字符串 `std.string`](string.md)
+### [字符串 `std.string`](string.md) {#std-string-string}
 
 字符串操作和文本处理。
 
@@ -34,7 +34,7 @@
 - 类型转换（字符串↔数字）
 - 可变字符串操作
 
-### [容器 `std.container`](container.md)
+### [容器 `std.container`](container.md) {#std-container-container}
 
 数据结构和容器类型。
 
@@ -45,9 +45,9 @@
 - 迭代器接口
 - 容器通用操作
 
-## 系统交互
+## 系统交互 {#system-io}
 
-### [输入输出 `std.io`](io.md)
+### [输入输出 `std.io`](io.md) {#std-io-io}
 
 标准输入输出和流操作。
 
@@ -59,7 +59,7 @@
 - 缓冲化控制
 - 颜色和表格输出
 
-### [文件操作 `std.file`](file.md)
+### [文件操作 `std.file`](file.md) {#std-file-file}
 
 文件和目录操作。
 
@@ -71,7 +71,7 @@
 - 路径处理和规范化
 - 临时文件和目录
 
-### [线程 `std.thread`](thread.md)
+### [线程 `std.thread`](thread.md) {#std-thread-thread}
 
 并发编程和线程安全。
 
@@ -85,7 +85,7 @@
 - 通道（Channel）
 - 线程池
 
-### [随机数 `std.random`](random.md)
+### [随机数 `std.random`](random.md) {#std-random-random}
 
 伪随机数生成。
 
@@ -94,9 +94,9 @@
 - 各种分布：均匀、正态、指数、泊松、二项
 - 性能优化建议
 
-## 算法
+## 算法 {#algorithms}
 
-### [算法 `std.algorithm`](algorithm.md)
+### [算法 `std.algorithm`](algorithm.md) {#std-algorithm-algorithm}
 
 常用算法库。
 
@@ -107,9 +107,9 @@
 - **分区**：数据分区和排序
 - **数值**：累积和、最大最小值、求和
 
-## 模块导入
+## 模块导入 {#import}
 
-### 导入整个模块
+### 导入整个模块 {#import-all}
 
 ```lumos
 use std.container.*;
@@ -117,7 +117,7 @@ use std.algorithm.*;
 use std.string.*;
 ```
 
-### 导入特定函数
+### 导入特定函数 {#import-specific}
 
 ```lumos
 use std.io.println;
@@ -126,16 +126,16 @@ use std.random.rand;
 use std.file.open_read;
 ```
 
-### 有限导入
+### 有限导入 {#import-selective}
 
 ```lumos
 // 导入容器模块，但不导入内部的私有实现
 use std.container.{List, HashMap, Set};
 ```
 
-## 快速参考
+## 快速参考 {#quickref}
 
-### I/O 操作
+### I/O 操作 {#io}
 
 ```lumos
 println("Hello, {}!", name);                  // 带格式化输出
@@ -143,7 +143,7 @@ i32 x = scan<i32>();                         // 读整数
  str line = scanln();                          // 读一行
 ```
 
-### 容器操作
+### 容器操作 {#container-ops}
 
 ```lumos
 var list = List::<i32>::new();
@@ -154,7 +154,7 @@ val map = HashMap::<str, i32>::new();
 map.set("age", 25);
 ```
 
-### 字符串操作
+### 字符串操作 {#ops}
 
 ```lumos
 str s = "hello world";
@@ -163,7 +163,7 @@ str upper = s.to_upper();
 str formatted = format("Value: {}", 42);
 ```
 
-### 文件操作
+### 文件操作 {#file-ops}
 
 ```lumos
 match open_read("data.txt") {
@@ -175,7 +175,7 @@ match open_read("data.txt") {
 }
 ```
 
-### 并发编程
+### 并发编程 {#concurrency}
 
 ```lumos
 val counter = Mutex::new(0);
@@ -185,7 +185,7 @@ spawn {
 };
 ```
 
-### 随机数
+### 随机数 {#random}
 
 ```lumos
 srand_auto();
@@ -193,7 +193,7 @@ i32 num = rand_range(1, 100);
 f32 prob = randf();
 ```
 
-## 性能提示
+## 性能提示 {#performance-tips}
 
 1. **容器选择**
    - 频繁随机访问：List
@@ -217,7 +217,7 @@ f32 prob = randf();
    - 需要稳定性：合并排序
    - 无锁场景：原子操作
 
-## 标准库的扩展
+## 标准库的扩展 {#std-extensions}
 
 Lumos 社区提供了许多标准库扩展：
 
@@ -231,4 +231,4 @@ Lumos 社区提供了许多标准库扩展：
 
 ---
 
-相关内容：权限系统见 [副作用权限系统](../grammar/permission.md#permission-system-side-effect-permission-system)。
+相关内容：权限系统见 [副作用权限系统](../grammar/permission.md#title)。

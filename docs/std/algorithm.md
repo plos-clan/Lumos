@@ -1,8 +1,8 @@
-# 算法库 `std.algorithm`
+# 算法库 `std.algorithm` {#title}
 
-## 搜索算法
+## 搜索算法 {#search-algorithms}
 
-### 线性搜索
+### 线性搜索 {#search}
 
 ```lumos
 // 查找元素首次出现的位置
@@ -21,7 +21,7 @@ fun count<typename T>([T] data, T value) -> usize;
 fun count_if<typename T>([T] data, fun[T -> bool] predicate) -> usize;
 ```
 
-### 二分搜索
+### 二分搜索 {#search-algorithms-search}
 
 ```lumos
 // 二分查找（前提：数据已排序）
@@ -37,9 +37,9 @@ fun upper_bound<typename T>([T] data, T value) -> usize;
 fun equal_range<typename T>([T] data, T value) -> (usize, usize);
 ```
 
-## 排序算法
+## 排序算法 {#sort-algorithms}
 
-### 基础排序
+### 基础排序 {#basic-sorts}
 
 ```lumos
 // 快速排序
@@ -70,7 +70,7 @@ fun sort<typename T>(var [T] data) -> unit;
 fun stable_sort<typename T>(var [T] data) -> unit;
 ```
 
-### 部分排序
+### 部分排序 {#sort}
 
 ```lumos
 // 只排序前 n 个元素
@@ -80,7 +80,7 @@ fun partial_sort<typename T>(var [T] data, usize n) -> unit;
 fun nth_element<typename T>(var [T] data, usize n) -> unit;
 ```
 
-### 排序检查
+### 排序检查 {#sort-check}
 
 ```lumos
 // 检查是否已排序
@@ -90,9 +90,9 @@ fun is_sorted<typename T>([T] data) -> bool;
 fun is_sorted_cmp<typename T>([T] data, fun[T, T -> bool] cmp) -> bool;
 ```
 
-## 变换算法
+## 变换算法 {#transform-algorithms}
 
-### 映射与变换
+### 映射与变换 {#map-transform}
 
 ```lumos
 // 对每个元素应用函数
@@ -108,7 +108,7 @@ fun transform<typename T>([T] data, fun[T -> T] f) -> unit;
 fun \type> copy_if<typename T>([T] data, fun[T -> bool] predicate) -> [T];
 ```
 
-### 填充与赋值
+### 填充与赋值 {#fill-assign}
 
 ```lumos
 // 用值填充容器
@@ -127,7 +127,7 @@ fun \type> copy_backward<typename T>([T] src) -> [T];
 fun move<typename T>(var [T] src, var [T] dst, usize count) -> unit;
 ```
 
-### 反转和旋转
+### 反转和旋转 {#reverse-rotate}
 
 ```lumos
 // 反转元素顺序
@@ -146,9 +146,9 @@ fun next_permutation<typename T>(var [T] data) -> bool;
 fun prev_permutation<typename T>(var [T] data) -> bool;
 ```
 
-## 比较与合并
+## 比较与合并 {#comparison-merge}
 
-### 比较
+### 比较 {#comparison}
 
 ```lumos
 // 比较两个序列
@@ -164,7 +164,7 @@ fun lexicographical_compare<typename T>([T] a, [T] b) -> bool;
 fun mismatch<typename T>([T] a, [T] b) -> Option<usize>;
 ```
 
-### 集合操作
+### 集合操作 {#set-ops}
 
 ```lumos
 // 集合并集
@@ -183,7 +183,7 @@ fun set_symmetric_difference<typename T>([T] a, [T] b) -> [T];
 fun includes<typename T>([T] haystack, [T] needle) -> bool;
 ```
 
-### 合并
+### 合并 {#merge}
 
 ```lumos
 // 合并两个已排序的序列
@@ -196,7 +196,7 @@ fun merge_inplace<typename T>(var [T] data, usize mid) -> unit;
 fun concat<typename T>([T] a, [T] b) -> [T];
 ```
 
-## 分区
+## 分区 {#partition}
 
 ```lumos
 // 分区：将满足条件的元素移到前面
@@ -212,9 +212,9 @@ fun is_partitioned<typename T>([T] data, fun[T -> bool] predicate) -> bool;
 fun partition_point<typename T>([T] data, fun[T -> bool] predicate) -> usize;
 ```
 
-## 数值算法
+## 数值算法 {#numeric-algorithms}
 
-### 累积和与减少
+### 累积和与减少 {#accumulate-reduce}
 
 ```lumos
 // 累积求和
@@ -230,7 +230,7 @@ fun adjacent_difference<typename T>([T] data) -> [T];
 fun reduce<typename T>([T] data, T init, fun[T, T -> T] op) -> T;
 ```
 
-### 最大最小值
+### 最大最小值 {#min-max}
 
 ```lumos
 // 查找最小值
@@ -252,7 +252,7 @@ fun max_element<typename T>([T] data) -> usize;
 fun max_element_cmp<typename T>([T] data, fun[T, T -> bool] cmp) -> usize;
 ```
 
-### 求和与积
+### 求和与积 {#sum-product}
 
 ```lumos
 // 求和
@@ -268,9 +268,9 @@ fun weighted_sum<typename T>([T] data, [T] weights) -> T;
 fun dot_product<typename T>([T] a, [T] b) -> T;
 ```
 
-## 使用示例
+## 使用示例 {#examples}
 
-### 排序与搜索
+### 排序与搜索 {#sort-search}
 
 ```lumos
 use std.algorithm.*;
@@ -294,7 +294,7 @@ act main() {
 }
 ```
 
-### 变换和映射
+### 变换和映射 {#transform-map}
 
 ```lumos
 use std.algorithm.*;
@@ -317,7 +317,7 @@ act main() {
 }
 ```
 
-### 数值计算
+### 数值计算 {#numeric-compute}
 
 ```lumos
 use std.algorithm.*;
@@ -340,7 +340,7 @@ act main() {
 }
 ```
 
-### 集合操作
+### 集合操作 {#examples-set-ops}
 
 ```lumos
 use std.algorithm.*;
@@ -363,7 +363,7 @@ act main() {
 }
 ```
 
-## 性能提示
+## 性能提示 {#performance-tips}
 
 | 算法 | 时间复杂度 | 空间复杂度 | 用途 |
 |------|----------|----------|------|

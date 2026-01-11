@@ -1,14 +1,14 @@
-# 概览
+# 概览 {#title}
 
 Lumos (光耀) 是一门专注于**高性能**、**显式安全**与**现代化语法**的系统级编程语言。
 
-## 项目愿景
+## 项目愿景 {#vision}
 
 Lumos 旨在解决系统级编程中性能与开发效率、安全性之间的权衡问题。通过引入精细的函数纯度分类和严格的权限管理系统，Lumos 让开发者能够以前所未有的确定性构建复杂的系统软件。
 
-## 核心特性
+## 核心特性 {#core-features}
 
-### 1. 显式函数纯度
+### 1. 显式函数纯度 {#1}
 
 Lumos 不使用通用的 `fn`，而是根据函数的副作用程度强制将其分类：
 
@@ -16,9 +16,9 @@ Lumos 不使用通用的 `fn`，而是根据函数的副作用程度强制将其
 - `fun`: 逻辑纯函数，允许内部状态修改，但对外界透明。
 - `act`: 副作用函数，明确声明所需的系统权限（如 `io`, `net`）。
 
-详见 [函数与纯度](grammar/function.md#functions)。
+详见 [函数与纯度](grammar/function.md#title)。
 
-### 2. 现代化的变量系统
+### 2. 现代化的变量系统 {#2}
 
 区别于传统的 `const`/`mutable`，Lumos 提供了更细粒度的控制：
 
@@ -28,22 +28,22 @@ Lumos 不使用通用的 `fn`，而是根据函数的副作用程度强制将其
 - `lit`: 编译期常量。
 - `lazy`/`late`: 原生支持的延迟加载与手动初始化。
 
-详见 [变量与初始化](grammar/variable.md#variables)。
+详见 [变量与初始化](grammar/variable.md#title)。
 
-### 3. 类型安全与约束
+### 3. 类型安全与约束 {#3}
 
 - **计量单位 (Measure)**: 原生支持物理单位（如 `meter`, `second`），在编译期消除单位换算错误。
 - **假设与约束**: 使用 `assume` 和 `where` 强化类型系统和优化器。
 
-详见 [单位系统](grammar/measure.md#measure-measure) 与 [函数与纯度](grammar/function.md#functions)。
+详见 [单位系统](grammar/measure.md#title) 与 [函数与纯度](grammar/function.md#title)。
 
-### 4. 显式权限管理
+### 4. 显式权限管理 {#4}
 
 所有涉及系统调用的 `act` 函数必须声明其权限。通过这种方式，代码的副作用路径在静态阶段就清晰可见。
 
-详见 [副作用权限系统](grammar/permission.md#permission-system-side-effect-permission-system)。
+详见 [副作用权限系统](grammar/permission.md#title)。
 
-## 当前状态
+## 当前状态 {#status}
 
 目前 Lumos 处于**纯文档设计阶段**。我们正在积极完善语言规范（`docs/`），并探索最佳的编译器实现路径。
 

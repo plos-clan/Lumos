@@ -1,5 +1,5 @@
 
-# 类 {#class}
+# 类 {#title}
 
 ## 声明 {#declaration}
 
@@ -27,7 +27,7 @@ class {
 } var my_var; // 定义一个匿名类并同时声明变量
 ```
 
-## 零大小类型 (ZST) {#class-zst}
+## 零大小类型 (ZST) {#zst}
 
 在 Lumos 中，不包含任何成员变量的类或结构体是不占空间的（Zero-sized）。这对于泛型编程和元编程非常有用。
 
@@ -37,11 +37,11 @@ val e = Empty{};
 // sizeof(e) 为 0
 ```
 
-## 初始化 {#initialization}
+## 初始化 {#init}
 
-### 构造函数初始化 {#constructor-initialization}
+### 构造函数初始化 {#init-init}
 
-### 变量列表初始化 {#field-list-initialization}
+### 变量列表初始化 {#list-init}
 
 在 Lumos 中，我们可以使用以下方式初始化一个类：
 
@@ -112,7 +112,7 @@ class MyClass {
 } // class MyClass
 ```
 
-## 重载类型转换 {#overloaded-casts}
+## 重载类型转换 {#type-cast}
 
 在 Lumos 中，我们可以使用 `def as 类型` 来重载类型转换。
 
@@ -178,7 +178,7 @@ def as i32 -> i32 {
 
 结构体可以被类继承，但类无法被结构体继承。
 
-### 如何选择使用结构体还是类 {#struct-vs-class}
+### 如何选择使用结构体还是类 {#choice-usage-struct}
 
 当你需要组织一个简单的数据时（比如红黑树中的节点），你应该使用结构体。
 
@@ -206,4 +206,4 @@ class RBTree {
 
 ---
 
-相关内容：对象模型见 [对象](object.md#dynamic-types)。
+相关内容：对象模型见 [对象](object.md#title)。

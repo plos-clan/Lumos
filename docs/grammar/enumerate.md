@@ -1,7 +1,7 @@
 
-# 枚举 {#enum}
+# 枚举 {#title}
 
-## 枚举作为类型 {#enum-as-type}
+## 枚举作为类型 {#types}
 
 ```lumos
 enum 枚举类型名 by 值的类型 as type { // as type 可以省略
@@ -84,7 +84,7 @@ println(ReturnCode::NotFound as i32);    // 输出 404
 println(ReturnCode::NotFound as string); // 输出 "Not Found"
 ```
 
-#### 复杂数据结构关联 {#complex-data-association}
+#### 复杂数据结构关联 {#complex-association}
 
 表格列可以是任意类型，包括结构体、枚举、甚至函数指针：
 
@@ -115,7 +115,7 @@ act[io.out] main() {
 }
 ```
 
-#### 边界与错误处理 {#bounds-and-errors}
+#### 边界与错误处理 {#bounds-errors}
 
 **缺失值的处理**：
 
@@ -171,13 +171,13 @@ act[io.out] main() {
 }
 ```
 
-#### 性能特性 {#performance-notes}
+#### 性能特性 {#performance}
 
 - **零运行时开销**：表格转换在编译期完全展开，无运行时查表操作。
 - **内存布局**：通过 `as 类型` 的转换不会产生额外的内存占用，直接返回对应的值。
 - **类型安全**：所有表格访问都在编译期类型检查，不存在无效转换的风险。
 
-## 枚举作为容器 {#enum-as-container}
+## 枚举作为容器 {#container}
 
 也可以将枚举用作一个容器，其中的元素可以直接参与运算。
 
@@ -198,7 +198,7 @@ enum 枚举名 by 值的类型 as container {
 
 你也可以认为这是一个只能存放特定类型值的命名空间。
 
-## 限制枚举只在编译期有效 {#compile-time-only-enum}
+## 限制枚举只在编译期有效 {#compile-time-only}
 
 将值的类型设为 `unit` 可以阻止枚举元素的值在运行时被访问，此时枚举元素只能用于编译期的判断，在任何地方存储这个值会导致编译错误。
 

@@ -1,11 +1,11 @@
-# 容器 `std.container`
+# 容器 `std.container` {#title}
 
-## 通用成员
+## 通用成员 {#common-members}
 
 容器通用成员定义（如果 `xxx` 是一个容器）：  
 通用成员并不是在每种容器上都可用，而是规定容器中同名成员存在时的行为。
 
-### 只读属性
+### 只读属性 {#read-attributes}
 
 ```lumos
 \val> size;          // 表示容器内元素所占据的字节数
@@ -15,7 +15,7 @@
 \val> is_empty;      // 表示容器是否为空
 ```
 
-### 通用函数
+### 通用函数 {#common-functions}
 
 ```lumos
 // 清空容器
@@ -73,7 +73,7 @@ fun for_each(act[sys.fn] f) -> unit;
 fun clone() -> T;
 ```
 
-### 运算符重载
+### 运算符重载 {#operators}
 
 ```lumos
 // 连接：创建新容器包含两个容器的所有元素
@@ -101,7 +101,7 @@ c >> x
 c[i]
 ```
 
-### 类型转换
+### 类型转换 {#type-cast}
 
 ```lumos
 // 容器转布尔：如果容器为空则为 false，否则为 true
@@ -111,7 +111,7 @@ fun \type> to_bool() -> bool;
 fun \type> to_string() -> str;
 ```
 
-## 迭代器
+## 迭代器 {#iterators}
 
 所有容器都提供迭代器支持。
 
@@ -137,7 +137,7 @@ fun iter_mut() -> Iterator<T>;
 fun iter_rev() -> Iterator<T>;
 ```
 
-### 迭代器使用示例
+### 迭代器使用示例 {#iterator-examples}
 
 ```lumos
 use std.container.*;
@@ -158,11 +158,11 @@ act main() {
 }
 ```
 
-## 有序集合
+## 有序集合 {#ordered-set}
 
 按照插入顺序排列的集合类型。
 
-### 数组 Array
+### 数组 Array {#array}
 
 ```lumos
 \type> Array<typename T, usize N> {
@@ -181,7 +181,7 @@ arr[0] = 10;
 - 零开销抽象
 - 支持编译期大小检查
 
-### 列表 List
+### 列表 List {#list}
 
 ```lumos
 \type> List<typename T> {
@@ -203,7 +203,7 @@ list.push(3);
 - O(1) 末尾插入/删除
 - O(n) 首部插入/删除
 
-### 链表 LinkedList
+### 链表 LinkedList {#linked-list}
 
 ```lumos
 \type> LinkedList<typename T> {
@@ -221,7 +221,7 @@ list.push_front(0);
 - O(n) 随机访问
 - O(n) 空间开销
 
-### 队列 Queue
+### 队列 Queue {#queue}
 
 ```lumos
 \type> Queue<typename T> {
@@ -248,7 +248,7 @@ i32 x = q.pop(); // x = 1
 - FIFO（先进先出）
 - O(1) 入队/出队
 
-### 栈 Stack
+### 栈 Stack {#stack}
 
 ```lumos
 \type> Stack<typename T> {
@@ -275,11 +275,11 @@ i32 x = stack.pop(); // x = 2
 - LIFO（后进先出）
 - O(1) 压栈/弹栈
 
-## 无序集合
+## 无序集合 {#unordered-set}
 
 元素排列与插入顺序无关的集合类型。
 
-### 哈希集 HashSet
+### 哈希集 HashSet {#hash-set}
 
 ```lumos
 \type> HashSet<typename T> {
@@ -302,11 +302,11 @@ bool found = set.contains(1);
 - 无序存储
 - 需要实现 Hash trait
 
-## 排序集合
+## 排序集合 {#sorted-set}
 
 元素自动排序的集合类型。
 
-### 集合 Set
+### 集合 Set {#set}
 
 ```lumos
 \type> Set<typename T> {
@@ -330,7 +330,7 @@ set.insert(2);  // 自动排序：1, 2, 3
 - O(log n) 插入/删除/查找
 - 自动排序
 
-### 优先队列 PriorityQueue
+### 优先队列 PriorityQueue {#priority-queue}
 
 ```lumos
 \type> MinPQ<typename T> {  // 最小堆
@@ -360,11 +360,11 @@ i32 min = pq.pop();  // min = 1
 - O(log n) 插入/删除
 - O(1) 查看最值
 
-## 有序映射
+## 有序映射 {#ordered-map}
 
 按插入顺序维护键值对的映射类型。
 
-### 数组映射 ArrayMap
+### 数组映射 ArrayMap {#array-map}
 
 ```lumos
 \type> ArrayMap<typename K, typename V, usize N> {
@@ -379,7 +379,7 @@ i32 min = pq.pop();  // min = 1
 - 固定大小，栈分配
 - O(n) 查找
 
-### 列表映射 ListMap
+### 列表映射 ListMap {#list-map}
 
 ```lumos
 \type> ListMap<typename K, typename V> {
@@ -394,7 +394,7 @@ i32 min = pq.pop();  // min = 1
 - 动态大小，基于列表
 - O(n) 查找
 
-### 链表映射 LinkedListMap
+### 链表映射 LinkedListMap {#linked-list-map}
 
 ```lumos
 \type> LinkedListMap<typename K, typename V> {
@@ -409,11 +409,11 @@ i32 min = pq.pop();  // min = 1
 - 基于链表
 - O(n) 查找
 
-## 无序映射
+## 无序映射 {#unordered-map}
 
 哈希表实现的映射类型。
 
-### 哈希映射 HashMap
+### 哈希映射 HashMap {#hash-map}
 
 ```lumos
 \type> HashMap<typename K, typename V> {
@@ -439,11 +439,11 @@ Option<i32> age = map.get("age");
 - 无序存储
 - 需要实现 Hash trait
 
-## 排序映射
+## 排序映射 {#sort-map}
 
 红黑树实现的映射类型。
 
-### 映射 Map
+### 映射 Map {#map}
 
 ```lumos
 \type> Map<typename K, typename V> {
@@ -470,7 +470,7 @@ map.set("bob", 30);
 - 按键自动排序
 - 范围查询支持
 
-## 容器性能对比表
+## 容器性能对比表 {#container-bench}
 
 | 容器 | 索引 | 前插 | 后插 | 查找 | 排序 | 内存 |
 |------|------|------|------|------|------|------|
@@ -484,7 +484,7 @@ map.set("bob", 30);
 | HashMap | - | - | - | O(1) | ✗ | 堆 |
 | Map | - | - | - | O(log n) | ✓ | 堆 |
 
-## 使用示例
+## 使用示例 {#examples}
 
 ```lumos
 use std.container.*;

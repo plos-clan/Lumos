@@ -1,4 +1,4 @@
-# 注释 {#comments}
+# 注释 {#title}
 
 Lumos 支持单行注释和多行注释，使用方式与 C 语言类似
 
@@ -53,4 +53,4 @@ fun example_func() -> unit {
 
 ---
 
-相关内容：词法总览见 [词法](index.md#lexical)。
+相关内容：词法总览见 [词法](index.md#title)。

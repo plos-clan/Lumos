@@ -1,8 +1,8 @@
-# 字面量 (Literal)
+# 字面量 (Literal) {#title}
 
 本页定义了 Lumos 支持的各类字面量结构。
 
-## 字面量 `Literal`
+## 字面量 `Literal` {#literal}
 
 ```rust
 pub enum Literal {
@@ -40,4 +40,4 @@ pub enum Literal {
 
 ---
 
-相关内容：字面量规则见 [词法](../lexical/index.md#lexical)。
+相关内容：字面量规则见 [词法](../lexical/index.md#title)。

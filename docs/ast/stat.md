@@ -1,8 +1,8 @@
-# 语句 (Statement)
+# 语句 (Statement) {#title}
 
 本页定义了 Lumos 的语句结构 `Stat`。
 
-## 语句 `Stat`
+## 语句 `Stat` {#stat}
 
 ```rust
 pub enum Stat {
@@ -65,9 +65,9 @@ pub enum Stat {
 }
 ```
 
-## 辅助枚举
+## 辅助枚举 {#helper-enums}
 
-### 循环类型 `LoopKind`
+### 循环类型 `LoopKind` {#loop-kind}
 
 ```rust
 pub enum LoopKind {
@@ -78,7 +78,7 @@ pub enum LoopKind {
 }
 ```
 
-### 跳转类型 `JumpKind`
+### 跳转类型 `JumpKind` {#jump-kind}
 
 ```rust
 pub enum JumpKind {
@@ -90,7 +90,7 @@ pub enum JumpKind {
 }
 ```
 
-### 权限操作 `PermissionOp`
+### 权限操作 `PermissionOp` {#permission-op}
 
 ```rust
 pub enum PermissionOp {
@@ -101,7 +101,7 @@ pub enum PermissionOp {
 }
 ```
 
-### 异常捕获 `CatchBlock`
+### 异常捕获 `CatchBlock` {#catch-block}
 
 ```rust
 pub struct CatchBlock {
@@ -113,4 +113,4 @@ pub struct CatchBlock {
 
 ---
 
-相关内容：控制流语法见 [语法/控制流](../grammar/controlflow.md#control-flow)。
+相关内容：控制流语法见 [语法/控制流](../grammar/controlflow.md#title)。

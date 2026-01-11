@@ -1,6 +1,6 @@
-# 词法 {#lexical}
+# 词法 {#title}
 
-## 源文件与编码 {#source-encoding}
+## 源文件与编码 {#file}
 
 Lumos 仅接受 Unicode 源码文件，编码必须为 UTF-8、UTF-16 或 UTF-32。  
 所有内容区分大小写，且不允许 BOM；若检测到 BOM 将直接报错。  
@@ -40,15 +40,15 @@ def \\\mul_mul(int a, int b) -> int {
 
 ## 剩余内容 {#other-topics}
 
-- [**注释**](comment.md#comments)
-- [**数字字面量**](number.md#numeric-literals)
-- [**字符串字面量**](string.md#string-and-char-literals)
+- [**注释**](comment.md#title)
+- [**数字字面量**](number.md#title)
+- [**字符串字面量**](string.md#title)
 
 ## 关键字速览 {#keyword-quicklook}
 
 常见关键字示例：`def`、`fun`、`act`、`var`、`val`、`if`、`for`、`use`。  
-完整列表与用法请参阅 [语法/关键字](../grammar/keyword.md#keywords)。
+完整列表与用法请参阅 [语法/关键字](../grammar/keyword.md#title)。
 
 ---
 
-相关内容：语法入口见 [语法](../grammar/index.md#grammar)。
+相关内容：语法入口见 [语法](../grammar/index.md#title)。

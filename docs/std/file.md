@@ -1,8 +1,8 @@
-# 文件操作 `std.file`
+# 文件操作 `std.file` {#title}
 
-## 文件打开和关闭
+## 文件打开和关闭 {#open-close}
 
-### 打开文件
+### 打开文件 {#open-file}
 
 ```lumos
 // 打开文件模式
@@ -26,7 +26,7 @@ act[fs.write] open_write(str path) -> Result<File, Error>;
 act[fs.write] open_append(str path) -> Result<File, Error>;
 ```
 
-### 关闭文件
+### 关闭文件 {#close-file}
 
 ```lumos
 \type> File {
@@ -38,9 +38,9 @@ act[fs.write] open_append(str path) -> Result<File, Error>;
 }
 ```
 
-## 读文件操作
+## 读文件操作 {#read-file-ops}
 
-### 读取内容
+### 读取内容 {#read}
 
 ```lumos
 \type> File {
@@ -61,7 +61,7 @@ act[fs.write] open_append(str path) -> Result<File, Error>;
 }
 ```
 
-### 文件指针操作
+### 文件指针操作 {#file-pointer-ops}
 
 ```lumos
 \type> File {
@@ -83,9 +83,9 @@ act[fs.write] open_append(str path) -> Result<File, Error>;
 }
 ```
 
-## 写文件操作
+## 写文件操作 {#write-file-ops}
 
-### 写入内容
+### 写入内容 {#write}
 
 ```lumos
 \type> File {
@@ -106,9 +106,9 @@ act[fs.write] open_append(str path) -> Result<File, Error>;
 }
 ```
 
-## 文件信息
+## 文件信息 {#file}
 
-### 文件元数据
+### 文件元数据 {#file-metadata}
 
 ```lumos
 \type> Metadata {
@@ -141,7 +141,7 @@ act[fs.write] open_append(str path) -> Result<File, Error>;
 act[fs.read] metadata(str path) -> Result<Metadata, Error>;
 ```
 
-### 文件属性检查
+### 文件属性检查 {#file-attrs}
 
 ```lumos
 // 检查文件是否存在
@@ -160,9 +160,9 @@ act[fs.read] is_writable(str path) -> bool;
 act[fs.read] is_directory(str path) -> bool;
 ```
 
-## 文件系统操作
+## 文件系统操作 {#filesystem-ops}
 
-### 复制和移动
+### 复制和移动 {#copy-move}
 
 ```lumos
 // 复制文件
@@ -175,7 +175,7 @@ act[fs.write] rename(str old_path, str new_path) -> Result<unit, Error>;
 act[fs.write] remove(str path) -> Result<unit, Error>;
 ```
 
-### 目录操作
+### 目录操作 {#dir-ops}
 
 ```lumos
 // 创建目录
@@ -200,7 +200,7 @@ act[fs.read] current_dir() -> Result<str, Error>;
 act[fs.write] set_current_dir(str path) -> Result<unit, Error>;
 ```
 
-### 目录项
+### 目录项 {#dir}
 
 ```lumos
 \type> DirEntry {
@@ -224,9 +224,9 @@ act[fs.write] set_current_dir(str path) -> Result<unit, Error>;
 }
 ```
 
-## 路径操作
+## 路径操作 {#path-ops}
 
-### Path 类型
+### Path 类型 {#path}
 
 ```lumos
 \type> Path {
@@ -262,9 +262,9 @@ act[fs.write] set_current_dir(str path) -> Result<unit, Error>;
 }
 ```
 
-## 临时文件
+## 临时文件 {#temp-files}
 
-### 临时文件和目录
+### 临时文件和目录 {#temp-files-dir}
 
 ```lumos
 // 创建临时文件
@@ -280,9 +280,9 @@ act[fs.write] temp_dir() -> Result<str, Error>;
 act[fs.read] temp_dir_path() -> str;
 ```
 
-## 使用示例
+## 使用示例 {#examples}
 
-### 读文件
+### 读文件 {#read-file}
 
 ```lumos
 use std.file.*;
@@ -303,7 +303,7 @@ act main() {
 }
 ```
 
-### 逐行读取
+### 逐行读取 {#examples-read}
 
 ```lumos
 use std.file.*;
@@ -325,7 +325,7 @@ act main() {
 }
 ```
 
-### 写文件
+### 写文件 {#write-file}
 
 ```lumos
 use std.file.*;
@@ -347,7 +347,7 @@ act main() {
 }
 ```
 
-### 追加写入
+### 追加写入 {#examples-write}
 
 ```lumos
 use std.file.*;
@@ -367,7 +367,7 @@ act main() {
 }
 ```
 
-### 列出目录
+### 列出目录 {#examples-dir}
 
 ```lumos
 use std.file.*;
@@ -392,7 +392,7 @@ act main() {
 }
 ```
 
-### 文件复制
+### 文件复制 {#file-copy}
 
 ```lumos
 use std.file.*;
@@ -413,7 +413,7 @@ act main() {
 }
 ```
 
-### 路径操作
+### 路径操作 {#examples-path-ops}
 
 ```lumos
 use std.file.*;
@@ -434,7 +434,7 @@ act main() {
 }
 ```
 
-### 文件监视
+### 文件监视 {#file-watch}
 
 ```lumos
 use std.file.*;
@@ -451,9 +451,9 @@ act main() {
 }
 ```
 
-## 错误处理
+## 错误处理 {#error-handling}
 
-### Error 类型
+### Error 类型 {#error}
 
 ```lumos
 \type> Error {
@@ -474,7 +474,7 @@ lit i32 ERR_IO = 3;
 lit i32 ERR_ALREADY_EXISTS = 4;
 ```
 
-## 性能提示
+## 性能提示 {#performance-tips}
 
 1. **批量操作**：使用迭代器而非多次单独读取
 2. **缓冲大小**：大文件建议使用更大的缓冲区
@@ -483,4 +483,4 @@ lit i32 ERR_ALREADY_EXISTS = 4;
 
 ---
 
-相关内容：权限系统见 [副作用权限系统](../grammar/permission.md#permission-system-side-effect-permission-system)。
+相关内容：权限系统见 [副作用权限系统](../grammar/permission.md#title)。

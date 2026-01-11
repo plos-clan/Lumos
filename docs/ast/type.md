@@ -1,8 +1,8 @@
-# 类型系统 (Type)
+# 类型系统 (Type) {#title}
 
 本页定义了 Lumos 的类型引用结构 `TypeRef`。
 
-## 类型引用 `TypeRef`
+## 类型引用 `TypeRef` {#type-ref}
 
 ```rust
 pub enum TypeRef {

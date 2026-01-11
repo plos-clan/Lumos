@@ -1,7 +1,7 @@
 
-# 模块 {#modules}
+# 模块 {#title}
 
-## 导入模块 {#module-imports}
+## 导入模块 {#import}
 
 使用 `use` 来导入模块，模块中的内容将会被导入到对应的命名空间中。
 
@@ -183,7 +183,7 @@ use:
 - `lib` 库模块，产生库文件。
 - `meta` 元模块，本身不产生库或可执行文件，但可以包含子模块。
 
-## 模块宏 {#module-macros}
+## 模块宏 {#macros}
 
 `ismodelimpl` 宏用于判断当前文件是否被当前模块实现文件包含或导入。
 
@@ -204,4 +204,4 @@ use:
 
 ---
 
-相关内容：权限系统见 [副作用权限系统](permission.md#permission-system-side-effect-permission-system)。
+相关内容：权限系统见 [副作用权限系统](permission.md#title)。

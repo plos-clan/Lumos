@@ -1,5 +1,5 @@
 
-# 属性 {#attributes}
+# 属性 {#title}
 
 Lumos 属性是用于修饰变量、函数和类的特殊语法，用于指定它们的特定行为或属性。  
 Lumos 的属性以 `@` 符号开头，后面跟着属性的名称和可选的参数。  
@@ -30,7 +30,7 @@ use @default = @reset;
 
 不能重设 `@reset` 属性。
 
-## 通用属性 {#common-attributes}
+## 通用属性 {#common-attrs}
 
 ### 可见性 {#visibility}
 
@@ -83,7 +83,7 @@ act[io.out] my_func(i32 arg) -> unit {
 - `@deleted("消息")`: 标记变量、函数或类为已删除的，提供一个可选的提示消息说明替代方案或原因。
 - `@replaced-by(函数或变量名)`: 标记某个函数已被其它函数替代，同时标记其已被废弃。
 
-## 函数属性 {#function-attributes}
+## 函数属性 {#function-attrs}
 
 - `@generator`: 声明函数是一个生成器，可以多次返回直到 `return` 后为空。
 
@@ -241,4 +241,4 @@ def helper(int x) -> int {
 
 ---
 
-相关内容：变量修饰见 [变量与初始化](variable.md#variables)。
+相关内容：变量修饰见 [变量与初始化](variable.md#title)。

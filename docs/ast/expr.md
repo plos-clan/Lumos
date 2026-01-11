@@ -1,8 +1,8 @@
-# 表达式 (Expression)
+# 表达式 (Expression) {#title}
 
 本页定义了 Lumos 的表达式结构 `Expr`。
 
-## 表达式 `Expr`
+## 表达式 `Expr` {#expr}
 
 ```rust
 pub enum Expr {
@@ -95,9 +95,9 @@ pub enum Expr {
 }
 ```
 
-## 运算符枚举
+## 运算符枚举 {#operators}
 
-### 二元运算符 `BinaryOp`
+### 二元运算符 `BinaryOp` {#binary-op}
 
 ```rust
 pub enum BinaryOp {
@@ -111,7 +111,7 @@ pub enum BinaryOp {
 }
 ```
 
-### 一元运算符 `UnaryOp`
+### 一元运算符 `UnaryOp` {#unary-op}
 
 ```rust
 pub enum UnaryOp {
@@ -123,7 +123,7 @@ pub enum UnaryOp {
 }
 ```
 
-### 类型判断目标 `IsTarget`
+### 类型判断目标 `IsTarget` {#is-target}
 
 ```rust
 pub enum IsTarget {
@@ -134,4 +134,4 @@ pub enum IsTarget {
 
 ---
 
-相关内容：表达式语法见 [语法/表达式](../grammar/expression.md#expressions)。
+相关内容：表达式语法见 [语法/表达式](../grammar/expression.md#title)。

@@ -1,6 +1,6 @@
-# 输入输出 `std.io`
+# 输入输出 `std.io` {#title}
 
-## 默认导入
+## 默认导入 {#import}
 
 标准库提供以下默认导入：
 
@@ -11,9 +11,9 @@ use \type> io.\act> scan;
 use \type> io.\act> scanln;
 ```
 
-## 基础输出
+## 基础输出 {#output-basics}
 
-### 简单输出
+### 简单输出 {#output}
 
 ```lumos
 // 输出不换行
@@ -29,7 +29,7 @@ act[io.out] putchar(u8 ch) -> unit;
 act[io.out] puts(str s) -> unit;
 ```
 
-### 格式化输出
+### 格式化输出 {#output-basics-output}
 
 ```lumos
 // 格式化打印（不换行）
@@ -69,9 +69,9 @@ print("{:0>10d}", 42);     // 零填充
 print("{:.2f}", 3.14159);  // 浮点精度2
 ```
 
-## 基础输入
+## 基础输入 {#input-basics}
 
-### 简单输入
+### 简单输入 {#input}
 
 ```lumos
 // 输入一个字符
@@ -94,7 +94,7 @@ act[io.in] scan_f64() -> f64;
 act[io.in] scan_str() -> str;
 ```
 
-### 格式化输入
+### 格式化输入 {#input-basics-input}
 
 ```lumos
 // 格式化扫描
@@ -114,7 +114,7 @@ scanf("%[^\n]", line);   // 读整行（包括空格）
 scanf("%c", ch);         // 读字符
 ```
 
-### 通用扫描接口
+### 通用扫描接口 {#scan-interfaces}
 
 ```lumos
 // 通用扫描（类型推导）
@@ -134,9 +134,9 @@ i32 x = scan<i32>();              // 读入整数
 str name = scan_or<str>("Unknown"); // 读入字符串，默认"Unknown"
 ```
 
-## 输出流
+## 输出流 {#output-streams}
 
-### 标准流操作
+### 标准流操作 {#ops}
 
 ```lumos
 \type> OutputStream {
@@ -160,7 +160,7 @@ str name = scan_or<str>("Unknown"); // 读入字符串，默认"Unknown"
 }
 ```
 
-### 标准流对象
+### 标准流对象 {#std-streams}
 
 ```lumos
 // 标准输出流
@@ -173,7 +173,7 @@ val \type> stderr: OutputStream;
 val \type> stdlog: OutputStream;
 ```
 
-### 流输出示例
+### 流输出示例 {#output-examples}
 
 ```lumos
 use std.io.*;
@@ -186,9 +186,9 @@ act main() {
 }
 ```
 
-## 输入流
+## 输入流 {#input-detail}
 
-### 标准输入流操作
+### 标准输入流操作 {#input-ops}
 
 ```lumos
 \type> InputStream {
@@ -212,16 +212,16 @@ act main() {
 }
 ```
 
-### 标准输入对象
+### 标准输入对象 {#input-detail-input}
 
 ```lumos
 // 标准输入流
 val \type> stdin: InputStream;
 ```
 
-## 缓冲化控制
+## 缓冲化控制 {#buffering}
 
-### 缓冲设置
+### 缓冲设置 {#buffer-settings}
 
 ```lumos
 // 全缓冲（直到缓冲满或显式刷新）
@@ -234,9 +234,9 @@ act[io.out] set_line_buffer() -> unit;
 act[io.out] set_no_buffer() -> unit;
 ```
 
-## 高级特性
+## 高级特性 {#advanced-features}
 
-### 颜色和样式输出
+### 颜色和样式输出 {#color-style-output}
 
 ```lumos
 // ANSI 颜色
@@ -250,7 +250,7 @@ fun color_reset() -> str;
 print("{}Error: Something failed{}", color_red(), color_reset());
 ```
 
-### 进度显示
+### 进度显示 {#progress-display}
 
 ```lumos
 // 进度条
@@ -260,7 +260,7 @@ act[io.out] progress_bar(usize current, usize total, usize width) -> unit;
 act[io.out] spinner(usize step) -> unit;
 ```
 
-### 表格输出
+### 表格输出 {#table-output}
 
 ```lumos
 \type> Table {
@@ -278,9 +278,9 @@ table.add_row(["Bob", "30", "LA"]);
 table.print();
 ```
 
-## 使用示例
+## 使用示例 {#examples}
 
-### 基础 I/O
+### 基础 I/O {#io}
 
 ```lumos
 use std.io.*;
@@ -301,7 +301,7 @@ act main() {
 }
 ```
 
-### 格式化输出
+### 格式化输出 {#examples-output}
 
 ```lumos
 use std.io.*;
@@ -318,7 +318,7 @@ act main() {
 }
 ```
 
-### 文件路径表示
+### 文件路径表示 {#file-path}
 
 ```lumos
 use std.io.*;
@@ -336,4 +336,4 @@ act main() {
 
 ---
 
-相关内容：权限系统见 [副作用权限系统](../grammar/permission.md#permission-system-side-effect-permission-system)。
+相关内容：权限系统见 [副作用权限系统](../grammar/permission.md#title)。

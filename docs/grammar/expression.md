@@ -1,6 +1,6 @@
-# 表达式 {#expressions}
+# 表达式 {#title}
 
-关键字列表与用法速查请参阅 [语法/关键字](keyword.md#keywords)。
+关键字列表与用法速查请参阅 [语法/关键字](keyword.md#title)。
 
 <span style="color:purple">
 与 C++ 中不一样的是，在 Lumos 中如果表达式是一个右值，则不能取地址。  
@@ -17,7 +17,7 @@ lit expr3 = 10;     // 右值
 val c     = &expr3; // 错误
 ```
 
-## 表达式定义 `let` {#expressionsdefinition-let}
+## 表达式定义 `let` {#let}
 
 `let` 用于声明一个表达式，其值在运行时确定，可以作为宏的替代。  
 以下两种写法在使用 `i32 b = expr * 2;` 时等效，均展开为 `i32 b = (a + 10) * 2;`。
@@ -70,7 +70,7 @@ let expr = a + 10;
 i32 b = expr * 2;     // b = (a + 10) * 2
 ```
 
-## 常量表达式定义 `lit` {#expressionsdefinition-lit}
+## 常量表达式定义 `lit` {#lit}
 
 `lit` 用于声明一个常量表达式，性质类似一个字面量，其值在编译时确定。
 
@@ -82,7 +82,7 @@ lit expr = 10 + 1;
 // a 与 b 的大小完全相同
 ```
 
-### 返回常量表达式的函数 {#const-expression-functions}
+### 返回常量表达式的函数 {#expression}
 
 ```lumos
 @lit

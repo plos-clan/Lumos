@@ -1,10 +1,10 @@
-# Lumos AST 定义 (Rust 描述)
+# Lumos AST 定义 (Rust 描述) {#title}
 
 本目录使用 Rust 语言完整定义了 Lumos 的抽象语法树 (AST) 结构。Rust 的枚举 (Enum) 和模式匹配特性非常适合描述复杂的语法结构。
 
 为了便于查阅，AST 定义被拆分为以下几个部分：
 
-## 目录索引
+## 目录索引 {#toc}
 
 - **[基础元数据与枚举 (Common)](common.md)**
   - 包含源代码位置 (`Span`, `SourceLocation`)、函数纯度、各类修饰符（访问控制、变量修饰、初始化策略）以及 `Block`、`Param` 等基础结构。
@@ -19,13 +19,13 @@
 - **[字面量 (Literal)](literal.md)**
   - 定义了 `Literal` 结构，涵盖数值、字符串、布尔、字符、单位数值、数组及对象初始化列表。
 
-## 设计原则
+## 设计原则 {#principles}
 
 1. **显式性**：AST 结构反映了 Lumos 对副作用和内存安全的显式控制（如 `Purity` 和 `VarModifier`）。
 2. **强类型**：通过 `TypeRef` 确保类型信息在语法树阶段即被充分捕获。
 3. **可扩展性**：使用 Rust 的 `enum` 确保未来增加新语法特性（如新的效应或运算符）时具有良好的向后兼容性。
 
-## AST 节点命名树
+## AST 节点命名树 {#ast}
 
 Lumos 源码会被解析为一个 AST 树，其中 AST 节点包含其它节点和 Token 或 Token Tree。
 
@@ -89,7 +89,7 @@ AST 结构也被用作语义高亮和代码分析的基础。
   - `punc.double_colon`: 双冒号
   - `punc.arrow`: 箭头符号
 
-### 语义高亮规则
+### 语义高亮规则 {#highlighting}
 
 我们使用类似 CSS 选择器的语法来定义语义高亮规则：
 
@@ -111,4 +111,4 @@ id.var {
 
 ---
 
-相关内容：语法入口见 [语法](../grammar/index.md#grammar)。
+相关内容：语法入口见 [语法](../grammar/index.md#title)。

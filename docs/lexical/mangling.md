@@ -1,4 +1,4 @@
-# 名称重整 (Name Mangling) {#name-mangling}
+# 名称重整 (Name Mangling) {#title}
 
 为了与 C++ 及其他语言区分，并支持 Lumos 特有的 `ovl` 功能，Lumos 采用以 `$$` 开头的名称重整规则。
 
@@ -47,7 +47,7 @@
 
 ## 示例 {#examples}
 
-### 1. 基础函数 {#1-functions}
+### 1. 基础函数 {#1}
 
 ```lumos
 namespace math {
@@ -58,7 +58,7 @@ namespace math {
 - **重整名**: `$$N4mathF3addiiRi`
 - **解析**: 命名空间(`N4math`) -> 函数(`F3add`) -> 参数(`ii` 即两个 `i32`) -> 返回值(`Ri` 即 `i32`)
 
-### 2. 重载函数 (`ovl`) {#2-functions-ovl}
+### 2. 重载函数 (`ovl`) {#2-ovl}
 
 ```lumos
 namespace core {
@@ -71,7 +71,7 @@ namespace core {
 - **print(f64)**: `$$N4coreO5printdRv`
 - **解析**: 使用 `O` 标识重载，参数分别为 `i` 和 `d`。
 
-### 3. 复合类型 {#3-class}
+### 3. 复合类型 {#3}
 
 ```lumos
 struct Point { val x: i32; }
@@ -93,4 +93,4 @@ act[io.out] log(string msg) -> unit;
 
 ---
 
-相关内容：模块系统见 [模块系统](../grammar/modules.md#modules)。
+相关内容：模块系统见 [模块系统](../grammar/modules.md#title)。

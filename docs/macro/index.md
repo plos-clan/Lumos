@@ -1,5 +1,5 @@
 
-# 宏
+# 宏 {#title}
 
 <span style="color:green">能少用就少用宏</span>
 
@@ -12,7 +12,7 @@
 
 文件相关细节见 [文件操作](file.md) 与 [文件查找规则](filesearch.md)。
 
-# 在宏中嵌入代码
+# 在宏中嵌入代码 {#title-detail}
 
 ``#` code `#``
 
@@ -66,7 +66,7 @@ code3
 #set xxx = 3
 
 #if xxx != 0
-#  eof
+# eof {#title-extra}
 #end
 ```
 

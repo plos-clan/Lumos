@@ -1,4 +1,4 @@
-# The Lumos Programming Language
+# The Lumos Programming Language {#title}
 
 <script>
   window.location.replace('/home');

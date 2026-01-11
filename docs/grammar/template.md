@@ -1,7 +1,7 @@
 
-# 模板 {#templates}
+# 模板 {#title}
 
-## 带类型 {#typed-templates}
+## 带类型 {#types}
 
 我们使用 `</xxx/>` 来定义一个模板。
 
@@ -65,7 +65,7 @@ act[io.out]</typename T/>(T arg1) -> unit {
 act[io.out] my_func</i32/>;
 ```
 
-## 不带类型 {#untyped-templates}
+## 不带类型 {#types-detail}
 
 使用以下语法定义一个模板：
 
