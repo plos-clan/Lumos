@@ -19,11 +19,10 @@ pub enum Expr {
         right: Box<Expr>,
     },
 
-    /// 一元运算 (-a, !b, a++)
+    /// 一元运算 (-a, !b, *a)
     Unary {
         op: UnaryOp,
         operand: Box<Expr>,
-        is_postfix: bool,
     },
 
     /// 函数调用 (foo(a, b))
@@ -117,7 +116,6 @@ pub enum BinaryOp {
 pub enum UnaryOp {
     Pos, Neg,      // + -
     Not, BitNot,   // ! ~
-    Inc, Dec,      // ++ --
     Deref,         // * (解引用)
     AddrOf,        // & (取地址)
 }

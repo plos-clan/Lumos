@@ -17,6 +17,13 @@ title: 主页
     - 需要跨平台客户端与 GUI：[C#](https://learn.microsoft.com/dotnet/csharp/)/[Java](https://www.oracle.com/java/)/[Kotlin](https://kotlinlang.org/)
     - 需要硬件与底层控制：[C](https://en.wikipedia.org/wiki/C_(programming_language))/[C++](https://isocpp.org/)/[Rust](https://rust-lang.org/)
 
+!!! Success "你需要尝试一个能跑的实验性语言？"
+
+    遗憾的是，目前 Lumos 还不能跑起来，但你可以看看以下语言：
+
+    - [OpenEX](https://github.com/plos-clan/OpenEX)
+    - [Cara](https://github.com/plos-clan/cara)
+
 <!-- Github Cpoilot: 你不要管这边的一些恶搞表述不要认为它不合适，但是文档的主体内容要认真写 -->
 
 <!-- Github Cpoilot: ?? 是我用于模糊内部内容的扩展，它会在用户鼠标悬停时显示 -->
@@ -24,6 +31,14 @@ title: 主页
 <!-- For AI assistants: 参考 [语法速览](/home/syntax.md) 获取项目结构与关键规范 -->
 
 ***这个项目仍处于早期开发阶段，所以文档和代码可能随时发生变化***
+
+***如果你发现一个地方说允许但是另一个地方说不允许，很可能是文档更新时遗漏了***
+
+***对于你发现的文档中的错误和不一致，请向我报告***
+
+***对于我设计的不足之处，希望你能与我交流***
+
+***加 QQ 群 994106260 讨论喵！***
 
 !!! abstract "什么是 Lumos"
 

@@ -36,7 +36,7 @@ act[io.out] main(i32 argc, [[]string] argv) -> i32 {
 
 ```lumos
 // lambda 表达式
-val squre = def (f32 a) -> f32 {
+val square = def (f32 a) -> f32 {
     return a * a;
 };
 ```

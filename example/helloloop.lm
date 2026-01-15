@@ -4,9 +4,9 @@ act[io.out] main() -> i32 {
   var i32 i = 0;
   while (i < 10) {
     std.println("Hello, while loop!");
-    i++;
+    i += 1;
   }
-  for (var i32 i = 0; i < 10; i++) {
+  for (var i32 i = 0; i < 10; i += 1) {
     std.println("Hello, for loop!");
   }
   for (val a : 0 .. 9) {

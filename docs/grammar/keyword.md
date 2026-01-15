@@ -80,7 +80,7 @@
 | cstr                       | [C 字符串](type.md#types-types)                 |
 | cstr8/16/32                | [UTF 编码 C 字符串](type.md#types-types)        |
 | bytes                      | [字节数组](type.md#types-types)                 |
-| int/uint                   | [编译期整数](type.md#int)                       |
+| int/uint                   | [编译期整数](type.md#compile-time-integer)      |
 | float                      | [编译期浮点](type.md#compile-time-float)        |
 | i8/16/32/64 **...**        | [整数类型](type.md#numeric-types)               |
 | u8/16/32/64 **...**        | [无符号整数](type.md#numeric-types)             |

@@ -5,12 +5,12 @@
     这样可以使你的代码更加规范，也可以使你的代码更加易读。
 
 !!! note "这些命名标准的意义"
-    众所周知当你开始编写一个项目时，最困难的一件事就是给变量和函数命名。  
+    在项目编写初期，最困难的一件事就是给变量和函数命名。  
     但是当你使用统一的命名标准时，你不需要再记住各个函数的作用，你只需要记住标准规定就可以命名和使用函数和变量。
 
 !!! note "关于异常"
-    标准库的每个函数都有开启异常和关闭异常的版本。因为 Lumos 默认是关闭异常的。  
-    为了在全局开启异常，你可以编辑项目根目录的 `lumos.yaml`/`lumos.json`/`lumos.toml`（三选一）。
+    标准库函数通常提供支持异常和禁用异常的两种变体。因为 Lumos 默认是关闭异常的。  
+    若要全局开启异常支持，你可以编辑项目根目录的 `lumos.yaml`/`lumos.json`/`lumos.toml`（三选一）。
 
 ## 核心功能 {#core-features}
 
@@ -138,9 +138,9 @@ use std.container.{List, HashMap, Set};
 ### I/O 操作 {#io}
 
 ```lumos
-println("Hello, {}!", name);                  // 带格式化输出
-i32 x = scan<i32>();                         // 读整数
- str line = scanln();                          // 读一行
+println("Hello, {}!", name); // 带格式化输出
+i32 x = scan<i32>();         // 读整数
+str line = scanln();         // 读一行
 ```
 
 ### 容器操作 {#container-ops}

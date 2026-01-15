@@ -92,7 +92,7 @@ act[io.out] my_func(i32 arg) -> unit {
   ```lumos
   @generator
   fun my_func(i32 n) -> i32 {
-    for (var i32 i = 0; i < n; i++) {
+    for (var i32 i = 0; i < n; i += 1) {
       return i;
     }
     return; // 空的 return，函数终止
@@ -226,16 +226,11 @@ act[io.out] my_func(i32 arg) -> unit {
 ### 示例 {#examples}
 
 ```lumos
-@const // 输入相同得到相同输出
-def square(int x) -> int {
-  return x * x;
-}
-
 @inline // 强制内联
-def add(int a, int b) = a + b;
+def add(i32 a, i32 b) = a + b;
 
 @hidden
-def helper(int x) -> int {
+def helper(i32 x) -> i32 {
   实现
 }
 ```

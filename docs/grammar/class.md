@@ -62,7 +62,7 @@ class MyClass {
 } // class MyClass
 ```
 
-当然这边属性修饰 `@default` 加在前后都是可以的：
+属性修饰符 `@default` 可以在声明的前后放置：
 
 ```lumos
 @default act initvar -> unit;
@@ -70,11 +70,11 @@ act initvar -> unit @default;
 ```
 
 默认情况下，如果一个类没有任何构造函数，那么它将允许变量列表初始化。  
-如果有构造函数，则需要手动启用。
+如果有构造函数，则需要通过 `@default` 手动启用。
 
 ## 访问控制 {#access-control}
 
-在 Lumos 中，我们可以使用 `@public`、`@protected` 和 `@private` 修饰符来控制类的访问权限。
+在 Lumos 中，可以使用 `@public`、`@protected` 和 `@private` 修饰符来控制类的访问权限。
 
 ```lumos
 class MyClass {
@@ -87,7 +87,7 @@ class MyClass {
 } // class MyClass
 ```
 
-修饰符后加冒号表示这个修饰符之后的所有成员都会被修饰，建议访问控制修饰符加上冒号，不过也可以不加冒号。
+修饰符后加冒号表示该修饰符之后的所有成员都会受此修饰。建议为访问控制修饰符加上冒号，但也可以省略。
 
 ```lumos
 class MyClass {
@@ -97,7 +97,7 @@ class MyClass {
 } // class MyClass
 ```
 
-你必须显式地写明使用哪个修饰符，否则编译器将会报错。
+必须显式指定访问修饰符，否则将产生编译错误。
 
 ```lumos
 class MyClass {
