@@ -19,19 +19,15 @@
 
 标志位和布尔值的区别在于，布尔值可以用在条件判断中，而标志位只能和 `true` `false` 进行赋值和比较。
 
-也就是说我们不能这样写：
+也就是说：
 
 ```lumos
 flag my_flag = true;
+
 if (my_flag) { // 错误，不能将 flag 用在条件判断中
     ...
 }
-```
 
-一定要这样写：
-
-```lumos
-flag my_flag = true;
 if (my_flag == true) { // 正确
     ...
 }

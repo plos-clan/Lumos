@@ -330,11 +330,11 @@ for (var i32 i = 0; i < 100; i++) {
 
 #### unroll {#unroll}
 
-`LMX` ::
+`@unroll(次数)` 属性可以展开循环，减少循环的开销。
 
-`@unroll(次数)` 属性可以展开循环，减少循环的开销。  
-`@unroll(0)` 或 `@unroll` 属性将循环完全展开，`@unroll(次数)` 属性将循环展开指定次数。  
-次数指展开后一次循环中循环体的执行次数。
+`@unroll(0)` 或 `@unroll` 属性将循环完全展开，`@unroll(次数)` 属性将循环展开指定次数，次数指展开后一次循环中循环体的执行次数。
+
+如果循环的次数不固定，则不能完全展开。
 
 :::column
 
@@ -490,8 +490,9 @@ act[io.out] my_func(i32 a) -> unit {
 !!! question ""
     不过有人提议使用 `terminated`
 
-`breaked` 用于在循环被 `break` 中断时执行代码。  
-<span style="color:green">减少逆天的嵌套</span>
+`breaked` 用于在循环被 `break` 中断时执行代码。
+
+或许可以减少逆天的嵌套。
 
 ```lumos
 for (var i32 i = 0; i < 10; i++) {
@@ -502,8 +503,7 @@ for (var i32 i = 0; i < 10; i++) {
 }
 ```
 
-可以在 `breaked` 中 `continue` 重新进入循环。  
-<span style="color:green">本次循环会被跳过</span>
+可以在 `breaked` 中 `continue` 重新进入循环，本次循环会被跳过。
 
 ```lumos
 for (var i32 i = 0; i < 10; i++) {

@@ -72,40 +72,40 @@ val b = 2 pow 3;
 
 ## 提示框测试 B {#admonitions-b}
 
-!!! note 注意  
+!!! note "注意"  
     这是一个注意。
 
-!!! abstract 摘要  
+!!! abstract "摘要"  
     这是一个摘要。
 
-!!! info 信息  
+!!! info "信息"  
     这是一个信息。
 
-!!! tip 提示  
+!!! tip "提示"  
     这是一个提示。
 
-!!! success 成功  
+!!! success "成功"  
     这是一个成功。
 
-!!! question 疑问  
+!!! question "疑问"  
     这是一个疑问。
 
-!!! warning 警告  
+!!! warning "警告"  
     这是一个警告。
 
-!!! failure 失败  
+!!! failure "失败"  
     这是一个失败。
 
-!!! danger 危险  
+!!! danger "危险"  
     这是一个危险。
 
-!!! bug 错误  
+!!! bug "错误"  
     这是一个错误。
 
-!!! example 示例  
+!!! example "示例"  
     这是一个示例。
 
-!!! quote 引用  
+!!! quote "引用"  
     这是一个引用。
 
 ## 提示框测试 C {#admonitions-c}
