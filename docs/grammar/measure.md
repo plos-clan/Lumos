@@ -3,6 +3,8 @@
 
 Lumos 引入了原生计量单位支持，通过编译期的量纲分析（Dimensional Analysis）确保物理计算的安全性，同时保持零运行时开销。
 
+> 注意由于这样会将单位转换的运算隐藏在量纲操作下，导致浮点误差无法被察觉，建议使用有理数类型以保证完整精度或仅在对误差不敏感的场景下使用浮点数类型。
+
 ## 量纲与单位定义 {#dimensions-units}
 
 使用 `measure` 关键字定义一个量纲，并在其内部定义具体的单位。每个量纲必须指定一个基准单位（通常不设比例），其他单位则相对于基准单位进行定义。
@@ -24,6 +26,19 @@ measure Time {
     h = 60 * min;           // 小时
 }
 ```
+
+以上是内置的量纲定义，我们定义了现实世界的常用单位。用户也可以根据需要定义自己的量纲和单位。
+
+```lumos
+// 定义经验值量纲（游戏中可用）
+measure Experience {
+    exp;                // 基准单位：经验值
+    level = 1000 * exp;
+    rank = 100 * level;
+}
+```
+
+注意量纲的名称必须全局唯一，单位的名称必须在所有量纲中唯一。
 
 ## 变量声明与字面量 {#declaration-literal}
 
@@ -79,6 +94,17 @@ measure Force = Mass * Acceleration;
 
 val f: f64[Force] = 9.8[kg] * 1.0[m/s²];
 ```
+
+我们提供常见组合量纲的内置别名：
+
+| 别名         | 定义                      |
+|--------------|---------------------------|
+| Speed        | Length / Time             |
+| Acceleration | Speed / Time              |
+| Force        | Mass * Acceleration       |
+| Energy       | Force * Length            |
+| Power        | Energy / Time             |
+| Pressure     | Force / (Length * Length) |
 
 ## 零成本抽象 {#zero-cost-abstraction}
 

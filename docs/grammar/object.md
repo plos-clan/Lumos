@@ -4,11 +4,10 @@
 
 Lumos 中可以使用动态类型，变量的类型在运行时确定，就像 js 那样。  
 即变量可以在不同的时间点存储不同类型的值。  
-<span style="color:purple">
-当然我们不建议你在 Lumos 中过多使用动态类型，因为这会导致代码难以理解和维护。
-</span>
 
-!!! note "我知道你在想什么"
+> 当然我们不建议你在 Lumos 中过多使用动态类型，因为这会导致代码难以理解和维护。
+
+!!! note 我知道你在想什么  
     `list() + map()` 不会得到 `"[object Object]"`，别试了。
 
 ```lumos
@@ -23,12 +22,11 @@ a     = "1"; // 现在 a 为 string 类型
 a.xxx(); // ((unit (*)())a.members["xxx"])();
 ```
 
-使用 `typeof` 运算符可以获取它的类型。  
-使用 `typenameof` 运算符可以以字符串形式获取它的类型。
+使用 `typeof` 运算符可以获取它的类型，使用 `typenameof` 运算符可以以字符串形式获取它的类型。
 
 ```lumos
 obj a = 10;
-println(typenameof(a)); // i32
+println(typenameof(a)); // "i32"
 ```
 
 如果不初始化动态类型对象，那么它的类型为 `unit`，值为 `undefined`。
@@ -59,8 +57,7 @@ fun my_func(obj arg1 @lock-type) -> unit {
 
 ## 实现 {#implementation}
 
-实际上就是将运算符进行封装。  
-类似以下 C 代码。
+实际上就是将运算符进行封装，类似以下 C 代码。
 
 ```c
 typedef struct object *object_t;
