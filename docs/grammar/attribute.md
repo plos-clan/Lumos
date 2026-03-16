@@ -81,7 +81,7 @@ act[io.out] my_func(i32 arg) -> unit {
 
 - `@deprecated("消息")`: 标记变量、函数或类为已废弃的，提供一个可选的提示消息说明替代方案或原因。
 - `@deleted("消息")`: 标记变量、函数或类为已删除的，提供一个可选的提示消息说明替代方案或原因。
-- `@replaced-by(函数或变量名)`: 标记某个函数已被其它函数替代，同时标记其已被废弃。
+- `@replaced-by(函数或变量)`: 标记某个函数已被其它函数替代，同时标记其已被废弃。
 
 ## 函数属性 {#function-attrs}
 
@@ -107,7 +107,8 @@ act[io.out] my_func(i32 arg) -> unit {
 
 - `@mt-lock`：
 
-  对函数的调用加锁使其同一时间只能被一个线程调用。  
+  对函数的调用加锁使其同一时间只能被一个线程调用。
+
   对类加锁使其同一时间只能有一个成员函数被调用。
 
   ```lumos
@@ -115,13 +116,13 @@ act[io.out] my_func(i32 arg) -> unit {
 
   @mt-lock
   act call_count() -> unit {
+    count += 1;
   }
   ```
 
-- `@cache`：允许运行时缓存函数返回值，以减少重复计算。  
+- `@cache`：允许运行时缓存函数返回值，以减少重复计算。
 
-  <span style="color:purple">`cache` 属性隐式地包含 `pure` 属性</span>  
-  <span style="color:green">具体是否缓存取决于编译器实现</span>
+  `cache` 属性隐式地包含 `pure` 属性，具体是否缓存取决于编译器实现。
 
   ```lumos
   @cache
@@ -168,7 +169,6 @@ act[io.out] my_func(i32 arg) -> unit {
 - `@pure`: 声明函数为纯函数，表明函数不依赖任何外部状态（除了传入指针指向的内存）也不会修改任何外部状态。  
   *<span style="color:orange">warning</span>* 当一个函数可以为纯函数但程序员未在声明中显式写明时。
   > 注意：常量表达式等编译期可以确定的不算外部状态
-- `@noreturn`: 声明函数不会返回（等同于在函数签名后使用 `-` 标记）。
 - `@rettwice`: 声明函数会返回两次。
 
 ---

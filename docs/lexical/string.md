@@ -203,4 +203,4 @@ This is the second line.
 
 ---
 
-相关内容：字符串类型见 [类型系统](../grammar/type.md#types)。
+相关内容：字符串类型见 [类型系统](../grammar/type.md#string)。

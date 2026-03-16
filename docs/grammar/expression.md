@@ -2,20 +2,7 @@
 
 关键字列表与用法速查请参阅 [语法/关键字](keyword.md#title)。
 
-<span style="color:purple">
-与 C++ 中不一样的是，在 Lumos 中如果表达式是一个右值，则不能取地址。  
-常量表达式必为右值，故不能取地址。
-</span>
-
-```lumos
-var i32 myvar = 10; // 变量
-let expr1 = myvar;  // 左值
-val a     = &expr1; // 通过编译
-let expr2 = 10;     // 右值
-val b     = &expr2; // 错误
-lit expr3 = 10;     // 右值
-val c     = &expr3; // 错误
-```
+对表达式取地址会导致其在栈上生成一个临时变量来存储这个值。
 
 ## 表达式定义 `let` {#let}
 

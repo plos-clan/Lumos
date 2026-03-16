@@ -46,7 +46,7 @@ fun my_func(obj arg1 @lock-type) -> unit {
 }
 ```
 
-!!! warning "优先考虑使用重载与模板"
+!!! Note "优先考虑使用重载与模板"
 
     ```lumos
     @</typename T/>

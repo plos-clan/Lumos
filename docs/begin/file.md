@@ -1,8 +1,7 @@
 
 # 文件 {#title}
 
-Lumos 要求所有数据都以 UTF-8 编码，文件名区分大小写。
-<span style="color:green">但当文件或目录名仅有大小写不同时会报警告。</span>
+Lumos 要求所有数据都以 UTF-8/16/32 编码，文件名区分大小写，但当文件或目录名仅有大小写不同时会报警告。
 
 ## 文件与扩展名 {#file-extensions}
 

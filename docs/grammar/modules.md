@@ -129,20 +129,20 @@ impl:    # 实现所在的文件（默认为 **.lm）
 - `version` 模块版本号，格式为 `x.y.z`。
 - `std` 使用的语言标准版本。
 - `target` 目标平台。
-- `author` 作者。*<span style="color:green">人员信息或人员信息列表</span>*
-- `email` 项目公共联系邮箱。*<span style="color:green">字符串或字符串列表</span>*
-- `license` 许可证。*<span style="color:green">字符串</span>*
-- `description` 描述。*<span style="color:green">字符串</span>*
-- `url` 项目地址。*<span style="color:green">url 字符串</span>*
-- `type` 模块类型。*<span style="color:green">字符串</span>*
-- `tags` 标签。*<span style="color:green">字符串列表</span>*
-- `issue` 问题地址。*<span style="color:green">url 字符串</span>*
-- `sponsor` 赞助商。*<span style="color:green">人员信息或人员信息列表*</span>
+- `author` 作者。*人员信息或人员信息列表*
+- `email` 项目公共联系邮箱。*字符串或字符串列表*
+- `license` 许可证。*字符串*
+- `description` 描述。*字符串*
+- `url` 项目地址。*url 字符串*
+- `type` 模块类型。*字符串*
+- `tags` 标签。*字符串列表*
+- `issue` 问题地址。*url 字符串*
+- `sponsor` 赞助商。*人员信息或人员信息列表*
 - `flags` 编译选项。
-- `dependencies` 模块依赖。*<span style="color:green">字符串列表</span>*
-- `use` 实现文件中默认导入的模块声明。*<span style="color:green">字符串列表</span>*
-- `decl` 声明所在的文件。*<span style="color:green">字符串列表</span>*
-- `impl` 实现所在的文件。*<span style="color:green">字符串列表</span>*
+- `dependencies` 模块依赖。*字符串列表*
+- `use` 实现文件中默认导入的模块声明。*字符串列表*
+- `decl` 声明所在的文件。*字符串列表*
+- `impl` 实现所在的文件。*字符串列表*
 
 ***人员信息***可以是一个字符串（表示名称），也可以是一个对象。
 

@@ -12,18 +12,20 @@
 ```lumos
 ovl def foo(i32 a) -> unit;
 ovl def foo(f32 a) -> unit; // OK: 所有参与者都标记了 ovl
+```
 
+```lumos
 def bar(i32 a) -> unit;
-// ovl def bar(f32 a) -> unit; // Error: 第一个定义没有标记 ovl，拒绝重载
-// def bar(f32 a) -> unit;     // Error: 重定义
+ovl def bar(f32 a) -> unit; // Error: 第一个定义没有标记 ovl，拒绝重载
+def bar(f32 a) -> unit;     // Error: 重定义
 ```
 
 对于重载函数的搜索条件按顺序遵循以下几条规则：
 
-1. 参数数量相同。
+1. 参数数量相同
 2. 优先完全匹配
 3. 优先无损转换
-4. 有损转换 (警告)
+4. 有损隐式转换 (警告)
 
 ---
 

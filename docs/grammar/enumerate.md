@@ -152,8 +152,10 @@ enum Operation by i32 as table {
     [enum,   i32, string, (i32, i32)->i32],
     [Add,    1,   "加法", def (a, b) -> i32 { return a + b; }],
     [Sub,    2,   "减法", def (a, b) -> i32 { return a - b; }],
-    [Mul,    3,   "乘法", def (a, b) -> i32 { return a * b; }];
+    [Mul,    3,   "乘法", def (a, b) -> i32 { return a * b; }],
+}
 
+impl Operation {
     fun describe() -> string {
         val op_name = this as string;  // 获取当前元素的名称
         return `Operation: $op_name`;
@@ -170,6 +172,22 @@ act[io.out] main() {
     println(Operation::Add.apply(3, 5)); // 输出 8
 }
 ```
+
+注意：`impl` 也可以带修饰符以简化块内所有成员的修饰，例如 `static impl`、`private impl` 等。
+
+示例：
+
+```lumos
+static impl Operation { // 块内函数默认视为静态
+    fun describe() -> string { ... }
+}
+
+private impl Operation { // 块内成员默认私有
+    fun helper() -> i32 { ... }
+}
+```
+
+上述新写法与原有 `impl Operation {}` 以及类外 `def Operation.foo` 的写法兼容。
 
 #### 性能特性 {#performance}
 
@@ -212,26 +230,33 @@ enum 枚举名 by unit {
 
 ## 枚举内函数 {#enum-functions}
 
-枚举作为类型时内部可以定义函数。  
-但作为容器时只能定义静态函数。
+枚举作为类型时内部可以定义函数，但作为容器时只能定义静态函数。
 
 ```lumos
 enum 枚举名 by 值的类型 as type {
     枚举元素1,
-    枚举元素2; // 以分号结尾
+    枚举元素2,
+}
 
+impl {
     fun 函数名(参数列表) -> 返回类型 {
         // 函数体
     }
+
     // ...
 }
 ```
 
 ```lumos
 enum 枚举名 by 值的类型 as container {
+    // ...
+}
+
+static impl {
     static fun 函数名(参数列表) -> 返回类型 {
         // 函数体
     }
+
     // ...
 }
 ```

@@ -131,10 +131,16 @@ class MyInt {
   @public:
     act MyInt(i32 value) : \var> value(value) {}
 
-    def as i32 -> i32 {
-        return value;
-    }
+    def as i32 -> i32;
 } // class MyInt
+
+impl MyInt {
+
+def as i32 -> i32 {
+    return value;
+}
+
+} // impl MyInt
 ```
 
 也可以在类外定义：
@@ -156,6 +162,13 @@ def as i32 -> i32 {
 
 } // impl MyInt
 ```
+
+现在允许在 `impl` 前添加修饰符以简化书写，例如 `static impl`、`private impl`、`public impl` 等。
+
+- `static impl ClassName { ... }`：块内的函数默认是静态的（等价于在每个函数前加 `static`）。
+- `private impl ClassName { ... }`：块内成员默认使用私有访问权限。
+
+这些新的写法与现有语法完全兼容：既可以继续使用 `impl ClassName { ... }`，也可以在类外用 `def ClassName.foo` 单独实现方法。
 
 ## 弱化的类：结构体 {#struct-as-class}
 

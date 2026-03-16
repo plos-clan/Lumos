@@ -544,8 +544,7 @@ for (var i32 i = 0; i < 10; i += 1) {
 
 ### 标签跳转 `goto` {#goto}
 
-`goto` 用于跳转到指定标签。  
-<span style="color:green">所有标签反向缩进两格</span>
+`goto` 用于跳转到指定标签，所有标签反向缩进两格。
 
 ```lumos
   loop:
@@ -565,7 +564,7 @@ for (var i32 i = 0; i < 10; i += 1) {
 
 ### 任意地址跳转 `goto` {#jumps-detail-goto}
 
-`goto` 用于跳转到任意地址，对应汇编中的 jmp 指令。
+`goto` 用于跳转到任意地址，对应汇编中的 `jmp` 指令。
 
 ```lumos
 goto 0x12345678;
