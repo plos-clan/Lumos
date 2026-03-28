@@ -3,19 +3,19 @@
 
 ## 变量声明与初始化 {#declaration-init}
 
-| 关键字   | 全称                       | 用法                                                          |
-|----------|----------------------------|---------------------------------------------------------------|
-| var      | variable                   | [声明完全可变变量（隐含 `mut`）](variable.md#var-variable)    |
-| val      | value                      | [声明逻辑不可变变量](variable.md#val-value)                   |
-| imv      | immutable variable         | [声明物理不可变变量（隐含 `imm`）](variable.md#imv-immutable) |
-| ref      | reference                  | [声明引用变量](type.md#reference-types)                       |
-| lit      | literal                    | [声明编译期常量](variable.md#lit-literal)                     |
-| fin      | final variable             | [声明禁止重新绑定的变量](variable.md#fin)                     |
-| late     | late                       | [标记变量为手动延迟初始化](variable.md#late)                  |
-| lazy     | lazy                       | [标记变量为懒加载初始化](variable.md#lazy)                    |
-| restrict | restrict                   | [指针限定符](variable.md#restrict)                            |
-| let      | expression                 | [定义表达式](expression.md#let)                               |
-| obj      | dynamically typed variable | [声明或定义动态类型变量](object.md#usage)                     |
+| 关键字   | 全称                       | 用法                                                        |
+|----------|----------------------------|-------------------------------------------------------------|
+| var      | variable                   | [声明完全可变变量（隐含 `mut`）](variable.md#keyword-var)   |
+| val      | value                      | [声明逻辑不可变变量](variable.md#keyword-val)               |
+| imv      | immutable variable         | [声明物理不可变变量（隐含 `imm`）](variable.md#keyword-imv) |
+| ref      | reference                  | [声明引用变量](type.md#reference-types)                     |
+| lit      | literal                    | [声明编译期常量](variable.md#keyword-lit)                   |
+| fin      | final variable             | [声明禁止重新绑定的变量](variable.md#fin)                   |
+| late     | late                       | [标记变量为手动延迟初始化](variable.md#late)                |
+| lazy     | lazy                       | [标记变量为懒加载初始化](variable.md#lazy)                  |
+| restrict | restrict                   | [指针限定符](variable.md#restrict)                          |
+| let      | expression                 | [定义表达式](expression.md#let)                             |
+| obj      | dynamically typed variable | [声明或定义动态类型变量](object.md#usage)                   |
 
 ## 函数与纯度 {#functions-purity}
 
@@ -75,20 +75,20 @@
 | char                       | [Unicode 字符](type.md#types)                   |
 | ascii                      | [ASCII 字符](type.md#types)                     |
 | char8/16/32                | [字符类型](type.md#types)                       |
-| str                        | [字符串](type.md#string)                   |
-| str8/16/32                 | [UTF 编码字符串](type.md#string)           |
-| cstr                       | [C 字符串](type.md#string)                 |
-| cstr8/16/32                | [UTF 编码 C 字符串](type.md#string)        |
-| bytes                      | [字节数组](type.md#string)                 |
+| str                        | [字符串](type.md#string)                        |
+| str8/16/32                 | [UTF 编码字符串](type.md#string)                |
+| cstr                       | [C 字符串](type.md#string)                      |
+| cstr8/16/32                | [UTF 编码 C 字符串](type.md#string)             |
+| bytes                      | [字节数组](type.md#string)                      |
 | int/uint                   | [编译期整数](type.md#compile-time-integer)      |
 | float                      | [编译期浮点](type.md#compile-time-float)        |
 | i8/16/32/64 **...**        | [整数类型](type.md#numeric-types)               |
 | u8/16/32/64 **...**        | [无符号整数](type.md#numeric-types)             |
 | f16/32/64/128              | [浮点类型](type.md#numeric-types)               |
 | usize/isize                | [平台字长整数](type.md#numeric-types)           |
-| b8/16/32/64 **...**        | [二进制类型](type.md#binary)              |
-| flag8/16/32/64 **...**     | [标志位类型](type.md#binary)              |
-| byte1/2/4/8 **...**        | [字节类型扩展](type.md#binary)            |
+| b8/16/32/64 **...**        | [二进制类型](type.md#binary)                    |
+| flag8/16/32/64 **...**     | [标志位类型](type.md#binary)                    |
+| byte1/2/4/8 **...**        | [字节类型扩展](type.md#binary)                  |
 | i**N**/u**N**/f**N**       | [位宽扩展类型](type.md#numeric-width-extension) |
 | i**N**le/u**N**le/f**N**le | [小端类型](type.md#numeric-types)               |
 | i**N**be/u**N**be/f**N**be | [大端类型](type.md#numeric-types)               |
