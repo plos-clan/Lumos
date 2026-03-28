@@ -1,5 +1,0 @@
-mkheader_hpp_recurse(ast)
-mkheader_hpp_recurse(lexer)
-mkheader_hpp_recurse(parser)
-mkheader_hpp_recurse(preprocesser)
-add_subdirectory(ast)
