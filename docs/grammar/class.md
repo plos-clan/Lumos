@@ -73,22 +73,12 @@ act initvar -> unit @default;
 
 ## 访问控制 {#access-control}
 
-在 Lumos 中，可以使用 `pub`、`prot` 和 `prv` 修饰符来控制类的访问权限。
-
-```lumos
-class MyClass {
-    pub i32 a;
-    prot i32 b;
-    prv i32 c;
-} // class MyClass
-```
-
-未显式标注的成员默认为受保护的（protected）：
+在 Lumos 中，可以使用 `pub` 和 `prv` 修饰符来控制类的访问权限。未显式标注的成员默认为受保护的（protected），且无法通过关键字显式声明 protected。
 
 ```lumos
 class MyClass {
     pub i32 a;    // 公共
-    i32 b;        // 默认为受保护的
+    i32 b;        // 受保护的（默认）
     prv i32 c;    // 私有
 } // class MyClass
 ```
@@ -102,7 +92,7 @@ class MyClass {
 ```lumos
 class MyClass {
     prv i32 a;
-    i32 b; // 这会导致一个报错
+    i32 b; // 这是允许的，默认为受保护的
 } // class MyClass
 ```
 
