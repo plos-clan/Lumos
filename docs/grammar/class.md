@@ -146,8 +146,10 @@ def as i32 -> i32 {
 
 现在允许在 `impl` 前添加修饰符以简化书写，例如 `static impl`、`prv impl`、`pub impl` 等。
 
+- `impl ClassName { ... }`：块内成员默认为受保护的（protected，即隐式默认）。
 - `static impl ClassName { ... }`：块内的函数默认是静态的（等价于在每个函数前加 `static`）。
 - `prv impl ClassName { ... }`：块内成员默认使用私有访问权限。
+- `pub impl ClassName { ... }`：块内成员默认使用公共访问权限。
 
 这些新的写法与现有语法完全兼容：既可以继续使用 `impl ClassName { ... }`，也可以在类外用 `def ClassName.foo` 单独实现方法。
 
@@ -200,16 +202,3 @@ class RBTree {
 ---
 
 相关内容：对象模型见 [对象](object.md#title)。
-
----
-
-## ---
-
-可以在当前文件中为文件外类定义辅助函数：
-
-```lumos
-prv:
-fun MyClass.helper() {
-    // ...
-}
-```

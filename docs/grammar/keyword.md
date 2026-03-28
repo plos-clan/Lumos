@@ -47,14 +47,16 @@
 
 ## 类型与访问修饰符 {#types-access-modifiers}
 
-| 关键字 | 全称         | 用法                                             |
-|--------|--------------|--------------------------------------------------|
-| mut    | mutable      | [类型修饰：完全可变](variable.md#declaration)    |
-| imm    | immutable    | [类型修饰：物理不可变](variable.md#declaration)  |
-| ro     | read-only    | [访问修饰：只读](variable.md#access-modifiers)   |
-| wo     | write-only   | [访问修饰：只写](variable.md#access-modifiers)   |
-| rw     | read-write   | [访问修饰：读写](variable.md#access-modifiers)   |
-| rx     | read-execute | [访问修饰：读执行](variable.md#access-modifiers) |
+| 关键字 | 全称         | 用法                                                          |
+|--------|--------------|---------------------------------------------------------------|
+| pub    | public       | [成员可见性：公共](class.md#access-control)                   |
+| prv    | private      | [成员可见性：私有](class.md#access-control)                   |
+| mut    | mutable      | [类型修饰：完全可变](variable.md#declaration)                 |
+| imm    | immutable    | [类型修饰：物理不可变](variable.md#declaration)               |
+| ro     | read-only    | [访问修饰：只读](variable.md#access-modifiers)                |
+| wo     | write-only   | [访问修饰：只写](variable.md#access-modifiers)                |
+| rw     | read-write   | [访问修饰：读写](variable.md#access-modifiers)                |
+| rx     | read-execute | [访问修饰：读执行](variable.md#access-modifiers)              |
 
 > **注意**：`var` 隐含了 `mut`，`imv` 隐含了 `imm`。在声明变量时重复使用这些修饰符（如 `var mut`）会导致编译错误。
 
