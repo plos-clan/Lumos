@@ -220,3 +220,16 @@ class RBTree {
 ---
 
 相关内容：对象模型见 [对象](object.md#title)。
+
+---
+
+## ---
+
+可以在当前文件中为文件外类定义辅助函数：
+
+```lumos
+@private:
+fun MyClass.helper() {
+    // ...
+}
+```
