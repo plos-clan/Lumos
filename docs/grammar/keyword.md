@@ -17,6 +17,16 @@
 | let      | expression                 | [定义表达式](expression.md#let)                             |
 | obj      | dynamically typed variable | [声明或定义动态类型变量](object.md#usage)                   |
 
+<details>
+
+<summary>关键字来源</summary>
+
+- `var` 和 `val` 来自 Kotlin，分别表示可变和不可变变量。
+- `late` 和 `lazy` 来自 Kotlin 的 `lateinit` 和 `by lazy`，分别表示手动延迟初始化和懒加载初始化。
+- `restrict` 来自 C99 的 `restrict` 关键字，用于指针限定。
+
+</details>
+
 ## 函数与纯度 {#functions-purity}
 
 | 关键字 | 全称          | 用法                                                                              |
@@ -29,6 +39,18 @@
 | unsafe | unsafe        | [修饰 `fun`，声明可回滚副作用（需权限列表与回滚块）](function.md#function-purity) |
 | ovl    | overload      | [标记函数允许重载（所有重载变体均需标记）](overload.md#rules)                     |
 | where  | where         | [对函数参数或泛型进行范围限定](function.md#where)                                 |
+
+<details>
+
+<summary>关键字来源</summary>
+
+- `def` 来自数学上的函数定义，强调纯函数的概念。
+- `fun` 来自大多数编程语言使用的 "function" 一词，表示一般函数。
+- `act` 来自 "action"，强调具有副作用的函数，由生成式 AI 推荐我使用。
+
+> 实际上最早采用的是来自 Rust 的 `fn`，但后来由于分成了三类，就改成了现在的 `def`、`fun` 和 `act`。
+
+</details>
 
 ## 异步与等待 {#async-await}
 

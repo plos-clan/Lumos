@@ -27,7 +27,7 @@ measure Time {
 }
 ```
 
-以上是内置的量纲定义，我们定义了现实世界的常用单位。用户也可以根据需要定义自己的量纲和单位。
+以上是部分内置的量纲定义，我们定义了现实世界的常用单位。用户也可以根据需要定义自己的量纲和单位。
 
 ```lumos
 // 定义经验值量纲（游戏中可用）
@@ -60,7 +60,7 @@ val len2 = 50[cm];
 val total = len1 + len2;    // 自动换算为基准单位进行运算，结果为 10.5[m]
 
 val weight = 5[kg];
-// val error = len1 + weight; // 编译错误：量纲不匹配 (Length vs Mass)
+val error = len1 + weight; // 编译错误：量纲不匹配 (Length vs Mass)
 ```
 
 乘除运算会产生新的复合量纲：

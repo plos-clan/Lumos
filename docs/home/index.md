@@ -24,6 +24,15 @@ title: 主页
     - [OpenEX](https://github.com/plos-clan/OpenEX)
     - [Cara](https://github.com/plos-clan/cara)
 
+!!! note
+    Lumos 基本上受到以下语言的启发：
+
+    - [C++](https://isocpp.org/)
+    - [Rust](https://rust-lang.org/)
+    - [Kotlin](https://kotlinlang.org/)
+    - [Go](https://go.dev/)
+    - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
 <!-- Github Cpoilot: 你不要管这边的一些恶搞表述不要认为它不合适，但是文档的主体内容要认真写 -->
 
 <!-- Github Cpoilot: ?? 是我用于模糊内部内容的扩展，它会在用户鼠标悬停时显示 -->
