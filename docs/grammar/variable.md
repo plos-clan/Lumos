@@ -2,11 +2,13 @@
 
 Lumos 的变量系统基本上受到 [Kotlin](https://kotlinlang.org/) 和 [Rust](https://rust-lang.org/) 的启发，但做了一些调整以适应 Lumos 的设计目标。
 
+> 📌 **命名规则**：关于变量名的语法限制和建议命名约定，见 [标识符规则](../lexical/index.md#naming-conventions)。
+
 ## 变量声明 {#declaration}
 
 Lumos 提供了四种不同的变量修饰符，用于精确控制变量的可变性和内存行为。
 
-### 变量声明 `var` (Variable - 完全可变) {#var-variable}
+### 变量声明 `var` (Variable - 完全可变) {#keyword-var}
 
 - **语义**：变量名可以重新绑定（除非有 `fin`），内存内容可以随意修改。
 - **隐含修饰**：`var` 隐含了类型修饰符 `mut`，手动重复书写 `var mut` 会导致编译错误。
@@ -18,7 +20,7 @@ a = 2;    // 允许重新绑定
 a[] = 3;  // 允许修改内存内容
 ```
 
-### 变量声明 `val` (Value - 逻辑不可变) {#val-value}
+### 变量声明 `val` (Value - 逻辑不可变) {#keyword-val}
 
 - **语义**：变量名绑定后不可更改。对外表现的“值”是稳定的，但允许**内部可变性**（Internal Mutability）。
 - **内存**：底层内存可能会变（例如：懒加载初始化、引用计数增减、内部缓存更新）。
@@ -30,7 +32,7 @@ i32 c = 2;     // 等同于 val i32 c = 2
 b = 2;         // error: 变量名绑定后不可更改
 ```
 
-### 变量声明 `imv` (Immutable - 物理不可变) {#imv-immutable}
+### 变量声明 `imv` (Immutable - 物理不可变) {#keyword-imv}
 
 - **语义**：变量名不可更改，且**内存表示（Bit Pattern）**在初始化后绝对锁定。
 - **隐含修饰**：`imv` 隐含了类型修饰符 `imm`，手动重复书写 `imv imm` 会导致编译错误。
@@ -38,11 +40,10 @@ b = 2;         // error: 变量名绑定后不可更改
 
 ```lumos
 imv i32 d = 1;
-d = 2;    // error
-d[] = 2;  // error: 物理内存不可修改
+d = 2;    // error: 物理内存不可修改
 ```
 
-### 变量声明 `lit` (Literal - 编译期常量) {#lit-literal}
+### 变量声明 `lit` (Literal - 编译期常量) {#keyword-lit}
 
 - **语义**：仅存在于编译期，必须能够在编译期完全求值。
 - **内存**：不占用运行时内存地址，在所有使用处进行常量折叠或内联替换。

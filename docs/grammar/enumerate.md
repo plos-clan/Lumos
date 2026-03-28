@@ -173,7 +173,7 @@ act[io.out] main() {
 }
 ```
 
-注意：`impl` 也可以带修饰符以简化块内所有成员的修饰，例如 `static impl`、`private impl` 等。
+注意：`impl` 也可以带修饰符以简化块内所有成员的修饰，例如 `static impl`、`prv impl` 等。
 
 示例：
 
@@ -182,7 +182,7 @@ static impl Operation { // 块内函数默认视为静态
     fun describe() -> string { ... }
 }
 
-private impl Operation { // 块内成员默认私有
+prv impl Operation { // 块内成员默认私有
     fun helper() -> i32 { ... }
 }
 ```

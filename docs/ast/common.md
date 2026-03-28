@@ -82,9 +82,9 @@ pub enum InitStrategy {
 
 ```rust
 pub enum AccessModifier {
-    Public,    // @public
-    Protected, // @protected
-    Private,   // @private
+    Public,    // pub
+    Protected, // 默认 (未标注)
+    Private,   // prv
 }
 ```
 

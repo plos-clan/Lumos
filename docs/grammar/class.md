@@ -56,9 +56,8 @@ val my_var2 = MyClass${.a=1, .b=2, .c=3};
 
 ```lumos
 class MyClass {
-  @public:
-    i32 a, b, c;
-    act initvar -> unit @default;
+    pub i32 a, b, c;
+    pub act initvar -> unit @default;
 } // class MyClass
 ```
 
@@ -74,40 +73,35 @@ act initvar -> unit @default;
 
 ## 访问控制 {#access-control}
 
-在 Lumos 中，可以使用 `@public`、`@protected` 和 `@private` 修饰符来控制类的访问权限。
+在 Lumos 中，可以使用 `pub`、`prot` 和 `prv` 修饰符来控制类的访问权限。
 
 ```lumos
 class MyClass {
-  @public:
-    i32 a;
-  @protected:
-    i32 b;
-  @private:
-    i32 c;
+    pub i32 a;
+    prot i32 b;
+    prv i32 c;
 } // class MyClass
 ```
 
-修饰符后加冒号表示该修饰符之后的所有成员都会受此修饰。建议为访问控制修饰符加上冒号，但也可以省略。
+未显式标注的成员默认为受保护的（protected）：
 
 ```lumos
 class MyClass {
-  @public    i32 a;
-  @protected i32 b;
-  @private   i32 c;
-} // class MyClass
-```
-
-必须显式指定访问修饰符，否则将产生编译错误。
-
-```lumos
-class MyClass {
-    i32 a; // 这会导致一个报错
+    pub i32 a;    // 公共
+    i32 b;        // 默认为受保护的
+    prv i32 c;    // 私有
 } // class MyClass
 ```
 
 ```lumos
 class MyClass {
-    @private i32 a;
+    i32 a; // 这是允许的，默认为受保护的
+} // class MyClass
+```
+
+```lumos
+class MyClass {
+    prv i32 a;
     i32 b; // 这会导致一个报错
 } // class MyClass
 ```
@@ -125,13 +119,10 @@ def as 类型 {
 
 ```lumos
 class MyInt {
-  @private:
-    i32 value;
+    prv i32 value;
 
-  @public:
-    act MyInt(i32 value) : \var> value(value) {}
-
-    def as i32 -> i32;
+    pub act MyInt(i32 value) : \var> value(value) {}
+    pub def as i32 -> i32;
 } // class MyInt
 
 impl MyInt {
@@ -163,10 +154,10 @@ def as i32 -> i32 {
 } // impl MyInt
 ```
 
-现在允许在 `impl` 前添加修饰符以简化书写，例如 `static impl`、`private impl`、`public impl` 等。
+现在允许在 `impl` 前添加修饰符以简化书写，例如 `static impl`、`prv impl`、`pub impl` 等。
 
 - `static impl ClassName { ... }`：块内的函数默认是静态的（等价于在每个函数前加 `static`）。
-- `private impl ClassName { ... }`：块内成员默认使用私有访问权限。
+- `prv impl ClassName { ... }`：块内成员默认使用私有访问权限。
 
 这些新的写法与现有语法完全兼容：既可以继续使用 `impl ClassName { ... }`，也可以在类外用 `def ClassName.foo` 单独实现方法。
 
@@ -208,12 +199,11 @@ class RBTree;
 
 ```lumos
 class RBTree {
-  @private:
-    struct Node {
+    prv struct Node {
         省略实现
     }
-  
-  省略实现
+    
+    省略实现
 }
 ```
 
@@ -228,7 +218,7 @@ class RBTree {
 可以在当前文件中为文件外类定义辅助函数：
 
 ```lumos
-@private:
+prv:
 fun MyClass.helper() {
     // ...
 }
