@@ -52,7 +52,6 @@ use @default = @reset;
 ```lumos
 var+ my_var1; // public
 var- my_var2; // private
-var? my_var3; // protected
 ```
 
 ### 断言 {#assertions}
