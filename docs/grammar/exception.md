@@ -3,12 +3,10 @@
 
 ## 允许抛出异常 {#allow-throw}
 
-Lumos 默认不允许抛出异常，但可以用 `@exception(allow)` 声明函数可以抛出异常。  
-也可以使用 `@exception(allow)` 声明命名空间或类中的所有函数都可以抛出异常。
+Lumos 默认不允许抛出异常。需要在函数签名的权限列表中声明 `exn`，表示该函数可能抛出并传播异常：
 
 ```lumos
-@exception(allow)
-act my_func() -> u32 {
+act[exn] my_func() -> u32 {
     throw "测试异常"; // 正常抛出异常
 }
 ```
@@ -23,16 +21,15 @@ act my_func() -> u32 {
     为了避免异常被滥用，Lumos 默认不允许函数抛出异常。  
     许多大型项目都会关闭异常，因为异常会导致代码难以理解和维护。
 
-Lumos 允许在不可抛出异常的函数中调用可抛出异常的函数，只要程序员在函数中手动处理所有异常。
+Lumos 允许在不可传播异常的函数中调用 `act[exn]` 函数，只要程序员在函数中手动处理所有异常。
 
 ```lumos
-@exception(allow)
-act my_func1() -> u32 { // 这个函数会抛出异常
+act[exn, io.out] my_func1() -> u32 { // 这个函数会抛出异常
     throw "假如出现异常";
 }
 
-act[io.out] my_func() -> i32 { // 这个函数不能抛出异常
-    my_func1() catch {
+act[io.out] my_func() -> i32 { // 这个函数不能传播异常
+    my_func1() or {
         // 必须处理异常且不能再次抛出
         println("Error!");
         return -1;
@@ -41,27 +38,28 @@ act[io.out] my_func() -> i32 { // 这个函数不能抛出异常
 }
 ```
 
-## 禁止异常穿过 {#disallow-propagation}
+## 两种错误处理机制 {#error-mechanisms}
 
-使用 `@exception(allow)` 声明函数可以抛出异常后，Lumos 会同时允许异常穿过函数边界。  
-如果需要禁止异常穿过函数边界，应该使用 `Type or Error` 作为函数的返回类型。  
-<span style="color:green">注意 `Type or Error` 返回类型和 `@exception(allow)` 不能同时使用</span> ??既禁止又允许什么鬼嘛??
+Lumos 提供两种正交的错误处理机制，适用于不同场景：
+
+| 机制 | 语义 | 适用场景 |
+|------|------|----------|
+| `-> T or E` | 错误作为返回值，无栈展开 | `def`/`fun`/`act` 均可用；错误是计算结果的一部分 |
+| `act[exn]` | 异常可穿越函数边界（栈展开传播） | 仅 `act` 可用；用于确实属于"意外"的运行时情况 |
+
+两者完全独立，不存在矛盾：`-> T or E` 描述返回类型，`act[exn]` 描述传播行为。
 
 ```lumos
-act my_func(i32 a) -> i32 or Error {
-    if (a < 0) {
-        throw "参数不能小于 0"; // 抛出异常
-    }
-    return a * 2; // 返回正常值
+// 值级错误——fun 可用，错误作为返回值，无异常传播
+fun divide(i32 a, i32 b) -> i32 or DivisionError {
+    if (b == 0) return DivisionError("除零");
+    return a / b;
 }
 
-act[io.out] main() -> i32 {
-    val result = my_func(-1) or {
-        println("发生异常，无法继续执行");
-        return -1; // 处理异常
-    };
-    println("结果是: " + result);
-    return 0;
+// 异常传播——需要 act[exn]，用于真正的意外情况
+act[exn, fs.read] read_config(string path) -> Config {
+    val file = open(path) or throw FileNotFoundError(path);
+    // ...
 }
 ```
 
@@ -112,12 +110,11 @@ my_func() or;
 ## 自动处理异常 {#auto-handle}
 
 Lumos 支持在函数调用时自动处理异常。  
-通过在外层函数声明时附加 `@exception(panic)` 可以自动在内部出发异常时打印错误信息并终止程序。  
-通过在外层函数声明时附加 `@exception(bypass)` 可以自动在内部出发异常时忽略异常并继续执行。（若函数有返回值则使用其类型的默认值）  
-通过在外层函数声明时附加 `@exception(return)` 可以自动在内部出发异常时使当前函数返回默认值。
+通过在外层函数声明时附加 `@exception(panic)` 可以自动在内部触发异常时打印错误信息并终止程序，相当于对函数体内所有 `act[exn]` 调用隐式添加 `or panic`。  
+`@exception(bypass)` 和 `@exception(return)` 是对 `or;` / `or return 默认值;` 的便捷替代，但推荐直接使用显式 `or` 块以保持清晰性。
 
 ```lumos
-act this_func_will_throw() {
+act[exn] this_func_will_throw() {
     throw "测试异常";
 }
 
