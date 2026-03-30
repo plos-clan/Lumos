@@ -138,7 +138,7 @@
 | continue | continue      | [跳过本次循环](controlflow.md#continue)         |
 | leave       | leave         | [跳出当前块（如 switch）](controlflow.md#leave) |
 | fallthrough | fallthrough   | [跳到下一个 switch 条件块](controlflow.md#switch) |
-| goto     | goto          | [跳转](controlflow.md#goto)                     |
+| goto     | goto          | [跳转](controlflow.md#jump-to-label)                     |
 | return   | return        | [返回](controlflow.md#return)                   |
 | broken   | broken        | [循环中断分支](controlflow.md#broken)           |
 
