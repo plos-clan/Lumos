@@ -13,6 +13,7 @@
 | fin      | final variable             | [声明禁止重新绑定的变量](variable.md#fin)                   |
 | late     | late                       | [标记变量为手动延迟初始化](variable.md#late)                |
 | lazy     | lazy                       | [标记变量为懒加载初始化](variable.md#lazy)                  |
+| volatile | volatile                   | [声明变量可被外部修改，禁止编译器缓存优化](variable.md#volatile) |
 | restrict | restrict                   | [指针限定符](variable.md#restrict)                          |
 | let      | expression                 | [定义表达式](expression.md#let)                             |
 | obj      | dynamically typed variable | [声明或定义动态类型变量](object.md#usage)                   |
@@ -33,12 +34,14 @@
 |--------|---------------|-----------------------------------------------------------------------------------|
 | def    | define        | [定义纯函数](function.md#function-purity)                                         |
 | fun    | function      | [定义逻辑纯函数](function.md#function-purity)                                     |
+| obs    | observe       | [定义观测性函数（有副作用但不影响调用方计算结果）](function.md#function-purity)   |
 | act    | action        | [定义副作用函数](function.md#function-purity)                                     |
 | once?  | once (soft)   | [修饰 `act`，再次调用时忽略](function.md#function-purity)                         |
 | once!  | once (strict) | [修饰 `act`，再次调用时报错](function.md#function-purity)                         |
 | unsafe | unsafe        | [修饰 `fun`，声明可回滚副作用（需权限列表与回滚块）](function.md#function-purity) |
 | ovl    | overload      | [标记函数允许重载（所有重载变体均需标记）](overload.md#rules)                     |
 | where  | where         | [对函数参数或泛型进行范围限定](function.md#where)                                 |
+| rollback | rollback    | [在 `unsafe fun` 后声明回滚逻辑](function.md#rollback)                            |
 
 <details>
 
@@ -65,6 +68,7 @@
 |------------|------------|----------------------------------------------|
 | permission | permission | [定义权限](permission.md#permission-aliases) |
 | aka        | aka        | [权限别名](permission.md#permission-aliases) |
+| perm       | perm       | [声明上下文批量权限块](permission.md#perm-block) |
 | yields     | yields     | [权限传播](permission.md#yielding)           |
 
 ## 类型与访问修饰符 {#types-access-modifiers}
@@ -152,7 +156,7 @@
 | 关键字 | 全称 | 用法                               |
 |--------|------|------------------------------------|
 | as     | as   | [类型转换](type.md#type-cast)      |
-| in     | in   | [单位换算](measure.md#in)          |
+| in     | in   | [遍历循环（`for x in 容器`）](controlflow.md#loops-for)；[单位换算](measure.md#in) |
 | is     | is   | [类型或状态判断](expression.md#is) |
 
 ## 断言与静态检查 {#assertions}

@@ -163,13 +163,25 @@ Lambda 的纯度必须与所在作用域匹配。`obs` Lambda 可在任意作用
 
 ## 参数约束 `where` {#where}
 
-使用 `where` 对参数进行范围限定，违反时触发 `panic`（而非可捕获的异常，调用方无需 `act[exn]`）：
+使用 `where` 对参数进行范围限定。默认违反时触发 `panic`（调用方无需 `act[exn]`）：
 
 ```lumos
 def sqrt(f32 x where x >= 0.0) -> f32 { /* ... */ }
 ```
 
-约束表达式必须为纯表达式，仅使用参数和常量。编译器会尽可能在编译期验证，避免生成运行时检查。若需要可恢复的错误，应改用 `-> T or E` 返回值模式。
+若需要使违反约束时抛出**可捕获的异常**，可在函数上添加 `@where(exn)` 属性。此时函数必须在权限列表中声明 `exn`，调用方可以用 `or` 捕获 `ConstraintError`：
+
+```lumos
+@where(exn)
+act[exn] safe_sqrt(f32 x where x >= 0.0) -> f32 { /* ... */ }
+
+// 调用方捕获约束违反：
+safe_sqrt(-1.0) or (e as ConstraintError) {
+    println("invalid argument");
+};
+```
+
+约束表达式必须为纯表达式，仅使用参数和常量。编译器会尽可能在编译期验证，避免生成运行时检查。若需要可恢复的错误但不希望使用异常，可改用 `-> T or E` 返回值模式。
 
 ## 成员函数修饰符 {#member-modifiers}
 
