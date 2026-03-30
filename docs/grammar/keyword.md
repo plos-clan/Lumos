@@ -186,7 +186,7 @@
 
 | 关键字 | 全称  | 用法                                     |
 |--------|-------|------------------------------------------|
-| with   | with  | [捕获列表语法](function.md#list)         |
+| with   | with  | [临时变量](variable.md#with)；[捕获列表语法](function.md#capture-params) |
 | from   | from  | [语法辅助/预留](index.md#syntax-samples) |
 | to     | to    | [语法辅助/预留](index.md#syntax-samples) |
 | using  | using | [语法辅助/预留](index.md#syntax-samples) |
@@ -203,7 +203,7 @@
 | class     | class     | [类](class.md#declaration)               |
 | enum      | enum      | [枚举](enumerate.md#types)               |
 | union     | union     | [联合体](type.md#types)                  |
-| impl      | implement | [实现接口或方法](class.md#type-cast)     |
+| impl      | implement | [实现接口或方法](class.md#definition)    |
 | initvar   | initvar   | [变量列表初始化钩子](class.md#list-init) |
 
 ---
