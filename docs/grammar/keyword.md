@@ -13,6 +13,7 @@
 | fin      | final variable             | [声明禁止重新绑定的变量](variable.md#fin)                   |
 | late     | late                       | [标记变量为手动延迟初始化](variable.md#late)                |
 | lazy     | lazy                       | [标记变量为懒加载初始化](variable.md#lazy)                  |
+| volatile | volatile                   | [声明变量可被外部修改，禁止编译器缓存优化](variable.md#volatile) |
 | restrict | restrict                   | [指针限定符](variable.md#restrict)                          |
 | let      | expression                 | [定义表达式](expression.md#let)                             |
 | obj      | dynamically typed variable | [声明或定义动态类型变量](object.md#usage)                   |
@@ -33,12 +34,14 @@
 |--------|---------------|-----------------------------------------------------------------------------------|
 | def    | define        | [定义纯函数](function.md#function-purity)                                         |
 | fun    | function      | [定义逻辑纯函数](function.md#function-purity)                                     |
+| obs    | observe       | [定义观测性函数（有副作用但不影响调用方计算结果）](function.md#function-purity)   |
 | act    | action        | [定义副作用函数](function.md#function-purity)                                     |
 | once?  | once (soft)   | [修饰 `act`，再次调用时忽略](function.md#function-purity)                         |
 | once!  | once (strict) | [修饰 `act`，再次调用时报错](function.md#function-purity)                         |
 | unsafe | unsafe        | [修饰 `fun`，声明可回滚副作用（需权限列表与回滚块）](function.md#function-purity) |
 | ovl    | overload      | [标记函数允许重载（所有重载变体均需标记）](overload.md#rules)                     |
 | where  | where         | [对函数参数或泛型进行范围限定](function.md#where)                                 |
+| rollback | rollback    | [在 `unsafe fun` 后声明回滚逻辑](function.md#rollback)                            |
 
 <details>
 
@@ -65,6 +68,7 @@
 |------------|------------|----------------------------------------------|
 | permission | permission | [定义权限](permission.md#permission-aliases) |
 | aka        | aka        | [权限别名](permission.md#permission-aliases) |
+| perm       | perm       | [声明上下文批量权限块](permission.md#perm-block) |
 | yields     | yields     | [权限传播](permission.md#yielding)           |
 
 ## 类型与访问修饰符 {#types-access-modifiers}
@@ -132,10 +136,11 @@
 | do       | do while loop | [循环](controlflow.md#do-while)                 |
 | break    | break         | [跳出循环](controlflow.md#break)                |
 | continue | continue      | [跳过本次循环](controlflow.md#continue)         |
-| leave    | leave         | [跳出当前块（如 switch）](controlflow.md#leave) |
+| leave       | leave         | [跳出当前块（如 switch）](controlflow.md#leave) |
+| fallthrough | fallthrough   | [跳到下一个 switch 条件块](controlflow.md#switch) |
 | goto     | goto          | [跳转](controlflow.md#jump-to-label)                     |
 | return   | return        | [返回](controlflow.md#return)                   |
-| breaked  | breaked       | [循环中断分支](controlflow.md#breaked)          |
+| broken   | broken        | [循环中断分支](controlflow.md#broken)           |
 
 ## 异常与错误处理 {#exceptions}
 
@@ -151,7 +156,7 @@
 | 关键字 | 全称 | 用法                               |
 |--------|------|------------------------------------|
 | as     | as   | [类型转换](type.md#type-cast)      |
-| in     | in   | [单位换算](measure.md#in)          |
+| in     | in   | [遍历循环（`for x in 容器`）](controlflow.md#loops-for)；[单位换算](measure.md#in) |
 | is     | is   | [类型或状态判断](expression.md#is) |
 
 ## 断言与静态检查 {#assertions}
@@ -181,7 +186,7 @@
 
 | 关键字 | 全称  | 用法                                     |
 |--------|-------|------------------------------------------|
-| with   | with  | [捕获列表语法](function.md#list)         |
+| with   | with  | [临时变量](variable.md#with)；[捕获列表语法](function.md#capture-params) |
 | from   | from  | [语法辅助/预留](index.md#syntax-samples) |
 | to     | to    | [语法辅助/预留](index.md#syntax-samples) |
 | using  | using | [语法辅助/预留](index.md#syntax-samples) |
@@ -198,7 +203,7 @@
 | class     | class     | [类](class.md#declaration)               |
 | enum      | enum      | [枚举](enumerate.md#types)               |
 | union     | union     | [联合体](type.md#types)                  |
-| impl      | implement | [实现接口或方法](class.md#type-cast)     |
+| impl      | implement | [实现接口或方法](class.md#definition)    |
 | initvar   | initvar   | [变量列表初始化钩子](class.md#list-init) |
 
 ---

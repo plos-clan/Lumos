@@ -32,6 +32,26 @@ i32 c = 2;     // 等同于 val i32 c = 2
 b = 2;         // error: 变量名绑定后不可更改
 ```
 
+常量设计上在整个生命周期中不可变，但实际上可以强行修改，但进行修改时可能会因编译器的优化策略导致不可预测的结果。
+
+```lumos
+val a = 1;     // 定义常量
+println(a);    // 输出 1
+(&a as [i32])[] = 2; // 强行修改为 2
+println(a);    // 由于编译器的优化策略，可能输出 1 或 2
+```
+
+??<span style="color:purple">这么做的见一个打一个</span>??
+
+***允许的优化***
+
+对于一个常量，取到的值可以是：
+
+- 编译期能够确定的值（非 `volatile`）  
+  *<span style="color:orange">warning</span>: <span style="color:darkcyan">对于编译期可确定的值使用 `lit`</span>*
+- 作用域内任意位置缓存的值（非 `volatile`）
+- 对应内存地址当前的值
+
 ### 变量声明 `imv` (Immutable - 物理不可变) {#keyword-imv}
 
 - **语义**：变量名不可更改，且**内存表示（Bit Pattern）**在初始化后绝对锁定。
@@ -235,37 +255,6 @@ while (a > 0) {
 - 上次修改后缓存的值（非 `volatile`）
 - 对应内存地址当前的值
 
-## 不可变变量声明 `val` {#val}
-
-使用 `val` 关键字声明不可变变量，使用方法与 `var` 相同。
-
-```lumos
-val 变量名 = 初始化表达式;
-val a = 1;
-```
-
----
-
-常量设计上在整个生命周期中不可变，但实际上可以强行修改，但进行修改时可能会因编译器的优化策略导致不可预测的结果。
-
-```lumos
-val a = 1;     // 定义常量
-println(a);    // 输出 1
-(&a as [i32])[] = 2; // 强行修改为 2
-println(a);    // 由于编译器的优化策略，可能输出 1 或 2
-```
-
-??<span style="color:purple">这么做的见一个打一个</span>??
-
-***允许的优化***
-
-对于一个常量，取到的值可以是：
-
-- 编译期能够确定的值（非 `volatile`）  
-  *<span style="color:orange">warning</span>: <span style="color:darkcyan">对于编译期可确定的值使用 `lit`</span>*
-- 作用域内任意位置缓存的值（非 `volatile`）
-- 对应内存地址当前的值
-
 ## 初始化 {#init-detail}
 
 Lumos 允许的初始化方式有：
@@ -347,7 +336,7 @@ println(a); // 此时 a 被初始化为 1
 
 ```lumos
 var i32 a = 1;
-var i32 b = late {
+var i32 b = lazy {
   return a;
 };
 a = 2;

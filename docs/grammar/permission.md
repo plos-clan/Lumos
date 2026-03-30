@@ -7,7 +7,8 @@ Lumos 采用静态效应系统，将副作用视为一种受控的“能力 (Cap
 - **零信任**：`act main` 默认没有任何权限。
 - **静态检查**：所有权限在编译期校验，无运行时开销。
 - **显式授权**：副作用必须在 `act` 函数签名或代码块上显式标注。
-- **纯度隔离**：`def` 和 `fun` 的权限集恒为空（仅内置 `dbg`）；`unsafe fun` 需显式权限列表；`act` 可以声明权限。
+- **纯度隔离**：`def` 和 `fun` 的权限集恒为空（仅内置 `dbg`，以及可调用 `obs`）；`unsafe fun` 需显式权限列表；`act` 可以声明权限。
+- **观测隔离**：`obs` 函数的权限由定义所在模块的配额满足，调用方无需持有，也不参与调用方的权限集传播。
 
 ## 权限层级 {#permission-hierarchy}
 
@@ -24,6 +25,7 @@ Lumos 采用静态效应系统，将副作用视为一种受控的“能力 (Cap
 | `fs.write`        | -          | 文件写入        |
 | `net.http.client` | -          | HTTP 客户端请求 |
 | `sys.env`         | -          | 访问环境变量    |
+| `exn`             | -          | 允许异常穿越函数边界（栈展开传播） |
 
 > **提示**：别名（如 `stdout`）在代码中与完整路径（如 `io.out`）完全等价。
 
@@ -68,6 +70,82 @@ act[net.http.client] fetch_data(string url) -> string { ... }
 act main() { ... }
 ```
 
+`obs` 函数的权限声明与 `act` 语法相同，但其权限由定义所在模块的配额满足，调用方无需持有这些权限：
+
+```lumos
+obs[io.err] log_info(string msg) { ... }  // 调用方不需要 io.err
+```
+
+### 批量权限 `perm` 块 {#perm-block}
+
+在**声明上下文**（顶层、命名空间体、类体）中，可以用 `perm[权限]` 块为其中所有函数定义统一附加权限，避免在每个函数签名上重复书写。
+
+```lumos
+perm[exn] {
+    act open_file(string path) -> File { ... }   // 等效于 act[exn]
+    act read_file(File f) -> string { ... }      // 等效于 act[exn]
+    act close_file(File f) { ... }               // 等效于 act[exn]
+}
+```
+
+`perm` 块的权限与函数自身声明的权限**合并（取并集）**，不会覆盖：
+
+```lumos
+perm[exn] {
+    act[io.out] print_header() { ... }   // 等效于 act[exn, io.out]
+    act[fs.write] write_data() { ... }   // 等效于 act[exn, fs.write]
+}
+```
+
+支持 `+`（添加）和 `-`（移除）修饰符：
+
+```lumos
+perm[+exn, +io.err] {
+    act process() { ... }   // 等效于 act[exn, io.err]
+}
+
+perm[-io.out] {
+    // 所有在此块内定义的函数，即使自身声明了 io.out 也会被移除
+    act[io.out, fs.write] restricted() { ... }  // 等效于 act[fs.write]
+}
+```
+
+`perm` 块可以嵌套，内层权限在外层基础上继续合并：
+
+```lumos
+perm[exn] {
+    act parse(string s) -> i32 { ... }      // act[exn]
+
+    perm[+io.err] {
+        act log_error(string s) { ... }     // act[exn, io.err]
+    }
+}
+```
+
+也可用于命名空间或类体内，以及 `impl` 块内：
+
+```lumos
+namespace io_ops {
+    perm[exn] {
+        act open(string path) -> File { ... }
+        act read(File f) -> string { ... }
+    }
+    act sync(File f) { ... }  // 不带 exn
+}
+
+impl MyClass {
+    perm[exn] {
+        act open() -> File { ... }   // 等效于 act[exn]
+        act close(File f) { ... }    // 等效于 act[exn]
+    }
+}
+```
+
+!!! note "与可执行块 `act[+xxx] { ... }` 的区别"
+    `perm[...]` 是**声明块**，只允许出现在声明上下文中，块内只能包含函数/类型/变量声明，不能包含可执行语句。  
+    `act[+xxx] { ... }` 是**执行块**，只出现在函数体等执行上下文中，块内是可以运行的语句序列。  
+    两者用途完全不同，编译器根据上下文区分，不会产生歧义。
+
 ### 权限传播 (Yielding) {#yielding}
 
 函数成功返回后，可以将权限自动应用到调用方后续的代码块中：
@@ -84,7 +162,7 @@ act[fs.open] main() {
 
 ### 闭包与权限继承 {#closure-inheritance}
 
-闭包可以使用 `def` / `fun` / `act` 声明，但其纯度必须与所在作用域匹配：`def` 作用域只能定义 `def` 闭包，`fun` 作用域只能定义 `fun` 闭包，`act` 作用域可以定义 `act` 闭包。  
+闭包可以使用 `def` / `fun` / `obs` / `act` 声明，`obs` Lambda 可在任意作用域定义，其权限由模块配额满足而非继承自调用方。`def` 作用域只能定义 `def` 闭包，`fun` 作用域只能定义 `fun` 闭包，`act` 作用域可以定义 `act` 闭包。  
 当闭包使用 `act` 且省略权限时，闭包**自动继承其定义所在作用域的所有权限**。这遵循作用域继承原理，大幅简化常见用法。
 
 > **例外**：`def`/`fun` 可以接受 `act` 闭包作为参数，但只有在调用点处于 `act` 上下文时才合法。此时编译器会自动将原本的 `def`/`fun` 降级为 `act`（无需手动修改）。
