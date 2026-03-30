@@ -76,6 +76,69 @@ act main() { ... }
 obs[io.err] log_info(string msg) { ... }  // 调用方不需要 io.err
 ```
 
+### 批量权限 `perm` 块 {#perm-block}
+
+在**声明上下文**（顶层、命名空间体、类体）中，可以用 `perm[权限]` 块为其中所有函数定义统一附加权限，避免在每个函数签名上重复书写。
+
+```lumos
+perm[exn] {
+    act open_file(string path) -> File { ... }   // 等效于 act[exn]
+    act read_file(File f) -> string { ... }      // 等效于 act[exn]
+    act close_file(File f) { ... }               // 等效于 act[exn]
+}
+```
+
+`perm` 块的权限与函数自身声明的权限**合并（取并集）**，不会覆盖：
+
+```lumos
+perm[exn] {
+    act[io.out] print_header() { ... }   // 等效于 act[exn, io.out]
+    act[fs.write] write_data() { ... }   // 等效于 act[exn, fs.write]
+}
+```
+
+支持 `+`（添加）和 `-`（移除）修饰符：
+
+```lumos
+perm[+exn, +io.err] {
+    act process() { ... }   // 等效于 act[exn, io.err]
+}
+
+perm[-io.out] {
+    // 所有在此块内定义的函数，即使自身声明了 io.out 也会被移除
+    act[io.out, fs.write] restricted() { ... }  // 等效于 act[fs.write]
+}
+```
+
+`perm` 块可以嵌套，内层权限在外层基础上继续合并：
+
+```lumos
+perm[exn] {
+    act parse(string s) -> i32 { ... }      // act[exn]
+
+    perm[+io.err] {
+        act log_error(string s) { ... }     // act[exn, io.err]
+    }
+}
+```
+
+也可用于命名空间或类体内：
+
+```lumos
+namespace io_ops {
+    perm[exn] {
+        act open(string path) -> File { ... }
+        act read(File f) -> string { ... }
+    }
+    act sync(File f) { ... }  // 不带 exn
+}
+```
+
+!!! note "与可执行块 `act[+xxx] { ... }` 的区别"
+    `perm[...]` 是**声明块**，只允许出现在声明上下文中，块内只能包含函数/类型/变量声明，不能包含可执行语句。  
+    `act[+xxx] { ... }` 是**执行块**，只出现在函数体等执行上下文中，块内是可以运行的语句序列。  
+    两者用途完全不同，编译器根据上下文区分，不会产生歧义。
+
 ### 权限传播 (Yielding) {#yielding}
 
 函数成功返回后，可以将权限自动应用到调用方后续的代码块中：
