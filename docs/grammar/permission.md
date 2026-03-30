@@ -122,7 +122,7 @@ perm[exn] {
 }
 ```
 
-也可用于命名空间或类体内：
+也可用于命名空间或类体内，以及 `impl` 块内：
 
 ```lumos
 namespace io_ops {
@@ -131,6 +131,13 @@ namespace io_ops {
         act read(File f) -> string { ... }
     }
     act sync(File f) { ... }  // 不带 exn
+}
+
+impl MyClass {
+    perm[exn] {
+        act open() -> File { ... }   // 等效于 act[exn]
+        act close(File f) { ... }    // 等效于 act[exn]
+    }
 }
 ```
 

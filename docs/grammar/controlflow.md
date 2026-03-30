@@ -120,10 +120,8 @@ switch (表达式) {
     Lumos 不会像 C 语言那样只把 `case` 处当作跳转的标签（要和普通标签区分开），需要在下一段代码前手动 `break`，所以不需要和普通标签区分，直接出现在 `switch` 内的必定是条件表达式。
 
 `leave` 语句用于跳出 `switch` 语句。  
-`@next` 语句用于跳到下一个条件的处理过程。  
+`fallthrough` 语句用于跳到下一个条件的处理过程。  
 `else` 是一个可选的标签，用于处理没有匹配的情况。
-
-> 不是？你属性咋跑这来了
 
 ```lumos
 switch (num) {
@@ -132,8 +130,8 @@ switch (num) {
             println(i);
         }
     } // 代码块结束，自动跳出
-    2: @next; // 向下跳
-    3: @next; // 向下跳
+    2: fallthrough; // 向下跳
+    3: fallthrough; // 向下跳
     4: {
         println("2 或 3 或 4");
     }
@@ -280,17 +278,17 @@ for (迭代次数) {
 `for` 循环是一种遍历循环，可以在循环体内遍历容器。
 
 ```lumos
-for (val i : .[1, 2, 3, 4, 5]) {
+for (val i in .[1, 2, 3, 4, 5]) {
     println(i);
 }
 
-for (val i : 1 .. 5) {
+for (val i in 1 .. 5) {
     println(i);
 }
 ```
 
 ```lumos
-for (变量 : 容器) {
+for (变量 in 容器) {
     循环体
 }
 ```
@@ -323,7 +321,7 @@ Lumos 支持显式死循环，适用于需要特殊控制逻辑的场景。
 @limit(10)
 for (var i32 i = 0; i < 100; i += 1) {
     println(i);
-} breaked {
+} broken {
     println("Limit reached.");
 }
 ```
@@ -485,12 +483,9 @@ act[io.out] my_func(i32 a) -> unit {
 
 ## 跳出后 {#after-exit}
 
-### 当循环被中断时 `breaked` {#breaked}
+### 当循环被中断时 `broken` {#broken}
 
-!!! question ""
-    不过有人提议使用 `terminated`
-
-`breaked` 用于在循环被 `break` 中断时执行代码。
+`broken` 用于在循环被 `break` 中断时执行代码。
 
 或许可以减少逆天的嵌套。
 
@@ -498,19 +493,19 @@ act[io.out] my_func(i32 a) -> unit {
 for (var i32 i = 0; i < 10; i += 1) {
     if (i == 5) break;
     println(i);
-} breaked {
-    println(`Loop breaked with i = $i.`);
+} broken {
+    println(`Loop broken with i = $i.`);
 }
 ```
 
-可以在 `breaked` 中 `continue` 重新进入循环，本次循环会被跳过。
+可以在 `broken` 中 `continue` 重新进入循环，本次循环会被跳过。
 
 ```lumos
 for (var i32 i = 0; i < 10; i += 1) {
     if (i == 5) break;
     println(i);
-} breaked {
-    println(`Loop breaked with i = $i.`);
+} broken {
+    println(`Loop broken with i = $i.`);
     continue;
 }
 ```
@@ -538,7 +533,7 @@ for (var i32 i = 0; i < 10; i += 1) {
 
 <span style="color:green">以上两个可以同时使用</span>
 
-<span style="color:green">`breaked` 和 `then` 中都可以使用迭代变量</span>
+<span style="color:green">`broken` 和 `then` 中都可以使用迭代变量</span>
 
 ## 跳转 {#jumps-detail}
 

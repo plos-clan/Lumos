@@ -132,10 +132,11 @@
 | do       | do while loop | [循环](controlflow.md#do-while)                 |
 | break    | break         | [跳出循环](controlflow.md#break)                |
 | continue | continue      | [跳过本次循环](controlflow.md#continue)         |
-| leave    | leave         | [跳出当前块（如 switch）](controlflow.md#leave) |
+| leave       | leave         | [跳出当前块（如 switch）](controlflow.md#leave) |
+| fallthrough | fallthrough   | [跳到下一个 switch 条件块](controlflow.md#switch) |
 | goto     | goto          | [跳转](controlflow.md#goto)                     |
 | return   | return        | [返回](controlflow.md#return)                   |
-| breaked  | breaked       | [循环中断分支](controlflow.md#breaked)          |
+| broken   | broken        | [循环中断分支](controlflow.md#broken)           |
 
 ## 异常与错误处理 {#exceptions}
 

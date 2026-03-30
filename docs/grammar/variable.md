@@ -347,7 +347,7 @@ println(a); // 此时 a 被初始化为 1
 
 ```lumos
 var i32 a = 1;
-var i32 b = late {
+var i32 b = lazy {
   return a;
 };
 a = 2;

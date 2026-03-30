@@ -99,7 +99,7 @@ act[io.out] my_func(i32 arg) -> unit {
   ```
 
   ```lumos
-  for (val i : my_func(10)) {
+  for (val i in my_func(10)) {
     println(i);
   }
   ```
@@ -155,7 +155,7 @@ act[io.out] my_func(i32 arg) -> unit {
 
 ### 多态 {#polymorphism}
 
-- `@vitural`: 声明函数为虚函数，用于实现多态。  
+- `@virtual`: 声明函数为虚函数，用于实现多态。  
   也可以标记类为虚类，其中的虚函数均不可被定义而应该被其派生类定义。
 - `@override`: 声明函数为重写函数，用于实现多态。  
   这要求基类中必须有对应的虚函数。
@@ -163,11 +163,6 @@ act[io.out] my_func(i32 arg) -> unit {
 
 ---
 
-- `@const`: 声明函数为常函数，表明函数不依赖也不会修改任何外部状态。  
-  *<span style="color:orange">warning</span>* 当一个函数可以为常函数但程序员未在声明中显式写明时。
-- `@pure`: 声明函数为纯函数，表明函数不依赖任何外部状态（除了传入指针指向的内存）也不会修改任何外部状态。  
-  *<span style="color:orange">warning</span>* 当一个函数可以为纯函数但程序员未在声明中显式写明时。
-  > 注意：常量表达式等编译期可以确定的不算外部状态
 - `@rettwice`: 声明函数会返回两次。
 
 ---
