@@ -542,7 +542,7 @@ for (var i32 i = 0; i < 10; i += 1) {
 
 ## 跳转 {#jumps-detail}
 
-### 标签跳转 `goto` {#goto}
+### 标签跳转 `goto` {#jump-to-label}
 
 `goto` 用于跳转到指定标签，所有标签反向缩进两格。
 
@@ -562,7 +562,7 @@ for (var i32 i = 0; i < 10; i += 1) {
     println("Hello world!");
 ```
 
-### 任意地址跳转 `goto` {#jumps-detail-goto}
+### 任意地址跳转 `goto` {#jump-to-address}
 
 `goto` 用于跳转到任意地址，对应汇编中的 `jmp` 指令。
 
