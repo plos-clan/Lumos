@@ -445,7 +445,7 @@ act main() {
         println("Last modified: {}", meta.modified_time());
     }
 
-    if is_readable("data.txt") && is_writable("data.txt") {
+    if is_readable("data.txt") and is_writable("data.txt") {
         println("File is readable and writable");
     }
 }

@@ -68,6 +68,22 @@ if (条件表达式) {
 }
 ```
 
+### `if` 表达式 {#if-expression}
+
+`if` 可以作为表达式直接求值。作为表达式使用时必须带有 `else` 分支，两个分支的类型须相同（或可隐式转换）。
+
+```lumos
+i32 result = if (x > 0) x else -x;
+
+str label = if (score >= 60) "pass" else "fail";
+```
+
+也可以配合 `elif`：
+
+```lumos
+str grade = if (score >= 90) "A" elif (score >= 60) "B" else "C";
+```
+
 ### 条件分支 `then` {#then}
 
 `then` 用于表达式和语句之间，在表达式为真时执行语句。
@@ -434,7 +450,7 @@ end:
 loop:
 for (var i32 i = 0; i < 10; i += 1) {
     for (var i32 j = 0; j < 10; j += 1) {
-        if (i == 5 && j == 5) break loop;
+        if (i == 5 and j == 5) break loop;
         println(i, j);
     }
 }

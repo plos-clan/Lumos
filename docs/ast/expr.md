@@ -12,7 +12,7 @@ pub enum Expr {
     /// 符号引用 (变量名、函数名、命名空间等)
     Symbol(String),
 
-    /// 二元运算 (a + b, a && b)
+    /// 二元运算 (a + b, a and b)
     Binary {
         op: BinaryOp,
         left: Box<Expr>,
@@ -43,11 +43,17 @@ pub enum Expr {
         index: Box<Expr>,
     },
 
-    /// 三元运算 (cond ? a : b)
-    Ternary {
+    /// if 表达式 (if (cond) a else b)
+    IfExpr {
         cond: Box<Expr>,
         then_expr: Box<Expr>,
         else_expr: Box<Expr>,
+    },
+
+    /// 可空传播 (expr? : fallback, my_func(a?, c?) : b)
+    NullPropagate {
+        expr: Box<Expr>,
+        fallback: Box<Expr>,
     },
 
     /// 代码块表达式 (val x = { ... })
@@ -118,6 +124,7 @@ pub enum UnaryOp {
     Not, BitNot,   // ! ~
     Deref,         // * (解引用)
     AddrOf,        // & (取地址)
+    NullProp,      // ? (可空传播标记)
 }
 ```
 
