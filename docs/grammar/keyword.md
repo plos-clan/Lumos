@@ -90,7 +90,7 @@
 
 | 关键字  | 全称    | 用法                                    |
 |---------|---------|-----------------------------------------|
-| unit    | unit    | [空类型](type.md#types)                 |
+| unit    | unit    | [空类型；同时也是其值字面量](type.md#types)     |
 | measure | measure | [定义量纲](measure.md#dimensions-units) |
 
 ## 内置类型 {#builtin-types}
@@ -125,10 +125,13 @@
 
 | 关键字 | 全称        | 用法                                               |
 |--------|-------------|----------------------------------------------------|
+| unit   | unit        | [`unit` 类型的值字面量](type.md#types)             |
 | true   | true        | [`bool` 真值字面量](type.md#types)                 |
 | false  | false       | [`bool` 假值字面量](type.md#types)                 |
 | on     | on (flag)   | [`flag` 置位字面量](type.md#types)                 |
 | off    | off (flag)  | [`flag` 清位字面量](type.md#types)                 |
+| null   | null        | [可空指针的空值字面量](type.md#pointer-types)      |
+| none   | none        | [可选值的缺席字面量](type.md#pointer-types)        |
 
 ## 控制流程与逻辑 {#control-flow-logic}
 
