@@ -4,6 +4,10 @@
 # Lumos 完整权限树
 # 此文件定义了所有内置权限的层级结构。
 
+exn:
+  +desc: "Allow exceptions to cross function boundaries (stack unwinding propagation)"
+  +aliases: ["exception"]
+
 io:
   +desc: "Basic Input/Output operations"
   out:

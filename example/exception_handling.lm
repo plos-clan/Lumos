@@ -1,7 +1,6 @@
 use "std" -> std;
 
-@exception(allow)
-act might_fail(i32 v) -> i32 {
+act[exn] might_fail(i32 v) -> i32 {
   if (v < 0) {
     throw "negative";
   }
