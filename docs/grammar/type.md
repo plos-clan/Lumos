@@ -109,8 +109,8 @@ val s6 = b16"UTF-16 bytes"; // bytes 类型的 UTF-16 编码字节串
 |      | byte4  | 4 字节          |
 |      | byte8  | 8 字节          |
 
-一般我们提供 `b1` 到 `b65536` 和 `flag1` 到 `flag65536` 的二进制类型扩展。  
-一般同时提供 `byte1` 到 `byte8192` 的字节类型扩展。  
+- 一般我们提供 `b1` 到 `b65536` 和 `flag1` 到 `flag65536` 的二进制类型扩展。
+- 一般同时提供 `byte1` 到 `byte8192` 的字节类型扩展。
 
 ### 数字类型 {#numeric-types}
 
@@ -273,56 +273,99 @@ val result_f64 = half() as f64; // 显式转换为 f64
 !!! Warning  
     请不要在编译期使用过多的不限精度类型，以免导致编译期间过长或内存占用过高。
 
-### 类型通配 {#type-wildcard}
+### 数字 trait 约束 {#type-wildcard}
 
-- `inttype` 整数类型
-  - 实现整数所具有的运算符
-  - 只能存整数而不能存实数
-- `floattype` 浮点数类型 (实现浮点数所具有的运算符的类型)
-- `numtype` 通用数字类型 (实现数字所具有的运算符的类型)
-  - `+ - * / %`
+Lumos 的数字泛型能力完全由 trait 约束系统提供。
 
----
+当函数参数写为 trait 约束时，编译器按约束检查类型能力，而不是按具体位宽做匹配。
 
-`Num` 数字标准实现：
+#### 基础数字 trait {#numeric-traits}
 
-- 方法 (Functions)
-  - `zero` 返回数字类型的零值
-  - `one` 返回数字类型的单位值
-- ops
-  - `add` 加法运算
-  - `sub` 减法运算
-  - `mul` 乘法运算
-  - `div` 除法运算
+`Num`：通用数字 trait。
 
----
+- 关联函数
+  - `zero` 返回该数字类型的零值
+  - `one` 返回该数字类型的单位值
+- 运算
+  - `add` 加法运算，对应 `+`
+  - `sub` 减法运算，对应 `-`
+  - `mul` 乘法运算，对应 `*`
+  - `div` 除法运算，对应 `/`
 
-`SignedNum` 有符号数字标准实现：
+`SignedNum : Num`：有符号数字 trait。
 
-- ops
-  - `neg` 取反运算
+- 运算
+  - `neg` 取反运算，对应一元 `-`
 
----
+`Float : SignedNum`：浮点数字 trait。
 
-`Int` 整数扩展实现：
+- 表示实现浮点语义的数字类型
 
-- `rem` 取余运算
-- `mod` 取模运算
+`Int : Num`：整数 trait。
 
----
+- 只能表示整数，不表示实数
+- 运算
+  - `rem` 取余运算
+  - `mod` 取模运算
 
-`BinaryInt` 二进制整数实现：
+`BinaryInt : Int`：二进制整数 trait。
 
-- `shl` 左移运算
-  如果移位数大于等于类型位宽，则结果为 0 。
-- `shr` 右移运算
+- 运算
+  - `shl` 左移运算，对应 `<<`
+  - `shr` 右移运算，对应 `>>`
 
----
+若移位数大于等于类型位宽，则 `shl` 与 `shr` 的结果都为 0。
 
-`SizedBinaryInt` 固定位宽二进制整数实现：
+`SizedBinaryInt : BinaryInt`：固定位宽二进制整数 trait。
 
-- `rol` 循环左移运算
-- `ror` 循环右移运算
+- 运算
+  - `rol` 循环左移运算
+  - `ror` 循环右移运算
+
+#### 运算符可用性 {#numeric-trait-ops}
+
+- `+ - * /` 由 `Num` 提供。
+- `%` 不属于 `Num`，仅由 `Int`（及其子 trait）提供。
+- 位移与循环位移仅对 `BinaryInt` / `SizedBinaryInt` 可用。
+
+#### 重载与约束选择 {#numeric-trait-overload}
+
+当多个重载同时匹配时，编译器优先选择“约束更具体”的重载：
+
+1. `SizedBinaryInt`
+2. `BinaryInt`
+3. `Int`
+4. `Float`
+5. `SignedNum`
+6. `Num`
+
+若仍无法唯一决议，编译报“重载歧义”错误，需通过显式类型标注或类型转换消除歧义。
+
+#### 示例 {#numeric-trait-example}
+
+```lumos
+def sum[T: Num](T a, T b) -> T {
+    return a + b;
+}
+
+def abs[T: SignedNum](T x) -> T {
+    if (x < T.zero()) {
+        return -x;
+    }
+    return x;
+}
+
+def gcd[T: Int](T a, T b) -> T {
+    var T x = a;
+    var T y = b;
+    while (y != T.zero()) {
+        val t = x rem y;
+        x = y;
+        y = t;
+    }
+    return x;
+}
+```
 
 ## 扩展类型 {#extended-types}
 
