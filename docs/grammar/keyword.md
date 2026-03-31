@@ -3,20 +3,20 @@
 
 ## 变量声明与初始化 {#declaration-init}
 
-| 关键字   | 全称                       | 用法                                                        |
-|----------|----------------------------|-------------------------------------------------------------|
-| var      | variable                   | [声明完全可变变量（隐含 `mut`）](variable.md#keyword-var)   |
-| val      | value                      | [声明逻辑不可变变量](variable.md#keyword-val)               |
-| imv      | immutable variable         | [声明物理不可变变量（隐含 `imm`）](variable.md#keyword-imv) |
-| ref      | reference                  | [声明引用变量](type.md#reference-types)                     |
-| lit      | literal                    | [声明编译期常量](variable.md#keyword-lit)                   |
-| fin      | final variable             | [声明禁止重新绑定的变量](variable.md#fin)                   |
-| late     | late                       | [标记变量为手动延迟初始化](variable.md#late)                |
-| lazy     | lazy                       | [标记变量为懒加载初始化](variable.md#lazy)                  |
+| 关键字   | 全称                       | 用法                                                             |
+|----------|----------------------------|------------------------------------------------------------------|
+| var      | variable                   | [声明完全可变变量（隐含 `mut`）](variable.md#keyword-var)        |
+| val      | value                      | [声明逻辑不可变变量](variable.md#keyword-val)                    |
+| imv      | immutable variable         | [声明物理不可变变量（隐含 `imm`）](variable.md#keyword-imv)      |
+| ref      | reference                  | [声明引用变量](type.md#reference-types)                          |
+| lit      | literal                    | [声明编译期常量](variable.md#keyword-lit)                        |
+| fin      | final variable             | [声明禁止重新绑定的变量](variable.md#fin)                        |
+| late     | late                       | [标记变量为手动延迟初始化](variable.md#late)                     |
+| lazy     | lazy                       | [标记变量为懒加载初始化](variable.md#lazy)                       |
 | volatile | volatile                   | [声明变量可被外部修改，禁止编译器缓存优化](variable.md#volatile) |
-| restrict | restrict                   | [指针限定符](variable.md#restrict)                          |
-| let      | expression                 | [定义表达式](expression.md#let)                             |
-| obj      | dynamically typed variable | [声明或定义动态类型变量](object.md#usage)                   |
+| restrict | restrict                   | [指针限定符](variable.md#restrict)                               |
+| let      | expression                 | [定义表达式](expression.md#let)                                  |
+| obj      | dynamically typed variable | [声明或定义动态类型变量](object.md#usage)                        |
 
 <details>
 
@@ -30,18 +30,18 @@
 
 ## 函数与纯度 {#functions-purity}
 
-| 关键字 | 全称          | 用法                                                                              |
-|--------|---------------|-----------------------------------------------------------------------------------|
-| def    | define        | [定义纯函数](function.md#function-purity)                                         |
-| fun    | function      | [定义逻辑纯函数](function.md#function-purity)                                     |
-| obs    | observe       | [定义观测性函数（有副作用但不影响调用方计算结果）](function.md#function-purity)   |
-| act    | action        | [定义副作用函数](function.md#function-purity)                                     |
-| once?  | once (soft)   | [修饰 `act`，再次调用时忽略](function.md#function-purity)                         |
-| once!  | once (strict) | [修饰 `act`，再次调用时报错](function.md#function-purity)                         |
-| unsafe | unsafe        | [修饰 `fun`，声明可回滚副作用（需权限列表与回滚块）](function.md#function-purity) |
-| ovl    | overload      | [标记函数允许重载（所有重载变体均需标记）](overload.md#rules)                     |
-| where  | where         | [对函数参数或泛型进行范围限定](function.md#where)                                 |
-| rollback | rollback    | [在 `unsafe fun` 后声明回滚逻辑](function.md#rollback)                            |
+| 关键字   | 全称          | 用法                                                                              |
+|----------|---------------|-----------------------------------------------------------------------------------|
+| def      | define        | [定义纯函数](function.md#function-purity)                                         |
+| fun      | function      | [定义逻辑纯函数](function.md#function-purity)                                     |
+| obs      | observe       | [定义观测性函数（有副作用但不影响调用方计算结果）](function.md#function-purity)   |
+| act      | action        | [定义副作用函数](function.md#function-purity)                                     |
+| once?    | once (soft)   | [修饰 `act`，再次调用时忽略](function.md#function-purity)                         |
+| once!    | once (strict) | [修饰 `act`，再次调用时报错](function.md#function-purity)                         |
+| unsafe   | unsafe        | [修饰 `fun`，声明可回滚副作用（需权限列表与回滚块）](function.md#function-purity) |
+| ovl      | overload      | [标记函数允许重载（所有重载变体均需标记）](overload.md#rules)                     |
+| where    | where         | [对函数参数或泛型进行范围限定](function.md#where)                                 |
+| rollback | rollback      | [在 `unsafe fun` 后声明回滚逻辑](function.md#rollback)                            |
 
 <details>
 
@@ -64,12 +64,12 @@
 
 ## 权限与效应 {#permissions-effects}
 
-| 关键字     | 全称       | 用法                                         |
-|------------|------------|----------------------------------------------|
-| permission | permission | [定义权限](permission.md#permission-aliases) |
-| aka        | aka        | [权限别名](permission.md#permission-aliases) |
+| 关键字     | 全称       | 用法                                             |
+|------------|------------|--------------------------------------------------|
+| permission | permission | [定义权限](permission.md#permission-aliases)     |
+| aka        | aka        | [权限别名](permission.md#permission-aliases)     |
 | perm       | perm       | [声明上下文批量权限块](permission.md#perm-block) |
-| yields     | yields     | [权限传播](permission.md#yielding)           |
+| yields     | yields     | [权限传播](permission.md#yielding)               |
 
 ## 类型与访问修饰符 {#types-access-modifiers}
 
@@ -123,24 +123,24 @@
 
 ## 控制流程与逻辑 {#control-flow-logic}
 
-| 关键字   | 全称          | 用法                                            |
-|----------|---------------|-------------------------------------------------|
-| if       | if            | [条件分支](controlflow.md#if)                   |
-| else     | else          | [否则](controlflow.md#else)                     |
-| elif     | else if       | [否则如果](controlflow.md#elif)                 |
-| then     | then          | [条件成立时执行](controlflow.md#then)           |
-| switch   | switch        | [多分支选择](controlflow.md#switch)             |
-| match    | match         | [模式匹配](controlflow.md#match)                |
-| for      | for loop      | [循环](controlflow.md#for)                      |
-| while    | while loop    | [循环](controlflow.md#while)                    |
-| do       | do while loop | [循环](controlflow.md#do-while)                 |
-| break    | break         | [跳出循环](controlflow.md#break)                |
-| continue | continue      | [跳过本次循环](controlflow.md#continue)         |
-| leave       | leave         | [跳出当前块（如 switch）](controlflow.md#leave) |
+| 关键字      | 全称          | 用法                                              |
+|-------------|---------------|---------------------------------------------------|
+| if          | if            | [条件分支](controlflow.md#if)                     |
+| else        | else          | [否则](controlflow.md#else)                       |
+| elif        | else if       | [否则如果](controlflow.md#elif)                   |
+| then        | then          | [条件成立时执行](controlflow.md#then)             |
+| switch      | switch        | [多分支选择](controlflow.md#switch)               |
+| match       | match         | [模式匹配](controlflow.md#match)                  |
+| for         | for loop      | [循环](controlflow.md#for)                        |
+| while       | while loop    | [循环](controlflow.md#while)                      |
+| do          | do while loop | [循环](controlflow.md#do-while)                   |
+| break       | break         | [跳出循环](controlflow.md#break)                  |
+| continue    | continue      | [跳过本次循环](controlflow.md#continue)           |
+| leave       | leave         | [跳出当前块（如 switch）](controlflow.md#leave)   |
 | fallthrough | fallthrough   | [跳到下一个 switch 条件块](controlflow.md#switch) |
-| goto     | goto          | [跳转](controlflow.md#jump-to-label)                     |
-| return   | return        | [返回](controlflow.md#return)                   |
-| broken   | broken        | [循环中断分支](controlflow.md#broken)           |
+| goto        | goto          | [跳转](controlflow.md#jump-to-label)              |
+| return      | return        | [返回](controlflow.md#return)                     |
+| broken      | broken        | [循环中断分支](controlflow.md#broken)             |
 
 ## 异常与错误处理 {#exceptions}
 
@@ -153,11 +153,11 @@
 
 ## 类型转换与判断 {#type-cast}
 
-| 关键字 | 全称 | 用法                               |
-|--------|------|------------------------------------|
-| as     | as   | [类型转换](type.md#type-cast)      |
+| 关键字 | 全称 | 用法                                                                               |
+|--------|------|------------------------------------------------------------------------------------|
+| as     | as   | [类型转换](type.md#type-cast)                                                      |
 | in     | in   | [遍历循环（`for x in 容器`）](controlflow.md#loops-for)；[单位换算](measure.md#in) |
-| is     | is   | [类型或状态判断](expression.md#is) |
+| is     | is   | [类型或状态判断](expression.md#is)                                                 |
 
 ## 断言与静态检查 {#assertions}
 
@@ -184,14 +184,14 @@
 
 ## 语法辅助与保留 {#syntax-helpers}
 
-| 关键字 | 全称  | 用法                                     |
-|--------|-------|------------------------------------------|
+| 关键字 | 全称  | 用法                                                                     |
+|--------|-------|--------------------------------------------------------------------------|
 | with   | with  | [临时变量](variable.md#with)；[捕获列表语法](function.md#capture-params) |
-| from   | from  | [语法辅助/预留](index.md#syntax-samples) |
-| to     | to    | [语法辅助/预留](index.md#syntax-samples) |
-| using  | using | [语法辅助/预留](index.md#syntax-samples) |
-| of     | of    | [语法辅助/预留](index.md#syntax-samples) |
-| by     | by    | [枚举值类型约束](enumerate.md#types)     |
+| from   | from  | [语法辅助/预留](index.md#syntax-samples)                                 |
+| to     | to    | [语法辅助/预留](index.md#syntax-samples)                                 |
+| using  | using | [语法辅助/预留](index.md#syntax-samples)                                 |
+| of     | of    | [语法辅助/预留](index.md#syntax-samples)                                 |
+| by     | by    | [枚举值类型约束](enumerate.md#types)                                     |
 
 ## 模块与结构 {#modules-structures}
 
