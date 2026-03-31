@@ -113,8 +113,7 @@ val arr = $[1, 2, 3, 4, 5];
 异常处理：
 
 ```lumos
-@exception(allow)
-act might_fail(i32 v) -> i32 { if (v < 0) throw "err"; return v; }
+act[exn] might_fail(i32 v) -> i32 { if (v < 0) throw "err"; return v; }
 
 act[io.out] main() -> i32 {
   val v = might_fail(-1) or { return -1; };
