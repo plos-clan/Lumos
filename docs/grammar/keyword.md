@@ -121,6 +121,15 @@
 | i**N**le/u**N**le/f**N**le | [小端类型](type.md#numeric-types)               |
 | i**N**be/u**N**be/f**N**be | [大端类型](type.md#numeric-types)               |
 
+## 字面量 {#literals}
+
+| 关键字 | 全称        | 用法                                               |
+|--------|-------------|----------------------------------------------------|
+| true   | true        | [`bool` 真值字面量](type.md#types)                 |
+| false  | false       | [`bool` 假值字面量](type.md#types)                 |
+| on     | on (flag)   | [`flag` 置位字面量](type.md#types)                 |
+| off    | off (flag)  | [`flag` 清位字面量](type.md#types)                 |
+
 ## 控制流程与逻辑 {#control-flow-logic}
 
 | 关键字      | 全称          | 用法                                              |
