@@ -7,7 +7,7 @@
 - <span style="color:green">普通提示</span>
 - <span style="color:purple">重要提示</span>
 
-关键字列表与分类见 [关键字](keyword.md#title)，变量与初始化规则见 [变量与初始化](variable.md#title)，函数语法见 [函数与纯度](function.md#title)。
+关键字列表与分类见 [词法/关键字](../lexical/keyword.md#title)，变量与初始化规则见 [变量与初始化](variable.md#title)，函数语法见 [函数与纯度](function.md#title)。
 
 ## 语法列举 {#syntax-samples}
 

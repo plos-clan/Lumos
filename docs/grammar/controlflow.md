@@ -1,7 +1,7 @@
 
 # 控制流程 {#title}
 
-关键字列表与用法速查请参阅 [语法/关键字](keyword.md#title)。
+关键字列表与用法速查请参阅 [词法/关键字](../lexical/keyword.md#title)。
 
 分支包含：
 
@@ -340,7 +340,7 @@ loop {
 }
 ```
 
-<span style="color:red">**注意**：`while(true)` 会导致编译错误，无条件循环必须使用 `loop` 关键字。</span>
+**注意**：`while(true)` 会导致编译错误，无条件循环必须使用 `loop` 关键字。
 
 ### 循环属性 {#loops-attributes}
 

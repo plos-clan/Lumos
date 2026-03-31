@@ -579,7 +579,7 @@ i32 n = std.rand_range(1, 100);
 | 异常处理 | [`docs/grammar/exception.md`](docs/grammar/exception.md) |
 | 模块系统 | [`docs/grammar/modules.md`](docs/grammar/modules.md) |
 | 计量单位 | [`docs/grammar/measure.md`](docs/grammar/measure.md) |
-| 关键字列表 | [`docs/grammar/keyword.md`](docs/grammar/keyword.md) |
+| 关键字列表 | [`docs/lexical/keyword.md`](docs/lexical/keyword.md) |
 | 词法规则 | [`docs/lexical/index.md`](docs/lexical/index.md) |
 | 字符串字面量 | [`docs/lexical/string.md`](docs/lexical/string.md) |
 | 标准库总览 | [`docs/std/index.md`](docs/std/index.md) |

@@ -34,4 +34,4 @@ Lumos 的语法设计遵循以下原则：
 
 ---
 
-若要查看具体的关键字列表，请参阅 [关键字参考](grammar/keyword.md#title)。
+若要查看具体的关键字列表，请参阅 [关键字参考](lexical/keyword.md#title)。

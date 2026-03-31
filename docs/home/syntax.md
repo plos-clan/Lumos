@@ -123,7 +123,7 @@ act[io.out] main() -> i32 {
 
 ## 关键词指引 {#keyword-guide}
 
-- 关键字总表与跳转：[关键字](../grammar/keyword.md)
+- 关键字总表与跳转：[关键字](../lexical/keyword.md#title)
 - 表达式与 `let`：[表达式](../grammar/expression.md)
 - 控制流与循环：[控制流](../grammar/controlflow.md)
 
