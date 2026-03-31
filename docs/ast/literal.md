@@ -15,8 +15,11 @@ pub enum Literal {
     /// 字符串 (UTF-8)
     String(String),
 
-    /// 布尔值
+    /// 布尔值字面量 (true / false)，仅用于 `bool` 类型
     Bool(bool),
+
+    /// 标志位字面量 (on / off)，仅用于 `flag` / `flagN` 类型
+    Flag(bool),
 
     /// 字符 (Unicode)
     Char(char),
