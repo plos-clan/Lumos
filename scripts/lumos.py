@@ -21,6 +21,7 @@ class LumosLexer(RegexLexer):
       'root': [
           (r'(\s|\n|\r)+', Whitespace),
           (r'\/\/.*?(\n|$)|\/\*(.|\n)*?\*\/', Comment),
+          # 用 \xxx> 来标记特殊的名字，方便无法自动推断的高亮
           (r'\\fn> *([a-zA-Z0-9_]+)', bygroups(Name.Function)),
           (r'\\def> *([a-zA-Z0-9_]+)', bygroups(Name.Function)),
           (r'\\fun> *([a-zA-Z0-9_]+)', bygroups(Name.Function)),
@@ -127,7 +128,6 @@ class LumosLexer(RegexLexer):
       ],
       'dollar_init': [
           (r'\s+', Whitespace),
-          (r'\}', Punctuation, '#pop'),
           (r'[,\=]', Punctuation),
           (r'\.[a-zA-Z_][a-zA-Z0-9_]*(?=\s*(?:=|,|\}))', Name.Attribute),
           (r'\.[0-9]+(?=\s*(?:=|,|\}))', Name.Attribute),
@@ -136,13 +136,12 @@ class LumosLexer(RegexLexer):
           (r'([0-9][a-zA-Z0-9_]*\.?|\.[0-9])[a-zA-Z0-9_]*', Number),
           (r'[a-zA-Z_][a-zA-Z0-9_]*', Name),
           (chars('([{'), Punctuation, 'dollar_init'),
-          (chars(')]}'), Punctuation),
+          (chars(')]}'), Punctuation, '#pop'),
           (chars('+-*/%=^&|?:<>!~.'), Operator),
           (r'[^ \t\r\n\<\>\(\)\[\]\{\}!@#$%^&*,./?:;\'\"`~|\\+=\-]+', Comment.Special),
       ],
       'dollar_array': [
           (r'\s+', Whitespace),
-          (r'\]', Punctuation, '#pop'),
           (r'[,\=]', Punctuation),
           (r'\.[a-zA-Z_][a-zA-Z0-9_]*(?=\s*(?:=|,|\]))', Name.Attribute),
           (r'\.[0-9]+(?=\s*(?:=|,|\]))', Name.Attribute),
@@ -151,7 +150,7 @@ class LumosLexer(RegexLexer):
           (r'([0-9][a-zA-Z0-9_]*\.?|\.[0-9])[a-zA-Z0-9_]*', Number),
           (r'[a-zA-Z_][a-zA-Z0-9_]*', Name),
           (chars('([{'), Punctuation, 'dollar_array'),
-          (chars(')]}'), Punctuation),
+          (chars(')]}'), Punctuation, '#pop'),
           (chars('+-*/%=^&|?:<>!~.'), Operator),
           (r'[^ \t\r\n\<\>\(\)\[\]\{\}!@#$%^&*,./?:;\'\"`~|\\+=\-]+', Comment.Special),
       ],
