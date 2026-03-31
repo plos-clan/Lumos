@@ -88,10 +88,10 @@
 
 ## 类型与单位 {#types-measure}
 
-| 关键字  | 全称    | 用法                                    |
-|---------|---------|-----------------------------------------|
-| unit    | unit    | [空类型；同时也是其值字面量](type.md#types)     |
-| measure | measure | [定义量纲](measure.md#dimensions-units) |
+| 关键字  | 全称    | 用法                                        |
+|---------|---------|---------------------------------------------|
+| unit    | unit    | [空类型；同时也是其值字面量](type.md#types) |
+| measure | measure | [定义量纲](measure.md#dimensions-units)     |
 
 ## 内置类型 {#builtin-types}
 
@@ -135,24 +135,25 @@
 
 ## 控制流程与逻辑 {#control-flow-logic}
 
-| 关键字      | 全称          | 用法                                              |
-|-------------|---------------|---------------------------------------------------|
-| if          | if            | [条件分支](controlflow.md#if)                     |
-| else        | else          | [否则](controlflow.md#else)                       |
-| elif        | else if       | [否则如果](controlflow.md#elif)                   |
-| then        | then          | [条件成立时执行](controlflow.md#then)             |
-| switch      | switch        | [多分支选择](controlflow.md#switch)               |
-| match       | match         | [模式匹配](controlflow.md#match)                  |
-| for         | for loop      | [循环](controlflow.md#for)                        |
-| while       | while loop    | [循环](controlflow.md#while)                      |
-| do          | do while loop | [循环](controlflow.md#do-while)                   |
-| break       | break         | [跳出循环](controlflow.md#break)                  |
-| continue    | continue      | [跳过本次循环](controlflow.md#continue)           |
-| leave       | leave         | [跳出当前块（如 switch）](controlflow.md#leave)   |
-| fallthrough | fallthrough   | [跳到下一个 switch 条件块](controlflow.md#switch) |
-| goto        | goto          | [跳转](controlflow.md#jump-to-label)              |
-| return      | return        | [返回](controlflow.md#return)                     |
-| broken      | broken        | [循环中断分支](controlflow.md#broken)             |
+| 关键字      | 全称          | 用法                                                |
+|-------------|---------------|-----------------------------------------------------|
+| if          | if            | [条件分支](controlflow.md#if)                       |
+| else        | else          | [否则](controlflow.md#else)                         |
+| elif        | else if       | [否则如果](controlflow.md#elif)                     |
+| then        | then          | [条件成立时执行](controlflow.md#then)               |
+| switch      | switch        | [多分支选择](controlflow.md#switch)                 |
+| match       | match         | [模式匹配](controlflow.md#match)                    |
+| for         | for loop      | [循环](controlflow.md#for)                          |
+| while       | while loop    | [循环](controlflow.md#while)                        |
+| do          | do while loop | [循环](controlflow.md#do-while)                     |
+| break       | break         | [跳出循环](controlflow.md#break)                    |
+| continue    | continue      | [跳过本次循环](controlflow.md#continue)             |
+| leave       | leave         | [跳出当前块（如 switch）](controlflow.md#leave)     |
+| fallthrough | fallthrough   | [跳到下一个 switch 条件块](controlflow.md#switch)   |
+| goto        | goto          | [跳转](controlflow.md#jump-to-label)                |
+| return      | return        | [返回](controlflow.md#return)                       |
+| broken      | broken        | [循环中断分支](controlflow.md#broken)               |
+| completed   | completed     | [循环完成分支](controlflow.md#after-exit-completed) |
 
 ## 异常与错误处理 {#exceptions}
 

@@ -19,7 +19,7 @@ if (条件表达式) {
 条件表达式 then 代码;
 ```
 
-<span style="color:green">与 C 类似的部分，不会过多赘述</span>
+<span style="color:green">与 C 类似的部分不再展开说明</span>
 
 ## 分支 {#branches}
 
@@ -41,7 +41,7 @@ if (条件表达式) 代码;
 代码 if 条件表达式;
 ```
 
-可以在 `if` 中写多个表达式，用 `,` 隔开。条件表达式为最后一个表达式。  
+`if` 中可以写多个表达式，并用 `,` 分隔；最后一个表达式作为条件。  
 <span style="color:green">表达式中可以定义变量，其作用域为 `if` 语句内</span>
 
 ```lumos
@@ -58,7 +58,7 @@ if (var a = my_func()) return a;
 
 ### 条件分支 `else` {#else}
 
-`else` 语句是一个可选的标签，用于处理没有匹配的情况。
+`else` 是可选分支，用于处理前面条件都不满足的情况。
 
 ```lumos
 if (条件表达式) {
@@ -70,7 +70,7 @@ if (条件表达式) {
 
 ### `if` 表达式 {#if-expression}
 
-`if` 可以作为表达式直接求值。作为表达式使用时必须带有 `else` 分支，两个分支的类型须相同（或可隐式转换）。
+`if` 可以作为表达式进行求值。作为表达式使用时必须携带 `else` 分支，两个分支的求值结果类型须相同（或可隐式转换）。
 
 ```lumos
 i32 result = if (x > 0) x else -x;
@@ -86,7 +86,7 @@ str grade = if (score >= 90) "A" elif (score >= 60) "B" else "C";
 
 ### 条件分支 `then` {#then}
 
-`then` 用于表达式和语句之间，在表达式为真时执行语句。
+`then` 是一个二元算子，连接条件表达式与语句。当条件为真时执行后续语句，为假时跳过。
 
 ```lumos
 条件表达式 then 代码;
@@ -98,7 +98,7 @@ a > 0 then println("a is positive.");
 
 ### 多条件分支 `elif` {#elif}
 
-`elif` 语句是一个可选的标签，用于处理多个条件的情况。
+`elif` 是可选分支，用于处理多个条件。
 
 ```lumos
 if (条件表达式1) {
@@ -112,9 +112,9 @@ if (条件表达式1) {
 
 ### 多条件分支 `switch` {#switch}
 
-`switch` 语句是一种多条件分支，根据条件执行不同的代码块。  
-实际上的实现就是 `if - elif - else` 序列，只是更加简洁。  
-<span style="color:green">由于现代编译器的优化，在编译期将 `switch` 展开为 `if` 并不会导致低性能</span>
+`switch` 是一种多分支语句，根据目标表达式的值与各分支的常量进行相等比较，执行匹配的分支。  
+语义上等价于 `if - elif - else` 序列，但写法更紧凑。  
+<span style="color:green">由于现代编译器的优化，在编译期将 `switch` 展开为 `if` 序列不会导致性能下降</span>
 
 ```lumos
 switch (表达式) {
@@ -130,14 +130,14 @@ switch (表达式) {
 }
 ```
 
-`switch` 中的每个条目由 常量表达式 + `:` + 语句或代码块 组成。
+`switch` 中的每个条目由“常量表达式 + `:` + 语句或代码块”组成。
 
 !!! question "为什么不使用 `case`？"
-    Lumos 不会像 C 语言那样只把 `case` 处当作跳转的标签（要和普通标签区分开），需要在下一段代码前手动 `break`，所以不需要和普通标签区分，直接出现在 `switch` 内的必定是条件表达式。
+    Lumos 不会像 C 那样把 `case` 仅作为跳转标签并依赖手动 `break`。在 Lumos 中，`switch` 内的条目本身就是条件分支，因此无需再引入与普通标签区分的 `case` 关键字。
 
-`leave` 语句用于跳出 `switch` 语句。  
-`fallthrough` 语句用于跳到下一个条件的处理过程。  
-`else` 是一个可选的标签，用于处理没有匹配的情况。
+`leave` 用于退出 `switch`。  
+`fallthrough` 用于继续执行下一个分支。  
+`else` 是可选分支，用于处理没有匹配项的情况。
 
 ```lumos
 switch (num) {
@@ -155,11 +155,12 @@ switch (num) {
 }
 ```
 
-任何数据类型，只要重载 `==` 运算符就能支持 `switch`，只要重载 `\hash` 运算符就能进行匹配优化。
+任何数据类型只要重载 `==` 运算符就能用于 `switch`；若同时重载 `\hash` 运算符，还可启用匹配优化。
 
 ### 多条件分支 `match` {#match}
 
-与 `switch` 类似，`match` 语句是一种多条件分支，根据条件执行不同的代码块，但条件为匹配表达式而不是匹配值。  
+`match` 也是多分支语句，但与 `switch` 不同的是，它支持基于"模式"而非"相等值"的分支选择。  
+换言之，`match` 可以进行更复杂的条件匹配（如模式解构等），而 `switch` 仅支持相等值比较。  
 <span style="color:green">`match` 语句是 `switch` 语句的增强版</span>
 
 ```lumos
@@ -176,8 +177,8 @@ match (表达式) {
 }
 ```
 
-无初始表达式的 `match` 语句。  
-可以当作另一种 `if - elif - else` 使用。
+`match` 支持省略初始表达式。  
+此时，各分支直接使用条件表达式进行判断，相当于 `if - elif - else`。
 
 ```lumos
 match {
@@ -211,19 +212,24 @@ if (条件表达式1) {
 
 ### 假设条件成立 `assume` {#assume}
 
-`assume` 用于向编译器提供额外的静态分析信息。如果能证明某个条件成立，编译器可以移除相关的运行时检查或进行更激进的优化。
+`assume` 用于向编译器提供优化假设。编译器可据此移除相关运行时检查或进行激进的代码优化。
 
 ```lumos
 val a = get_input();
 assume a != 0;            // 假设 a 不为零
-val b = 100.0 / a as f32; // 编译器将不再生成除零检查代码
+val b = 100.0 / a as f32; // Release 模式下编译器将不再生成除零检查代码
 ```
 
-**注意**：
+**编译模式下的行为**：
 
-- 如果 `assume` 的条件在运行时不成立，将导致**未定义行为 (UB)**。
-- 在 `Debug` 模式下，`assume` 通常被视为 `assert` 进行校验。
-- 如果编译器发现 `assume` 下的代码路径不可达，将产生编译错误。
+- **Release 模式**：`assume` 纯粹作为优化提示，不生成任何运行时检查代码。若条件在实际运行时不成立，导致**未定义行为 (UB)**。
+- **Debug 模式**：`assume` 自动转换为 `assert` 进行运行时校验。若条件不成立，程序会崩溃或抛出异常，便于及时发现问题。
+- 可以使用编译标志显式禁用 Debug 模式中 `assume` 生成的 `assert`，此时行为与 Release 模式相同。
+
+**混合编译**：
+
+- 当项目包含多个编译单元时，每个编译单元按照自己的编译模式（Debug 或 Release）独立处理 `assume`。
+- 若编译器能证明 `assume` 下的代码路径不可达，将产生编译错误。
 
 ---
 
@@ -231,7 +237,7 @@ val b = 100.0 / a as f32; // 编译器将不再生成除零检查代码
 
 ### 条件循环 `while` {#while}
 
-`while` 循环是一种条件循环，只要条件为真，循环就会一直执行。
+`while` 是条件循环。仅当条件为真时循环体才会执行；每次迭代结束后重新检查条件。
 
 ```lumos
 var i32 i = 0;
@@ -249,7 +255,7 @@ while (条件表达式) {
 
 ### 条件循环 `do while` {#do-while}
 
-`do while` 循环是一种条件循环，先执行循环体，再判断条件。
+`do while` 也是条件循环。与 `while` 不同的是，循环体至少执行一次，然后才判断条件。
 
 ```lumos
 var i32 i = 0;
@@ -267,7 +273,7 @@ do {
 
 ### 计数循环 `for` {#for}
 
-`for` 循环是一种计数循环，可以在循环体内使用计数器。
+`for` 循环支持显式的初始化、条件检查和更新步骤，适合循环计数场景。
 
 ```lumos
 for (var i32 i = 0; i < 10; i += 1) {
@@ -281,7 +287,7 @@ for (初始化语句; 条件表达式; 更新语句) {
 }
 ```
 
-当我们不需要计数器变量时可以直接：
+当不需要显式计数器变量时，可以直接写成：
 
 ```lumos
 for (迭代次数) {
@@ -291,7 +297,7 @@ for (迭代次数) {
 
 ### 遍历循环 `for` {#loops-for}
 
-`for` 循环是一种遍历循环，可以在循环体内遍历容器。
+`for` 循环支持对容器和范围的直接遍历，无需显式管理计数变量。
 
 ```lumos
 for (val i in .[1, 2, 3, 4, 5]) {
@@ -311,7 +317,7 @@ for (变量 in 容器) {
 
 ### 循环标签 {#loops-loops}
 
-给循环添加标签可以用于快速跳出多层循环。*见 `break`*
+给循环添加标签后，可以快速跳出多层循环。*见 `break`*
 
 ```lumos
 loop:
@@ -323,15 +329,24 @@ for (var i32 i = 0; i < 10; i += 1) {
 }
 ```
 
-### 关于死循环 {#loops-detail}
+### 无条件循环 {#loops-detail}
 
-Lumos 支持显式死循环，适用于需要特殊控制逻辑的场景。
+Lumos 支持显式的无条件循环（死循环）。无条件循环会持续执行，直到遇到 `break` 或 `leave` 才会退出。适用于需要特殊控制逻辑或持续运行的场景。
+
+```lumos
+loop {
+    condition then break;  // 满足条件时退出
+    do_something();
+}
+```
+
+<span style="color:red">**注意**：`while(true)` 会导致编译错误，无条件循环必须使用 `loop` 关键字。</span>
 
 ### 循环属性 {#loops-attributes}
 
 #### limit {#limit}
 
-`@limit(次数)` 属性可以限制循环的最大执行次数，防止出现无限循环，其实现为循环达到指定次数后自动调用 `break`。
+`@limit(次数)` 属性用于限制循环的最大执行次数，防止出现无限循环。达到指定次数后会自动执行 `break`。
 
 ```lumos
 @limit(10)
@@ -346,9 +361,16 @@ for (var i32 i = 0; i < 100; i += 1) {
 
 `@unroll(次数)` 属性可以展开循环，减少循环的开销。
 
-`@unroll(0)` 或 `@unroll` 属性将循环完全展开，`@unroll(次数)` 属性将循环展开指定次数，次数指展开后一次循环中循环体的执行次数。
+`@unroll(0)` 或 `@unroll` 会将循环完全展开；`@unroll(次数)` 会按指定次数展开。这里的“次数”指展开后单次迭代中循环体的执行次数。
 
 如果循环的次数不固定，则不能完全展开。
+
+**属性组合**：`@limit` 与 `@unroll` 可同时使用，例如 `@limit(10) @unroll(3)`。
+
+执行顺序为：
+
+1. 先将循环体按因子 3 展开（每个展开的迭代单元中原循环体执行 3 次）
+2. 再将最多执行 10 个展开后的迭代单元（相当于最多 30 次原循环体逻辑）
 
 :::column
 
@@ -406,7 +428,7 @@ for (var i32 i = 0; i < 10; i += 3) {
 
 ### 跳过本次循环 `continue` {#continue}
 
-`continue` 用于跳过本次循环，跳到下一次循环。
+`continue` 用于结束本次循环并进入下一次循环。
 
 有等效的 `goto` 语句：
 
@@ -425,7 +447,7 @@ for (var i32 i = 0; i < 10; i += 1) {
 
 ### 跳出循环 `break` {#break}
 
-`break` 用于跳出循环。
+`break` 用于立即跳出循环。
 
 有等效的 `goto` 语句：
 
@@ -444,13 +466,14 @@ end:
 
 ### 跳出多层循环 {#jumps-loops}
 
-利用 `break` 加循环标签可以快速跳出多层循环。
+可以为循环添加标签，然后在 `break` 语句中指定标签来跳出多层循环。`break` 支持跳出任意数量的嵌套层级。
 
 ```lumos
-loop:
+outer:
 for (var i32 i = 0; i < 10; i += 1) {
+    inner:
     for (var i32 j = 0; j < 10; j += 1) {
-        if (i == 5 and j == 5) break loop;
+        if (i == 5 and j == 5) break outer;  // 可以跳过 inner，直接跳出 outer
         println(i, j);
     }
 }
@@ -458,10 +481,10 @@ for (var i32 i = 0; i < 10; i += 1) {
 
 ### 跳出代码块 `leave` {#leave}
 
-`leave` 用于跳出代码块。  
+`leave` 用于提前退出代码块。  
 <span style="color:purple">必须是使用 `{}` 包裹的代码块。下面的示例语句不算是代码块。</span>
 
-`leave` 也可以跳出 `if` `switch` 的代码块。
+`leave` 可退出任何 `{}` 包裹的代码块，包括 `if`、`switch` 等的代码块。
 
 ```lumos
 if (表达式) leave;
@@ -477,7 +500,7 @@ if (表达式) leave;
 }   // 不会打印文本
 ```
 
-如果是可求值代码块，`leave` 后跟代码块的求值表达式。<span style="color:green">类似 `return`</span>
+对于可求值代码块，`leave` 后可指定返回值。<span style="color:green">语义类似函数中的 `return`</span>
 
 ```lumos
 let a = val {
@@ -488,7 +511,7 @@ let a = val {
 println(a); // 0
 ```
 
-作为函数体的代码块只能 `return` 而不能 `leave`。
+作为函数体的代码块只能使用 `return`，不能使用 `leave`。
 
 ```lumos
 act[io.out] my_func(i32 a) -> unit {
@@ -503,7 +526,7 @@ act[io.out] my_func(i32 a) -> unit {
 
 `broken` 用于在循环被 `break` 中断时执行代码。
 
-或许可以减少逆天的嵌套。
+它可以减少某些场景下的深层嵌套。
 
 ```lumos
 for (var i32 i = 0; i < 10; i += 1) {
@@ -514,7 +537,7 @@ for (var i32 i = 0; i < 10; i += 1) {
 }
 ```
 
-可以在 `broken` 中 `continue` 重新进入循环，本次循环会被跳过。
+可以在 `broken` 中使用 `continue`，这将进入循环的下一次迭代（而非重新进入被中断的循环）。
 
 ```lumos
 for (var i32 i = 0; i < 10; i += 1) {
@@ -522,18 +545,18 @@ for (var i32 i = 0; i < 10; i += 1) {
     println(i);
 } broken {
     println(`Loop broken with i = $i.`);
-    continue;
+    continue;  // 进入下一次迭代
 }
 ```
 
-### 当循环正常结束时 `then` {#after-exit-then}
+### 当循环正常结束时 `completed` {#after-exit-completed}
 
-`then` 用于在循环正常结束时执行代码。
+`completed` 用于在循环正常结束后执行代码（即循环体执行完毕且未被 `break` 中断）。
 
 ```lumos
 for (var i32 i = 0; i < 10; i += 1) {
     println(i);
-} then { // 会执行
+} completed { // 会执行
     println(`Loop finished with i = $i.`);
 }
 ```
@@ -542,20 +565,18 @@ for (var i32 i = 0; i < 10; i += 1) {
 for (var i32 i = 0; i < 10; i += 1) {
     if (i == 5) break;
     println(i);
-} then { // 不会执行
+} completed { // 不会执行
     println(`Loop finished with i = $i.`);
 }
 ```
 
-<span style="color:green">以上两个可以同时使用</span>
-
-<span style="color:green">`broken` 和 `then` 中都可以使用迭代变量</span>
+<span style="color:green">`broken` 与 `completed` 可同时使用。两个分支中都能访问循环的迭代变量</span>
 
 ## 跳转 {#jumps-detail}
 
 ### 标签跳转 `goto` {#jump-to-label}
 
-`goto` 用于跳转到指定标签，所有标签反向缩进两格。
+`goto` 用于无条件跳转到指定标签。标签通常使用反向缩进（减少两格）来标示层级。
 
 ```lumos
   loop:
@@ -563,10 +584,10 @@ for (var i32 i = 0; i < 10; i += 1) {
     goto loop;
 ```
 
-对于标签跳转，无法跳过变量的初始化。
+使用标签跳转时，不能跳过变量初始化语句。
 
 ```lumos
-    if (某些条件) goto label; // 这是不行的，因为跳转到 label 后无法确定 my_var 的值。
+    if (某些条件) goto label; // 非法：跳转到 label 后无法确定 my_var 的值。
     val my_var as usize = 10;
     println(my_var);
   label:
@@ -575,10 +596,15 @@ for (var i32 i = 0; i < 10; i += 1) {
 
 ### 任意地址跳转 `goto` {#jump-to-address}
 
-`goto` 用于跳转到任意地址，对应汇编中的 `jmp` 指令。
+`goto` 也可用于跳转到任意地址，对应汇编中的 `jmp` 指令。跳转目标可以是编译期常数地址，也可以是变量存储的地址。
 
 ```lumos
+// 直接地址
 goto 0x12345678;
+
+// 或通过变量
+val [unit] addr = ...;  // 从某处获取地址
+goto addr;
 ```
 
 对标签取地址后为其后一行代码地址，类型为 `[unit]`。
