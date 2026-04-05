@@ -151,7 +151,7 @@ fun@ro my_func() -> i32 {
 
 ---
 
-### 禁止重新绑定 `fin` {#fin}
+### 禁止重新绑定 `fin` {#keyword-fin}
 
 使用 `fin` 关键字声明的变量禁止在同一作用域内被重新绑定（Shadowing）。
 

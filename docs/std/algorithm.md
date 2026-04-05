@@ -1,3 +1,7 @@
+---
+title: 算法库
+---
+
 # 算法库 `std.algorithm` {#title}
 
 ## 搜索算法 {#search-algorithms}

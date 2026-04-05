@@ -1,6 +1,11 @@
 
 # 关键字 {#title}
 
+关键字与保留字：
+
+- 所有关键字都是保留字。
+- 额外预留一些容易造成歧义的名称（如 `i0` `i999999` 等）为保留字。
+
 ## 变量声明与初始化 {#declaration-init}
 
 | 关键字   | 全称                       | 用法                                                                        |
@@ -10,7 +15,7 @@
 | imv      | immutable variable         | [声明物理不可变变量（隐含 `imm`）](../grammar/variable.md#keyword-imv)      |
 | ref      | reference                  | [声明引用变量](../grammar/type.md#reference-types)                          |
 | lit      | literal                    | [声明编译期常量](../grammar/variable.md#keyword-lit)                        |
-| fin      | final variable             | [声明禁止重新绑定的变量](../grammar/variable.md#fin)                        |
+| fin      | final variable             | [声明禁止重新绑定的变量](../grammar/variable.md#keyword-fin)                |
 | late     | late                       | [标记变量为手动延迟初始化](../grammar/variable.md#late)                     |
 | lazy     | lazy                       | [标记变量为懒加载初始化](../grammar/variable.md#lazy)                       |
 | volatile | volatile                   | [声明变量可被外部修改，禁止编译器缓存优化](../grammar/variable.md#volatile) |
@@ -18,15 +23,10 @@
 | let      | expression                 | [定义表达式](../grammar/expression.md#let)                                  |
 | obj      | dynamically typed variable | [声明或定义动态类型变量](../grammar/object.md#usage)                        |
 
-<details>
-
-<summary>关键字来源</summary>
-
-- `var` 和 `val` 来自 Kotlin，分别表示可变和不可变变量。
-- `late` 和 `lazy` 来自 Kotlin 的 `lateinit` 和 `by lazy`，分别表示手动延迟初始化和懒加载初始化。
-- `restrict` 来自 C99 的 `restrict` 关键字，用于指针限定。
-
-</details>
+??? Note "关键字来源"
+    - `var` 和 `val` 来自 Kotlin，分别表示可变和不可变变量。
+    - `late` 和 `lazy` 来自 Kotlin 的 `lateinit` 和 `by lazy`，分别表示手动延迟初始化和懒加载初始化。
+    - `restrict` 来自 C99 的 `restrict` 关键字，用于指针限定。
 
 ## 函数与纯度 {#functions-purity}
 
@@ -43,17 +43,12 @@
 | where    | where         | [对函数参数或泛型进行范围限定](../grammar/function.md#where)                                 |
 | rollback | rollback      | [在 `unsafe fun` 后声明回滚逻辑](../grammar/function.md#rollback)                            |
 
-<details>
+??? Note "关键字来源"
+    - `def` 来自数学上的函数定义，强调纯函数的概念。
+    - `fun` 来自大多数编程语言使用的 "function" 一词，表示一般函数。
+    - `act` 来自 "action"，强调具有副作用的函数，由生成式 AI 推荐我使用。
 
-<summary>关键字来源</summary>
-
-- `def` 来自数学上的函数定义，强调纯函数的概念。
-- `fun` 来自大多数编程语言使用的 "function" 一词，表示一般函数。
-- `act` 来自 "action"，强调具有副作用的函数，由生成式 AI 推荐我使用。
-
-> 实际上最早采用的是来自 Rust 的 `fn`，但后来由于分成了三类，就改成了现在的 `def`、`fun` 和 `act`。
-
-</details>
+    > 实际上最早采用的是来自 Rust 的 `fn`，但后来由于分成了三类，就改成了现在的 `def`、`fun` 和 `act`。
 
 ## 异步与等待 {#async-await}
 
@@ -95,43 +90,49 @@
 
 ## 内置类型 {#builtin-types}
 
-| 关键字                     | 用法                                                       |
-|----------------------------|------------------------------------------------------------|
-| bool                       | [布尔类型](../grammar/type.md#types)                       |
-| flag                       | [标志位类型](../grammar/type.md#types)                     |
-| byte                       | [字节类型](../grammar/type.md#types)                       |
-| char                       | [Unicode 字符](../grammar/type.md#types)                   |
-| ascii                      | [ASCII 字符](../grammar/type.md#types)                     |
-| char8/16/32                | [字符类型](../grammar/type.md#types)                       |
-| str                        | [字符串](../grammar/type.md#string)                        |
-| str8/16/32                 | [UTF 编码字符串](../grammar/type.md#string)                |
-| cstr                       | [C 字符串](../grammar/type.md#string)                      |
-| cstr8/16/32                | [UTF 编码 C 字符串](../grammar/type.md#string)             |
-| bytes                      | [字节数组](../grammar/type.md#string)                      |
-| int/uint                   | [编译期整数](../grammar/type.md#compile-time-integer)      |
-| float                      | [编译期浮点](../grammar/type.md#compile-time-float)        |
-| i8/16/32/64 **...**        | [整数类型](../grammar/type.md#numeric-types)               |
-| u8/16/32/64 **...**        | [无符号整数](../grammar/type.md#numeric-types)             |
-| f16/32/64/128              | [浮点类型](../grammar/type.md#numeric-types)               |
-| usize/isize                | [平台字长整数](../grammar/type.md#numeric-types)           |
-| b8/16/32/64 **...**        | [二进制类型](../grammar/type.md#binary)                    |
-| flag8/16/32/64 **...**     | [标志位类型](../grammar/type.md#binary)                    |
-| byte1/2/4/8 **...**        | [字节类型扩展](../grammar/type.md#binary)                  |
-| i**N**/u**N**/f**N**       | [位宽扩展类型](../grammar/type.md#numeric-width-extension) |
-| i**N**le/u**N**le/f**N**le | [小端类型](../grammar/type.md#numeric-types)               |
-| i**N**be/u**N**be/f**N**be | [大端类型](../grammar/type.md#numeric-types)               |
+| 关键字                   | 用法                                                       |
+|--------------------------|------------------------------------------------------------|
+| bool                     | [布尔类型](../grammar/type.md#types)                       |
+| flag                     | [标志位类型](../grammar/type.md#types)                     |
+| byte                     | [字节类型](../grammar/type.md#types)                       |
+| char                     | [Unicode 字符](../grammar/type.md#types)                   |
+| ascii                    | [ASCII 字符](../grammar/type.md#types)                     |
+| char8/16/32              | [字符类型](../grammar/type.md#types)                       |
+| str                      | [字符串](../grammar/type.md#string)                        |
+| str8/16/32               | [UTF 编码字符串](../grammar/type.md#string)                |
+| cstr / cstr8/16/32       | [C 字符串 / UTF 编码 C 字符串](../grammar/type.md#string)  |
+| bytes                    | [字节数组](../grammar/type.md#string)                      |
+| int / uint               | [编译期整数](../grammar/type.md#compile-time-integer)      |
+| float                    | [编译期浮点](../grammar/type.md#compile-time-float)        |
+| i8/16/32/64 **...**      | [整数类型](../grammar/type.md#numeric-types)               |
+| u8/16/32/64 **...**      | [无符号整数](../grammar/type.md#numeric-types)             |
+| f16/32/64/128            | [浮点类型](../grammar/type.md#numeric-types)               |
+| usize/isize              | [平台字长整数](../grammar/type.md#numeric-types)           |
+| b8/16/32/64 **...**      | [二进制类型](../grammar/type.md#binary)                    |
+| flag8/16/32/64 **...**   | [标志位类型](../grammar/type.md#binary)                    |
+| byte1/2/4/8 **...**      | [字节类型扩展](../grammar/type.md#binary)                  |
+| i**N** / u**N** / f**N** | [位宽扩展类型](../grammar/type.md#numeric-width-extension) |
+| **X**le / **X**be        | [小端类型 / 大端类型](../grammar/type.md#numeric-types)    |
+
+> **注意**：`[iuf][0-9]+[a-z]*` 均为保留字，不能用作标识符。
+
+??? Note "关键字来源"
+    - `bool`、`char`、`str` 来自大多数编程语言的内置类型。
+    - `flag` 来自常用的标志位类型，通常用于位掩码。
+    - `cstr` 来自 C 语言的字符串类型。
+    - `iN`、`uN`、`fN` 来自古早的位宽类型命名习惯。
+    - `le` 和 `be` 后缀来自于小端和大端字节序的缩写。
+    - `unit` 来自于函数式编程语言中的空类型概念，表示没有有意义的值。
 
 ## 字面量 {#literals}
 
-| 关键字 | 全称       | 用法                                                     |
-|--------|------------|----------------------------------------------------------|
-| unit   | unit       | [`unit` 类型的值字面量](../grammar/type.md#types)        |
-| true   | true       | [`bool` 真值字面量](../grammar/type.md#types)            |
-| false  | false      | [`bool` 假值字面量](../grammar/type.md#types)            |
-| on     | on (flag)  | [`flag` 置位字面量](../grammar/type.md#types)            |
-| off    | off (flag) | [`flag` 清位字面量](../grammar/type.md#types)            |
-| null   | null       | [可空指针的空值字面量](../grammar/type.md#pointer-types) |
-| none   | none       | [可选值的缺席字面量](../grammar/type.md#pointer-types)   |
+| 关键字       | 用法                                                     |
+|--------------|----------------------------------------------------------|
+| unit         | [`unit` 类型的值字面量](../grammar/type.md#types)        |
+| true / false | [`bool` 真值 / 假值 字面量](../grammar/type.md#types)    |
+| on / off     | [`flag` 置位 / 清位 字面量](../grammar/type.md#types)    |
+| null         | [可空指针的空值字面量](../grammar/type.md#pointer-types) |
+| none         | [可选值的缺席字面量](../grammar/type.md#pointer-types)   |
 
 ## 控制流程与逻辑 {#control-flow-logic}
 

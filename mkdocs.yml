@@ -41,8 +41,8 @@ plugins:
   - awesome-pages
   - markdownextradata:
       jinja_options:
-        comment_start_string: "/**"
-        comment_end_string: "**/"
+        comment_start_string: "/^^"
+        comment_end_string: "^^/"
   - exclude:
       glob:
         - README.md
@@ -58,8 +58,13 @@ markdown_extensions:
       permalink: true
   - tables # 支持表格
   - fenced_code # 支持围栏代码块
+
+
+    # https://squidfunk.github.io/mkdocs-material/reference/admonitions/
   - admonition # 支持附注框
+  - pymdownx.details # 支持可展开的细节框
   - pymdownx.superfences # 增强的围栏代码块支持
+
   - pymdownx.tasklist # 支持任务列表
   - pymdownx.emoji # 支持表情符号
   - pymdownx.magiclink # 自动处理链接
@@ -68,7 +73,6 @@ markdown_extensions:
   - pymdownx.caret # 支持^上标^
   - pymdownx.tilde # 支持~删除线~
   - pymdownx.mark
-  - pymdownx.details
   - mdx_truly_sane_lists
   - footnotes
   - pymdownx.snippets:
@@ -77,9 +81,11 @@ markdown_extensions:
   - codehilite: # 代码高亮
       guess_lang: false # 不猜测语言
       use_pygments: true
-  - scripts.text_align_extension
-  - scripts.column_extension
-  - scripts.hidden_content_extension # ??隐藏内容??
+
+    # scripts/*.py
+  - scripts.text_align_extension # 文本对齐扩展
+  - scripts.column_extension # 纵向分列扩展
+  - scripts.hidden_content_extension # 隐藏内容扩展，只在鼠标悬停时显示内容
 
 extra_javascript:
   - assets/MathJax.js

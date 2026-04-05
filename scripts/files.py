@@ -1,5 +1,5 @@
-from pygments.lexer import RegexLexer
-from pygments.token import Keyword, Name, Operator
+from pygments.lexer import RegexLexer, bygroups
+from pygments.token import Keyword, Name, Operator, Whitespace, Punctuation, Comment
 
 
 class FilesLexer(RegexLexer):
@@ -9,10 +9,12 @@ class FilesLexer(RegexLexer):
 
   tokens = {
       'root': [
-          (r'.+/$', Operator),
-          (r'.+\.lm$', Name.Attribute),
-          (r'.+\.lh$', Keyword),
-          (r'.+\.yaml$', Name.Class),
-          (r'.+$', Name.Function),
-      ]
+          (r' +', Whitespace),
+          (r'#.*$', Comment),
+          (r'([^ ]+)(/)', bygroups(Operator, Punctuation)),
+          (r'[^ ]+\.lm', Name.Attribute),
+          (r'[^ ]+\.lh', Keyword),
+          (r'[^ ]+\.yaml', Name.Class),
+          (r'[^ ]+', Name.Function),
+      ],
   }

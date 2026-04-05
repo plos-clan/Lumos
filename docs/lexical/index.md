@@ -2,8 +2,9 @@
 
 ## 源文件与编码 {#file}
 
-Lumos 仅接受 Unicode 源码文件，编码必须为 UTF-8、UTF-16 或 UTF-32。  
-所有内容区分大小写，且不允许 BOM；若检测到 BOM 将直接报错。  
+Lumos 仅接受 Unicode 源码文件，编码必须为 UTF-8、UTF-16 或 UTF-32，不允许任何无法解析为文本的二进制内容。
+
+所有内容区分大小写，且不允许 BOM；若检测到 BOM 将直接报错。
 
 ## 标识符 {#identifiers}
 

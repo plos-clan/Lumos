@@ -20,7 +20,7 @@ class LumosLexer(RegexLexer):
   tokens = {
       'root': [
           (r'(\s|\n|\r)+', Whitespace),
-          (r'\/\/.*?(\n|$)|\/\*(.|\n)*?\*\/', Comment),
+          (r'//.*$|/\*(.|\n)*?\*/', Comment),
           # 用 \xxx> 来标记特殊的名字，方便无法自动推断的高亮
           (r'\\fn> *([a-zA-Z0-9_]+)', bygroups(Name.Function)),
           (r'\\def> *([a-zA-Z0-9_]+)', bygroups(Name.Function)),
