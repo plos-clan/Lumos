@@ -49,16 +49,19 @@ class LumosLexer(RegexLexer):
           (r'(# *define|# *undef)( *)([a-zA-Z0-9_]*)', bygroups(Generic.Prompt, Whitespace, Number)),
           # (r'# *(define|undef|if|fidef|ifndef|end|set|clear|once|include)', Generic.Prompt),
           (r'# *[a-zA-Z0-9_\-]*', Generic.Prompt),
+          # ----- 类型关键字 -----
           (kwds([
-              ['unit', 'bool', 'char', 'int', 'uint', 'float', 'byte'],
+              ['unit', 'bool', 'flag', 'char', 'int', 'uint', 'float', 'byte'],
               ['i8', 'i16', 'i32', 'i64', 'u8', 'u16', 'u32', 'u64'],
               ['f16', 'f32', 'f64', 'f128'],
               ['b8', 'b16', 'b32', 'b64'],
               ['usize', 'isize'],
               ['str'],
           ]), Name.Class),
-          (kwds(['true', 'false', 'null', 'undefined', 'noexcept']), Number),
+          # ----- 字面量关键字 -----
+          (kwds(['true', 'false', 'on', 'off', 'null', 'undefined', 'noexcept']), Number),
           (r'(goto|break|continue)(\s|\n|\r)*([a-zA-Z_][a-zA-Z0-9_]*)', bygroups(Keyword, Whitespace, Name.Constant)),
+          # ----- 关键字 -----
           (kwds([
               ['var', 'val', 'imv', 'fin', 'obj', 'let', 'lit', 'ref', 'restrict'],
               ['late', 'lazy'],
@@ -75,8 +78,9 @@ class LumosLexer(RegexLexer):
               ['inttype', 'floattype', 'numtype'],
           ]), Keyword),
           (r'once[!?]', Keyword),
+          # ----- 内置命名空间 -----
           (kwds(['std']), Name.Class),
-          (r'[A-Z][A-Z0-9_]*(?=[^a-z])', Name.Constant),
+          (r'[A-Z][A-Z0-9_]*(?=[^a-zA-Z0-9_])', Name.Constant),
           (r'[A-Z][a-zA-Z0-9_]*', Name.Class),
           (r'(def|fun|act)(\s|\n|\r)*([a-zA-Z_][a-zA-Z0-9_]*)', bygroups(Keyword, Whitespace, Name.Function)),
           (r'(def|fun|act)', Keyword),
