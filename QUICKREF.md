@@ -61,7 +61,7 @@ act[io.out] main() -> i32 {
 | 关键字 | 含义 | 可调用 | 备注 |
 |--------|------|--------|------|
 | `def`  | 纯函数，无任何副作用 | `def`, `obs` | 单语句可写 `= 表达式` |
-| `fun`  | 逻辑纯函数，外部不可观测副作用 | `fun`, `def`, `obs` | 可调用 `unsafe fun[]` |
+| `fun`  | 逻辑纯函数，外部不可观测副作用 | `fun`, `def`, `obs` | 可调用 `effectful fun[]` |
 | `obs`  | 观测性函数，调用方无需持有其权限 | 任意 | 返回类型必须为 `unit` |
 | `act`  | 副作用函数，必须声明权限 `[...]` | 任意 | I/O、全局状态等 |
 
@@ -83,10 +83,10 @@ act[io.out] main() -> i32 {
 }
 ```
 
-### `unsafe fun` 与回滚块
+### `effectful fun` 与回滚块
 
 ```lumos
-unsafe fun[] next_id() -> i32 {
+effectful fun[] next_id() -> i32 {
   @static
   var i32 counter = 0;
   counter = counter + 1;

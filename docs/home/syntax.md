@@ -17,7 +17,7 @@
 
 - 函数纯度：`def`/`fun`/`act`（见 [函数与纯度](../grammar/function.md)）。
 - 权限声明：`act[...]` 必须显式列出副作用权限（见 [权限系统](../grammar/permission.md)）。
-- `unsafe fun` 必须写权限列表并提供尾随 `rollback`，仅 `unsafe fun[]` 可被 `fun` 调用（见 [函数与纯度](../grammar/function.md)）。
+- `effectful fun` 必须写权限列表并提供尾随 `rollback`，仅 `effectful fun[]` 可被 `fun` 调用（见 [函数与纯度](../grammar/function.md)）。
 - 变量不可变层级：`val`/`imv`/`lit`（见 [变量与初始化](../grammar/variable.md)）。
 - 模块导入关键字为 `use`（见 [模块系统](../grammar/modules.md)）。
 
@@ -75,10 +75,10 @@ act[io.out] main() -> i32 {
 }
 ```
 
-`unsafe fun` 回滚语法（尾随 `rollback`，可访问函数体内变量）：
+`effectful fun` 回滚语法（尾随 `rollback`，可访问函数体内变量）：
 
 ```lumos
-unsafe fun[] next_id() -> i32 {
+effectful fun[] next_id() -> i32 {
   @static
   var i32 counter = 0;
   counter = counter + 1;

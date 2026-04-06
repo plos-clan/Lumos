@@ -37,7 +37,7 @@ act[io.out] main() {
 ## 函数修饰符
 
 - `ovl`：**允许重载**。默认情况下函数不可重载。若要重载，该名称对应的**所有**定义都必须显式带有此关键字。
-- `unsafe fun`：将可回滚副作用标记为逻辑纯，允许在 `fun` 中使用，但必须满足以下约束：
+- `effectful fun`：将可回滚副作用标记为逻辑纯，允许在 `fun` 中使用，但必须满足以下约束：
   - 必须在函数体后紧接 `rollback` 块（语法详见[回滚块](#rollback)），回滚动作需并发安全。
   - 仅当权限列表为空时，才允许被 `fun` 调用；否则编译错误。
 - `obs`：**观测性函数**。声明该函数虽有副作用（如写日志），但对调用方的计算结果无影响，可被 `def`、`fun`、`act` 在不消耗任何调用方权限的情况下调用。编译器强制以下约束：
@@ -117,32 +117,32 @@ Lumos 允许返回有效值与返回空的函数重载同时存在，详见 [函
 
 ## 回滚块 `rollback` {#rollback}
 
-`unsafe fun` 必须在函数体后紧接一个 `rollback` 块，声明当函数成功返回后、调用链后续抛出异常时如何撤销本次副作用。
+`effectful fun` 必须在函数体后紧接一个 `rollback` 块，声明当函数成功返回后、调用链后续抛出异常时如何撤销本次副作用。
 
 ```lumos
 // 有返回值：rollback(绑定名) 将返回值绑定到指定名称
-unsafe fun allocate(usize size) -> Ptr {
+effectful fun allocate(usize size) -> Ptr {
     return raw_malloc(size);
 } rollback(ptr) {
     raw_free(ptr);   // ptr 绑定返回值；参数 size 同样在作用域内
 }
 
 // 无返回值：参数仍在作用域内
-unsafe fun lock(Mutex m) {
+effectful fun lock(Mutex m) {
     m.acquire();
 } rollback {
     m.release();     // 参数 m 在作用域
 }
 
 // 多参数 + 返回值同时可用
-unsafe fun connect(string host, u16 port) -> Socket {
+effectful fun connect(string host, u16 port) -> Socket {
     return sys_connect(host, port);
 } rollback(sock) {
     sock.close();    // sock 绑定返回值，host/port 参数也在作用域
 }
 ```
 
-**触发时机**：当 `unsafe fun` 成功返回后，若调用链上后续代码抛出异常，各 `unsafe fun` 的 `rollback` 块按调用栈逆序依次执行。若 `unsafe fun` 自身内部执行失败（未执行到 `return`），回滚块不触发——因为副作用尚未生效。
+**触发时机**：当 `effectful fun` 成功返回后，若调用链上后续代码抛出异常，各 `effectful fun` 的 `rollback` 块按调用栈逆序依次执行。若 `effectful fun` 自身内部执行失败（未执行到 `return`），回滚块不触发——因为副作用尚未生效。
 
 **约束**：
 

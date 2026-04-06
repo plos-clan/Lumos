@@ -35,7 +35,7 @@ pub enum Purity {
 
 ```rust
 pub enum Modifier {
-    Unsafe,     // 允许在 fun 中执行 act 操作
+    Effectful,  // 允许在 fun 中执行 act 操作
     Async,      // 异步函数
     OnceStrict, // once! act (再次调用报错)
     OnceSoft,   // once? act (再次调用忽略)

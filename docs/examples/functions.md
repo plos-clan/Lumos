@@ -1,6 +1,6 @@
 # 函数与纯度 {#title}
 
-演示 `def`/`fun`/`act` 的分层，以及 `unsafe fun` 的回滚语法。第一个示例强调纯度分级的调用边界：`def` 只能调用 `def`，`fun` 可调用 `def`/`fun`，`act` 具备副作用权限。第二个示例展示 `unsafe fun` 必须带权限列表与尾随 `rollback`，并说明回滚用于撤销可追踪副作用。
+演示 `def`/`fun`/`act` 的分层，以及 `effectful fun` 的回滚语法。第一个示例强调纯度分级的调用边界：`def` 只能调用 `def`，`fun` 可调用 `def`/`fun`，`act` 具备副作用权限。第二个示例展示 `effectful fun` 必须带权限列表与尾随 `rollback`，并说明回滚用于撤销可追踪副作用。
 > 相关语法： [函数与纯度](../grammar/function.md#function-purity)，[函数定义](../grammar/function.md#function-definition)，[副作用权限系统](../grammar/permission.md#title)。
 
 说明：
@@ -8,4 +8,4 @@
 
 ```lumos: purity_permissions.lm```
 
-```lumos: unsafe_fun_rollback.lm```
+```lumos: effectful_fun_rollback.lm```

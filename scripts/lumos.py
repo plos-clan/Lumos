@@ -70,7 +70,7 @@ class LumosLexer(RegexLexer):
               ['async', 'await'],
               ['namespace', 'struct', 'class', 'enum', 'union', 'impl', 'template', 'measure', 'permission'],
               ['typename', 'variant', 'initvar', 'ovl'],
-              ['assert', 'assume', 'unsafe'],
+              ['assert', 'assume', 'unsafe', 'effectful'],
               ['mut', 'imm', 'ro', 'wo', 'rw', 'rx'],
               ['inttype', 'floattype', 'numtype'],
           ]), Keyword),

@@ -38,10 +38,10 @@
 | act      | action        | [定义副作用函数](../grammar/function.md#function-purity)                                     |
 | once?    | once (soft)   | [修饰 `act`，再次调用时忽略](../grammar/function.md#function-purity)                         |
 | once!    | once (strict) | [修饰 `act`，再次调用时报错](../grammar/function.md#function-purity)                         |
-| unsafe   | unsafe        | [修饰 `fun`，声明可回滚副作用（需权限列表与回滚块）](../grammar/function.md#function-purity) |
+| effectful| effectful     | [修饰 `fun`，声明可回滚副作用（需权限列表与回滚块）](../grammar/function.md#function-purity) |
 | ovl      | overload      | [标记函数允许重载（所有重载变体均需标记）](../grammar/overload.md#rules)                     |
 | where    | where         | [对函数参数或泛型进行范围限定](../grammar/function.md#where)                                 |
-| rollback | rollback      | [在 `unsafe fun` 后声明回滚逻辑](../grammar/function.md#rollback)                            |
+| rollback | rollback      | [在 `effectful fun` 后声明回滚逻辑](../grammar/function.md#rollback)                            |
 
 ??? Note "关键字来源"
     - `def` 来自数学上的函数定义，强调纯函数的概念。

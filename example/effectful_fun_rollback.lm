@@ -1,7 +1,7 @@
 use "std" -> std;
 
-// unsafe fun 必须带权限列表与回滚块
-unsafe fun[] next_id() -> i32 {
+// effectful fun 必须带权限列表与回滚块
+effectful fun[] next_id() -> i32 {
   @static
   var i32 counter = 0;
   counter = counter + 1;
@@ -12,7 +12,7 @@ unsafe fun[] next_id() -> i32 {
 }
 
 fun compute() -> i32 {
-  // OK: unsafe fun[] 可被 fun 调用
+  // OK: effectful fun[] 可被 fun 调用
   val id = next_id();
   return id;
 }
