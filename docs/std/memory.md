@@ -78,8 +78,8 @@ fun address_of</typename T/>(T value) -> [T];
 fun deref</typename T/>([T] ptr) -> T;
 
 // 指针算术
-fun \type> ptr_add</typename T/>([T] ptr, usize offset) -> [T];
-fun \type> ptr_sub</typename T/>([T] ptr, usize offset) -> [T];
+fun \type> ptr_add</typename T/>([T] ptr, offset off) -> [T];
+fun \type> ptr_sub</typename T/>([T] ptr, offset off) -> [T];
 
 // 指针偏移量
 fun offset_of</typename T/>(usize field_offset) -> usize;
@@ -87,6 +87,8 @@ fun offset_of</typename T/>(usize field_offset) -> usize;
 // 对齐信息
 fun align_of</typename T/>() -> usize;
 ```
+
+> 说明：`ptr_add`/`ptr_sub` 使用 `offset` 表达相对位移；`memcpy`/`memset` 等底层内存 API 的字节长度参数继续使用 `usize`。
 
 ### 空指针检查 {#pointer}
 

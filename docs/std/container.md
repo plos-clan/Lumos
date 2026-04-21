@@ -43,13 +43,13 @@ fun append(T x) -> unit;
 fun prepend(T x) -> unit;
 
 // 在指定位置插入元素
-fun insert(usize pos, T x) -> unit;
+fun insert(index pos, T x) -> unit;
 
 // 删除指定位置的元素
-fun erase(usize pos) -> T;
+fun erase(index pos) -> T;
 
 // 获取指定位置的元素
-fun at(usize pos) -> T;
+fun at(index pos) -> T;
 
 // 获取指定键的元素值（映射专用）
 fun get(K key) -> Option<V>;
@@ -64,7 +64,7 @@ fun remove(K key) -> Option<V>;
 fun contains(T value) -> bool;
 
 // 获取元素在容器中的位置
-fun find(T value) -> Option<usize>;
+fun find(T value) -> Option<index>;
 
 // 遍历容器
 fun for_each(act[%] f) -> unit;
@@ -98,7 +98,7 @@ c << x
 c >> x
 
 // 索引访问
-c[i]
+c[i] // i: index
 ```
 
 ### 类型转换 {#type-cast}
@@ -124,7 +124,7 @@ fun \type> to_string() -> str;
     fun next() -> T;
 
     // 获取当前位置
-    fun position() -> usize;
+    fun position() -> index;
 }
 
 // 获取容器迭代器
