@@ -322,13 +322,13 @@ val result_f64 = half() as f64; // 显式转换为 f64
 - `index` 以 `usize` 存储
 - `offset` 以 `isize` 存储
 
-但在数组/切片/指针语义中，优先使用 `index` 与 `offset`，不直接暴露 `usize`/`isize`。
+但在数组/切片/指针语义中，优先使用 `index` 与 `offset`，不直接暴露 `usize`/`isize`。这样可以在类型检查阶段阻止“位置”和“位移”被误混用，减少越界与符号错误。
 
 #### 操作约束
 
 - `a[i]` 中 `i` 必须是 `index`。
 - 指针位移使用 `offset`（如 `ptr + off`、`ptr - off`）。
-- `index + offset` 可能越界或下溢，结果应为可失败类型（如 `Option<index>` 或 `Result<index, Error>`）。
+- `index + offset` 可能越界或下溢，推荐返回 `Option<index>`；若需要错误分类再使用 `Result<index, Error>`。
 
 #### 转换规则
 
