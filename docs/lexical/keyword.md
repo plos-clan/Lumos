@@ -107,7 +107,8 @@
 | i8/16/32/64 **...**      | [整数类型](../grammar/type.md#numeric-types)               |
 | u8/16/32/64 **...**      | [无符号整数](../grammar/type.md#numeric-types)             |
 | f16/32/64/128            | [浮点类型](../grammar/type.md#numeric-types)               |
-| usize/isize              | [平台字长整数](../grammar/type.md#numeric-types)           |
+| index / offset           | [索引与偏移类型](../grammar/type.md#index-offset-types)    |
+| usize/isize              | [平台字长整数（兼容层）](../grammar/type.md#numeric-types) |
 | b8/16/32/64 **...**      | [二进制类型](../grammar/type.md#binary)                    |
 | flag8/16/32/64 **...**   | [标志位类型](../grammar/type.md#binary)                    |
 | byte1/2/4/8 **...**      | [字节类型扩展](../grammar/type.md#binary)                  |
