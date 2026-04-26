@@ -195,7 +195,7 @@ val s6 = b16"UTF-16 bytes"; // bytes 类型的 UTF-16 编码字节串
 
 #### 端序 {#endian}
 
-默认采用平台定义的短序存储，如果需要指定小端或大端存储，请使用以下类型：
+默认采用平台定义的端序存储，如果需要指定小端或大端存储，请使用以下类型：
 
 - `i16le` `i32le` `i64le` 小端有符号整数
 - `u16le` `u32le` `u64le` 小端无符号整数
@@ -449,27 +449,83 @@ i32 a = 1;
 &i32 b = a; // b 是 a 的引用
 ```
 
-## 多个返回类型 {#types-detail}
+## 多个返回类型（`variant`） {#types-detail}
+
+`variant` 是**带标签联合（tagged union）**，用于表达“一个值在多个分支中二选一/多选一，且每个分支可携带不同类型的数据”。
+
+### 定位与边界 {#variant-positioning}
+
+- `enum`：离散值集合（可配 `as table` 做标签到元数据映射）。
+- `variant`：运行时异构数据分支（代数数据类型 / sum type）。
+
+`enum ... as table` 继续承担“标签 → 元数据”的映射，不承担运行时异构载荷；异构载荷应使用 `variant`。
+
+### 定义与构造 {#variant-definition}
 
 ```lumos
-variant IntOrUnit = i32 | unit;
-
-def foo(i32 arg) -> IntOrUnit {
-    if (arg < 0) {
-        return unit;
-    }
-    return arg;
+variant Result {
+    Ok(i32),
+    Err(string),
 }
 
-act[io.out] main() -> i32 {
-    val value = foo(10); // 使用 val 进行类型推导
-    switch (value) { // 注意这里的 switch 用法仍未敲定
-    i32:  println("返回值是 i32: ", value);
-    unit: println("返回值是 unit");
-    }
-    return 0;
+variant IntOrUnit {
+    Int(i32),
+    Unit, // 无载荷分支
 }
 ```
+
+- 每个分支都由“标签 + 可选载荷类型”组成。
+- 变体值只能通过对应分支构造器创建（如 `Result::Ok(200)`、`Result::Err("bad")`）。
+- 同一时刻仅有一个分支处于激活状态。
+
+### 类型规则 {#variant-typing-rules}
+
+- 读取载荷前必须先完成分支判定（通常通过 `match`）。
+- 未判定分支时，禁止直接读取某个分支的载荷。
+- 对于无载荷分支，只能做标签级匹配，不存在可解构的数据字段。
+
+### 与 `match` 的关系 {#variant-with-match}
+
+`variant` 的分支处理应优先使用 `match`。`match` 对 `variant` 需要穷尽所有分支，或显式写 `else` 兜底。
+
+```lumos
+def parse(i32 code) -> Result {
+    if (code == 0) {
+        return Result::Ok(42);
+    }
+    return Result::Err("parse failed");
+}
+
+act[io.out] main() {
+    val r = parse(1);
+    match (r) {
+        Result::Ok(v): {
+            println(`ok: $v`);
+        }
+        Result::Err(e): {
+            println(`err: $e`);
+        }
+    }
+}
+```
+
+### 内存模型 {#variant-memory-model}
+
+`variant` 的默认布局为“**判别值（discriminant） + 最大分支载荷**”：
+
+- 判别值标记当前激活分支；
+- 载荷区大小按各分支载荷最大者确定；
+- 保证类型安全优先，再考虑可选优化（例如 niche 优化）。
+
+### 在错误处理中的推荐用法 {#variant-error-modeling}
+
+`Result` / `Option` 一类“成功/失败、存在/缺席”模型建议优先使用 `variant` 表达，并与：
+
+- `match`（穷尽处理）
+- `-> T or E`（值级错误返回）
+- `act[exn]`（异常传播）
+
+形成分层：可恢复分支优先值级建模，不可恢复流程再使用异常机制。
 
 ## 变量声明规范 {#declaration-guidelines}
 

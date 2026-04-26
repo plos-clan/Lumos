@@ -206,6 +206,34 @@ if (条件表达式1) {
 }
 ```
 
+#### `variant` 的穷尽匹配与解构 {#match-variant}
+
+当匹配目标是 `variant` 时，`match` 需要满足以下规则：
+
+- 应覆盖所有分支；若未逐项覆盖，则必须显式写 `else`。
+- 分支中可直接解构绑定载荷。
+- 仅在对应分支内，解构绑定的变量才有效。
+
+```lumos
+variant Response {
+    Ok(string),
+    NotFound,
+    Forbidden(string),
+}
+
+match (resp) {
+    Response::Ok(body): {
+        println(body);
+    }
+    Response::NotFound: {
+        println("404");
+    }
+    Response::Forbidden(msg): {
+        println(msg);
+    }
+}
+```
+
 ---
 
 ## 静态断言与假设 {#static-assertions}
