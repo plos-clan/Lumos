@@ -183,34 +183,36 @@ i32 a = 1; f32 b = 2.0;
 
 ### 指针与引用声明 {#pointer-reference-declaration}
 
-声明指向逻辑不可变内存的逻辑不可变指针：
+`[T]` 是**非空指针**，禁止赋值 `null`；需要可空指针时使用 `[T]?`。
+
+声明指向逻辑不可变内存的逻辑不可变非空指针：
 
 ```lumos
 [i32] a = 0x12345678;
-a = null;    // error: 无法将 null 赋值给逻辑不可变变量
+a = null;    // error: [T] 是非空指针，不允许赋值 null
 a[] = 1;     // error: 无法修改逻辑不可变内存
 ```
 
-声明指向完全可变内存的完全可变指针：
+声明指向完全可变内存的完全可变**可空**指针：
 
 ```lumos
-var [var i32] b = 0x12345678;
-b = null;    // success
+var [var i32]? b = 0x12345678;
+b = null;    // success: [T]? 是可空指针，允许赋值 null
 b[] = 1;     // success
 ```
 
 ---
 
-### 非空指针与引用 {#pointer-reference}
+### 引用 {#pointer-reference}
 
-非空指针使用 `&` 修饰：
+引用使用 `&` 修饰，是变量的别名，绑定后不可更改指向，且不能为 `null`：
 
 ```lumos
-&i32 a = 0x12345678;
-&i32 b = null; // error: 无法将 null 赋值给非空指针
+i32 x = 1;
+&i32 r = x;  // r 是 x 的引用
 ```
 
-唯一引用使用 `!` 修饰：
+唯一指针使用 `!` 修饰：
 
 ```lumos
 !i32 a = 0x12345678;
