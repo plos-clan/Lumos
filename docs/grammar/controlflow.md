@@ -234,6 +234,23 @@ match (resp) {
 }
 ```
 
+#### `union` 的类型分支匹配 {#match-union}
+
+当匹配目标是 `union` 时，分支标签直接使用类型名，并同样要求穷尽匹配或显式 `else`。
+
+```lumos
+union IntOrUnit = i32 | unit;
+
+match (value) {
+    i32(v): {
+        println(v);
+    }
+    unit: {
+        println("empty");
+    }
+}
+```
+
 ---
 
 ## 静态断言与假设 {#static-assertions}

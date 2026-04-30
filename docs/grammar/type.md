@@ -457,6 +457,7 @@ i32 a = 1;
 
 - `enum`：离散值集合（可配 `as table` 做标签到元数据映射）。
 - `variant`：运行时异构数据分支（代数数据类型 / sum type）。
+- `union`：类型即标签的简化组合类型（分支类型必须唯一）。
 
 `enum ... as table` 继续承担“标签 → 元数据”的映射，不承担运行时异构载荷；异构载荷应使用 `variant`。
 
@@ -477,6 +478,27 @@ variant IntOrUnit {
 - 每个分支都由“标签 + 可选载荷类型”组成。
 - 变体值只能通过对应分支构造器创建（如 `Result::Ok(200)`、`Result::Err("bad")`）。
 - 同一时刻仅有一个分支处于激活状态。
+
+### 类型联合（`union`） {#type-union}
+
+`union` 是一种**最简单的组合类型**：不显式写分支标签，**类型名本身就是唯一标签**。
+
+```lumos
+union IntOrUnit = i32 | unit;
+
+def foo(i32 arg) -> IntOrUnit {
+    if (arg < 0) {
+        return unit;
+    }
+    return arg;
+}
+```
+
+- 分支类型必须互不相同（按类型判等）；**不允许同一类型出现多次**。
+- 构造无需显式标签，直接使用分支类型的值即可。
+- `match` 时以类型名作为标签；可用 `TypeName(name)` 进行解构绑定。
+- 载荷访问规则与 `variant` 相同：读取前必须先完成分支判定。
+- 内存布局与 `variant` 一致，判别值为“类型标签”。
 
 ### 类型规则 {#variant-typing-rules}
 
