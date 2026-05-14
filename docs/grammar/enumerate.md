@@ -103,14 +103,10 @@ struct ErrorInfo {
 }
 
 enum HttpStatus by i32 as table {
-    [enum,        i32, string,       ErrorInfo,
-     act[io.out]],
-    [OK,          200, "OK",         ${ "Success", 0 },
-     act[io.out] { println("200 OK"); }],
-    [BadRequest,  400, "Bad Request", ${ "Invalid input", 1 },
-     act[io.out] { println("400 Bad Request"); }],
-    [Unauthorized, 401, "Unauthorized", ${ "Auth required", 2 },
-     act[io.out] { println("401 Unauthorized"); }],
+    [enum,        i32, string,       ErrorInfo, act[io.out]],
+    [OK,          200, "OK",         ${ "Success", 0 }, act[io.out] { println("200 OK"); }],
+    [BadRequest,  400, "Bad Request", ${ "Invalid input", 1 }, act[io.out] { println("400 Bad Request"); }],
+    [Unauthorized, 401, "Unauthorized", ${ "Auth required", 2 }, act[io.out] { println("401 Unauthorized"); }],
 }
 
 act[io.out] main() {
