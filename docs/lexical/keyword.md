@@ -216,7 +216,8 @@
 | struct    | struct    | [结构体](../grammar/class.md#struct-as-class)       |
 | class     | class     | [类](../grammar/class.md#declaration)               |
 | enum      | enum      | [枚举](../grammar/enumerate.md#types)               |
-| union     | union     | [类型联合](../grammar/type.md#type-union)           |
+| union     | union     | [C 风格联合体](../grammar/type.md#c-union)          |
+| type      | type      | [类型联合（`A | B` 语法）](../grammar/type.md#type-union) |
 | impl      | implement | [实现接口或方法](../grammar/class.md#definition)    |
 | initvar   | initvar   | [变量列表初始化钩子](../grammar/class.md#list-init) |
 

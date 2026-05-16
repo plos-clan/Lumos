@@ -478,8 +478,9 @@ i32 a = 1;
 ### 定位与边界 {#variant-positioning}
 
 - `enum`：离散值集合（可配 `as table` 做标签到元数据映射）。
-- `variant`：运行时异构数据分支（代数数据类型 / sum type）。
-- `union`：类型即标签的简化组合类型（分支类型必须唯一）。
+- `variant`：运行时异构数据分支（代数数据类型 / sum type），带命名标签和载荷（同 Rust `enum`）。
+- `type X = A | B`：类型联合，以类型名为隐式标签，无需显式命名分支；若 A 和 B 实现同一接口则联合类型也实现。
+- `union`：C 风格联合体，所有字段共享同一段内存，直接 reinterpret 字节，由程序员保证类型安全。
 
 `enum ... as table` 继续承担“标签 → 元数据”的映射，不承担运行时异构载荷；异构载荷应使用 `variant`。
 
@@ -501,12 +502,12 @@ variant IntOrUnit {
 - 变体值只能通过对应分支构造器创建（如 `Result::Ok(200)`、`Result::Err("bad")`）。
 - 同一时刻仅有一个分支处于激活状态。
 
-### 类型联合（`union`） {#type-union}
+### 类型联合（`type`） {#type-union}
 
-`union` 是一种**最简单的组合类型**：不显式写分支标签，**类型名本身就是唯一标签**。
+`type` 联合是一种**隐式标签联合类型**：不显式写分支标签，**类型名本身就是唯一标签**。若 `A` 和 `B` 实现了同一接口，则 `A | B` 也实现该接口。
 
 ```lumos
-union IntOrUnit = i32 | unit;
+type IntOrUnit = i32 | unit;
 
 def foo(i32 arg) -> IntOrUnit {
     if (arg < 0) {
@@ -515,8 +516,8 @@ def foo(i32 arg) -> IntOrUnit {
     return arg;
 }
 
-val a: IntOrUnit = 1;    // 由 i32 分支自动注入
-val b: IntOrUnit = unit; // 由 unit 分支自动注入
+val a: IntOrUnit = 1;
+val b: IntOrUnit = unit;
 ```
 
 - 分支类型必须互不相同（按类型判等）；**不允许同一类型出现多次**。
@@ -525,6 +526,29 @@ val b: IntOrUnit = unit; // 由 unit 分支自动注入
 - `match` 时以类型名作为标签；可用 `TypeName(name)` 进行解构绑定。
 - 载荷访问规则与 `variant` 相同：读取前必须先完成分支判定。
 - 内存布局与 `variant` 一致，判别值为“类型标签”。
+
+### 联合体（`union`） {#c-union}
+
+`union` 是 **C 风格联合体**：所有字段共享同一段内存，对一个字段写入后从另一字段读取会直接 reinterpret 底层字节。
+
+```lumos
+union IntOrFloat {
+    i32 int_val,
+    f32 float_val,
+}
+
+act[io.out] main() {
+    var union IntOrFloat u;
+    u.int_val = 42;
+    println(u.float_val); // reinterpret i32 的字节为 f32
+}
+```
+
+- **共享内存**：所有字段的起始地址相同，大小为最大字段的大小。
+- **类型安全由程序员保证**：读取的字段类型必须与最后一次写入的字段类型一致，否则结果为未定义（UB）。
+- **对齐规则**：`union` 的对齐为其所有字段的最大对齐值。
+- **不可包含引用类型**：`&T` 字段不允许出现在 `union` 中，以免悬挂引用。
+- **与 `variant` 的区别**：`variant` 带判别值（tag），保证类型安全；`union` 无判别值，性能更高但需程序员自行保证正确性。
 
 ### 类型规则 {#variant-typing-rules}
 

@@ -62,7 +62,7 @@ val b = 枚举元素1 as inner;
 #### 基本语法 {#basic-syntax}
 
 ```lumos
-enum 枚举类型名 by 值的类型 as table {
+enum 枚举类型名 as table {
     [enum,      类型1, 类型2, ... , 类型N],
     [枚举元素1, 值1_1, 值1_2, ... , 值1_N],
     [枚举元素2, 值2_1, 值2_2, ... , 值2_N],
@@ -81,7 +81,7 @@ enum 枚举类型名 by 值的类型 as table {
 通过 `as 类型名` 将枚举元素转换成对应列的值：
 
 ```lumos
-enum ReturnCode by i32 as table {
+enum ReturnCode as table {
     [enum,     i32, string                 ],
     [OK,       200, "OK"                   ],
     [NotFound, 404, "Not Found"            ],
@@ -102,7 +102,7 @@ struct ErrorInfo {
     severity: i32,
 }
 
-enum HttpStatus by i32 as table {
+enum HttpStatus as table {
     [enum,        i32, string,       ErrorInfo, act[io.out]],
     [OK,          200, "OK",         ${ "Success", 0 }, act[io.out] { println("200 OK"); }],
     [BadRequest,  400, "Bad Request", ${ "Invalid input", 1 }, act[io.out] { println("400 Bad Request"); }],
@@ -126,7 +126,7 @@ act[io.out] main() {
 如果枚举元素在表格中缺失某列的值，编译器会报错。必须为表格中的每个枚举元素的每一列提供值：
 
 ```lumos
-enum Status by i32 as table {
+enum Status as table {
     [enum,    i32, string],
     [Running, 1,   "Running"],
     [Stopped, 2],  // 编译错误：缺少 string 列的值
@@ -138,7 +138,7 @@ enum Status by i32 as table {
 如果尝试转换为未在表格中定义的列类型，编译器会报错：
 
 ```lumos
-enum Color by i32 as table {
+enum Color as table {
     [enum,  i32, string],
     [Red,   255, "Red"],
     [Green, 0,   "Green"],
@@ -152,7 +152,7 @@ val hex = Color::Red as f64; // 编译错误：f64 不在表格的列类型中
 枚举表格与枚举方法可以结合使用，方法可以访问当前枚举元素的所有表格值：
 
 ```lumos
-enum Operation by i32 as table {
+enum Operation as table {
     [enum,   i32, string, (i32, i32)->i32],
     [Add,    1,   "加法", def (a, b) -> i32 { return a + b; }],
     [Sub,    2,   "减法", def (a, b) -> i32 { return a - b; }],

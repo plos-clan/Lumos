@@ -400,7 +400,7 @@ enum Flags by u32 as container { // as container：元素是值，不是类型
   READ = 1, WRITE = 2, EXEC = 4,
 }
 
-enum HttpStatus by i32 as table { // as table：多列关联数据
+enum HttpStatus as table { // as table：多列关联数据
   [enum,   i32, string          ],
   [OK,     200, "OK"            ],
   [NotFound, 404, "Not Found"   ],
