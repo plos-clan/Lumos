@@ -60,16 +60,16 @@ act[io.out] main() -> i32 {
 
 | 关键字 | 含义 | 可调用 | 备注 |
 |--------|------|--------|------|
-| `def`  | 纯函数，无任何副作用 | `def`, `obs` | 单语句可写 `= 表达式` |
+| `def`  | 纯函数，支持编译期求值 | `def` | 单语句可写 `= 表达式` |
 | `fun`  | 逻辑纯函数，外部不可观测副作用 | `fun`, `def`, `obs` | 可调用 `effectful fun[]` |
-| `obs`  | 观测性函数，调用方无需持有其权限 | 任意 | 返回类型必须为 `unit` |
+| `obs`  | 观测性函数，仅有观察性副作用（日志、度量、追踪等），不影响程序语义 | `fun`, `obs`, `act` | 返回类型必须为 `unit`；调用方无需持有其所使用的权限 |
 | `act`  | 副作用函数，必须声明权限 `[...]` | 任意 | I/O、全局状态等 |
 
 ```lumos
-def add(i32 a, i32 b) -> i32 = a + b;   // 纯函数
+def add(i32 a, i32 b) -> i32 = a + b;   // 纯函数，可编译期求值
 
-obs[io.err] log(string msg) {           // 观测性：调用方不需要 io.err
-  stderr.write(msg);
+obs[io.err] log(string msg) {           // 观察性副作用
+  stderr.write(msg);                    // def 不可调用 obs（否则破坏编译期求值）
 }
 
 fun compute(i32 x) -> i32 {
@@ -171,7 +171,7 @@ val CACHE = lazy {       // lazy：首次访问时自动初始化（线程安全
 ### 指针与引用
 
 ```lumos
-[i32] a    // 可空指针（nullable pointer）
+[i32] a    // 非空指针（non-null pointer）
 &i32 b     // 非空引用（non-null）
 !i32 c     // 唯一引用（unique/owned）
 [N]i32 d   // 固定长度数组
