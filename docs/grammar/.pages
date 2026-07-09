@@ -20,6 +20,7 @@ nav:
           - 对象: object.md
     - 高级特性:
           - 模板与泛型: template.md
+          - 契约: contract.md
           - 特性/属性: attribute.md
           - 模块系统: modules.md
     - 权限系统:

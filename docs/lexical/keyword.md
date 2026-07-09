@@ -187,6 +187,7 @@
 | template | template | [模板/泛型声明](../grammar/template.md#title) |
 | typename | typename | [类型参数](../grammar/template.md#title)      |
 | variant  | variant  | [代数类型（带标签联合）](../grammar/type.md#types-detail) |
+| contract | contract | [契约定义](../grammar/contract.md#title) |
 
 ## 类型类别 {#type-kinds}
 
@@ -195,6 +196,13 @@
 | inttype   | inttype   | [整数类型类别](../grammar/type.md#types) |
 | floattype | floattype | [浮点类型类别](../grammar/type.md#types) |
 | numtype   | numtype   | [数字类型类别](../grammar/type.md#types) |
+
+## 类型契约 {#type-contracts}
+
+| 关键字   | 全称     | 用法                                   |
+|----------|----------|----------------------------------------|
+| contract | contract | [契约定义](../grammar/contract.md#title) |
+| for      | for      | [契约实现](../grammar/contract.md#title) |
 
 ## 语法辅助与保留 {#syntax-helpers}
 

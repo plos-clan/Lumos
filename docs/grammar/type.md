@@ -310,15 +310,15 @@ val result_f64 = half() as f64; // 显式转换为 f64
 !!! Warning  
     请不要在编译期使用过多的不限精度类型，以免导致编译期间过长或内存占用过高。
 
-### 数字 trait 约束 {#type-wildcard}
+### 数字契约约束 {#type-wildcard}
 
-Lumos 的数字泛型能力完全由 trait 约束系统提供。
+Lumos 的数字泛型能力完全由契约约束系统提供。
 
-当函数参数写为 trait 约束时，编译器按约束检查类型能力，而不是按具体位宽做匹配。
+当函数参数写为契约约束时，编译器按约束检查类型能力，而不是按具体位宽做匹配。
 
-#### 基础数字 trait {#numeric-traits}
+#### 基础数字契约 {#numeric-traits}
 
-`Num`：通用数字 trait。
+`Num`：通用数字契约。
 
 - 关联函数
   - `zero` 返回该数字类型的零值
@@ -329,23 +329,23 @@ Lumos 的数字泛型能力完全由 trait 约束系统提供。
   - `mul` 乘法运算，对应 `*`
   - `div` 除法运算，对应 `/`
 
-`SignedNum : Num`：有符号数字 trait。
+`SignedNum : Num`：有符号数字契约。
 
 - 运算
   - `neg` 取反运算，对应一元 `-`
 
-`Float : SignedNum`：浮点数字 trait。
+`Float : SignedNum`：浮点数字契约。
 
 - 表示实现浮点语义的数字类型
 
-`Int : Num`：整数 trait。
+`Int : Num`：整数契约。
 
 - 只能表示整数，不表示实数
 - 运算
   - `rem` 取余运算
   - `mod` 取模运算
 
-`BinaryInt : Int`：二进制整数 trait。
+`BinaryInt : Int`：二进制整数契约。
 
 - 运算
   - `shl` 左移运算，对应 `<<`
@@ -353,7 +353,7 @@ Lumos 的数字泛型能力完全由 trait 约束系统提供。
 
 若移位数大于等于类型位宽，则 `shl` 与 `shr` 的结果都为 0。
 
-`SizedBinaryInt : BinaryInt`：固定位宽二进制整数 trait。
+`SizedBinaryInt : BinaryInt`：固定位宽二进制整数契约。
 
 - 运算
   - `rol` 循环左移运算
@@ -362,7 +362,7 @@ Lumos 的数字泛型能力完全由 trait 约束系统提供。
 #### 运算符可用性 {#numeric-trait-ops}
 
 - `+ - * /` 由 `Num` 提供。
-- `%` 不属于 `Num`，仅由 `Int`（及其子 trait）提供。
+- `%` 不属于 `Num`，仅由 `Int`（及其子契约）提供。
 - 位移与循环位移仅对 `BinaryInt` / `SizedBinaryInt` 可用。
 
 #### 重载与约束选择 {#numeric-trait-overload}

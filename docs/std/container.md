@@ -300,7 +300,7 @@ bool found = set.contains(1);
 
 - O(1) 平均查找/插入/删除
 - 无序存储
-- 需要实现 Hash trait
+- 需要实现 Hash 契约
 
 ## 排序集合 {#sorted-set}
 
@@ -437,7 +437,7 @@ Option<i32> age = map.get("age");
 
 - O(1) 平均查找/插入/删除
 - 无序存储
-- 需要实现 Hash trait
+- 需要实现 Hash 契约
 
 ## 排序映射 {#sort-map}
 
