@@ -6,7 +6,9 @@
 - 所有关键字都是保留字。
 - 额外预留一些容易造成歧义的名称（如 `i0` `i999999` 等）为保留字。
 
-## 变量声明与初始化 {#declaration-init}
+## 变量 {#variables}
+
+### 声明与初始化 {#declaration-init}
 
 | 关键字   | 全称                       | 用法                                                                        |
 |----------|----------------------------|-----------------------------------------------------------------------------|
@@ -28,45 +30,7 @@
     - `late` 和 `lazy` 来自 Kotlin 的 `lateinit` 和 `by lazy`，分别表示手动延迟初始化和懒加载初始化。
     - `restrict` 来自 C99 的 `restrict` 关键字，用于指针限定。
 
-## 函数与纯度 {#functions-purity}
-
-| 关键字   | 全称          | 用法                                                                                         |
-|----------|---------------|----------------------------------------------------------------------------------------------|
-| def      | define        | [定义纯函数](../grammar/function.md#function-purity)                                         |
-| fun      | function      | [定义逻辑纯函数](../grammar/function.md#function-purity)                                     |
-| obs      | observe       | [定义观测性函数（有副作用但不影响调用方计算结果）](../grammar/function.md#function-purity)   |
-| act      | action        | [定义副作用函数](../grammar/function.md#function-purity)                                     |
-| once?    | once (soft)   | [修饰 `act`，再次调用时忽略](../grammar/function.md#function-purity)                         |
-| once!    | once (strict) | [修饰 `act`，再次调用时报错](../grammar/function.md#function-purity)                         |
-| effectful| effectful     | [修饰 `fun`，声明可回滚副作用（需权限列表与回滚块）](../grammar/function.md#function-purity) |
-| ovl      | overload      | [标记函数允许重载（所有重载变体均需标记）](../grammar/overload.md#rules)                     |
-| where    | where         | [对函数参数或泛型进行范围限定](../grammar/function.md#where)                                 |
-| rollback | rollback      | [在 `effectful fun` 后声明回滚逻辑](../grammar/function.md#rollback)                            |
-
-??? Note "关键字来源"
-    - `def` 来自数学上的函数定义，强调纯函数的概念。
-    - `fun` 来自大多数编程语言使用的 "function" 一词，表示一般函数。
-    - `act` 来自 "action"，强调具有副作用的函数，由生成式 AI 推荐我使用。
-
-    > 实际上最早采用的是来自 Rust 的 `fn`，但后来由于分成了三类，就改成了现在的 `def`、`fun` 和 `act`。
-
-## 异步与等待 {#async-await}
-
-| 关键字 | 全称  | 用法                                         |
-|--------|-------|----------------------------------------------|
-| async  | async | [异步函数修饰](../grammar/function.md#async) |
-| await  | await | [异步等待](../grammar/function.md#async)     |
-
-## 权限与效应 {#permissions-effects}
-
-| 关键字     | 全称       | 用法                                                        |
-|------------|------------|-------------------------------------------------------------|
-| permission | permission | [定义权限](../grammar/permission.md#permission-aliases)     |
-| aka        | aka        | [权限别名](../grammar/permission.md#permission-aliases)     |
-| perm       | perm       | [声明上下文批量权限块](../grammar/permission.md#perm-block) |
-| yields     | yields     | [权限传播](../grammar/permission.md#yielding)               |
-
-## 类型与访问修饰符 {#types-access-modifiers}
+### 类型与访问修饰符 {#types-access-modifiers}
 
 | 关键字 | 全称         | 用法                                                        |
 |--------|--------------|-------------------------------------------------------------|
@@ -81,14 +45,56 @@
 
 > **注意**：`var` 隐含了 `mut`，`imv` 隐含了 `imm`。在声明变量时重复使用这些修饰符（如 `var mut`）会导致编译错误。
 
-## 类型与单位 {#types-measure}
+### 类型与单位 {#types-measure}
 
 | 关键字  | 全称    | 用法                                                   |
 |---------|---------|--------------------------------------------------------|
 | unit    | unit    | [空类型；同时也是其值字面量](../grammar/type.md#types) |
 | measure | measure | [定义量纲](../grammar/measure.md#dimensions-units)     |
 
-## 内置类型 {#builtin-types}
+## 函数 {#functions}
+
+### 函数与纯度 {#functions-purity}
+
+| 关键字    | 全称          | 用法                                                                                         |
+|-----------|---------------|----------------------------------------------------------------------------------------------|
+| def       | define        | [定义纯函数](../grammar/function.md#function-purity)                                         |
+| fun       | function      | [定义逻辑纯函数](../grammar/function.md#function-purity)                                     |
+| obs       | observe       | [定义观测性函数（有副作用但不影响调用方计算结果）](../grammar/function.md#function-purity)   |
+| act       | action        | [定义副作用函数](../grammar/function.md#function-purity)                                     |
+| once?     | once (soft)   | [修饰 `act`，再次调用时忽略](../grammar/function.md#function-purity)                         |
+| once!     | once (strict) | [修饰 `act`，再次调用时报错](../grammar/function.md#function-purity)                         |
+| effectful | effectful     | [修饰 `fun`，声明可回滚副作用（需权限列表与回滚块）](../grammar/function.md#function-purity) |
+| ovl       | overload      | [标记函数允许重载（所有重载变体均需标记）](../grammar/overload.md#rules)                     |
+| where     | where         | [对函数参数或泛型进行范围限定](../grammar/function.md#where)                                 |
+| rollback  | rollback      | [在 `effectful fun` 后声明回滚逻辑](../grammar/function.md#rollback)                         |
+
+??? Note "关键字来源"
+    - `def` 来自数学上的函数定义，强调纯函数的概念。
+    - `fun` 来自大多数编程语言使用的 "function" 一词，表示一般函数。
+    - `act` 来自 "action"，强调具有副作用的函数，由生成式 AI 推荐我使用。
+
+    > 实际上最早采用的是来自 Rust 的 `fn`，但后来由于分成了三类，就改成了现在的 `def`、`fun` 和 `act`。
+
+### 异步与等待 {#async-await}
+
+| 关键字 | 全称  | 用法                                         |
+|--------|-------|----------------------------------------------|
+| async  | async | [异步函数修饰](../grammar/function.md#async) |
+| await  | await | [异步等待](../grammar/function.md#async)     |
+
+### 权限与效应 {#permissions-effects}
+
+| 关键字     | 全称       | 用法                                                        |
+|------------|------------|-------------------------------------------------------------|
+| permission | permission | [定义权限](../grammar/permission.md#permission-aliases)     |
+| aka        | aka        | [权限别名](../grammar/permission.md#permission-aliases)     |
+| perm       | perm       | [声明上下文批量权限块](../grammar/permission.md#perm-block) |
+| yields     | yields     | [权限传播](../grammar/permission.md#yielding)               |
+
+## 类型系统 {#type-system}
+
+### 内置类型 {#builtin-types}
 
 | 关键字                   | 用法                                                       |
 |--------------------------|------------------------------------------------------------|
@@ -124,7 +130,7 @@
     - `le` 和 `be` 后缀来自于小端和大端字节序的缩写。
     - `unit` 来自于函数式编程语言中的空类型概念，表示没有有意义的值。
 
-## 字面量 {#literals}
+### 字面量 {#literals}
 
 | 关键字       | 用法                                                     |
 |--------------|----------------------------------------------------------|
@@ -134,7 +140,17 @@
 | null         | [可空指针的空值字面量](../grammar/type.md#pointer-types) |
 | none         | [可选值的缺席字面量](../grammar/type.md#pointer-types)   |
 
-## 控制流程与逻辑 {#control-flow-logic}
+### 类型转换与判断 {#type-cast}
+
+| 关键字 | 全称 | 用法                                                                                                     |
+|--------|------|----------------------------------------------------------------------------------------------------------|
+| as     | as   | [类型转换](../grammar/type.md#type-cast)                                                                 |
+| in     | in   | [遍历循环（`for x in 容器`）](../grammar/controlflow.md#loops-for)；[单位换算](../grammar/measure.md#in) |
+| is     | is   | [类型或状态判断](../grammar/expression.md#is)                                                            |
+
+## 控制流 {#control-flow}
+
+### 控制流程与逻辑 {#control-flow-logic}
 
 | 关键字      | 全称          | 用法                                                           |
 |-------------|---------------|----------------------------------------------------------------|
@@ -156,7 +172,7 @@
 | broken      | broken        | [循环中断分支](../grammar/controlflow.md#broken)               |
 | completed   | completed     | [循环完成分支](../grammar/controlflow.md#after-exit-completed) |
 
-## 异常与错误处理 {#exceptions}
+### 异常与错误处理 {#exceptions}
 
 | 关键字 | 全称  | 用法                                                  |
 |--------|-------|-------------------------------------------------------|
@@ -165,14 +181,6 @@
 | or     | or    | [异常分支](../grammar/exception.md#handle-exceptions) |
 | throw  | throw | [抛出异常](../grammar/exception.md#throw)             |
 
-## 类型转换与判断 {#type-cast}
-
-| 关键字 | 全称 | 用法                                                                                                     |
-|--------|------|----------------------------------------------------------------------------------------------------------|
-| as     | as   | [类型转换](../grammar/type.md#type-cast)                                                                 |
-| in     | in   | [遍历循环（`for x in 容器`）](../grammar/controlflow.md#loops-for)；[单位换算](../grammar/measure.md#in) |
-| is     | is   | [类型或状态判断](../grammar/expression.md#is)                                                            |
-
 ## 断言与静态检查 {#assertions}
 
 | 关键字 | 全称   | 用法                                                 |
@@ -180,16 +188,18 @@
 | assert | assert | [断言检查](../grammar/attribute.md#assertions)       |
 | assume | assume | [静态假设条件成立](../grammar/controlflow.md#assume) |
 
-## 泛型与模板 {#generics-templates}
+## 泛型与契约 {#generics-contracts}
 
-| 关键字   | 全称     | 用法                                          |
-|----------|----------|-----------------------------------------------|
-| template | template | [模板/泛型声明](../grammar/template.md#title) |
-| typename | typename | [类型参数](../grammar/template.md#title)      |
+### 泛型与模板 {#generics-templates}
+
+| 关键字   | 全称     | 用法                                                      |
+|----------|----------|-----------------------------------------------------------|
+| template | template | [模板/泛型声明](../grammar/template.md#title)             |
+| typename | typename | [类型参数](../grammar/template.md#title)                  |
 | variant  | variant  | [代数类型（带标签联合）](../grammar/type.md#types-detail) |
-| contract | contract | [契约定义](../grammar/contract.md#title) |
+| contract | contract | [契约定义](../grammar/contract.md#title)                  |
 
-## 类型类别 {#type-kinds}
+### 类型类别 {#type-kinds}
 
 | 关键字    | 全称      | 用法                                     |
 |-----------|-----------|------------------------------------------|
@@ -197,10 +207,10 @@
 | floattype | floattype | [浮点类型类别](../grammar/type.md#types) |
 | numtype   | numtype   | [数字类型类别](../grammar/type.md#types) |
 
-## 类型契约 {#type-contracts}
+### 类型契约 {#type-contracts}
 
-| 关键字   | 全称     | 用法                                   |
-|----------|----------|----------------------------------------|
+| 关键字   | 全称     | 用法                                     |
+|----------|----------|------------------------------------------|
 | contract | contract | [契约定义](../grammar/contract.md#title) |
 | for      | for      | [契约实现](../grammar/contract.md#title) |
 
@@ -217,17 +227,17 @@
 
 ## 模块与结构 {#modules-structures}
 
-| 关键字    | 全称      | 用法                                                |
-|-----------|-----------|-----------------------------------------------------|
-| namespace | namespace | [命名空间](../grammar/modules.md#import)            |
-| use       | use       | [导入模块或定义别名](../grammar/modules.md#import)  |
-| struct    | struct    | [结构体](../grammar/class.md#struct-as-class)       |
-| class     | class     | [类](../grammar/class.md#declaration)               |
-| enum      | enum      | [枚举](../grammar/enumerate.md#types)               |
-| union     | union     | [C 风格联合体](../grammar/type.md#c-union)          |
-| type      | type      | [类型联合（`A | B` 语法）](../grammar/type.md#type-union) |
-| impl      | implement | [实现接口或方法](../grammar/class.md#definition)    |
-| initvar   | initvar   | [变量列表初始化钩子](../grammar/class.md#list-init) |
+| 关键字    | 全称      | 用法                                                       |
+|-----------|-----------|------------------------------------------------------------|
+| namespace | namespace | [命名空间](../grammar/modules.md#import)                   |
+| use       | use       | [导入模块或定义别名](../grammar/modules.md#import)         |
+| struct    | struct    | [结构体](../grammar/class.md#struct-as-class)              |
+| class     | class     | [类](../grammar/class.md#declaration)                      |
+| enum      | enum      | [枚举](../grammar/enumerate.md#types)                      |
+| union     | union     | [C 风格联合体](../grammar/type.md#c-union)                 |
+| type      | type      | [类型联合（`A \| B` 语法）](../grammar/type.md#type-union) |
+| impl      | implement | [实现接口或方法](../grammar/class.md#definition)           |
+| initvar   | initvar   | [变量列表初始化钩子](../grammar/class.md#list-init)        |
 
 ---
 
