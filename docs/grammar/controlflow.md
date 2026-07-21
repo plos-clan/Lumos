@@ -51,9 +51,9 @@ if (表达式, 表达式, 条件表达式) {
 ```
 
 ```lumos
-if (var a = my_func(), a != null) return a;
+if (val a = my_func(), a != null) return a;
 // 等效于
-if (var a = my_func()) return a;
+if (val a = my_func()) return a;
 ```
 
 ### 条件分支 `else` {#else}

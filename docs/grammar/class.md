@@ -11,6 +11,14 @@ class MyClass; // 声明一个类
 
 ## 定义 {#definition}
 
+```lumos
+class MyClass {
+    /* ... 省略实现 ... */
+} // class MyClass
+```
+
+<!--
+
 具名类（注意无需结尾的分号，也不能同时声明变量）
 
 ```lumos
@@ -26,6 +34,8 @@ class {
   省略实现
 } var my_var; // 定义一个匿名类并同时声明变量
 ```
+
+-->
 
 ## 零大小类型 (ZST) {#zst}
 
@@ -194,7 +204,7 @@ class RBTree {
     prv struct Node {
         省略实现
     }
-    
+
     省略实现
 }
 ```

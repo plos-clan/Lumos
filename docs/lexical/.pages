@@ -5,3 +5,4 @@ nav:
   - 数字字面量: number.md
   - 字符串字面量: string.md
   - 名字修饰: mangling.md
+  - 命名: naming.md
