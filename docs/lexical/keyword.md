@@ -26,6 +26,7 @@
 | obj      | dynamically typed variable | [声明或定义动态类型变量](../grammar/object.md#usage)                        |
 
 ??? Note "关键字来源"
+
     - `var` 和 `val` 来自 Kotlin，分别表示可变和不可变变量。
     - `late` 和 `lazy` 来自 Kotlin 的 `lateinit` 和 `by lazy`，分别表示手动延迟初始化和懒加载初始化。
     - `restrict` 来自 C99 的 `restrict` 关键字，用于指针限定。
@@ -70,6 +71,7 @@
 | rollback  | rollback      | [在 `effectful fun` 后声明回滚逻辑](../grammar/function.md#rollback)                         |
 
 ??? Note "关键字来源"
+
     - `def` 来自数学上的函数定义，强调纯函数的概念。
     - `fun` 来自大多数编程语言使用的 "function" 一词，表示一般函数。
     - `act` 来自 "action"，强调具有副作用的函数，由生成式 AI 推荐我使用。
@@ -123,6 +125,7 @@
 > **注意**：`[iuf][0-9]+[a-z]*` 均为保留字，不能用作标识符。
 
 ??? Note "关键字来源"
+
     - `bool`、`char`、`str` 来自大多数编程语言的内置类型。
     - `flag` 来自常用的标志位类型，通常用于位掩码。
     - `cstr` 来自 C 语言的字符串类型。

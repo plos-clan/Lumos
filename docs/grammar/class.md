@@ -17,26 +17,6 @@ class MyClass {
 } // class MyClass
 ```
 
-<!--
-
-具名类（注意无需结尾的分号，也不能同时声明变量）
-
-```lumos
-class MyClass {
-  省略实现
-} // class MyClass
-```
-
-匿名类（必须同时声明变量）
-
-```lumos
-class {
-  省略实现
-} var my_var; // 定义一个匿名类并同时声明变量
-```
-
--->
-
 ## 零大小类型 (ZST) {#zst}
 
 在 Lumos 中，不包含任何成员变量的类或结构体是不占空间的（Zero-sized）。这对于泛型编程和元编程非常有用。

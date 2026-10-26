@@ -133,6 +133,7 @@ switch (表达式) {
 `switch` 中的每个条目由“常量表达式 + `:` + 语句或代码块”组成。
 
 !!! question "为什么不使用 `case`？"
+
     Lumos 不会像 C 那样把 `case` 仅作为跳转标签并依赖手动 `break`。在 Lumos 中，`switch` 内的条目本身就是条件分支，因此无需再引入与普通标签区分的 `case` 关键字。
 
 `leave` 用于退出 `switch`。  
