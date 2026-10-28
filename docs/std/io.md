@@ -42,7 +42,7 @@ act[io.out] printfln(str fmt, ...) -> unit;
 fun format(str fmt, ...) -> str;
 
 // 带缓冲的格式化输出
-act[io.out] vprintf(str fmt, [unit] args) -> unit;
+act[io.out] vprintf(str fmt, []unit args) -> unit;
 ```
 
 **格式化符号**：
@@ -101,7 +101,7 @@ act[io.in] scan_str() -> str;
 act[io.in] scanf(str fmt, ...) -> usize;  // 返回成功读入的项数
 
 // 带缓冲的格式化输入
-act[io.in] vscanf(str fmt, [unit] args) -> usize;
+act[io.in] vscanf(str fmt, []unit args) -> usize;
 ```
 
 **格式化符号**：
@@ -144,7 +144,7 @@ str name = scan_or<str>("Unknown"); // 读入字符串，默认"Unknown"
     act[io.out] write(u8 ch) -> unit;
 
     // 写字节数据
-    act[io.out] write_bytes([u8] data) -> usize;
+    act[io.out] write_bytes([]u8 data) -> usize;
 
     // 写字符串
     act[io.out] write_str(str s) -> usize;
@@ -196,7 +196,7 @@ act main() {
     act[io.in] read_char() -> Option<u8>;
 
     // 读指定字节数
-    act[io.in] read_bytes(usize n) -> [u8];
+    act[io.in] read_bytes(usize n) -> []u8;
 
     // 读一行
     act[io.in] read_line() -> Option<str>;
@@ -265,8 +265,8 @@ act[io.out] spinner(usize step) -> unit;
 ```lumos
 \type> Table {
     fun new() -> \type> Table;
-    fun add_row([str] row) -> unit;
-    fun set_header([str] header) -> unit;
+    fun add_row([]str row) -> unit;
+    fun set_header([]str header) -> unit;
     act[io.out] print() -> unit;
 }
 

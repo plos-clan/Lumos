@@ -45,10 +45,11 @@ Lumos 提供两种正交的错误处理机制，适用于不同场景：
 
 | 机制        | 语义                             | 适用场景                                         |
 |-------------|----------------------------------|--------------------------------------------------|
-| `-> T or E` | 错误作为返回值，无栈展开         | `def`/`fun`/`act` 均可用；错误是计算结果的一部分 |
+| `-> T or E` | 值级错误返回；`or` 是**一次性、强制立即处理**的调用契约，必须在调用点当场处理，不能保存或延后 | `def`/`fun`/`act` 均可用；错误是计算结果的一部分 |
+| `Result<T, E>` | 普通类型，可保存、可传递、可延后处理 | 需要将错误作为值传递、延后判断或组合处理时     |
 | `act[exn]`  | 异常可穿越函数边界（栈展开传播） | 仅 `act` 可用；用于确实属于"意外"的运行时情况    |
 
-两者完全独立，不存在矛盾：`-> T or E` 描述返回类型，`act[exn]` 描述传播行为。
+`-> T or E` 描述返回类型，`act[exn]` 描述传播行为。`Result<T, E>` 与 `-> T or E` 互不替代：前者是普通对象，后者是调用契约。
 
 ```lumos
 // 值级错误——fun 可用，错误作为返回值，无异常传播
@@ -66,6 +67,8 @@ act[exn, fs.read] read_config(string path) -> Config {
 
 ## 处理异常 {#handle-exceptions}
 
+`or` 是**一次性、强制立即处理**的调用契约：必须在调用点当场处理错误，不能将 `or` 的处理逻辑保存或延后到其他地方。
+
 与大多数语言中的 `try-catch` 类似，在 Lumos 中可以使用 `or` 来抓取 `try` 中出现的异常并处理。
 
 ```lumos
@@ -77,8 +80,7 @@ try {
 }
 ```
 
-与其他许多语言不同的是，`or` 块并不是必须的。  
-此时 `or` 抓取左侧表达式的异常并处理。
+`or` 块是必须的（除非使用 `Result` 显式承接错误）。`or` 抓取左侧表达式的异常并立即处理。
 
 ```lumos
 my_func() or (e as Error) {
@@ -131,19 +133,15 @@ act bypass_when_throw() {
     // 当 this_func_will_throw() 抛出异常时，程序会忽略异常并继续执行
 }
 
-@exception(return)
-act return_when_throw() -> i32 {
-    this_func_will_throw();
-    // 当 this_func_will_throw() 抛出异常时，程序会返回默认值 0
-}
+!!! warning "`@exception(return)` 已废弃"
+
+    `@exception(return)` 会静默返回默认值，属于延后处理，与 `or` 的一次性强制立即处理契约冲突。请直接使用 `or` 处理错误，或使用 `Result<T, E>` 显式承接。
 ```
 
 ```lumos
-@exception(return, 10)
-act return_when_throw() -> i32 {
-    this_func_will_throw();
-    // 当 this_func_will_throw() 抛出异常时，程序会返回默认值 10
-}
+!!! warning "`@exception(return, ...)` 已废弃"
+
+    同上，请改用 `or` 或 `Result<T, E>`。
 ```
 
 ## 抛出异常 {#throw}

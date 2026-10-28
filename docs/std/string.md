@@ -35,7 +35,7 @@ str sub = s.substring(0, 5);
 
 ```lumos
 // 查找子字符串
-[usize] indices = s.find("lo");
+[]usize indices = s.find("lo");
 
 // 判断包含
 fun contains(str substr) -> bool;
@@ -75,10 +75,10 @@ fun trim_end() -> str;
 fun replace(str old, str new) -> str;
 
 // 分割
-fun split(str delimiter) -> [str];
+fun split(str delimiter) -> []str;
 
 // 连接
-fun join([str] parts, str delimiter) -> str;
+fun join([]str parts, str delimiter) -> str;
 ```
 
 ### 类型转换 {#type-cast}
@@ -164,7 +164,7 @@ act main() {
     println(num);
 
     // 分割
-    [str] parts = "a,b,c".split(",");
+    []str parts = "a,b,c".split(",");
     for part in parts {
         println(part);
     }

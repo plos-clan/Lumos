@@ -162,7 +162,7 @@ map.set("age", 25);
 ```lumos
 str s = "hello world";
 str upper = s.to_upper();
-[str] parts = s.split(" ");
+[]str parts = s.split(" ");
 str formatted = format("Value: {}", 42);
 ```
 

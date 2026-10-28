@@ -282,7 +282,7 @@ use std.container.*;
 
 act main() {
     // 权重数组
-    [f32] weights = [1.0, 2.0, 3.0, 4.0];
+    []f32 weights = [1.0, 2.0, 3.0, 4.0];
 
     // 计算累积权重
     var cum_weights = List::<f32>::new();

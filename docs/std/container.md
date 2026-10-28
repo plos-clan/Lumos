@@ -167,11 +167,11 @@ act main() {
 ```lumos
 \type> Array</typename T, usize N/> {
     fun new() -> \type> Array<T, N>;
-    fun from([T] slice) -> \type> Array<T, N>;
+    fun from([]T slice) -> \type> Array<T, N>;
 }
 
 // 固定大小数组
-[i32; 5] arr = [1, 2, 3, 4, 5];
+[5]i32 arr = $[1, 2, 3, 4, 5];
 arr[0] = 10;
 ```
 
