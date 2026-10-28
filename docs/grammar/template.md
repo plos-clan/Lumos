@@ -17,7 +17,7 @@ act</T/> my_func(T arg1) -> unit {
 act[io.out] main() -> i32 {
     my_func(123); // i32: 123
     my_func(123.456); // f64: 123.456
-    my_func("abc"); // string: abc
+    my_func("abc"); // str: abc
     return 0;
 }
 ```

@@ -39,7 +39,7 @@
 - `act[perm]` 权限树使用点号分层，支持组语法 `{}`（见 [权限系统](../grammar/permission.md)）。
 - 数组用 `$[...]` 初始化，切片类型为 `[]T`，指针类型为 `[T]`（见 [数组](../grammar/array.md)、[类型系统](../grammar/type.md)）。
 - `where` 用于参数约束，必须是纯表达式（见 [函数与纯度](../grammar/function.md)）。
-- 后置 `if` 与 `then` 可写成表达式式控制流（见 [控制流](../grammar/controlflow.md)）。
+- 后置 `if` 可写成表达式式控制流（见 [控制流](../grammar/controlflow.md)）。
 
 ## 文档一致性约定 {#doc-conventions}
 
@@ -80,7 +80,7 @@ act[io.out] main() -> i32 {
 ```lumos
 effectful fun[] next_id() -> i32 {
   @static
-  var i32 counter = 0;
+  var counter = 0;    // 推断为 i32
   counter = counter + 1;
   return counter;
 } rollback {
@@ -97,7 +97,7 @@ def helper(i32 x) -> i32 {
 }
 
 act[io.out] main() -> i32 {
-  val logger = act (msg: string) -> unit { std.println(msg); };
+  val logger = act (msg: str) -> unit { std.println(msg); };
   logger("ok");
   return 0;
 }

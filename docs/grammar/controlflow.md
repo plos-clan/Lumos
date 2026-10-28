@@ -15,8 +15,6 @@ if (条件表达式) {
 }
 
 代码 if 条件表达式;
-
-条件表达式 then 代码;
 ```
 
 <span style="color:green">与 C 类似的部分不再展开说明</span>
@@ -82,18 +80,6 @@ str label = if (score >= 60) "pass" else "fail";
 
 ```lumos
 str grade = if (score >= 90) "A" elif (score >= 60) "B" else "C";
-```
-
-### 条件分支 `then` {#then}
-
-`then` 是一个二元算子，连接条件表达式与语句。当条件为真时执行后续语句，为假时跳过。
-
-```lumos
-条件表达式 then 代码;
-```
-
-```lumos
-a > 0 then println("a is positive.");
 ```
 
 ### 多条件分支 `elif` {#elif}
@@ -217,9 +203,9 @@ if (条件表达式1) {
 
 ```lumos
 variant Response {
-    Ok(string),
+    Ok(str),
     NotFound,
-    Forbidden(string),
+    Forbidden(str),
 }
 
 match (resp) {
@@ -381,7 +367,7 @@ Lumos 支持显式的无条件循环（死循环）。无条件循环会持续�
 
 ```lumos
 loop {
-    condition then break;  // 满足条件时退出
+    if (condition) break;  // 满足条件时退出
     do_something();
 }
 ```
@@ -540,7 +526,7 @@ if (表达式) leave;
 
 ```lumos
 {
-    i32 a = 1;
+    var a = 1;    // 推断为 i32
     if (a == 1) leave;
     println("Hello, World!");
 }   // 不会打印文本
@@ -550,7 +536,7 @@ if (表达式) leave;
 
 ```lumos
 let a = val {
-    i32 b = 1;
+    var b = 1;    // 推断为 i32
     if (b == 1) leave 0;
     b; // 不会执行到此处
 }

@@ -18,17 +18,16 @@ function(argument1)
 ```
 
 ```lumos
-i32 a = 1;     // 不可变变量
+val i32 a = 1; // 不可变变量（`val` 简写为 `i32`）
 var i32 b = 2; // 可变变量
 val c = 3;     // 推导不可变
 var d = 4;     // 推导可变
-let e = 5;     // 表达式
-lit f = 6;     // 常量表达式
+lit i32 f = 6; // 常量表达式
 ```
 
 ```lumos
 // 函数
-act[io.out] main(i32 argc, [[]string] argv) -> i32 {
+act[io.out] main(i32 argc, [[]str] argv) -> i32 {
     println("Hello, world!");
     return 0;
 }
@@ -43,9 +42,9 @@ val square = def (f32 a) -> f32 {
 
 ```lumos
 act[io.out] main() -> i32 {
-    var i32 a = 1;
-    var i32 b = 2;
-    i32 c = a + b;
+    var a = 1;    // 推断为 i32
+    var b = 2;    // 推断为 i32
+    var c = a + b; // 推断为 i32
     println(`$a + $b = $c`); // 格式化字符串
     return 0;
 }
@@ -57,9 +56,9 @@ use "std";
 
 ```lumos
 act[io.out] main() -> i32 {
-    i32 a = 1;
-    i32 b = 2;
-    i32 c = a pow b;
+    var a = 1;    // 推断为 i32
+    var b = 2;    // 推断为 i32
+    var c = a pow b; // 推断为 i32
     println(`$a ^ $b = $c`); // 格式化字符串
     return 0;
 }

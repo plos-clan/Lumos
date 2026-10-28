@@ -36,7 +36,7 @@ enum 枚举类型名 by i32 {
 }
 ```
 
-由于 `string` 类型没有实现 `\next` 运算符，因此不能省略值。
+由于 `str` 类型没有实现 `\next` 运算符，因此不能省略值。
 
 ### 将枚举元素转换成其值 {#enum-value-cast}
 
@@ -82,14 +82,14 @@ enum 枚举类型名 as table {
 
 ```lumos
 enum ReturnCode as table {
-    [enum,     i32, string                 ],
+    [enum,     i32, str                    ],
     [OK,       200, "OK"                   ],
     [NotFound, 404, "Not Found"            ],
     [Error,    500, "Internal Server Error"],
 }
 
-println(ReturnCode::NotFound as i32);    // 输出 404
-println(ReturnCode::NotFound as string); // 输出 "Not Found"
+println(ReturnCode::NotFound as i32); // 输出 404
+println(ReturnCode::NotFound as str); // 输出 "Not Found"
 ```
 
 #### 复杂数据结构关联 {#complex-association}
@@ -98,24 +98,24 @@ println(ReturnCode::NotFound as string); // 输出 "Not Found"
 
 ```lumos
 struct ErrorInfo {
-    message: string,
+    message: str,
     severity: i32,
 }
 
 enum HttpStatus as table {
-    [enum,        i32, string,       ErrorInfo, act[io.out]],
-    [OK,          200, "OK",         ${ "Success", 0 }, act[io.out] { println("200 OK"); }],
-    [BadRequest,  400, "Bad Request", ${ "Invalid input", 1 }, act[io.out] { println("400 Bad Request"); }],
+    [enum,         i32, str,            ErrorInfo,               act[io.out]                                 ],
+    [OK,           200, "OK",           ${ "Success", 0 },       act[io.out] { println("200 OK"); }          ],
+    [BadRequest,   400, "Bad Request",  ${ "Invalid input", 1 }, act[io.out] { println("400 Bad Request"); } ],
     [Unauthorized, 401, "Unauthorized", ${ "Auth required", 2 }, act[io.out] { println("401 Unauthorized"); }],
 }
 
 act[io.out] main() {
     val status = HttpStatus::BadRequest;
-    val code = status as i32;           // 400
-    val msg = status as string;         // "Bad Request"
-    val info = status as ErrorInfo;     // { "Invalid input", 1 }
-    val handler = status as act[io.out];// 对应的日志处理函数
-    handler();                          // 执行处理函数
+    val code = status as i32;            // 400
+    val msg = status as str;             // "Bad Request"
+    val info = status as ErrorInfo;      // { "Invalid input", 1 }
+    val handler = status as act[io.out]; // 对应的日志处理函数
+    handler();                           // 执行处理函数
 }
 ```
 
@@ -127,9 +127,9 @@ act[io.out] main() {
 
 ```lumos
 enum Status as table {
-    [enum,    i32, string],
+    [enum,    i32, str],
     [Running, 1,   "Running"],
-    [Stopped, 2],  // 编译错误：缺少 string 列的值
+    [Stopped, 2],  // 编译错误：缺少 str 列的值
 }
 ```
 
@@ -139,7 +139,7 @@ enum Status as table {
 
 ```lumos
 enum Color as table {
-    [enum,  i32, string],
+    [enum,  i32, str],
     [Red,   255, "Red"],
     [Green, 0,   "Green"],
 }
@@ -153,15 +153,15 @@ val hex = Color::Red as f64; // 编译错误：f64 不在表格的列类型中
 
 ```lumos
 enum Operation as table {
-    [enum,   i32, string, (i32, i32)->i32],
+    [enum,   i32, str, (i32, i32)->i32],
     [Add,    1,   "加法", def (a, b) -> i32 { return a + b; }],
     [Sub,    2,   "减法", def (a, b) -> i32 { return a - b; }],
     [Mul,    3,   "乘法", def (a, b) -> i32 { return a * b; }],
 }
 
 impl Operation {
-    fun describe() -> string {
-        val op_name = this as string;  // 获取当前元素的名称
+    fun describe() -> str {
+        val op_name = this as str;  // 获取当前元素的名称
         return `Operation: $op_name`;
     }
 
@@ -183,7 +183,7 @@ act[io.out] main() {
 
 ```lumos
 static impl Operation { // 块内函数默认视为静态
-    fun describe() -> string { ... }
+    fun describe() -> str { ... }
 }
 
 prv impl Operation { // 块内成员默认私有

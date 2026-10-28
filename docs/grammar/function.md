@@ -18,7 +18,7 @@ Lumos 根据副作用和纯度将函数分为三类，分别使用不同的关�
 ```lumos
 def add(i32 a, i32 b) -> i32 = a + b;
 
-obs[io.err] trace_op(string msg) {
+obs[io.err] trace_op(str msg) {
     stderr.write(msg); // obs 函数可使用权限，但调用方无需持有
 }
 
@@ -90,6 +90,12 @@ def add(i32 a, i32 b) -> i32 {
 - `(参数列表)`：可选，无参时可省略或写 `()`
 - `-> 返回类型`：可选，不返回值时推断为 `unit`
 
+**类型推断**：
+
+- 函数**参数类型**需要显式声明，因为函数签名必须在编译期确定。若需要泛型，可使用契约约束（如 `T: Num`，详见[数字契约约束](type.md#type-wildcard)）。
+- 函数**体内的局部变量**支持类型推断，从初始化表达式自动推断类型（详见[变量与初始化](variable.md#type-inference)）。
+- 函数**返回类型**可省略，编译器从所有 `return` 语句推断（详见[返回类型推断](#返回类型推断））。
+
 ### 单语句定义
 
 ```lumos
@@ -101,7 +107,7 @@ def 函数名(参数列表) = 表达式;
 使用 `-` 标记永不返回的函数（调用 `exit` 或无限循环）：
 
 ```lumos
-act[io.out, sys.proc] fatal_error(string msg) - {
+act[io.out, sys.proc] fatal_error(str msg) - {
     println(msg);
     exit(1);
 }
@@ -136,7 +142,7 @@ effectful fun lock(Mutex m) {
 }
 
 // 多参数 + 返回值同时可用
-effectful fun connect(string host, u16 port) -> Socket {
+effectful fun connect(str host, u16 port) -> Socket {
     return sys_connect(host, port);
 } rollback(sock) {
     sock.close();    // sock 绑定返回值，host/port 参数也在作用域
@@ -234,7 +240,7 @@ impl MyClass {
 
 ```lumos
 async fun compute_pi(i32 precision) -> f64 { /* ... */ }
-async act[net.http.client] fetch_url(string url) -> string {
+async act[net.http.client] fetch_url(str url) -> str {
     val content = await network.get(url);
     return content;
 }

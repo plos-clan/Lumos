@@ -59,7 +59,7 @@ fun divide(i32 a, i32 b) -> i32 or DivisionError {
 }
 
 // 异常传播——需要 act[exn]，用于真正的意外情况
-act[exn, fs.read] read_config(string path) -> Config {
+act[exn, fs.read] read_config(str path) -> Config {
     val file = open(path) or throw FileNotFoundError(path);
     // ...
 }

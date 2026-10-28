@@ -160,7 +160,6 @@
 | if          | if            | [条件分支](../grammar/controlflow.md#if)                       |
 | else        | else          | [否则](../grammar/controlflow.md#else)                         |
 | elif        | else if       | [否则如果](../grammar/controlflow.md#elif)                     |
-| then        | then          | [条件成立时执行](../grammar/controlflow.md#then)               |
 | switch      | switch        | [多分支选择](../grammar/controlflow.md#switch)                 |
 | match       | match         | [模式匹配](../grammar/controlflow.md#match)                    |
 | for         | for loop      | [循环](../grammar/controlflow.md#for)                          |

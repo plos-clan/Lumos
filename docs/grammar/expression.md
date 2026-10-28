@@ -36,12 +36,12 @@ let expr = (a + 10) as f32;
 ```lumos
 {
     let expr = a + 10;
-    i32 b    = expr * 2;
+    var b = expr * 2;    // 推断为 i32
 } // expr 超出作用域，不再可用
 
 {
 #define expr (a + 10)
-    var i32 b = \num> expr * 2;
+    var b = \num> expr * 2;   // 推断为 i32
 #undef expr // 宏需要手动取消定义
 }
 ```
@@ -51,10 +51,10 @@ let expr = (a + 10) as f32;
 ```lumos
 let expr = a + 10;
 {
-    let expr     = a + 20;
-    i32 b = expr * 2; // b = (a + 20) * 2
+    let expr = a + 20;
+    var b = expr * 2; // b = (a + 20) * 2，推断为 i32
 }
-i32 b = expr * 2;     // b = (a + 10) * 2
+var b = expr * 2;     // b = (a + 10) * 2，推断为 i32
 ```
 
 ## 常量表达式定义 `lit` {#lit}
@@ -129,6 +129,61 @@ if (a.is_empty) {
 }
 ```
 
+## 链式调用 `then` {#chain-call}
+
+`then` 是**管道操作符**，将前一步表达式的返回值作为隐式变量 `it` 传递给下一步表达式。整个 `then` 链是一个表达式，其值为最后一步表达式的求值结果。
+
+```lumos
+表达式1 then 表达式2 then 表达式3
+```
+
+在链中，`it` 绑定前一步的返回值，类型由前一步表达式的返回类型自动推断：
+
+```lumos
+load(xxx) then process(it) then json_encode(it)
+```
+
+等价展开：
+
+```lumos
+let _tmp1 = load(xxx);
+let _tmp2 = process(_tmp1);
+json_encode(_tmp2)
+```
+
+`it` 只能在 `then` 链的当前步骤中使用，不能跨步骤引用早期步骤的结果。如果需要引用更早的中间值，请显式绑定到变量：
+
+```lumos
+let data = load(xxx);
+data then process(it) then json_encode(it);
+```
+
+`then` 链中的每一步都可以是函数调用、方法调用或任意表达式：
+
+```lumos
+// 函数调用链
+read_file("config.toml") then parse_toml(it) then validate(it) then use(it);
+
+// 方法调用链
+builder.then_add(1) then then_add(2) then build(it);
+
+// 混合使用
+get_user(id) then it.profile then it.avatar then display(it);
+```
+
+### 与后置 `if` 的区别
+
+`then` 是数据流向的管道（前一步结果 → 下一步输入），而后置 `if` 是条件守卫（仅在条件成立时执行）：
+
+```lumos
+// then：管道，it 是前一步的返回值
+fetch(url) then parse(it) then display(it);
+
+// 后置 if：条件守卫
+display(data) if data != null;
+```
+
 ---
+
 
 相关内容：类型转换规则见 [类型系统](type.md#types)。

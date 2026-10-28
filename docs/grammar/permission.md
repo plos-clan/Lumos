@@ -61,7 +61,7 @@ permission my_lib.network.socket aka socket;
 ### 权限声明 {#declaration}
 
 ```lumos
-act[net.http.client] fetch_data(string url) -> string { ... }
+act[net.http.client] fetch_data(str url) -> str { ... }
 ```
 
 如果函数无需任何权限，直接使用 `act` 关键字即可：
@@ -73,7 +73,7 @@ act main() { ... }
 `obs` 函数的权限声明与 `act` 语法相同，但其权限由定义所在模块的配额满足，调用方无需持有这些权限：
 
 ```lumos
-obs[io.err] log_info(string msg) { ... }  // 调用方不需要 io.err
+obs[io.err] log_info(str msg) { ... }  // 调用方不需要 io.err
 ```
 
 ### 批量权限 `perm` 块 {#perm-block}
@@ -82,8 +82,8 @@ obs[io.err] log_info(string msg) { ... }  // 调用方不需要 io.err
 
 ```lumos
 perm[exn] {
-    act open_file(string path) -> File { ... }   // 等效于 act[exn]
-    act read_file(File f) -> string { ... }      // 等效于 act[exn]
+    act open_file(str path) -> File { ... }   // 等效于 act[exn]
+    act read_file(File f) -> str { ... }      // 等效于 act[exn]
     act close_file(File f) { ... }               // 等效于 act[exn]
 }
 ```
@@ -114,10 +114,10 @@ perm[-io.out] {
 
 ```lumos
 perm[exn] {
-    act parse(string s) -> i32 { ... }      // act[exn]
+    act parse(str s) -> i32 { ... }      // act[exn]
 
     perm[+io.err] {
-        act log_error(string s) { ... }     // act[exn, io.err]
+        act log_error(str s) { ... }     // act[exn, io.err]
     }
 }
 ```
@@ -127,8 +127,8 @@ perm[exn] {
 ```lumos
 namespace io_ops {
     perm[exn] {
-        act open(string path) -> File { ... }
-        act read(File f) -> string { ... }
+        act open(str path) -> File { ... }
+        act read(File f) -> str { ... }
     }
     act sync(File f) { ... }  // 不带 exn
 }
@@ -152,7 +152,7 @@ impl MyClass {
 函数成功返回后，可以将权限自动应用到调用方后续的代码块中：
 
 ```lumos
-act[fs.open] open_secure_file(string path) -> File yields [fs.read, fs.write] { ... }
+act[fs.open] open_secure_file(str path) -> File yields [fs.read, fs.write] { ... }
 
 act[fs.open] main() {
     val f = open_secure_file("/etc/config");
@@ -188,7 +188,7 @@ act[io.out, fs.write] process() {
 ```lumos
 act[io.out, fs.read, fs.write] main() {
     // 闭包 1: act[io.out]，显式指定权限，移除 fs.read 和 fs.write
-    val logger = act[io.out] (msg: string) -> unit {
+    val logger = act[io.out] (msg: str) -> unit {
         println(msg);
         // fs.read();  // 编译错误：权限不足
     };
@@ -200,7 +200,7 @@ act[io.out, fs.read, fs.write] main() {
     };
 
     // 闭包 3: act，权限省略则继承所有父权限
-    val writer = act (path: string) -> unit {
+    val writer = act (path: str) -> unit {
         // 自动拥有 io.out, fs.read, fs.write
     };
 }
@@ -264,7 +264,7 @@ act[io.out] logger_wrap(act[%] f) -> unit {
 // 调用示例：简化的权限语法
 act[io.out, fs.write] main() {
     // 闭包：act 必须，权限省略则继承 main 的 [io.out, fs.write]
-    val handler = act (path: string) -> unit {
+    val handler = act (path: str) -> unit {
         println("Writing to: " + path);
         // write_file(path);
     };
@@ -399,13 +399,13 @@ act parallel_execute(
 
 act[io.out, fs.read, fs.write] main() {
     // task_a：act 权限省略，继承所有权限 [io.out, fs.read, fs.write]
-    val reader = act (path: string) -> unit {
+    val reader = act (path: str) -> unit {
         // println(...); // 可用 io.out
         // read_file(path); // 可用 fs.read
     };
 
     // task_b：act[fs.write] 显式限制权限为仅 fs.write
-    val writer = act[fs.write] (path: string) -> unit {
+    val writer = act[fs.write] (path: str) -> unit {
         // 只能使用 fs.write
     };
 

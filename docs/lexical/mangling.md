@@ -86,7 +86,7 @@ def move(Point p) -> Point;
 对于带有权限的 `act` 函数，权限信息将编码在 `R` 之前。
 
 ```lumos
-act[io.out] log(string msg) -> unit;
+act[io.out] log(str msg) -> unit;
 ```
 
 - **重整名预览**: `$$F3logP6io.out...` (具体格式待定)
