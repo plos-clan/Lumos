@@ -159,11 +159,51 @@ effectful fun connect(str host, u16 port) -> Socket {
 
 ## Lambda 表达式 {#lambda}
 
+### 完整语法（显式纯度、权限与捕获）
+
 ```lumos
 def with[捕获列表](参数列表) -> 返回类型 {函数体}
 fun with[捕获列表](参数列表) -> 返回类型 {函数体}
 obs[权限列表] with[捕获列表](参数列表) {函数体}
-act with[捕获列表](参数列表) -> 返回类型 {函数体}
+act[权限列表] with[捕获列表](参数列表) -> 返回类型 {函数体}
+```
+
+### 简写语法（类型与纯度自动推断）
+
+当 Lambda 赋值给有明确类型的变量，或作为参数传给期望函数类型的高阶函数时，可使用 Kotlin 风格的简写：
+
+```lumos
+{ 参数列表 -> 函数体 }
+{ 参数列表 -> 表达式 }
+```
+
+**纯度推断**：由目标类型决定——赋值给 `def` 变量则为 `def`，赋值给 `fun` 则为 `fun`，赋值给 `act` 则为 `act`。
+
+**参数与返回类型**：可从目标函数类型推断，必要时可显式标注。
+
+**捕获规则**：
+
+- **不可变变量**（`val` / `imv` / `lit`）：自动引用捕获，简写 Lambda 中可直接使用
+- **可变变量**（`var`）：**禁止在简写 Lambda 中隐式捕获**，必须退化到完整语法，通过 `with[...]` 显式声明
+
+```lumos
+// 不可变变量：自动引用捕获，简写可用
+val factor = 2;
+val doubled = { x: i32 -> x * factor };
+
+// 可变变量：简写中禁止隐式捕获
+var counter = 0;
+// val inc = { x -> counter += x; };  // Error：var 不能在简写 Lambda 中隐式捕获
+
+// 退化到完整语法，显式声明捕获方式
+val inc = act with[counter] (x: i32) -> unit {
+    counter += x;
+};
+
+// 值捕获：捕获当前值的副本，后续修改 counter 不影响闭包内
+val snapshot = act with[counter by value] (x: i32) -> i32 {
+    return counter + x;
+};
 ```
 
 Lambda 的纯度必须与所在作用域匹配。`obs` Lambda 可在任意作用域中定义，其权限由定义处的模块配额满足。如需高阶函数接受纯度低于自身的闭包，应将其声明为 `def[%]`、`fun[%]` 或 `act[%]`（见[效应多态](permission.md#polymorphism)）。
