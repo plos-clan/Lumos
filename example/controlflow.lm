@@ -12,7 +12,6 @@ act[io.out] main() -> i32 {
   }
 
   std.println("even") if 2 % 2 == 0;
-  1 < 2 then std.println("then branch");
 
   if (i == 3) {
     std.println("i == 3");

@@ -9,4 +9,4 @@ use "路径" -> 命名空间; // 导入到指定命名空间
 use std.io.println; // 导入某个函数
 
 // 函数声明示例
-act[io.out] main(i32 argc, [[]string] argv) -> i32;
+act[io.out] main(i32 argc, [[]str] argv) -> i32;

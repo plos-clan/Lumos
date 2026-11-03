@@ -68,7 +68,7 @@ act[io.out] main() -> i32 {
 ```lumos
 def add(i32 a, i32 b) -> i32 = a + b;   // 纯函数，可编译期求值
 
-obs[io.err] log(string msg) {           // 观察性副作用
+obs[io.err] log(str msg) {                // 观察性副作用
   stderr.write(msg);                    // def 不可调用 obs（否则破坏编译期求值）
 }
 
@@ -223,8 +223,8 @@ act[?]                  // 打印当前权限树（编译期调试）
 
 ```lumos
 perm[exn] {
-  act open(string path) -> File { ... }  // 等效 act[exn]
-  act read(File f) -> string { ... }     // 等效 act[exn]
+  act open(str path) -> File { ... }  // 等效 act[exn]
+  act read(File f) -> str { ... }     // 等效 act[exn]
 }
 ```
 
@@ -249,7 +249,6 @@ i32 abs = if (x >= 0) x else -x;
 
 // 后置 if
 return -1 if error;
-x > 0 then println("positive");
 
 // switch（无需 break）
 switch (code) {
@@ -295,7 +294,7 @@ continue        // 跳过本次
 leave           // 跳出当前 {} 块（非函数体）
 return 值       // 函数返回
 goto label      // 标签跳转
-goto 0x1234     // 地址跳转
+goto x'1234     // 地址跳转
 assume cond;    // 向优化器声明条件成立（违反→UB）
 ```
 
@@ -401,11 +400,11 @@ enum Flags by u32 as container { // as container：元素是值，不是类型
 }
 
 enum HttpStatus as table { // as table：多列关联数据
-  [enum,   i32, string          ],
+  [enum,   i32, str             ],
   [OK,     200, "OK"            ],
   [NotFound, 404, "Not Found"   ],
 }
-// 用法：HttpStatus::NotFound as string  →  "Not Found"
+// 用法：HttpStatus::NotFound as str  →  "Not Found"
 ```
 
 ---
@@ -441,7 +440,7 @@ fun divide(i32 a, i32 b) -> i32 or DivisionError {
 }
 
 // 2. 异常传播（需 act[exn]，有栈展开）
-act[exn, fs.read] read_file(string path) -> string {
+act[exn, fs.read] read_file(str path) -> str {
   val f = open(path) or throw FileNotFoundError(path);
   return f.read_all();
 }
@@ -523,9 +522,9 @@ measure Velocity = Length / Time;
 
 ```lumos
 123      123_456       // 十进制整数（下划线分隔）
-0x1F2A   0b1010  0o17  // 十六/二/八进制
+x'1F2A   b'1010  o'17  // 十六/二/八进制
 1.5      1.5e-3  1e10  // 浮点
-123_i32  0xFF_u8        // 类型后缀
+123_i32  x'FF_u8        // 类型后缀
 100.0[m]               // 带单位
 ```
 

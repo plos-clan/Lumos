@@ -10,7 +10,7 @@ str s = "hello";
 var str s = "hello";
 
 // 字符类型
-u8 c = 'a';
+u8 c = 'a;
 ```
 
 ## 字符串操作 {#ops}

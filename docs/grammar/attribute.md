@@ -210,7 +210,7 @@ act[io.out] my_func(i32 arg) -> unit {
   for (var i in $[1, 2, 3, 4, 5]) {
     // 并行执行
     // 不能修改外部状态
-    barrier then {
+    barrier {
       // 可以修改外部状态
     }
   }

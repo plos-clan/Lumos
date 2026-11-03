@@ -10,7 +10,7 @@ def helper(i32 x) -> i32 {
 
 act[io.out, fs.read] main() -> i32 {
   // act 闭包省略权限时自动继承当前作用域
-  val logger = act (msg: string) -> unit {
+  val logger = act (msg: str) -> unit {
     std.println(msg);
   };
 

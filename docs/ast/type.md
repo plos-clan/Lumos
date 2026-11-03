@@ -6,7 +6,7 @@
 
 ```rust
 pub enum TypeRef {
-    /// 基础类型 (如 i32, f64, bool, string, unit 等)
+    /// 基础类型 (如 i32, f64, bool, str, unit 等)
     Primitive(String),
 
     /// 数组类型 [T; N] 或 [T] (切片/动态数组)
@@ -49,7 +49,7 @@ pub enum TypeRef {
     /// 效应多态占位符 (%)
     EffectPlaceholder,
 
-    /// 元组类型 (i32, string)
+    /// 元组类型 (i32, str)
     Tuple(Vec<TypeRef>),
 
     /// 自动推断类型 (var x = 1)
